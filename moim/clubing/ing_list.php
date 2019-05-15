@@ -21,15 +21,18 @@
         <li><a href="#">HOME</a></li>
       </ul>
     </nav>
-<<<<<<< HEAD
-    <section class="sec1"><section>
+    <section class="sec1"></section>
     <section class="sec2">
+      <h1>모집 모임1</h1>
+      <p>안녕하세요 모집 모임 1 소개 샘플입니다.</p>
+    </section>
+    <section class="sec3">
       <ul>
-        <li><a href="shopmain.php">전체</a></li>
-        <li><a href="shopmain.php?mode=clothe">글쓰기</a></li>
-        <li><a href="shopmain.php?mode=cosmetics">요리</a></li>
-        <li><a href="shopmain.php?mode=acc">영화</a></li>
-        <li><a href="shopmain.php?mode=travel">미술</a></li>
+        <li><a href="ing_list.php">전체</a></li>
+        <li><a href="ing_list.php?mode=clothe">글쓰기</a></li>
+        <li><a href="ing_list.php?mode=cosmetics">요리</a></li>
+        <li><a href="ing_list.php?mode=acc">영화</a></li>
+        <li><a href="ing_list.php?mode=travel">미술</a></li>
       </ul>
       <?php
       if(!empty($mode)&&isset($mode)){
@@ -53,13 +56,6 @@
       <?php
           }
       ?>
-    <section>
-=======
-    <section class="sec1"></section>
-    <section class="sec2">
-      <h1>모집 모임1</h1>
-      <p>안녕하세요 모집 모임 1 소개 샘플입니다.</p>
     </section>
->>>>>>> f09fa3bab3457d58d4f790b8ab800c435318f5ae
   </body>
 </html>
