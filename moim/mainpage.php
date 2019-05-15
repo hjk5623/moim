@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="ko" dir="ltr">
   <head>
@@ -17,8 +18,14 @@
         <nav>
           <ul class="head_menu">
             <li><a href="#">MENU</a></li>
-            <li><a href="./login/login.php">LOG IN</a></li>
-            <li><a href="#">MEMBERSHIP</a></li>
+            <?php
+              if(!isset($_SESSION['userid'])){
+                echo ('<li><a href="./login/source/login.php">LOG IN</a></li>');
+              }else{
+                echo ('<li><a href="./login/source/logout.php">LOG OUT</a></li>');
+              }
+             ?>
+            <li><a href="./member/source/member_form.php">MEMBERSHIP</a></li>
           </ul>
         </nav>
         <span class="menu-toggle-btn">
