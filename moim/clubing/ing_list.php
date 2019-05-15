@@ -8,7 +8,7 @@
   <body>
     <nav>
       <div class="brand">
-        <h2>TEAM PROJECT</h2>
+        <h2>Mo,im</h2>
       </div>
       <ul>
         <li><a href="#">HOME</a></li>
