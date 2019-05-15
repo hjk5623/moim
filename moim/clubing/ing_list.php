@@ -12,15 +12,16 @@
         <h2>Mo,im</h2>
       </div>
       <ul>
-        <li><a href="#">HOME</a></li>
+        <li><a href="../mainpage.php">HOME</a></li>
         <li><a href="#">LOG OUT</a></li>
         <li><a href="#">CLUB LIST</a></li>
         <li><a href="#">INTRO</a></li>
-        <li><a href="#">HOME</a></li>
+        <li><a href="#">MY PAGE</a></li>
         <li><a href="#">HOME</a></li>
         <li><a href="#">HOME</a></li>
       </ul>
     </nav>
+<<<<<<< HEAD
     <section class="sec1"><section>
     <section class="sec2">
       <ul>
@@ -53,5 +54,12 @@
           }
       ?>
     <section>
+=======
+    <section class="sec1"></section>
+    <section class="sec2">
+      <h1>모집 모임1</h1>
+      <p>안녕하세요 모집 모임 1 소개 샘플입니다.</p>
+    </section>
+>>>>>>> f09fa3bab3457d58d4f790b8ab800c435318f5ae
   </body>
 </html>
