@@ -45,7 +45,7 @@
           $sql = "CREATE TABLE `club` (
           `club_num` int(11) NOT NULL AUTO_INCREMENT,
           `club_name` varchar(10) NOT NULL,
-          `club_content` varchar(300) NOT NULL,
+          `club_content` text NOT NULL,
           `club_category` varchar(10) NOT NULL,
           `club_price` int(11) NOT NULL,
           `club_to` int(11) NOT NULL,
@@ -79,7 +79,7 @@
           `msg_name` varchar(45) NOT NULL,
           `send_id` varchar(45) NOT NULL,
           `receive_id` varchar(45) NOT NULL,
-          `msg_content` varchar(45) NOT NULL,
+          `msg_content` text NOT NULL,
           `msg_date` varchar(45) NOT NULL,
           `msg_check` varchar(45) NOT NULL,
           PRIMARY KEY (`msg_num`)
@@ -90,7 +90,7 @@
           `notice_num` int(11) NOT NULL AUTO_INCREMENT,
           `notice_id` varchar(10) NOT NULL,
           `notice_subject` varchar(50) NOT NULL,
-          `notice_content` varchar(300) NOT NULL,
+          `notice_content` text NOT NULL,
           `notice_date` date NOT NULL,
           `notice_hit` int(11) NOT NULL,
           `notice_file_name` varchar(50) DEFAULT NULL,
@@ -104,7 +104,7 @@
           `qna_num` int(11) NOT NULL AUTO_INCREMENT,
           `qna_id` varchar(10) NOT NULL,
           `qna_subject` varchar(50) NOT NULL,
-          `qna_content` varchar(300) NOT NULL,
+          `qna_content` text NOT NULL,
           `qna_date` date NOT NULL,
           PRIMARY KEY (`qna_num`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
@@ -117,7 +117,7 @@
           `ripple_depth` int(11) NOT NULL,
           `ripple_ord` int(11) NOT NULL,
           `ripple_subject` varchar(50) NOT NULL,
-          `ripple_content` varchar(300) NOT NULL,
+          `ripple_content` text NOT NULL,
           `ripple_date` date NOT NULL,
           PRIMARY KEY (`ripple_num`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
@@ -126,7 +126,7 @@
           $sql = "CREATE TABLE `user_club` (
           `user_num` int(11) NOT NULL AUTO_INCREMENT,
           `user_name` varchar(10) NOT NULL,
-          `user_content` varchar(300) NOT NULL,
+          `user_content` text NOT NULL,
           `user_category` varchar(10) NOT NULL,
           `user_to` int(11) NOT NULL,
           `user_rent_info` varchar(50) NOT NULL,
