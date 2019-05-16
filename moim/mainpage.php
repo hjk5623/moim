@@ -35,7 +35,7 @@
         </span>
       </header>
       <article class="slider">
-        <img src="./img/main01.jpg" alt="">
+        <img src="./img/main03.jpg" alt="">
       </article>
       <section class="content">
         <section class="display-section">

@@ -56,6 +56,18 @@ body{
   cursor: pointer;
 }
 
+/* .kakao-btn{
+  width: 240px;
+  background: #34495e;
+  border: 0;
+  padding: 10px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  display: block;
+  margin: 10px 0;
+} */
+
 .hide-login-btn{
   color: #000;
   position: absolute;
