@@ -24,6 +24,10 @@
               }else{
                 echo ('<li><a href="./login/source/logout.php">LOG OUT</a></li>');
               }
+              //관리자로그인시 화면상단에 ADMIN 생성
+              if(isset($_SESSION['userid']) && $_SESSION['userid']=="admin"){
+                echo ('<li><a href="./admin/source/admin.php">ADMIN</a></li>');
+              }
              ?>
             <li><a href="./member/source/member_form.php">MEMBERSHIP</a></li>
           </ul>
@@ -35,7 +39,7 @@
         </span>
       </header>
       <article class="slider">
-        <img src="./img/main01.jpg" alt="">
+        <img src="./img/main03.jpg" alt="">
       </article>
       <section class="content">
         <section class="display-section">
