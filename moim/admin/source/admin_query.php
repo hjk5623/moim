@@ -55,8 +55,8 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "clubinsert"){
    if (!$result) {
      alert_back('Error: ' . mysqli_error($conn));
    }
-  $row = mysqli_fetch_array($result);
-  $num = $row['num'];
+
+
   mysqli_close($conn);
   // echo "<script> location.href='./view.php?num=$num&hit=$hit'; </script>"; //자기가 쓴 글 페이지로 보여준다.
 
