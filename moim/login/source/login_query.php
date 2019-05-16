@@ -1,19 +1,45 @@
 <?php session_start();
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 
-$result = mysqli_query($conn, $sql) or die('Error: ' . mysqli_error($conn));
+// $result = mysqli_query($conn, $sql) or die('Error: ' . mysqli_error($conn));
+if(isset($_GET["mode"]) && $_GET["mode"]=="find_id"){
+  $name = test_input($_POST["name"]);
+  $phone = test_input($_POST["phone"]);
 
-if(!(isset($_POST["id"]) && isset($_POST["passwd"])) || (empty($_POST["id"]) || empty($_POST["passwd"]))){
-    echo "<script>alert('id와 pass 모두 입력해주세요.');history.go(-1);</script>";
-    mysqli_close($conn);
-    exit;
+  $sql="SELECT id FROM `membership` where name='$name' and phone='$phone'";
+  $result = mysqli_query($conn,$sql);
+  if (!$result) {
+    die('Error: ' . mysqli_error($conn));
+  }
+  $row = mysqli_fetch_array($result);
+  $rowcount=mysqli_num_rows($result);
+  if(!$rowcount){
+    $s = '[{"id":"실패"}]';
   }else{
-    $id = test_input($_POST["id"]);
-    $passwd = test_input($_POST["passwd"]);
+    $s = '[{"id":"'.$row["id"].'"}]';
+  }
+  echo $s;
+}else if(isset($_GET["mode"])=="find_passwd"){
 
-    $q_id = mysqli_real_escape_string($conn, $id);
-    $q_passwd = mysqli_real_escape_string($conn, $passwd);
+}else if(!(isset($_POST["id"]) && isset($_POST["passwd"])) || (empty($_POST["id"]) || empty($_POST["passwd"]))){
+    $s = '[{"id":"존재하지 않는 아이디입니다."}]';
+    mysqli_close($conn);
+}else{
+  $id = test_input($_POST["id"]);
+  $passwd = test_input($_POST["passwd"]);
 
+  $q_id = mysqli_real_escape_string($conn, $id);
+  $q_passwd = mysqli_real_escape_string($conn, $passwd);
+
+  $sql="SELECT * FROM `membership` where id='$q_id'";
+  $result = mysqli_query($conn,$sql);
+  if (!$result) {
+    die('Error: ' . mysqli_error($conn));
+  }
+  $rowcount=mysqli_num_rows($result);
+  if(!$rowcount){
+    $s = '[{"id":"존재하지 않는 아이디입니다."}]';
+  }else{
     $sql="SELECT * FROM `membership` where id='$q_id' AND passwd='$q_passwd'";
 
     $result = mysqli_query($conn,$sql);
@@ -25,18 +51,16 @@ if(!(isset($_POST["id"]) && isset($_POST["passwd"])) || (empty($_POST["id"]) || 
     $rowcount=mysqli_num_rows($result);
 
     if(!$rowcount){
-      echo "<script>alert('로그인 실패.');history.go(-1);</script>";
-      mysqli_close($conn);
-      exit;
+      $s = '[{"id":"패스워드가 일치하지 않습니다."}]';
     }else{
       $row = mysqli_fetch_array($result);
       $_SESSION['userid']=$row['id'];
       $_SESSION['username']=$row['name'];
-      ;
+      $s = '[{"id":"성공"}]';
     }
+  }
+  echo $s;
 }
 mysqli_close($conn);
-
-Header("Location:../../mainpage.php");
 
 ?>

@@ -54,7 +54,41 @@ body{
   border-radius: 6px;
   color: white;
   cursor: pointer;
+  display: block;
+  margin-bottom: 3px;
 }
+
+.kakao-btn{
+  width: 117px;
+  background: #34495e;
+  border: 0;
+  padding: 10px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.google-btn{
+  width: 117px;
+  background: #34495e;
+  border: 0;
+  padding: 10px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+/* .kakao-btn{
+  width: 240px;
+  background: #34495e;
+  border: 0;
+  padding: 10px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  display: block;
+  margin: 10px 0;
+} */
 
 .hide-login-btn{
   color: #000;
@@ -64,4 +98,57 @@ body{
   cursor: pointer;
   font-size: 30px;
   opacity: .7;
+}
+
+hr{
+  margin-bottom: 2px;
+}
+
+.login-ul{
+  margin-top: 0px;
+  padding: 0px;
+  text-align: left;
+}
+
+.login-ul li{
+  display: inline-block;
+	font-size: 10px;
+  color: black;
+}
+
+.login-ul li:last-child{
+  display: inline-block;
+	margin-left: 75px;
+}
+
+a{
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#login-span{
+  margin-top: 5px;
+  font-size: 12px;
+  display: block;
+  color: red;
+}
+.find-ul{
+  margin-top: 0px;
+  padding: 0px;
+  text-align: left;
+}
+
+.find-ul li{
+  display: inline-block;
+	font-size: 10px;
+  color: black;
+}
+
+#find_span{
+  font-size: 10px;
+}
+
+b{
+  color: #34495e;
 }

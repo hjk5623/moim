@@ -19,7 +19,7 @@ class Sendmail {
     /* smtp 계정 아이디 입력 */
     // var $smtp_id="kswoah123@naver.com";
     // var $smtp_id="hjka5623@naver.com";
-    var $smtp_id="hjka5623@naver.com";
+    var $smtp_id="hjk56230@naver.com";
     /* smtp 계정 비밀번호 입력 */
     // var $smtp_pw="sksmsqnwkek";
     // var $smtp_pw="4$"."rkswlska";
@@ -302,7 +302,7 @@ class Sendmail {
 $config=array(
     'host'=>'ssl://smtp.naver.com',
     // 'smtp_id'=>'kswoah123@naver.com',
-    'smtp_id'=>'hjka5623@naver.com',
+    'smtp_id'=>'hjk56230@naver.com',
     // 'smtp_pw'=>'sksmsqnwkek',
     'smtp_pw'=>'4$rkswlska',
     'debug'=>1,
