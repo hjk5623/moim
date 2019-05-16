@@ -24,6 +24,10 @@
               }else{
                 echo ('<li><a href="./login/source/logout.php">LOG OUT</a></li>');
               }
+              //관리자로그인시 화면상단에 ADMIN 생성
+              if(isset($_SESSION['userid']) && $_SESSION['userid']=="admin"){
+                echo ('<li><a href="./admin/source/admin.php">ADMIN</a></li>');
+              }
              ?>
             <li><a href="./member/source/member_form.php">MEMBERSHIP</a></li>
           </ul>

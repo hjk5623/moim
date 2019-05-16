@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko" dir="ltr">
   <head>
     <meta charset="utf-8">
@@ -55,8 +55,9 @@
         <li><a href="#">HOME</a></li>
       </ul>
     </nav>
+
   <section class="sec10"></section>
-    <!--***************************************************************************************************-->
+ 
 
   <div id="intd_warp">
     <div class="sline"></div>
@@ -423,6 +424,42 @@
         </div>
       </section>
   </div>
-<!-- >>>>>>> f09fa3bab3457d58d4f790b8ab800c435318f5ae -->
+
+    <section class="sec1"></section>
+    <section class="sec2">
+      <h1>모집 모임1</h1>
+      <p>안녕하세요 모집 모임 1 소개 샘플입니다.</p>
+    </section>
+    <section class="sec3">
+      <ul>
+        <li><a href="ing_list.php">전체</a></li>
+        <li><a href="ing_list.php?mode=clothe">글쓰기</a></li>
+        <li><a href="ing_list.php?mode=cosmetics">요리</a></li>
+        <li><a href="ing_list.php?mode=acc">영화</a></li>
+        <li><a href="ing_list.php?mode=travel">미술</a></li>
+      </ul>
+      <?php
+      if(!empty($mode)&&isset($mode)){
+        $sql = "select * from club where club_category='$mode' order by hit desc";
+      }else{
+        $sql = "select * from club order by hit desc";
+      }
+          $result = mysqli_query($con, $sql) or die(mysqli_error($con));
+
+          for($i=1;$i<13;$i++){ //신상품 12개 정렬
+            $row= mysqli_fetch_array($result);
+            $club_name=$row['club_name'];
+            $club_image=$row['club_image'];
+    ?>
+          	<a href="./list.php">
+              <div>
+          			<div class=""><img src="../img/<?=$image?>" width="350px" height="400px"></div>
+          			<div class=""><b><?=club_name?></b></div><br>
+              </div>
+            </a>
+      <?php
+          }
+      ?>
+    </section>
   </body>
 </html>

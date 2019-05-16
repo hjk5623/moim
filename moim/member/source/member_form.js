@@ -17,7 +17,7 @@ $(document).ready(function() {
       return false;
     }
     $.ajax({
-      url: 'member_quary.php?mode=id_check',
+      url: 'member_query.php?mode=id_check',
       type: 'POST',
       data: {id: $("#id").val()}
     })
@@ -171,7 +171,7 @@ $(document).ready(function() {
       span_email.innerHTML="";
     }
     $.ajax({
-      url: '../../PHPmailer/email.php',
+      url: '../../PHPmailer/email.php?mode=send_code',
       type: 'POST',
       data: {
         email1: $("#email1").val(),
