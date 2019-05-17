@@ -22,7 +22,6 @@
           `phone` varchar(20) NOT NULL,
           `address` varchar(50) NOT NULL,
           `email` varchar(50) NOT NULL,
-          `kakao_id` varchar(40),
           PRIMARY KEY (`num`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
           break;

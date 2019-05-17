@@ -5,6 +5,7 @@ include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
 create_table($conn,'membership');
 //id_check
 if(isset($_GET["mode"]) && $_GET["mode"] == "id_check"){
+
   if(empty($_POST["id"])){
     echo '[{"id":"아이디를 입력해주세요.<br>영문,숫자 6~8자리"},{"row":"1"}]';
     return;
@@ -137,25 +138,19 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "id_check"){
     }else{
       $email2 = test_input($_POST["email2"]);
     }
-    if(!empty($_POST["kakao_id"])){
-      $kakao_id = $_POST["kakao_id"];
-    }
-
     $q_email2 = mysqli_real_escape_string($conn, $email2);
 
     $phone=$phone1."-".$phone2."-".$phone3;
     $q_email=$q_email1."@".$q_email2;
 
-
-
-    $sql="insert into membership(id, name, passwd, phone, address, email, kakao_id) ";
-    $sql.="values('$q_id','$q_name','$q_passwd','$phone','$q_address','$q_email', '$kakao_id');";
+    $sql="insert into membership(id, name, passwd, phone, address, email) ";
+    $sql.="values('$q_id','$q_name','$q_passwd','$phone','$q_address','$q_email');";
     $result = mysqli_query($conn,$sql);
     if (!$result) {
       die('Error: ' . mysqli_error($conn));
     }
     mysqli_close($conn);
-    echo "<script> location.href = '../../login/source/login.php'; </script>";
+    echo "<script> location.href = '../../login/login.php'; </script>";
   }
 }
 mysqli_close($conn);
