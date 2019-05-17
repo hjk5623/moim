@@ -91,7 +91,7 @@
             <h2>모집 중인 모임</h2>
             <div class="about-box-two">
               <ul class="place-list-two">
-                <li><a href="./clubing/source/ing_view.php"><img class="top-place-two" src="./img/clubing01.jpg" alt="">
+                <li><a href="./clubing/ing_list.php"><img class="top-place-two" src="./img/clubing01.jpg" alt="">
                   <h3>모집모임1</h3>
                   <p class="txt-two">모집 중인 모임 1입니다.</p>
                   <span class="view-two">미리보기</span>

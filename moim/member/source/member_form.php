@@ -7,10 +7,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
     <script type="text/javascript" src="./member_form.js"></script>
-
   </head>
   <body>
-    <form name="member_form" action="member_quary.php?mode=insert" method="post">
+    <?php
+      $kakao_id="";
+      if(isset($_POST["kakao_id"])){
+        $kakao_id = $_POST["kakao_id"];
+      }
+     ?>
+    <form name="member_form" action="member_query.php?mode=insert" method="post">
       <input type="hidden" id="flag_checkbox" value="false">
       <input type="hidden" id="flag_id" value="false">
       <input type="hidden" id="flag_name" value="false">
@@ -21,6 +26,7 @@
       <input type="hidden" id="flag_phone3" value="false">
       <input type="hidden" id="flag_address" value="false">
       <input type="hidden" id="flag_email" value="false">
+      <input type="hidden" name="kakao_id" value="<?=$kakao_id?>">
       <h1 align="center">회원가입</h1>
       <table class="table1" align="center">
         <tr>
