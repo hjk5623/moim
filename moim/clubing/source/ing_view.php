@@ -59,7 +59,7 @@ create_table($conn, 'club');
         <h2>Mo,im</h2>
       </div>
       <ul>
-        <li><a href="../mainpage.php">HOME</a></li>
+        <li><a href="../../mainpage.php">HOME</a></li>
         <li><a href="#">LOG OUT</a></li>
         <li><a href="#">CLUB LIST</a></li>
         <li><a href="#">INTRO</a></li>
@@ -158,12 +158,10 @@ create_table($conn, 'club');
         <ul id="ullist">
 
           <?php
-          if(!empty($mode)&&isset($mode)){
-            $sql = "select * from club where club_category='$mode' order by hit desc";
-          }else{
-            $sql = "select * from club order by hit desc";
+          if(!empty($no)&&isset($no)){
+            $sql = "select * from club where club_num='$club_num'";
           }
-              $result = mysqli_query($con, $sql) or die(mysqli_error($con));
+          $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
 
               for($i=1;$i<13;$i++){ //신상품 12개 정렬
                 $row= mysqli_fetch_array($result);
