@@ -4,20 +4,33 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>TEAM PROJECT</title>
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/header.css">
     <link rel="stylesheet" href="./css/slider.css">
     <link rel="stylesheet" href="./css/promotion.css">
     <link rel="stylesheet" href="./css/promotion_two.css">
+    <script type="text/javascript" src="./js/slide_menu.js"></script>
   </head>
   <body>
     <div id="wrap">
-      <header class="header cfixed">
+      <header class="header_top cfixed">
         <h1 class="head_logo"><a href="#">Mo,im</a></h1>
+        <div id="mySlidenav" class="sidenav">
+          <a href="#" class="closeside" onclick="closeNav()">&times;</a>
+          <a href="#">HOME</a>
+          <a href="#">Club List</a>
+          <a href="#">MENU</a>
+          <a href="#">MENU</a>
+          <a href="#">MENU</a>
+          <a href="#">MENU</a>
+        </div>
         <nav>
           <ul class="head_menu">
-            <li><a href="#">MENU</a></li>
+            <li>
+              <a href="#" class="openNav" onclick="openNav()">MENU</a>
+            </li>
             <?php
               if(!isset($_SESSION['userid'])){
                 echo ('<li><a href="./login/source/login.php">LOG IN</a></li>');
@@ -38,13 +51,12 @@
                ?>
             </li>
           </ul>
-
         </nav>
-        <span class="menu-toggle-btn">
+        <!-- <span class="menu-toggle-btn">
           <span></span>
           <span></span>
           <span></span>
-        </span>
+        </span> -->
       </header>
       <article class="slider">
         <img src="./img/main03.jpg" alt="">
