@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
 
@@ -28,7 +28,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "clubinsert"){
    echo "<script>alert('카테고리를 입력해주세요.'); history.go(-1);</script>";
    return;
  }else if(empty($_POST["club_rent_info1"]) || empty($_POST["club_rent_info2"]) ){
-   echo "<script>alert('장소를 입력해주세요. 상세주소까지 입력해주세요.'); history.go(-1);</script>";
+   echo "<script>alert('장소를 입력해주세요.'); history.go(-1);</script>";
    return;
  }
  $club_name= test_input($_POST["club_name"]);                   //모임명
@@ -46,25 +46,19 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "clubinsert"){
  $club_end= test_input($_POST["club_end"]);         //모집종료일 예)2019-05-20
  $club_schedule= test_input($_POST["club_schedule"]); // 모임일정
 
+// var_export($content);
 
  include $_SERVER['DOCUMENT_ROOT']."/moim/admin/lib/file_upload.php";
 
- // var_export($file_extension);
-   $sql="INSERT INTO `club` VALUES (null,'$club_name','$content','$club_category','$club_price','$club_to','$club_rent_info','$club_start','$club_end',0,'$club_schedule',0,'no','$upimage_name','$copied_image_name','$upfile_name','$copied_file_name','$file_extension');";
+   $sql="INSERT INTO `club` VALUES (null,'$club_name','$content','$club_category','$club_price','$club_to','$club_rent_info','$club_start','$club_end',0,'$club_schedule',0,'no','$upfile_name','$copied_file_name','test','test','test');";
    $result = mysqli_query($conn,$sql);
    if (!$result) {
      alert_back('Error: ' . mysqli_error($conn));
    }
-
-   $sql="SELECT club_num from `club` order by club_num desc limit 1;";
-     $result = mysqli_query($conn,$sql);
-     if (!$result) {
-       die('Error: ' . mysqli_error($conn));
-     }
-     $row=mysqli_fetch_array($result);
-     $club_num = $row['club_num'];
-
+  $row = mysqli_fetch_array($result);
+  $num = $row['num'];
   mysqli_close($conn);
-  echo "<script> location.href='./admin_club_create_view.php?club_num=$club_num'; </script>";
+  // echo "<script> location.href='./view.php?num=$num&hit=$hit'; </script>"; //자기가 쓴 글 페이지로 보여준다.
+
 }
  ?>

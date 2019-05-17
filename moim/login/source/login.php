@@ -9,8 +9,6 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"> </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
     <script type="text/javascript" src="./login.js"></script>
     <script type="text/javascript">
       Kakao.init('1a120857fe2f360c70c0e2e8d7850759');
@@ -26,7 +24,7 @@
                console.log( JSON.stringify(res.kaccount_email));
                console.log(JSON.stringify(res.properties.nickname));
                console.log(JSON.stringify(res.properties.profile_image));
-               kakao_check(res);
+               document.login_form.submit();
             },
             fail: function(error) {
               alert(JSON.stringify(error))
@@ -39,44 +37,6 @@
       });
     };
     </script>
-    <script>
-    window.gauth ="";
-    function init(){
-      console.log('init');
-      gapi.load('auth2', function() {
-        console.log('auth2');
-        //window로 사용하면서 전역변수로 선언
-        window.gauth = gapi.auth2.init({
-          client_id:'554036038504-upk1ho1ilonl6h431ltemj31ah7ikbb7.apps.googleusercontent.com'
-        });
-        gauth.then(function(){
-          console.log('googleAuth success');
-        }, function(){
-          console.log('googleAuth fail');
-        });
-      });
-    }
-    function google_login(){
-      gauth.disconnect();
-      gauth.signIn().then(function(){
-        console.log('gauth.signIn()');
-        getprofile();
-      });
-    }
-    function getprofile(){
-      if(gauth.isSignedIn.get()){
-        profile = gauth.currentUser.get().getBasicProfile(); //프로필 정보를 가져온다.
-        console.log('ID: ' + profile.getId());
-        console.log('Full Name: ' + profile.getName());
-        console.log('Given Name: ' + profile.getGivenName());
-        console.log('Family Name: ' + profile.getFamilyName());
-        console.log('Image URL: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail());
-        $("#google_id").val(profile.getId());
-        google_check(profile);
-      }
-    }
-    </script><!-- end of init -->
   </head>
   <body>
     <div class="login-box">
@@ -84,12 +44,11 @@
         <h1>LOG IN</h1>
         <form name="login_form" action="../../member/source/member_form.php" method="post">
           <input type="hidden" name="kakao_id" id="kakao_id" value="">
-          <input type="hidden" name="google_id" id="google_id" value="">
           <input class="txtb" type="text" name="id" id="id" placeholder="Username">
           <input class="txtb" type="password" name="passwd" id="passwd" placeholder="Password">
           <input class="login-btn" id="login_btn" type="button" name="" value="Login">
           <input class="kakao-btn" type="button" onclick="loginWithKakao()" value="Kakao">
-          <input class="google-btn" type="button" onclick="google_login()" value="Google">
+          <input class="google-btn" type="button" name="" value="Google">
         </form>
         <span id="login-span"></span>
         <hr>

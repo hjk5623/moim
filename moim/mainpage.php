@@ -4,33 +4,20 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>TEAM PROJECT</title>
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/header.css">
     <link rel="stylesheet" href="./css/slider.css">
     <link rel="stylesheet" href="./css/promotion.css">
     <link rel="stylesheet" href="./css/promotion_two.css">
-    <script type="text/javascript" src="./js/slide_menu.js"></script>
   </head>
   <body>
     <div id="wrap">
-      <header class="header_top cfixed">
+      <header class="header cfixed">
         <h1 class="head_logo"><a href="#">Mo,im</a></h1>
-        <div id="mySlidenav" class="sidenav">
-          <a href="#" class="closeside" onclick="closeNav()">&times;</a>
-          <a href="#">HOME</a>
-          <a href="#">Club List</a>
-          <a href="#">MENU</a>
-          <a href="#">MENU</a>
-          <a href="#">MENU</a>
-          <a href="#">MENU</a>
-        </div>
         <nav>
           <ul class="head_menu">
-            <li>
-              <a href="#" class="openNav" onclick="openNav()">MENU</a>
-            </li>
+            <li><a href="#">MENU</a></li>
             <?php
               if(!isset($_SESSION['userid'])){
                 echo ('<li><a href="./login/source/login.php">LOG IN</a></li>');
@@ -45,11 +32,11 @@
             <li><a href="./member/source/member_form.php">MEMBERSHIP</a></li>
           </ul>
         </nav>
-        <!-- <span class="menu-toggle-btn">
+        <span class="menu-toggle-btn">
           <span></span>
           <span></span>
           <span></span>
-        </span> -->
+        </span>
       </header>
       <article class="slider">
         <img src="./img/main03.jpg" alt="">
@@ -96,7 +83,7 @@
             <h2>모집 중인 모임</h2>
             <div class="about-box-two">
               <ul class="place-list-two">
-                <li><a href="./clubing/source/ing_list.php"><img class="top-place-two" src="./img/clubing01.jpg" alt="">
+                <li><a href="./clubing/ing_list.php"><img class="top-place-two" src="./img/clubing01.jpg" alt="">
                   <h3>모집모임1</h3>
                   <p class="txt-two">모집 중인 모임 1입니다.</p>
                   <span class="view-two">미리보기</span>

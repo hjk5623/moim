@@ -20,7 +20,7 @@
         <li><a href="admin_sales.php">매출내역</a></li>
         <li><a href="admin_club_create.php">모임등록</a></li>
         <li><a href="admin_club_accept.php">모임개설여부</a></li>
-        <li><a href="admin_request.php">모임개설신청</a></li>
+        <li><a href="admin_request.php">개설신청모임</a></li>
       </ul>
     </nav>
 <!-- <<<<<<< HEAD -->

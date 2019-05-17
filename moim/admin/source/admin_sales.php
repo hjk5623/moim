@@ -3,6 +3,12 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
 
 session_start();
+//
+// if(!empty($_SESSION['id'])){
+//     $id = $_SESSION['id'];
+// }else{
+//     $id = "";
+// }
 
 //연도별 검색 (2019년~2013년)
 if(!empty($_POST['find'])){
@@ -11,15 +17,31 @@ if(!empty($_POST['find'])){
     $find = date("Y");
 }
 
-$jan = "01"; $feb = "02"; $mar = "03";
-$apr = "04"; $may = "05"; $jun = "06";
-$jul = "07"; $aug = "08"; $sep = "09";
-$oct = "10"; $nov = "11"; $dec = "12";
+$jan = "01";
+$feb = "02";
+$mar = "03";
+$apr = "04";
+$may = "05";
+$jun = "06";
+$jul = "07";
+$aug = "08";
+$sep = "09";
+$oct = "10";
+$nov = "11";
+$dec = "12";
 
-$jan_price =0; $feb_price =0; $mar_price =0;
-$apr_price =0; $may_price =0; $jun_price =0;
-$jul_price =0; $aug_price =0; $sep_price =0;
-$oct_price =0; $nov_price =0; $dec_price =0;
+$jan_price =0;
+$feb_price =0;
+$mar_price =0;
+$apr_price =0;
+$may_price =0;
+$jun_price =0;
+$jul_price =0;
+$aug_price =0;
+$sep_price =0;
+$oct_price =0;
+$nov_price =0;
+$dec_price =0;
 
 $current_date = date("Y");    //현재년도
 
@@ -36,8 +58,10 @@ while($row = mysqli_fetch_array($result)){
 $club_price = $row['club_price'];
 $club_end = $row['club_end'];
 
+
 // payment_date = 2019-05-05
 // $payment_date = substr($payment_date, 5,2);    // 07/07/07/03 */   월별로 나오도록 자르기
+
 
 //1월~12월까지의 쿼리문
 // 모집종료일 기준으로 월별매출 계산 (신청인원 * 모임가격)
@@ -165,7 +189,7 @@ function drawChart() {
    // 차트의 이름이  Monthly payment history , 크기를 지정해줌
    var options = {
      chart: {
-       title: '월별 매출 현황',
+       title: 'Monthly payment history',
        subtitle: 'in won (KRW)'
      },
      width: 815,
@@ -186,17 +210,21 @@ $(document).ready(function() {
     });
 
  });
+
 </script>
+
 </head>
 <body>
+
 <nav>
   <?php
   include $_SERVER['DOCUMENT_ROOT']."/moim/admin/source/admin.php";
   ?>
 </nav>
+
 <h1 style="padding-top:40px; margin:0 auto; margin-top:20px; text-align: center"></h1><br>
 <div id ="ticket_box45">
-<div id="select_ticket"  style="margin-left:80px"><h4>매출 내역</h4>
+<div id="select_ticket"><h4>매출 내역</h4></div>
 <form name="month_form" action="admin_flight_sales.php" method="post">
   <select name="find" style="width: 100px; height:30px;">
         <option value="<?= $current_date ?>"><?= $current_date ?>년</option>
@@ -206,9 +234,8 @@ $(document).ready(function() {
         <option value="<?= $current_date -4 ?>"><?= $current_date -4 ?>년</option>
         <option value="<?= $current_date -5 ?>"><?= $current_date -5 ?>년</option>
         <option value="<?= $current_date -6 ?>"><?= $current_date -6 ?>년</option>
-  </select>
+   </select>
    <input type="submit" value="검색" style="width: 60px; height:30px;">
-   </div>
 </form>
 <?php
 // if($find){
@@ -229,9 +256,7 @@ if($find){
 <?php
 }else{
 ?>
-   <div style="float:right;">
-     <span style='font-size: 17pt;'><?= $current_date ?>년도 전체 매출 내역 : <?= $total ?> 원</span>
-   </div><br><br>
+   <div style="float:right;"><span style='font-size: 17pt;'><?= $current_date ?>년도 전체 매출 내역 : <?= $total ?> 원</span></div><br><br>
 <?php
 }
 ?>
@@ -249,61 +274,9 @@ $oct_price = number_format($oct_price);
 $nov_price = number_format($nov_price);
 $dec_price  = number_format($dec_price);
 ?>
-<div id="linechart" style="margin-left:80px">
-  <!--라인차트가 그려지는 부분  -->
-</div>
 
+<div id="linechart"></div>
 <div style="float:right; margin:-400px 30px 0 0;">
-  <table border="1" style="text-align:center">
-    <th>월별 매출 현황</th>
-    <tr>
-      <td>구분</td>
-      <td>기간</td>
-      <td>매출액</td>
-    </tr>
-    <tr>
-      <td rowspan="6" >상반기</td>
-      <td>1월</td>
-      <td>?? 원</td>
-    </tr>
-    <tr>
-      <td>2월</td>
-      <td>?? 원</td>
-    </tr>
-    <tr>
-      <td>3월</td>
-    </tr>
-    <tr>
-      <td>4월</td>
-    </tr>
-    <tr>
-      <td>5월</td>
-    </tr>
-    <tr>
-      <td>6월</td>
-    </tr>
-    <tr>
-      <td rowspan="6" >하반기</td>
-      <td>7월</td>
-    </tr>
-    <tr>
-      <td>8월</td>
-    </tr>
-    <tr>
-      <td>9월</td>
-    </tr>
-    <tr>
-      <td>10월</td>
-    </tr>
-    <tr>
-      <td>11월</td>
-    </tr>
-    <tr>
-      <td>12월</td>
-    </tr>
-  </table>
-
-
 <ul style="list-style: none;">
 <li>01 월  : <?= $jan_price ?> 원</li>
 <li>02 월  : <?= $feb_price ?> 원</li>
