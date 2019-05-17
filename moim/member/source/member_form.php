@@ -11,8 +11,12 @@
   <body>
     <?php
       $kakao_id="";
+      $google_id="";
       if(isset($_POST["kakao_id"])){
         $kakao_id = $_POST["kakao_id"];
+      }
+      if(isset($_POST["google_id"])){
+        $google_id = $_POST["google_id"];
       }
      ?>
     <form name="member_form" action="member_query.php?mode=insert" method="post">
@@ -27,6 +31,7 @@
       <input type="hidden" id="flag_address" value="false">
       <input type="hidden" id="flag_email" value="false">
       <input type="hidden" name="kakao_id" value="<?=$kakao_id?>">
+      <input type="hidden" name="google_id" value="<?=$google_id?>">
       <h1 align="center">회원가입</h1>
       <table class="table1" align="center">
         <tr>

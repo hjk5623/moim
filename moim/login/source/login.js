@@ -102,4 +102,50 @@ $(document).ready(function() {
       console.log("complete");
     });
   });
-});
+});//ready
+
+function kakao_check(res){
+    $.ajax({
+      url: './login_query.php?mode=kakao_check',
+      type: 'POST',
+      data: {kakao_id: JSON.stringify(res.id)}
+    })
+    .done(function(result) {
+      console.log(result);
+      var json_obj = $.parseJSON(result);
+      if(json_obj[0].kakao_id=="성공"){
+        location.href="../../mainpage.php?profile="+JSON.stringify(res.properties.profile_image);
+      }else{
+        document.login_form.submit();
+      }
+    })
+    .fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      console.log("complete");
+    });
+}
+
+function google_check(profile){
+    $.ajax({
+      url: './login_query.php?mode=google_check',
+      type: 'POST',
+      data: {google_id: profile.getId()}
+    })
+    .done(function(result) {
+      console.log(result);
+      var json_obj = $.parseJSON(result);
+      if(json_obj[0].google_id=="성공"){
+        location.href="../../mainpage.php?profile="+profile.getImageUrl();
+      }else{
+        document.login_form.submit();
+      }
+    })
+    .fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      console.log("complete");
+    });
+}

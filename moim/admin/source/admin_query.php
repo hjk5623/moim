@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
 
@@ -63,7 +63,6 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "clubinsert"){
      }
      $row=mysqli_fetch_array($result);
      $club_num = $row['club_num'];
-
 
   mysqli_close($conn);
   echo "<script> location.href='./admin_club_create_view.php?club_num=$club_num'; </script>";
