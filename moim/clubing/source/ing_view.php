@@ -78,6 +78,7 @@ create_table($conn, 'club');
   $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
   $row= mysqli_fetch_array($result);
 
+  $club_num= $row['club_num'];
   $club_name= $row['club_name'];
   $club_content= $row['club_content'];
   $club_category= $row['club_category'];
@@ -158,15 +159,15 @@ create_table($conn, 'club');
         <ul id="ullist">
 
           <?php
-          if(!empty($no)&&isset($no)){
-            $sql = "select * from club where club_num='$club_num'";
-          }
-          $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+            $sql = "select * from club order by club_hit desc";
+            $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+            $row_count= mysqli_num_rows($result);
 
-              for($i=1;$i<13;$i++){ //신상품 12개 정렬
-                $row= mysqli_fetch_array($result);
-                $club_name=$row['club_name'];
-                $club_image_name=$row['club_image_name'];
+            for($i=1; $i<=$row_count; $i++){
+              $row= mysqli_fetch_array($result);
+              $club_num= $row['club_num'];
+              $club_name= $row['club_name'];
+              $club_image_name= $row['club_image_name'];
           ?>
                 <li class="btm2_item noshow">
                   <div class="container">
