@@ -30,7 +30,15 @@
               }
              ?>
             <li><a href="./member/source/member_form.php">MEMBERSHIP</a></li>
+            <li>
+              <?php
+                  if(isset($_GET['profile'])){
+                    echo "<img style='width:50px; height:50px' src=".$_GET['profile'].">";
+                  }
+               ?>
+            </li>
           </ul>
+
         </nav>
         <span class="menu-toggle-btn">
           <span></span>

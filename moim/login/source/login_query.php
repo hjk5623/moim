@@ -19,8 +19,24 @@ if(isset($_GET["mode"]) && $_GET["mode"]=="find_id"){
     $s = '[{"id":"'.$row["id"].'"}]';
   }
   echo $s;
-}else if(isset($_GET["mode"])=="find_passwd"){
+}else if(isset($_GET["mode"]) && $_GET["mode"]=="kakao_check"){
+  $kakao_id = test_input($_POST["kakao_id"]);
+  $sql="SELECT id,name FROM `membership` where `kakao_id`='$kakao_id';";
 
+  $result = mysqli_query($conn,$sql);
+  if (!$result) {
+    die('Error: ' . mysqli_error($conn));
+  }
+  $rowcount=mysqli_num_rows($result);
+  if(!$rowcount){
+    $s = '[{"kakao_id":"실패"}]';
+  }else{
+    $row = mysqli_fetch_array($result);
+    $_SESSION['userid']=$row['id'];
+    $_SESSION['username']=$row['name'];
+    $s = '[{"kakao_id":"성공"}]';
+  }
+  echo $s;
 }else if(!(isset($_POST["id"]) && isset($_POST["passwd"])) || (empty($_POST["id"]) || empty($_POST["passwd"]))){
     $s = '[{"id":"존재하지 않는 아이디입니다."}]';
     mysqli_close($conn);
