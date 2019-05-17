@@ -23,6 +23,7 @@
           `address` varchar(50) NOT NULL,
           `email` varchar(50) NOT NULL,
           `kakao_id` varchar(40),
+          `google_id` varchar(40)
           PRIMARY KEY (`num`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
           break;
@@ -58,9 +59,9 @@
           `club_hit` int(11) NOT NULL,
           `club_open` varchar(10) NOT NULL,
           `club_image_name` varchar(50) DEFAULT NULL,
-          `club_image_copyied` varchar(50) DEFAULT NULL,
+          `club_image_copied` varchar(50) DEFAULT NULL,
           `club_file_name` varchar(50) DEFAULT NULL,
-          `club_file_copyied` varchar(50) DEFAULT NULL,
+          `club_file_copied` varchar(50) DEFAULT NULL,
           `club_file_type` varchar(50) DEFAULT NULL,
           PRIMARY KEY (`club_num`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
@@ -95,7 +96,7 @@
           `notice_date` date NOT NULL,
           `notice_hit` int(11) NOT NULL,
           `notice_file_name` varchar(50) DEFAULT NULL,
-          `notice_file_copyied` varchar(50) DEFAULT NULL,
+          `notice_file_copyed` varchar(50) DEFAULT NULL,
           `notice_file_type` varchar(50) DEFAULT NULL,
           PRIMARY KEY (`notice_num`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
@@ -137,9 +138,9 @@
           `user_price` int(11) NOT NULL,
           `user_check` varchar(10) NOT NULL,
           `user_image_name` varchar(50) DEFAULT NULL,
-          `user_image_copyied` varchar(50) DEFAULT NULL,
+          `user_image_copyed` varchar(50) DEFAULT NULL,
           `user_file_name` varchar(50) DEFAULT NULL,
-          `user_file_copyied` varchar(50) DEFAULT NULL,
+          `user_file_copyed` varchar(50) DEFAULT NULL,
           `user_file_type` varchar(50) DEFAULT NULL,
           PRIMARY KEY (`user_num`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
