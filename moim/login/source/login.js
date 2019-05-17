@@ -102,6 +102,7 @@ $(document).ready(function() {
       console.log("complete");
     });
   });
+<<<<<<< HEAD
 });//ready
 
 function kakao_check(res){
@@ -149,3 +150,6 @@ function google_check(profile){
       console.log("complete");
     });
 }
+=======
+});
+>>>>>>> 58f8c141919c6cc87c613dfbd5bb4315bce3f910

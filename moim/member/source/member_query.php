@@ -1,7 +1,6 @@
 <?php
-session_start();
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
-include $_SERVER['DOCUMENT_ROOT']."./moim/lib/create_table.php";
+include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
 
 create_table($conn,'membership');
 //id_check
@@ -36,7 +35,6 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "id_check"){
   echo $s;
 //insert
 }else if(isset($_GET["mode"]) && $_GET["mode"] == "insert"){
-
   if(empty($_POST["id"])){
     echo "<script>alert('아이디를 입력하세요.');history.go(-1);</script>";
     exit;
@@ -151,12 +149,20 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "id_check"){
     $phone=$phone1."-".$phone2."-".$phone3;
     $q_email=$q_email1."@".$q_email2;
 
+<<<<<<< HEAD
     $sql="insert into membership(id, name, passwd, phone, address, email, kakao_id, google_id) ";
     $sql.="values('$q_id','$q_name','$q_passwd','$phone','$q_address','$q_email', '$kakao_id', '$google_id');";
+=======
+
+
+    $sql="insert into membership(id, name, passwd, phone, address, email, kakao_id) ";
+    $sql.="values('$q_id','$q_name','$q_passwd','$phone','$q_address','$q_email', '$kakao_id');";
+>>>>>>> 58f8c141919c6cc87c613dfbd5bb4315bce3f910
     $result = mysqli_query($conn,$sql);
     if (!$result) {
       die('Error: ' . mysqli_error($conn));
     }
+<<<<<<< HEAD
 
     if(isset($_POST["kakao_id"])!=""){
       $sql="SELECT id,name FROM `membership` where kakao_id='$kakao_id'";
@@ -183,7 +189,10 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "id_check"){
     }else{
       echo "<script> location.href = '../../login/source/login.php'; </script>";
     }
+=======
+>>>>>>> 58f8c141919c6cc87c613dfbd5bb4315bce3f910
     mysqli_close($conn);
+    echo "<script> location.href = '../../login/source/login.php'; </script>";
   }
 }
 mysqli_close($conn);

@@ -6,8 +6,6 @@
     <link rel="stylesheet" href="../css/login.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"> </script>
@@ -26,8 +24,7 @@
                console.log( JSON.stringify(res.kaccount_email));
                console.log(JSON.stringify(res.properties.nickname));
                console.log(JSON.stringify(res.properties.profile_image));
-               kakao_check(res);
-
+               document.login_form.submit();
             },
             fail: function(error) {
               alert(JSON.stringify(error))
@@ -40,6 +37,7 @@
       });
     };
     </script>
+<<<<<<< HEAD
     <script>
     window.gauth ="";
     function init(){
@@ -78,6 +76,8 @@
       }
     }
     </script><!-- end of init -->
+=======
+>>>>>>> 58f8c141919c6cc87c613dfbd5bb4315bce3f910
   </head>
   <body>
     <div class="login-box">
@@ -90,7 +90,7 @@
           <input class="txtb" type="password" name="passwd" id="passwd" placeholder="Password">
           <input class="login-btn" id="login_btn" type="button" name="" value="Login">
           <input class="kakao-btn" type="button" onclick="loginWithKakao()" value="Kakao">
-          <input class="google-btn" type="button" onclick="google_login()" value="Google">
+          <input class="google-btn" type="button" name="" value="Google">
         </form>
         <span id="login-span"></span>
         <hr>
