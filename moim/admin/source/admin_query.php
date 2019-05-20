@@ -9,8 +9,8 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "clubinsert"){
   if(empty($_POST["club_name"])){
    echo "<script>alert('모임이름을 입력해주세요.'); history.go(-1);</script>";
    return;
- }else if(empty($_POST["club_to"])){
-    echo "<script>alert('모임정원을 입력해주세요.'); history.go(-1);</script>";
+ }else if(empty($_POST["club_to"]) || $_POST["club_to"] <0 ){
+    echo "<script>alert('모임정원을 올바르게 입력해주세요.'); history.go(-1);</script>";
     return;
  }else if(empty($_POST["club_start"])){
    echo "<script>alert('모집시작일을 지정해주세요.');history.go(-1);</script>";
@@ -64,7 +64,75 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "clubinsert"){
      $row=mysqli_fetch_array($result);
      $club_num = $row['club_num'];
 
-  mysqli_close($conn);
+  // mysqli_close($conn);
   echo "<script> location.href='./admin_club_create_view.php?club_num=$club_num'; </script>";
 }
+//모임개설
+if(isset($_GET["mode"]) && $_GET["mode"] == "clubaccept"){
+  $club_num = test_input($_GET['club_num']);
+  $q_club_num= mysqli_real_escape_string($conn,$club_num);
+  $sql="UPDATE club set club_open='yes' where club_num='$q_club_num'";
+  $result=mysqli_query($conn, $sql);
+  if (!$result) {
+    die('Error: ' . mysqli_error($conn));
+  }
+  echo "<script> location.href='./admin_club_accept.php'; </script>";
+}
+//모임삭제
+if(isset($_GET["mode"]) && $_GET["mode"] == "clubdelete"){
+  $club_num = test_input($_GET['club_num']);
+  $q_club_num= mysqli_real_escape_string($conn,$club_num);     //삭제할때는 sql injection 을 반드시 방어해라~!
+
+  //삭제할 게시물의 이미지파일명을 가져와서 삭제한다.
+  $sql="SELECT `club_image_copyied` from `club` where club_num='$q_club_num';";
+  $result = mysqli_query($conn,$sql);
+  if (!$result) {
+    alert_back('Error: ' . mysqli_error($conn));
+  }
+  $row=mysqli_fetch_array($result);
+  $club_image_copyied = $row['club_image_copyied'];
+
+  if(!empty($club_image_copyied)){ //이미지파일인지 아닌지 확인할 필요가 없음. db 에 $file_copied_0 가 있으면 그걸 지우면 되므로
+    unlink("../data/".$club_image_copyied);
+  }
+
+  //삭제할 게시물의 첨부파일명을 가져와서 삭제한다.
+  $sql="SELECT `club_file_copyied` from `club` where club_num='$q_club_num';";
+  $result = mysqli_query($conn,$sql);
+  if (!$result) {
+    alert_back('Error: ' . mysqli_error($conn));
+  }
+  $row=mysqli_fetch_array($result);
+  $club_file_copyied = $row['club_file_copyied'];
+
+  if(!empty($club_file_copyied)){ //이미지파일인지 아닌지 확인할 필요가 없음. db 에 $file_copied_0 가 있으면 그걸 지우면 되므로
+    unlink("../data/".$club_file_copyied);
+  }
+
+  $sql="DELETE from `club` where club_num='$q_club_num'";
+  $result=mysqli_query($conn, $sql);
+  if (!$result) {
+    die('Error: ' . mysqli_error($conn));
+  }
+
+  echo "<script> location.href='./admin_club_accept.php'; </script>";
+
+}
+
+//회원삭제
+if(isset($_GET["mode"]) && $_GET["mode"] == "memberdel"){
+  $id=test_input($_POST['id']);
+  var_export($id);
+  $sql="DELETE from `membership` where id='$id' ";
+  $result=mysqli_query($conn, $sql);
+  if (!$result) {
+    alert_back('Error: ' . mysqli_error($conn));
+  echo "<script> alert('회원탈퇴 완료');
+          location.href='admin_member.php';
+        </script>
+        ";
+  }
+}
+
+
  ?>

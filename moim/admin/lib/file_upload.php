@@ -46,7 +46,7 @@ switch ($type[1]){
 }
 //7. 임시저장소에 있는 파일을 서버에 지정한 위치로 이동시킨다.
 if(!move_uploaded_file($upimage_tmp_name ,$uploaded_image)){
-echo "<script>alert('서버전송오류');</script>";
+echo "<script>alert('이미지_서버전송오류');</script>";
 }
 /////////////////////////////////////////////////////////////////
 //첨부파일 업로드과정
@@ -97,7 +97,7 @@ $file_type=explode("/",$upfile_type);
 // }
 //7. 임시저장소에 있는 파일을 서버에 지정한 위치로 이동시킨다.
 if(!move_uploaded_file($upfile_tmp_name ,$uploaded_file)){
-echo "<script>alert('서버전송오류');</script>";
+echo "<script>alert('파일_서버전송오류');</script>";
 }
 
 

@@ -1,0 +1,18 @@
+.memberlist{
+  margin-top:100px;
+}
+#hr{
+  display: inline;
+}
+
+#search{
+  display: inline-block;
+  margin-top: 10px;
+  float: right;
+}
+
+
+tr td{
+  text-align: center;
+}
+/* table   tr td 고정크기!  줄 것 */

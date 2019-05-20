@@ -7,7 +7,7 @@ session_start();
 //연도별 검색 (2019년~2013년)
 if(!empty($_POST['find'])){
     $find = $_POST['find'];
-}else{
+}else{  // 검색하지 않으면 현재연도로 기본값
     $find = date("Y");
 }
 
@@ -20,17 +20,12 @@ $jan_price =0; $feb_price =0; $mar_price =0;
 $apr_price =0; $may_price =0; $jun_price =0;
 $jul_price =0; $aug_price =0; $sep_price =0;
 $oct_price =0; $nov_price =0; $dec_price =0;
-
+$total_sales =0;
 $current_date = date("Y");    //현재년도
 
-if($find){ // 연도별로 검색을 하면(select box에서 선택)
-   $sql = "SELECT * from `club` where `club_end` like '$find%'";
-}else{  // 연도별 검색을 하지 않는 경우에는 현재연도로
-   // $sql = "SELECT * from `reserve_info` where `payment_date` like '$current_date%'";
-}
 
+$sql = "SELECT * from `club` where `club_end` like '$find%'";
 $result = mysqli_query($conn,$sql) or die("실패원인1: ".mysqli_error($conn));
-
 while($row = mysqli_fetch_array($result)){
 
 $club_price = $row['club_price'];
@@ -112,11 +107,15 @@ $sql12 ="SELECT sum(`club_price` * `club_apply`) AS '매출' from `club` where c
 $result12 = mysqli_query($conn,$sql12) or die("실패원인1: ".mysqli_error($conn));
 $row = mysqli_fetch_array($result12);
 $dec_price = $row['0'];
-
 if(!$dec_price){
   $dec_price =0;
 }
 
+$sql_total="SELECT sum(club_price * club_apply) AS '매출' from club where club_end like '$find%';";
+$result_total = mysqli_query($conn,$sql_total) or die("실패원인1: ".mysqli_error($conn));
+$row = mysqli_fetch_array($result_total);
+$total_sales = $row['0'];
+if(!$total_sales){ $total_sales =0;}
 }
 ?>
 <!DOCTYPE html>
@@ -129,6 +128,35 @@ if(!$dec_price){
 <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/admin_sales.css">
+<!-- <style media="screen">
+  #hr{
+    padding-top:40px;
+    margin-top:20px;
+  }
+  #table_div{
+     display: inline-block;
+     vertical-align: middle;
+  }
+  #linechart{
+    width:800px;
+    float:right;
+    margin-right:100px;
+  }
+  #salestable{
+    text-align:center;
+    margin-left:80px;
+    height:500px;
+    width:500px;
+  }
+ #btnExport{
+   float:right;
+ }
+ #excel_table{
+
+ }
+</style> -->
+
 
 <script type="text/javascript">
 
@@ -159,7 +187,6 @@ function drawChart() {
      [10, <?= $oct_price ?>],
      [11, <?= $nov_price ?>],
      [12, <?= $dec_price ?>]
-
    ]);
 
    // 차트의 이름이  Monthly payment history , 크기를 지정해줌
@@ -194,47 +221,23 @@ $(document).ready(function() {
   include $_SERVER['DOCUMENT_ROOT']."/moim/admin/source/admin.php";
   ?>
 </nav>
-<h1 style="padding-top:40px; margin:0 auto; margin-top:20px; text-align: center"></h1><br>
+<h1 id="hr"></h1><br>
 <div id ="ticket_box45">
-<div id="select_ticket"  style="margin-left:80px"><h4>매출 내역</h4>
-<form name="month_form" action="admin_flight_sales.php" method="post">
-  <select name="find" style="width: 100px; height:30px;">
-        <option value="<?= $current_date ?>"><?= $current_date ?>년</option>
+<div id="select_ticket"><h4>매출 내역</h4>
+<form name="month_form" action="admin_sales.php" method="post">
+  <select name="find">
+        <option value="<?= $current_date ?>"  ><?= $current_date ?>년</option>
         <option value="<?= $current_date -1 ?>"><?= $current_date -1 ?>년</option>
-        <option value="<?= $current_date -2 ?>"><?= $current_date -2 ?>년</option>
+        <option value="<?= $current_date -2 ?>" ><?= $current_date -2 ?>년</option>
         <option value="<?= $current_date -3 ?>"><?= $current_date -3 ?>년</option>
         <option value="<?= $current_date -4 ?>"><?= $current_date -4 ?>년</option>
         <option value="<?= $current_date -5 ?>"><?= $current_date -5 ?>년</option>
         <option value="<?= $current_date -6 ?>"><?= $current_date -6 ?>년</option>
   </select>
-   <input type="submit" value="검색" style="width: 60px; height:30px;">
+   <input type="submit" value="검색">
    </div>
+   <br>
 </form>
-<?php
-// if($find){
-//    $sql = "SELECT payment_price,payment_date from reserve_info where payment_date like '$find%'";
-// }else{
-//    $sql = "SELECT payment_price,payment_date from reserve_info where payment_date like '$current_date%'";
-// }
-$result = mysqli_query($conn,$sql) or die("실패원인1: ".mysqli_error($con));
-$total=0;
-while($row = mysqli_fetch_array($result)){
-   // $payment_price = $row['payment_price'];
-   // $total = $total + $payment_price;
-}
-$total = number_format($total);
-if($find){
-?>
-   <div style="float:right;"><span style='font-size: 17pt; font-weight: 550;'><?= $find ?>년도 전체 매출 내역 : <?= $total ?> 원</span></div><br><br>
-<?php
-}else{
-?>
-   <div style="float:right;">
-     <span style='font-size: 17pt;'><?= $current_date ?>년도 전체 매출 내역 : <?= $total ?> 원</span>
-   </div><br><br>
-<?php
-}
-?>
 <?php
 $jan_price = number_format($jan_price);
 $feb_price = number_format($feb_price);
@@ -248,13 +251,12 @@ $sep_price = number_format($sep_price);
 $oct_price = number_format($oct_price);
 $nov_price = number_format($nov_price);
 $dec_price  = number_format($dec_price);
-?>
-<div id="linechart" style="margin-left:80px">
-  <!--라인차트가 그려지는 부분  -->
-</div>
+$total_sales =number_format($total_sales);
 
-<div style="float:right; margin:-400px 30px 0 0;">
-  <table border="1" style="text-align:center">
+?>
+<div class="" style="border:1px solid black;">
+<div class="table_div">
+  <table class="salestable" border="1">
     <th>월별 매출 현황</th>
     <tr>
       <td>구분</td>
@@ -264,83 +266,80 @@ $dec_price  = number_format($dec_price);
     <tr>
       <td rowspan="6" >상반기</td>
       <td>1월</td>
-      <td>?? 원</td>
+      <td><?=$jan_price?>원</td>
     </tr>
     <tr>
       <td>2월</td>
-      <td>?? 원</td>
+      <td><?=$feb_price?>원</td>
     </tr>
     <tr>
       <td>3월</td>
+      <td><?=$mar_price?>원</td>
     </tr>
     <tr>
       <td>4월</td>
+      <td><?=$apr_price?>원</td>
     </tr>
     <tr>
       <td>5월</td>
+      <td><?=$may_price?>원</td>
     </tr>
     <tr>
       <td>6월</td>
+      <td><?=$jun_price?>원</td>
     </tr>
     <tr>
       <td rowspan="6" >하반기</td>
       <td>7월</td>
+      <td><?=$jul_price?>원</td>
     </tr>
     <tr>
       <td>8월</td>
+      <td><?=$aug_price?>원</td>
     </tr>
     <tr>
       <td>9월</td>
+      <td><?=$sep_price?>원</td>
     </tr>
     <tr>
       <td>10월</td>
+      <td><?=$oct_price?>원</td>
     </tr>
     <tr>
       <td>11월</td>
+      <td><?=$nov_price?>원</td>
     </tr>
     <tr>
       <td>12월</td>
+      <td><?=$dec_price?>원</td>
+    </tr>
+    <tr>
+      <td colspan="2"><?=$find?>년도 매출총액 </td>
+      <td><?=$total_sales?>원</td>
     </tr>
   </table>
+</div>
 
-
-<ul style="list-style: none;">
-<li>01 월  : <?= $jan_price ?> 원</li>
-<li>02 월  : <?= $feb_price ?> 원</li>
-<li>03 월  : <?= $mar_price ?> 원</li>
-<li>04 월  : <?= $apr_price ?> 원</li>
-<li>05 월  : <?= $may_price ?> 원</li>
-<li>06 월  : <?= $jun_price ?> 원</li>
-<li>07 월  : <?= $jul_price ?> 원</li>
-<li>08 월  : <?= $aug_price ?> 원</li>
-<li>09 월  : <?= $sep_price ?> 원</li>
-<li>10 월  : <?= $oct_price ?> 원</li>
-<li>11 월  : <?= $nov_price ?> 원</li>
-<li>12 월  : <?= $dec_price ?> 원</li>
-</ul>
-<hr style="width:100px; border:2px solid gray;">
-<span style="float:right; margin:0 0px 0 0; font-size:13pt;">총액 : <?= $total ?> 원</span></div>
-
+<div id="linechart">
+  <!--라인차트가 그려지는 부분  -->
+</div>
+</div>
 <?php
 //---------------------------------------------------------------------------------------------------
 //엑셀파일로 내역확인하기
 ?>
-<button id="btnExport" style="float:right;">매출 내역 상세확인</button>
+<button id="btnExport">매출 내역 상세확인</button>
 
 <div id="dvData">
-<table style="visibility: hidden;border-collapse: collapse; font-family: "Trebuchet MS", Helvetica, sans-serif;">
-
+<table id="excel_table" style="visibility: hidden;border-collapse: collapse; font-family: "Trebuchet MS", Helvetica, sans-serif;">
 <?php
   // $sql = "SELECT * from reserve_info";
   // $result = mysqli_query($con, $sql) or die("실패원인 : " . mysqli_error($con));
 ?>
  <tr>
-      <td style="border: 1px solid black; text-align: center;">번 호</td>
-      <td style="border: 1px solid black; text-align: center;">아 이 디</td>
-      <td style="border: 1px solid black; text-align: center;">항공권 번호</td>
-      <td style="border: 1px solid black; text-align: center;">항공권 예매번호</td>
-      <td style="border: 1px solid black; text-align: center;">예매 날짜</td>
-      <td style="border: 1px solid black; text-align: center;">결제 금액(원)</td>
+      <td>구분</td>
+      <td>기간</td>
+      <td>매출액</td>
    </tr>
 <?php
    $i=0;
@@ -357,20 +356,20 @@ while($row = mysqli_fetch_array($result)){
 
 ?>
  <tr>
-      <td style="border: 1px solid black; text-align: center;" ><?= $i+1 ?></td>
-      <td style="border: 1px solid black;text-align: center;"><?= $id1 ?></td>
-      <td style="border: 1px solid black;text-align: center;"><?= $start_apnum1,$back_apnum1 ?></td>
-      <td style="border: 1px solid black;text-align: center;"><?= $reserve_num1 ?></td>
-      <td style="border: 1px solid black;text-align: center;"><?= $payment_date1 ?></td>
-      <td style="border: 1px solid black;text-align: center;"><?= number_format($payment_price1) ?></td>
+      <td><?= $i+1 ?></td>
+      <td><?= $id1 ?></td>
+      <td><?= $start_apnum1,$back_apnum1 ?></td>
+      <td><?= $reserve_num1 ?></td>
+      <td><?= $payment_date1 ?></td>
+      <td><?= number_format($payment_price1) ?></td>
  </tr>
 <?php
 $i++;
 }
 ?>
    <tr>
-      <td colspan="3" style="border: 1px solid black; text-align: center;" >총 매출</td>
-      <td colspan="3"  style="border: 1px solid black;text-align: center;"><?=number_format($total2) ?>원</td>
+      <td colspan="3">총 매출</td>
+      <td colspan="3"><?=number_format($total2) ?>원</td>
    </tr>
 </table>
 <?php

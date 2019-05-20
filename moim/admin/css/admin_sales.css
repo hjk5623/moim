@@ -1,0 +1,25 @@
+#hr{
+  padding-top:40px;
+  margin-top:20px;
+}
+.table_div{
+   display: inline-block;
+   vertical-align: middle;
+}
+#linechart{
+  width:800px;
+  float:right;
+  margin-right:100px;
+}
+.salestable{
+  text-align:center;
+  margin-left:80px;
+  height:500px;
+  width:500px;
+}
+#btnExport{
+ float:right;
+}
+#excel_table{
+
+}

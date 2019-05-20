@@ -1,11 +1,10 @@
 <?php
+// 위지윅에디터이용으로 이 페이지는 이제 사용하지 않을 예쩡 혹시몰라 안지우고 살려둠..
+
 session_start();
-
 ?>
-
 <!DOCTYPE html>
 <html lang="ko" dir="ltr">
-
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
@@ -16,6 +15,12 @@ session_start();
       table {
         margin: 0 auto;
       }
+      #submit_btn{
+        text-align: center;
+      }
+      .ui-datepicker{ font-size: 13px; width: 250px; }
+      .ui-datepicker select.ui-datepicker-month{ width:30%; font-size: 12px; }
+      .ui-datepicker select.ui-datepicker-year{ width:40%; font-size: 12px; }
   </style>
   <script type="text/javascript">
     //datepocler의 옵션을 설정
@@ -108,7 +113,7 @@ session_start();
           등록하기 위한 Form으로 상황에 맞게 수정하여 사용한다. Form 이름은 에디터를 생성할 때 설정값으로 설정한다.
          -->
       <form name="tx_editor_form" id="tx_editor_form" action="./admin_query.php?mode=clubinsert" method="post" enctype="multipart/form-data" accept-charset="utf-8">
-        <div id="write_form"  style="margin-top:100px;">
+        <div id="write_form"  style="margin-top:100px; margin-bottom:100px;">
           <!--모임이름, 모집정원, 모집시작일 ,모집종료일, 가격  -->
         <table border="1">
           <tr>
@@ -728,7 +733,7 @@ session_start();
                       return true;
                     }
                   </script>
-                  <div><button onclick='saveContent()'>SAMPLE - submit contents</button></div>
+                  <div  id="submit_btn"><button onclick='saveContent()' >등록</button></div>
             </td>
           </tr>
           </table>

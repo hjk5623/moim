@@ -37,11 +37,11 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
   $club_file_copyied= $row['club_file_copyied'];
   $club_file_type= $row['club_file_type'];
 
-  $image_info = getimagesize("../data/".$club_image_copyied);
+  $image_info = getimagesize("./data/".$club_image_copyied);
   $image_width = $image_info[0];
   $image_height = $image_info[1];
   $image_type = $image_info[2];
-  if($image_width>800) $image_width=800;
+  if($image_width>600) $image_width=600;
 
 }
 
@@ -60,7 +60,9 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
   <style media="screen">
       table {
         margin: 0 auto;
+        width: 800px;
       }
+
   </style>
   <script type="text/javascript">
 
@@ -79,16 +81,9 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
     </div>
     <!--end of title -->
     <div class="clear"></div>
-    <div id="write_form_title">
-    </div>
-    <!--end of write_form_title -->
+    <div id="write_form_title"></div>
     <div class="clear"></div>
     <div class="body">
-      <!-- 에디터 시작 -->
-      <!--
-          @decsription
-          등록하기 위한 Form으로 상황에 맞게 수정하여 사용한다. Form 이름은 에디터를 생성할 때 설정값으로 설정한다.
-         -->
       <form name="tx_editor_form" id="tx_editor_form" action="./admin_query.php?mode=clubinsert" method="post" enctype="multipart/form-data" accept-charset="utf-8">
         <div id="write_form"  style="margin-top:100px;">
           <!--모임이름, 모집정원, 모집시작일 ,모집종료일, 가격  -->
@@ -149,16 +144,15 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
               <!-- </textarea> -->
             </td>
           </tr>
+          <tr>
+            <td colspan="3" style="text-align:right">
+                <input type="submit" name="" value="목록">
+            </td>
+          </tr>
           </table>
-
-        </div>
-        <!--end of write_form -->
-
-    <!-- End: Saving Contents -->
-    <!-- <div><button onclick='loadContent()'>SAMPLE - load contents to editor</button></div> -->
-  </div>
-  <!--end of col2 -->
-  </div> <!-- end of content -->
+        </div><!--end of write_form -->
+      </div>
+    </div> <!-- end of content -->
   </div> <!-- end of wrap -->
 </body>
 
