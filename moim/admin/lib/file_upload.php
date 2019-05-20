@@ -48,7 +48,6 @@ switch ($type[1]){
 if(!move_uploaded_file($upimage_tmp_name ,$uploaded_image)){
 echo "<script>alert('이미지_서버전송오류');</script>";
 }
-
 /////////////////////////////////////////////////////////////////
 //첨부파일 업로드과정
 

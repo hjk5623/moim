@@ -97,6 +97,7 @@
           <li><a href="./id_pw_find_form.php?mode=find_id">아이디찾기</a></li>
           <li><a href="./id_pw_find_form.php?mode=find_passwd">비밀번호찾기</a></li>
           <li><a href="../../member/source/member_form.php">회원가입</a></li>
+          <!--수정-->
         </ul>
       </div>
     </div>

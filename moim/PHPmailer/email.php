@@ -1,9 +1,9 @@
 <?php
 session_start();
-include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 
 $email="";
 if(isset($_GET["mode"]) && $_GET["mode"]=="find_passwd"){
+  include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
   $id = $_POST['id'];
   $email = $_POST['email'];
 
@@ -58,40 +58,6 @@ if(isset($_GET["mode"]) && $_GET["mode"]=="find_passwd"){
   $sendmail->send_mail($to, $from, $subject, $body,$cc_mail,$bcc_mail);
 
   echo '[{"code":"'.$code.'"}]';
-
-//개설된모임 신청자에게 단체메일보내기
-}else if(isset($_GET["mode"]) && $_GET["mode"]=="open"){
-  $club_num = $_POST['club_num'];
-  $sql="SELECT buy_id from `buy` where `buy_club_num` ='$club_num'; ";
-  $result=mysqli_query($conn,$sql);
-  if (!$result) {
-    alert_back('Error: ' . mysqli_error($conn));
-  }
-  $rowcount=mysqli_num_rows($result);
-  for($i=0;$i<$rowcount;$i++){
-    $row = mysqli_fetch_array($result);
-    $open_id[$i] = $row['buy_id'];
-  }
-  include './Sendmail.php';
-
-  for($i=0; $i<count($open_id); $i++){
-    $sql="SELECT email from `membership` where `id` ='$open_id[$i]'; ";
-    $result=mysqli_query($conn,$sql);
-    if (!$result) {
-      alert_back('Error: ' . mysqli_error($conn));
-    }
-      $row = mysqli_fetch_array($result);
-      $open_email[$i]=$row['email'];
-      $to=$open_email[$i];
-      var_dump($to);
-      $from="Mo,im";
-      $subject="Mo,im 모임 개설";
-      $body="고객님이 신청하신 모임이 개설되었습니다. \n 홈페이지에서 확인하세요.";
-      $cc_mail="";
-      $bcc_mail="";   /*메일 보내기*/
-      $sendmail->send_mail($to,$from,$subject,$body,$cc_mail,$bcc_mail );
-  }
-    echo '[{"email": "메일 발송 완료"}]';
 
 }
 ?>

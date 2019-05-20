@@ -1,13 +1,9 @@
-  /* table {
+  table {
     margin: 0 auto;
-  } */
+  }
 
   #submit_btn {
     text-align: center;
-  }
-
-  #h2{
-    margin-top: 100px;
   }
 
   /* .ui-datepicker{ font-size: 13px; width: 250px; }

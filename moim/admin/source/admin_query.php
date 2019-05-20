@@ -121,17 +121,17 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "clubdelete"){
 
 //회원삭제
 if(isset($_GET["mode"]) && $_GET["mode"] == "memberdel"){
-  $id=test_input($_POST['user_id']);
-  // var_export($id);
+  $id=test_input($_POST['id']);
+  var_export($id);
   $sql="DELETE from `membership` where id='$id' ";
   $result=mysqli_query($conn, $sql);
   if (!$result) {
     alert_back('Error: ' . mysqli_error($conn));
+  echo "<script> alert('회원탈퇴 완료');
+          location.href='admin_member.php';
+        </script>
+        ";
   }
-  // echo "<script> alert('회원삭제완료');
-  //         location.href='admin_member.php';
-  //       </script>
-  //       ";
 }
 
 
