@@ -114,7 +114,7 @@ function kakao_check(res){
       console.log(result);
       var json_obj = $.parseJSON(result);
       if(json_obj[0].kakao_id=="성공"){
-        location.href="../../mainpage.php?profile="+JSON.stringify(res.properties.profile_image);
+        location.href="../../mainpage.php";
       }else{
         document.login_form.submit();
       }
@@ -137,7 +137,7 @@ function google_check(profile){
       console.log(result);
       var json_obj = $.parseJSON(result);
       if(json_obj[0].google_id=="성공"){
-        location.href="../../mainpage.php?profile="+profile.getImageUrl();
+        location.href="../../mainpage.php";
       }else{
         document.login_form.submit();
       }

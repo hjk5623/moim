@@ -31,7 +31,7 @@
           $sql = "CREATE TABLE `buy` (
           `buy_num` int(11) NOT NULL AUTO_INCREMENT,
           `buy_id` varchar(10) NOT NULL,
-          `buy_no` int(11) NOT NULL,
+          `buy_club_num` int(11) NOT NULL,
           PRIMARY KEY (`buy_num`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
           break;
@@ -46,6 +46,7 @@
         case 'club':
           $sql = "CREATE TABLE `club` (
           `club_num` int(11) NOT NULL AUTO_INCREMENT,
+          `club_id` varchar(10) NOT NULL,
           `club_name` varchar(10) NOT NULL,
           `club_content` text NOT NULL,
           `club_category` varchar(10) NOT NULL,
@@ -96,7 +97,7 @@
           `notice_date` date NOT NULL,
           `notice_hit` int(11) NOT NULL,
           `notice_file_name` varchar(50) DEFAULT NULL,
-          `notice_file_copyed` varchar(50) DEFAULT NULL,
+          `notice_file_copied` varchar(50) DEFAULT NULL,
           `notice_file_type` varchar(50) DEFAULT NULL,
           PRIMARY KEY (`notice_num`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
@@ -121,6 +122,7 @@
           `ripple_subject` varchar(50) NOT NULL,
           `ripple_content` text NOT NULL,
           `ripple_date` date NOT NULL,
+          `parent_num` int NOT NULL,
           PRIMARY KEY (`ripple_num`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
           break;
@@ -138,9 +140,9 @@
           `user_price` int(11) NOT NULL,
           `user_check` varchar(10) NOT NULL,
           `user_image_name` varchar(50) DEFAULT NULL,
-          `user_image_copyed` varchar(50) DEFAULT NULL,
+          `user_image_copied` varchar(50) DEFAULT NULL,
           `user_file_name` varchar(50) DEFAULT NULL,
-          `user_file_copyed` varchar(50) DEFAULT NULL,
+          `user_file_copied` varchar(50) DEFAULT NULL,
           `user_file_type` varchar(50) DEFAULT NULL,
           PRIMARY KEY (`user_num`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";

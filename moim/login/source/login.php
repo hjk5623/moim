@@ -57,7 +57,6 @@
       });
     }
     function google_login(){
-      gauth.disconnect();
       gauth.signIn().then(function(){
         console.log('gauth.signIn()');
         getprofile();
@@ -74,6 +73,7 @@
         console.log('Email: ' + profile.getEmail());
         $("#google_id").val(profile.getId());
         google_check(profile);
+        gauth.disconnect();
       }
     }
     </script><!-- end of init -->
@@ -85,7 +85,7 @@
         <form name="login_form" action="../../member/source/member_form.php" method="post">
           <input type="hidden" name="kakao_id" id="kakao_id" value="">
           <input type="hidden" name="google_id" id="google_id" value="">
-          <input class="txtb" type="text" name="id" id="id" placeholder="Username">
+          <input class="txtb" type="text" name="id" id="id" placeholder="UserID">
           <input class="txtb" type="password" name="passwd" id="passwd" placeholder="Password">
           <input class="login-btn" id="login_btn" type="button" name="" value="Login">
           <input class="kakao-btn" type="button" onclick="loginWithKakao()" value="Kakao">
