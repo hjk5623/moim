@@ -1,0 +1,88 @@
+package chapter18.lab805_server.client;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class DateServer {
+
+	public static void main(String[] args) throws IOException {
+		//1.서버 소켓을 만든다. (IPv4)전화번호와 포트번호를 준다. bind() 
+		ServerSocket server = new ServerSocket();
+		InetSocketAddress isa = new InetSocketAddress("192.168.1.17", 60000);
+		server.bind(isa);
+		
+		//2.전화오기를 대기한다. 전화오면 클라이언트 통신할 수 있는 소켓이 만들어진다. 
+		// 전화가 오지 않으면 블럭상태로 빠진다. 올 때까지  -> 서버와 클라이언트 연결하는 Thread로 만들어야 다른 Thread가 실행될 수 있다. 
+		System.out.println("서버입니다.");
+		Socket client= server.accept();  //기다리는 중 
+
+		//3. 만들어진 소켓으로 inputStream outputStream 가져온다.
+		InputStream is = client.getInputStream();
+		OutputStream os = client.getOutputStream();
+		
+		//4.서버에서 클라이언트로 메세지를 전송. 
+		//메세지는 1바이트 체계로 만들어서 전송해야한다. 
+		String message = "Hello Its me..Welcome to my Homepage~!!!";
+		byte[] sendMessage = message.getBytes(); // message 문자열을 -> 1바이트 배열로 바꾼다. 왜냐하면, 스트림은 매개변수에 1바이트 또는 정수형으로만 받을 수 있다. 
+		os.write(sendMessage); // 블럭상태 X
+		
+		//5.답변을 기다린다. //read 블럭상태 O
+		byte[] receiveMessage = new byte[2048];
+		int state = is.read(receiveMessage); //state 잘못적으면 -1 // 읽혀진 문자들의 개수
+		
+		//6.수신메세지를 찍는다. 
+		String answerMessage=new String(receiveMessage,0,state);
+		System.out.println(client+"  "+answerMessage);
+		
+		server.close();
+		client.close();
+	}
+
+}
+
+//==============================================
+
+package chapter18.lab805_server.client;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+
+public class DateClient {
+
+	public static void main(String[] args) throws IOException {
+		//1. 전화통을 만든다. 클라이언트 전화다.
+		Socket client = new Socket();
+		
+		//2. 서버에 접속을 요청 (주소, 포트번호를 입력하고 접속을 요청 ) 블럭상태 
+		System.out.println("Client!! ");
+		InetSocketAddress isa = new InetSocketAddress("192.168.1.17", 60000);
+		client.connect(isa);//블럭상태  // 요청을 했는데 서버에서 답변을 주지 않으면 멈춘다. 
+		
+		//3. 상대 서버한테 접속을 허용받은 경우-> 대화하기 위해 inputStream outputStream 미리 준비
+		OutputStream os = client.getOutputStream();
+		InputStream is = client.getInputStream();
+		
+		//4. 대기해야한다. (프로토콜 : 대본)
+		byte[] message = new byte[2048];
+		int state = is.read(message);
+		
+		//5. 값이 넘어오면 화면에 찍어준다. 
+		String receiveMessage = new String(message,0,state);
+		System.out.println("Server : " + receiveMessage);
+		
+		//6. 답변을 준다. 
+		String answer = new String("OK");
+		byte[] answerMessage = answer.getBytes();
+		os.write(answerMessage);
+		
+		client.close();
+	}
+
+}
