@@ -5,6 +5,7 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
 
 
+
 if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
   $club_num=test_input($_GET["club_num"]);
 
@@ -37,7 +38,7 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
   $club_file_copyied= $row['club_file_copyied'];
   $club_file_type= $row['club_file_type'];
 
-  $image_info = getimagesize("./data/".$club_image_copyied);
+  $image_info = getimagesize("../data/".$club_image_copyied);
   $image_width = $image_info[0];
   $image_height = $image_info[1];
   $image_type = $image_info[2];
@@ -139,14 +140,13 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
           </tr>
           <tr>
             <td colspan="3">
-              <!-- <textarea name="name" rows="8" cols="80"> -->
                   <?php echo "$club_content" ?>
-              <!-- </textarea> -->
             </td>
           </tr>
           <tr>
             <td colspan="3" style="text-align:right">
-                <input type="submit" name="" value="목록">
+                <a href="./admin_club_list.php"><button type="button" name="button">list</button></a>
+                <a href="./admin_club_create2.php?mode=update&club_num=<?=$club_num?>"><button type="button" name="button">edit</button></a>
             </td>
           </tr>
           </table>

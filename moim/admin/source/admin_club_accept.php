@@ -1,5 +1,4 @@
 <?php
-// 위지윅에디터이용으로 이 페이지는 이제 사용하지 않을 예쩡 혹시몰라 안지우고 살려둠..
 session_start();
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 
@@ -7,7 +6,7 @@ $mode="";
 $present_day=date("Y-m-d");
 
 //모집기간마감안된모임
-$sql="SELECT * from `club` where club_end >'$present_day' and club_open='no' order by club_end asc;";
+$sql="SELECT * from `club` where club_end < '$present_day' and club_open='no' order by club_end asc;";
 $result = mysqli_query($conn,$sql);
 if (!mysqli_num_rows($result)){
   $total_record = 0;
@@ -76,17 +75,43 @@ $number2=$total_record2 - $start_row2;
 <head>
   <meta charset="utf-8">
   <title></title>
+  <style media="screen">
+    #accept_table{
+      text-align: center;
+    }
+    a {
+      text-decoration: none
+    }
+  </style>
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
+
   <script type="text/javascript">
     function club_accept(to,apply,club_num,club_name){
+
       var club_to=to;
       var club_apply=apply;
       if(club_to/2 > apply){
         alert("신청인원이 부족합니다. 모집정원의 1/2 의 신청이 있어야만 개설이 가능합니다.");
+
       }else{
         var result=confirm("모임명 : "+club_name+" \n개설하시겠습니까?");
         if(result){
-          window.location.href='./admin_query.php?mode=clubaccept&club_num='+club_num;
+          $.ajax({
+            url: '../../PHPmailer/email.php?mode=open',
+            type: 'POST',
+            data: {
+              club_num: club_num
+            }
+          }) .done(function(result) {
+            console.log(result);
+            window.location.href='./admin_query.php?mode=clubaccept&club_num='+club_num;
+          })
+          .fail(function() {
+            console.log("error");
+          })
+          .always(function() {
+            console.log("complete");
+          });
         }
       }
     }
@@ -105,13 +130,13 @@ $number2=$total_record2 - $start_row2;
     <div class="search_club" style="margin-top:100px;">
       <div class="">
         <p>모임개설조건 | 모집정원의 1/2 이상의 인원이 신청된 경우 </p>
-        <p>모임삭제조건 | 모집종료일이 지난경우 </p>
+        <p>모임삭제조건 | 모집종료일이 지나고, 모집정원이 </p>
       </div>
       <form name="board_form" action="admin_club_accept.php?mode=search" method="post">
 
     </form>
     </div>
-  <h2><big><strong>모집종료일이 지나지 않은 모임</strong></big></h2>
+  <h2><big><strong>모집이 마감된 모임</strong></big></h2>
   <table border="1" id="accept_table" style="width:800px;">
     <tr>
       <td>모임명</td>
@@ -153,7 +178,7 @@ $number2=$total_record2 - $start_row2;
 
   </table>
 <!-- <hr> -->
-  <div id='page_box' style="text-align:center">
+  <div id='page_box'>
     <?PHP
       #----------------이전블럭 존재시 링크------------------#
       if($start_page > $pages_scale){
@@ -224,7 +249,7 @@ $number2=$total_record2 - $start_row2;
   </table>
   </form>
   <!-- <hr> -->
-  <div id='page_box' style="text-align:center">
+  <div id='page_box'>
     <?PHP
       #----------------이전블럭 존재시 링크------------------#
       if($start_page2 > $pages_scale){
