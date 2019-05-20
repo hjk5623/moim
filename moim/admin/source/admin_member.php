@@ -58,10 +58,26 @@ $number=$start_row+1;
     <link rel="stylesheet" type="text/css" href="../css/admin_member.css">
     <script type="text/javascript">
 
-      function check_delete(){
-        var result=confirm("한번 삭제한 자료는 복구할 수 없습니다.?\n정말 삭제하시겠습니까?");
-        if(result){
-          $("#del_id_form").submit();
+      function check_delete(id){
+        console.log(id);
+        var result1=confirm("한번 삭제한 자료는 복구할 수 없습니다.?\n정말 삭제하시겠습니까?");
+        if(result1){
+        $.ajax({
+          url: './admin_query.php?mode=memberdel',
+          type: 'POST',
+          data: {
+            user_id: id
+          }
+        }) .done(function(result) {
+          console.log(result);
+          location.href='admin_member.php';
+        })
+        .fail(function() {
+          console.log("error");
+        })
+        .always(function() {
+          console.log("complete");
+        });
         }
       }
 
@@ -115,18 +131,16 @@ $number=$start_row+1;
   ?>
 
     <tr class="memberlist_tr2" style="text-align:center;">
-      <form id="del_id_form" name="id_form" class="" action="admin_query.php?mode=memberdel" method="post">
-        <input type="hidden" name="id" value="<?=$item_id?>">
+        <input type="hidden" name="id" class="hidden_id" value="<?=$item_id?>">
         <td><?=$item_id?></td>
         <td><?=$item_name?></td>
         <td><?=$item_phone?></td>
         <td><?=$address?></td>
         <td><?=$item_email?></td>
-        <td>&nbsp;&nbsp;<button type="button" class="button" onclick="check_delete();">삭제</button></td>
-    </form>
+        <td>&nbsp;&nbsp;<button type="button" class="button" onclick="check_delete('<?=$item_id?>');">삭제</button></td>
       </tr>
     <?php
-    echo "<tr class='gray'><td colspan='7'></td></tr>";
+
   }
     ?>
 

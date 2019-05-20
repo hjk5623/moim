@@ -4,18 +4,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>TEAM PROJECT</title>
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/header.css">
     <link rel="stylesheet" href="./css/slider.css">
     <link rel="stylesheet" href="./css/promotion.css">
-    <link rel="stylesheet" href="./css/footer.css">
     <link rel="stylesheet" href="./css/promotion_two.css">
-    <link rel="stylesheet" href="./css/upbutton.css">
     <script type="text/javascript" src="./js/slide_menu.js"></script>
-    <script type="text/javascript" src="./js/upbtn.js"></script>
   </head>
   <body>
     <div id="wrap">
@@ -23,24 +19,18 @@
         <h1 class="head_logo"><a href="#">Mo,im</a></h1>
         <div id="mySlidenav" class="sidenav">
           <a href="#" class="closeside" onclick="closeNav()">&times;</a>
-          <a href=""><?=$_SESSION['username']?>님 안녕하세요</a>
-          <br>
           <a href="#">HOME</a>
-          <a href="#">MY PAGE</a>
-          <a href="#">CREATE MOIM</a>
-          <a href="./club_list/source/list.php">CLUB NO</a>
-          <a href="./clubing/source/list.php">CLUB YES</a>
-          <a href="#">VIEW PLACE</a>
-          <a href="#">BOARD</a>
-          <a href="#">ABOUT</a>
+          <a href="#">Club List</a>
+          <a href="#">MENU</a>
+          <a href="#">MENU</a>
+          <a href="#">MENU</a>
+          <a href="#">MENU</a>
         </div>
         <nav>
           <ul class="head_menu">
             <li>
               <a href="#" class="openNav" onclick="openNav()">MENU</a>
             </li>
-            <li><a href="./member/source/flagcheck.php">SIGN UP</a></li>
-            <li><a href="">MESSAGE</a></li>
             <?php
               if(!isset($_SESSION['userid'])){
                 echo ('<li><a href="./login/source/login.php">LOG IN</a></li>');
@@ -52,6 +42,7 @@
                 echo ('<li><a href="./admin/source/admin.php">ADMIN</a></li>');
               }
              ?>
+            <li><a href="./member/source/member_form.php">MEMBERSHIP</a></li>
           </ul>
         </nav>
         <!-- <span class="menu-toggle-btn">
@@ -157,45 +148,5 @@
        <hr class="divider">
       </section>
     </div>
-    <footer>
-      <div class="footer">
-        <div class="footer_content">
-          <div class="footer_section about">
-            <h1 class="footer_logo"><span>Mo</span>,im</h1>
-            <p>The meaning of this page is that people of various inclination can make one thing in common, share one another and make a hobby.</p>
-            <div class="contact">
-              <span><i class="fas fa-phone"></i>02-1111-1111</span>
-              <span><i class="far fa-envelope"></i>admin@moim.com</span>
-            </div>
-            <div class="socials">
-              <a href="#"><i class="fab fa-facebook"></i></a>
-              <a href="#"><i class="fab fa-instagram"></i></a>
-              <a href="#"><i class="fab fa-twitter"></i></a>
-              <a href="#"><i class="fab fa-youtube"></i></a>
-            </div>
-          </div>
-          <div class="footer_section links">
-            <h2>Quick Links</h2>
-            <br>
-            <ul>
-              <a href="#"><li>QNA</li></a>
-              <a href="#"><li>FAQ</li></a>
-              <a href="#"><li>MEMO</li></a>
-              <a href="#"><li>CLUB LIST</li></a>
-              <a href="#"><li>SIGN UP</li></a>
-            </ul>
-          </div>
-          <div class="footer_section contact_form">
-            <h2>Contact Us</h2>
-            <br>
-
-          </div>
-        </div>
-        <div class="footer_bottom">
-          &copy;www.moim.com | Designed by WebApp 5 class YoungMinTeam
-        </div>
-      </div>
-    </footer>
-    <a href="#" class="gotobtn"><i class="fas fa-arrow-up"></i></a>
   </body>
 </html>

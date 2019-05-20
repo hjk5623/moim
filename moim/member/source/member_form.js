@@ -7,12 +7,12 @@ $(document).ready(function() {
     var idpattern = /^[a-zA-Z0-9]{6,8}$/;
     if (id.value.length === 0) {
       $("#span_id").css('color', 'red');
-      span_id.innerHTML="아이디를 입력해주세요(영문,숫자 6~8자리)";
+      span_id.innerHTML="아이디를 입력해주세요.<br>영문,숫자 6~8자리";
       id.value = "";
       return false;
     }else if (!(idpattern.test(id.value))) {
       $("#span_id").css('color', 'red');
-      span_id.innerHTML="아이디를 입력해주세요.영문,숫자 6~8자리";
+      span_id.innerHTML="아이디를 입력해주세요.<br>영문,숫자 6~8자리";
       id.value = "";
       return false;
     }
@@ -48,13 +48,11 @@ $(document).ready(function() {
     var span_name = document.getElementById("span_name");
     var namepattern = /^[가-힣\x20]{2,6}$/;
     if (name.value.length === 0) {
-      $("#span_name").css('color', 'red');
-      span_name.innerHTML="이름을 입력해주세요(한글 2~6자리)";
+      span_name.innerHTML="이름을 입력해주세요.<br>한글 2~6자리";
       name.value = "";
       return false;
     }else if (!(namepattern.test(name.value))) {
-      $("#span_name").css('color', 'red');
-      span_name.innerHTML="이름을 입력해주세요(한글 2~6자리)";
+      span_name.innerHTML="이름을 입력해주세요.<br>한글 2~6자리";
       name.value = "";
       return false;
     }else{
@@ -69,13 +67,11 @@ $(document).ready(function() {
     var span_passwd = document.getElementById("span_passwd");
     var passwdpattern = /(?=.*\d{1,10})(?=.*[~`!@#$%\^&*()-+=]{1,10})(?=.*[a-zA-Z]{1,10}).{8,20}$/;
     if (passwd.value.length === 0) {
-      $("#span_passwd").css('color', 'red');
-      span_passwd.innerHTML="패스워드를 입력하세요(특수문자,숫자,문자 모두조합 8~20자리)";
+      span_passwd.innerHTML="패스워드를 입력하세요.<br>특수문자,숫자,문자 모두조합 8~20자리";
       passwd.value = "";
       return false;
     }else if (!(passwdpattern.test(passwd.value))) {
-      $("#span_passwd").css('color', 'red');
-      span_passwd.innerHTML="패스워드을 입력해주세요(특수문자,숫자,문자 모두조합 8~20자리)";
+      span_passwd.innerHTML="패스워드을 입력해주세요.<br>특수문자,숫자,문자 모두조합 8~20자리";
       passwd.value = "";
       return false;
     }else{
@@ -91,12 +87,10 @@ $(document).ready(function() {
     var span_passwd_check = document.getElementById("span_passwd_check");
 
     if (passwd_check.value.length === 0) {
-      $("#span_passwd_check").css('color', 'red');
       span_passwd_check.innerHTML="패스워드를 확인하세요.";
       passwd_check.value = "";
       return false;
     }else if (passwd.value!=passwd_check.value) {
-      $("#span_passwd_check").css('color', 'red');
       span_passwd_check.innerHTML="패스워드가 같지 않습니다.";
       passwd_check.value = "";
       return false;
@@ -110,12 +104,10 @@ $(document).ready(function() {
     document.getElementById("flag_phone2").value="false";
     var phone2 = document.getElementById("phone2");
     if (phone2.value.length === 0) {
-      $("#span_phone").css('color', 'red');
       span_phone.innerHTML="전화번호 중간자리를 입력하세요";
       phone2.value = "";
       return false;
     }else if (phone2.value.length!=4) {
-      $("#span_phone").css('color', 'red');
       span_phone.innerHTML="전화번호 중간자리 4자리를 입력해주세요";
       phone2.value = "";
       return false;
@@ -129,12 +121,10 @@ $(document).ready(function() {
     document.getElementById("flag_phone3").value="false";
     var phone3 = document.getElementById("phone3");
     if (phone3.value.length === 0) {
-      $("#span_phone").css('color', 'red');
       span_phone.innerHTML="전화번호 마지막자리를 입력하세요";
       phone3.value = "";
       return false;
     }else if (phone3.value.length!=4) {
-      $("#span_phone").css('color', 'red');
       span_phone.innerHTML="전화번호 마지막자리 4자리를 입력해주세요";
       phone3.value = "";
       return false;
@@ -150,7 +140,6 @@ $(document).ready(function() {
     var address2 = document.getElementById("address2");
     var address3 = document.getElementById("address3");
     if (address3.value.length === 0 || address2.value.length === 0 || address1.value.length === 0) {
-      $("#span_address").css('color', 'red');
       span_address.innerHTML="주소를 입력해주세요";
       return false;
     }else{
@@ -161,24 +150,21 @@ $(document).ready(function() {
   //이메일 인증
   $("#button1").click(function(event) {
     count=10;
-    document.getElementById('set_time').style.color="red";
+    document.getElementById('set_time').style.color="black";
     document.getElementById('set_time').style.fontSize="10px";
     var email1 = document.getElementById("email1");
     var email2 = document.getElementById("email2");
     var emailpattern= /^[0-9a-zA-Z~!@#$%^&*()]+$/;
     if (email1.value.length === 0) {
-      $("#span_email").css('color', 'red');
       span_email.innerHTML="이메일을 입력해주세요";
       email1.value = "";
       return false;
     } else if (!(emailpattern.test(email1.value))) {
-      $("#span_email").css('color', 'red');
       span_email.innerHTML="이메일 형식이 잘못되었습니다.";
       email1.value = "";
       return false;
     }
     if(email2.value=="이메일을 선택하세요"){
-      $("#span_email").css('color', 'red');
       span_email.innerHTML="이메일을 선택해주세요";
       return false;
     }else{
@@ -263,34 +249,34 @@ $(document).ready(function() {
 
   //가입하기버튼
   $("#button2").click(function(event) {
-    // if(document.getElementById("flag_checkbox").value!="true"){
-    //   alert("이용약관을 동의하세요");
-    //   return;
-    // }else if(document.getElementById("flag_id").value!="true"){
-    //   alert("아이디를 확인해주세요");
-    //   return;
-    // }else if(document.getElementById("flag_name").value!="true"){
-    //   alert("이름을 확인해주세요");
-    //   return;
-    // }else if(document.getElementById("flag_passwd").value!="true"){
-    //   alert("비밀번호를 확인해주세요");
-    //   return;
-    // }else if(document.getElementById("flag_passwd_check").value!="true"){
-    //   alert("비밀번호를 확인해주세요");
-    //   return;
-    // }else if(document.getElementById("flag_phone2").value!="true"){
-    //   alert("전화번호를 확인해주세요");
-    //   return;
-    // }else if(document.getElementById("flag_phone3").value!="true"){
-    //   alert("전화번호를 확인해주세요");
-    //   return;
-    // }else if(document.getElementById("flag_address").value!="true"){
-    //   alert("주소를 확인해주세요");
-    //   return;
-    // }else if(document.getElementById("flag_email").value!="true"){
-    //   alert("이메일 인증을 해주세요");
-    //   return;
-    // }
+    if(document.getElementById("flag_checkbox").value!="true"){
+      alert("이용약관을 동의하세요");
+      return;
+    }else if(document.getElementById("flag_id").value!="true"){
+      alert("아이디를 확인해주세요");
+      return;
+    }else if(document.getElementById("flag_name").value!="true"){
+      alert("이름을 확인해주세요");
+      return;
+    }else if(document.getElementById("flag_passwd").value!="true"){
+      alert("비밀번호를 확인해주세요");
+      return;
+    }else if(document.getElementById("flag_passwd_check").value!="true"){
+      alert("비밀번호를 확인해주세요");
+      return;
+    }else if(document.getElementById("flag_phone2").value!="true"){
+      alert("전화번호를 확인해주세요");
+      return;
+    }else if(document.getElementById("flag_phone3").value!="true"){
+      alert("전화번호를 확인해주세요");
+      return;
+    }else if(document.getElementById("flag_address").value!="true"){
+      alert("주소를 확인해주세요");
+      return;
+    }else if(document.getElementById("flag_email").value!="true"){
+      alert("이메일 인증을 해주세요");
+      return;
+    }
     document.getElementById("email2").disabled=false;
     document.member_form.submit();
   });
@@ -363,17 +349,15 @@ function execDaumPostcode() {/* 폼은 다음 주소찾기 빌리면서 입력�
 
 //이용약관 체크박스
 function checkbox(){
-  // document.getElementById("flag_checkbox").value="false";
-  // var label1 = document.getElementById("label1");
-  // var span1 = document.getElementById("span1");
-  // if(label1.checked==true){
-  //   span1.style.color="black";
-  //   span1.innerHTML="이용약관에 동의합니다.";
-  //   document.getElementById("flag_checkbox").value="true";
-  // }else{
-  //   span1.style.color="red";
-  //   span1.innerHTML="이용약관에 동의합니다.<br>동의가 필요합니다.";
-  // }
-  window.document.location.href='./member_form.php';
-  return;
+  document.getElementById("flag_checkbox").value="false";
+  var label1 = document.getElementById("label1");
+  var span1 = document.getElementById("span1");
+  if(label1.checked==true){
+    span1.style.color="black";
+    span1.innerHTML="이용약관에 동의합니다.";
+    document.getElementById("flag_checkbox").value="true";
+  }else{
+    span1.style.color="red";
+    span1.innerHTML="이용약관에 동의합니다.<br>동의가 필요합니다.";
+  }
 }
