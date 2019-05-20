@@ -76,14 +76,6 @@ $number2=$total_record2 - $start_row2;
 <head>
   <meta charset="utf-8">
   <title></title>
-  <style media="screen">
-    #accept_table{
-      text-align: center;
-    }
-    a {
-      text-decoration: none
-    }
-  </style>
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
   <script type="text/javascript">
     function club_accept(to,apply,club_num,club_name){
