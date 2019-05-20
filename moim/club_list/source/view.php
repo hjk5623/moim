@@ -8,7 +8,11 @@ if(isset($_GET['club_num'])){
   $club_num="";
   echo "<script>alert('실패');</script>";
 }
-
+if(isset($_SESSION['userid']){
+  $userid=$_SESSION['userid'];
+}else{
+  $userid="";
+}
 if(isset($_GET['club_category'])){
   $mode=$_GET['club_category'];
 }else{
