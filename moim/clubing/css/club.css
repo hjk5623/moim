@@ -1,0 +1,370 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", sans-serif;
+}
+
+.sec10 {
+  width: 100%;
+  height: 80vh;
+  box-sizing: border-box;
+  background: url('../img/clubing.jpg');
+  background-size: cover;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background: rgba(0, 0, 0, 0.6);
+  /* padding: 0 100px; */
+}
+
+nav .brand {
+  float: left;
+  height: 100%;
+  line-height: 70px;
+}
+
+nav .brand h2 {
+  margin: 0;
+  padding: 0;
+  padding-left: 100px;
+  color: #fff;
+}
+
+nav ul {
+  float: right;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  list-style: none;
+}
+
+nav ul li a {
+  position: relative;
+  display: block;
+  height: 70px;
+  line-height: 70px;
+  padding: 0 20px;
+  box-sizing: border-box;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: .5s;
+}
+
+nav ul li a:hover {
+  color: #262626;
+}
+
+nav ul li a:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  transform-origin: right;
+  z-index: -1;
+  transform: scaleX(0);
+  transition: transform .5s;
+}
+
+nav ul li a:hover:before {
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
+/***************************************************************************************************/
+
+/*********************************************************************************************/
+
+.titles {
+  text-align: center;
+}
+.titles img{
+  width: 30%;
+  border-radius: 10px;
+}
+
+#intd_warp .title_large {
+  font-size: 30px;
+  font-weight: 500;
+}
+
+#intd_warp .sline {
+  clear: both;
+  width: 100%;
+  margin: 0 auto;
+  background-color: #f7f7f7;
+  border-top: 1px solid #f1f0f0;
+  padding: 20px 0;
+  text-align: center;
+  height: 60px;
+}
+
+.pt1 {
+  text-align: center;
+}
+
+.pt2 {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.p2_desc_text {
+  font-size: 14px;
+  font-weight: 400;
+  color: #6a6a6a;
+  line-height: 28px;
+}
+
+.btm_list {
+  font-size: 0;
+}
+
+#sec1 ul {
+  list-style: none;
+  font-size: 0;
+  display: block;
+  list-style-type: disc;
+  -webkit-margin-before: 1em;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+  -webkit-padding-start: 0px;
+}
+
+.btm_item:first-child {
+  margin-left: 10px;
+}
+
+.btm_item {
+  margin-left: 0;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: 310px;
+  margin: 0 0 0 15px;
+  padding: 228px 0 0;
+  text-align: center;
+}
+
+.btm_image {
+  position: absolute;
+  width: 290px;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+  color: transparent;
+}
+
+.btm_head {
+  position: relative;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  color: #ff5875;
+  ;
+  text-align: center;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.btm_desc {
+  position: relative;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  color: #6a6a6a;
+  text-align: center;
+}
+
+.bmt-section:before {
+  content: '';
+  position: relative;
+  display: block;
+  margin: 0 auto;
+  height: 80px;
+  width: 100%;
+  border-top: 1px solid #e5e5e5;
+}
+
+.bmt-section {
+  padding: 0 0 80px;
+  overflow: hidden
+}
+
+.bmt-section--no-border:before {
+  border-top: none;
+}
+
+.ss_left {
+  float: left;
+  margin-top: 20px;
+  padding: 20px 0 0 40px;
+}
+
+.ss_right {
+  float: right;
+  margin-top: 20px;
+  padding: 20px 40px 0 0;
+}
+
+.ss_title {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  color: #ff5875;
+}
+
+.ss_desc {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #6a6a6a;
+  line-height: 28px;
+}
+
+.mgt25 {
+  margin-top: 25px;
+}
+
+.mgt30 {
+  margin-top: 30px;
+}
+
+.btm20 {
+  margin-bottom: 20px;
+}
+
+.img-table{
+  position: absolute;
+}
+
+.img-table #ullist .btm2_item{
+  float: left;
+  width: 32%;
+  margin-left: 16px;
+  text-align: center;
+  list-style: none;
+  overflow: hidden;
+  background: no-repeat;
+}
+
+
+.img-table #ullist .btm2_item .btm2_image{
+  width: 100%;
+  height: 380px;
+  border-radius: 10px;
+}
+
+.img-table #ullist{
+  box-sizing: border-box;
+  padding: 100px;
+}
+
+.club_info{
+  text-decoration: none;
+  text-align: center;
+}
+
+.club_info .btm2_desc{
+  /* background-color: #f44336; */
+  color: black;
+  /* display: inline-block; */
+  text-align: center;
+  padding: 14px 25px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.container{
+  width: 100%;
+  position: relative;
+  /* display: flex; */
+  /* flex-direction: row; */
+  flex-wrap: wrap;
+}
+
+.container .inner{
+  position: absolute;
+  background-color: #0009;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  color: white;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+/************************************************************************/
+
+.box{
+  overflow: hidden;
+}
+
+.box img{
+  transition: transform 2s;
+}
+
+.box:hover img{
+  transform: scale(1.2);
+}
+
+.container .details{
+  text-decoration: none;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.8);
+  transform: scaleY(0);
+  transition: transform .5s;
+  border-radius: 10px;
+}
+
+.container:hover .details{
+  transform: scaleY(1);
+  text-align: center;
+}
+
+.container .details .content{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  padding: 10px;
+  color: #fff;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.container .details .content h2{
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  color: #fff;
+}
+
+.container .details .content p{
+  margin: 10px 0 0;
+  padding: 0;
+}
+/***********************************************************************/
+.noshow {
+  display: none;
+}
+
+.hidden {
+  display: none;
+}
