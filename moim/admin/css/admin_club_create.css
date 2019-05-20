@@ -1,0 +1,11 @@
+  table {
+    margin: 0 auto;
+  }
+
+  #submit_btn {
+    text-align: center;
+  }
+
+  /* .ui-datepicker{ font-size: 13px; width: 250px; }
+    .ui-datepicker select.ui-datepicker-month{ width:30%; font-size: 12px; }
+    .ui-datepicker select.ui-datepicker-year{ width:40%; font-size: 12px; } */

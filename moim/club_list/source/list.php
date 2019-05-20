@@ -55,13 +55,12 @@
 
     <section>
       <?php
-      $today = date("Y-m-d", time());
       if (isset($mode)&& $_GET['mode']) {
-        $sql = "select * from club where club_category='$mode' and club_open = 'no' and club_end >= '$today' order by club_hit desc";
+        $sql = "select * from club where club_category='$mode' order by club_hit desc";
         $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
         $count=mysqli_num_rows($result);
       }else{
-        $sql = "select * from club where club_open = 'no' and club_end >= '$today' order by club_hit desc";
+        $sql = "select * from club order by club_hit desc";
         $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
         $count=mysqli_num_rows($result);
       }
