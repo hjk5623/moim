@@ -3,6 +3,8 @@ session_start();
  include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
  include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
 create_table($conn, 'club');
+create_table($conn, 'club_ripple');
+
  if(isset($_GET["no"])){
    $no= $_GET["no"];
  }else{
@@ -90,6 +92,8 @@ create_table($conn, 'club');
   $club_open= $row['club_open'];
   $club_image_name= $row['club_image_name'];
   $club_file_name= $row['club_file_name'];
+  $club_rent_info= explode("/",$club_rent_info);
+  $address= $club_rent_info[0];
   $sql= "update club set club_hit=$club_hit where club_num=$no";
   mysqli_query($conn, $sql) or die(mysqli_error($conn));
   ?>
@@ -101,8 +105,15 @@ create_table($conn, 'club');
     <br>
     <br>
     <div class="titles">
-      <p class="title_large"><?=$club_name?></p>
-      <img src="../img/<?=$club_image_name?>" alt="" class="title-img">
+      <p class="title_large"><?=$club_name?></p> <!--모임이름-->
+      <img src="../img/<?=$club_image_name?>" alt="" class="title-img"> <!--모임이미지-->
+    </div>
+    <div class="">
+      <?php
+      if(!empty($_SESSION['userid']) && $_SESSION['userid']==="admin"){ ?>
+        <button type="button" name="button">수정</button>
+        <button type="button" name="button" onclick="location.href='ing_query.php?mode=c_delete&no=<?=$club_num?>'">삭제</button>
+      <?php } ?>
     </div>
     <section id="sec1" class="bmt-section bmt-section--no-border">
     <div class="pt2 ">
@@ -139,6 +150,75 @@ create_table($conn, 'club');
         <p class="ss_title mgt30"><?=$club_name?>의 두번째 특징</p>
         <p class="ss_desc"><?=$club_name?>의 두번째 특징은 자유로운 시간에 즐길 수 있고 퇴근 시간 및 주말에도 함께 즐길 수 있습니다.</p>
       </div>
+      <div id="map" style="width:700px;height:350px;"></div>
+      <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a321e1b83ba2a8b469c05bab1c41988&libraries=services"></script>
+      <script>
+      var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+      mapOption = {
+       center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+       level: 3 // 지도의 확대 레벨
+      };
+     // 지도를 생성합니다
+      var map = new daum.maps.Map(mapContainer, mapOption);
+    // 주소-좌표 변환 객체를 생성합니다
+      var geocoder = new daum.maps.services.Geocoder();
+     // 주소로 좌표를 검색합니다
+      geocoder.addressSearch('<?=$address?>', function(result, status) {
+       // 정상적으로 검색이 완료됐으면
+      if (status === daum.maps.services.Status.OK) {
+        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+        // 결과값으로 받은 위치를 마커로 표시합니다
+        var marker = new daum.maps.Marker({
+          map: map,
+          position: coords
+        });
+        // 인포윈도우로 장소에 대한 설명을 표시합니다
+        var infowindow = new daum.maps.InfoWindow({
+          content: '<div style="width:150px;text-align:center;padding:6px 0;">모임장소</div>'
+        });
+        infowindow.open(map, marker);
+        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+        map.setCenter(coords);
+       }
+     });
+   </script>
+ </div>
+ <div class="">
+   <p class="ss_title">후기</p>
+   <?php
+     $sql="SELECT * FROM `club_ripple` WHERE c_parent_num='$club_num'";
+     $ripple_result = mysqli_query($conn,$sql);
+     while($ripple_row= mysqli_fetch_array($ripple_result)){
+       $c_ripple_num= $ripple_row['c_ripple_num'];
+       $c_parent_num= $club_num;
+       $c_ripple_name= $ripple_row['c_ripple_name'];
+       $c_ripple_date= $ripple_row['c_ripple_date'];
+       $c_ripple_content= $ripple_row['c_ripple_content'];
+       $c_ripple_content= str_replace("\n", "<br>", $c_ripple_content);
+       $c_ripple_content= str_replace(" ", "&nbsp;", $c_ripple_content);
+   ?>
+     <div id="ripple_title">
+       <ul>
+         <li><?=$c_ripple_name."&nbsp;&nbsp;".$c_ripple_date?></li>
+         <li id="del_btn">
+           <button type="button" name="button" onclick="location.href='ing_query.php?mode=c_delete_ripple&no=<?=$no?>&name=<?=$c_ripple_name?>&c_ripple_num=<?=$c_ripple_num?>'">삭제</button>
+         </li>
+       </ul>
+     </div>
+     <div id="c_ripple_content">
+       <?=$c_ripple_content?>
+     </div>
+   <?php
+     }//end of while
+   ?>
+   <form name="ripple_form" action="ing_query.php?mode=c_insert_ripple&no=<?=$no?>" method="post">
+     <!-- <input type="hidden" name="parent" value="<?=$q_num?>"> -->
+     <div id="ripple_insert">
+       <div id="ripple_textarea"><textarea name="c_ripple_content" rows="3" cols="80"></textarea></div>
+       <div id="ripple_button"><button type="submit" name="button">후기 등록</button></div>
+     </div><!--end of ripple_insert  -->
+   </form>
+ </div>
     </section>
 
     <section class="bmt-section" id="sec4">
@@ -185,6 +265,7 @@ create_table($conn, 'club');
                 </li>
           <?php
               }
+              mysqli_close($conn);
           ?>
 
         </ul>

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
   function create_table($conn, $table_name){
 
     $flag="NO";
@@ -23,7 +23,7 @@
           `address` varchar(50) NOT NULL,
           `email` varchar(50) NOT NULL,
           `kakao_id` varchar(40),
-          `google_id` varchar(40),
+          `google_id` varchar(40)
           PRIMARY KEY (`num`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
           break;
@@ -56,7 +56,7 @@
           `club_start` date NOT NULL,
           `club_end` date NOT NULL,
           `club_apply` int(11) NOT NULL,
-          `club_schedule` varchar(300) NOT NULL,
+          `club_schedule` varchar(30) NOT NULL,
           `club_hit` int(11) NOT NULL,
           `club_open` varchar(10) NOT NULL,
           `club_image_name` varchar(50) DEFAULT NULL,
@@ -129,15 +129,15 @@
         case 'user_club':
           $sql = "CREATE TABLE `user_club` (
           `user_num` int(11) NOT NULL AUTO_INCREMENT,
-          `user_id` varchar(10) NOT NULL,
           `user_name` varchar(10) NOT NULL,
+          `user_id varchar(10) NOT NULL,
           `user_content` text NOT NULL,
           `user_category` varchar(10) NOT NULL,
           `user_to` int(11) NOT NULL,
           `user_rent_info` varchar(50) NOT NULL,
           `user_start` date NOT NULL,
           `user_end` date NOT NULL,
-          `user_schedule` varchar(300) NOT NULL,
+          `user_schedule` varchar(30) NOT NULL,
           `user_price` int(11) NOT NULL,
           `user_check` varchar(10) NOT NULL,
           `user_image_name` varchar(50) DEFAULT NULL,
@@ -148,6 +148,17 @@
           PRIMARY KEY (`user_num`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
           break;
+          case 'club_ripple':
+            $sql = "CREATE TABLE `club_ripple` (
+            `c_ripple_num` int(11) NOT NULL AUTO_INCREMENT,
+            `c_parent_num` int(11) NOT NULL,
+            `c_buy_id` varchar(10) NOT NULL,
+            `c_ripple_name` varchar(10) NOT NULL,
+            `c_ripple_content` text NOT NULL,
+            `c_ripple_date` date NOT NULL,
+            PRIMARY KEY (`c_ripple_num`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+            break;
         default :
           echo "<script>alert('해당된 테이블 이름이 없습니다.');</script>";
           break;
