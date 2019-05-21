@@ -1,6 +1,7 @@
-  /* table {
+  table {
     margin: 0 auto;
-  } */
+    width: 800px;
+  }
 
   #submit_btn {
     text-align: center;

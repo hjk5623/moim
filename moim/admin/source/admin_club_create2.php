@@ -32,14 +32,14 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
 
   //사진
   $club_image_name = $row['club_image_name'];
-  $club_image_copyied= $row['club_image_copyied'];
+  $club_image_copied= $row['club_image_copied'];
 
   //첨부파일
   $club_file_name= $row['club_file_name'];
-  $club_file_copyied= $row['club_file_copyied'];
+  $club_file_copied= $row['club_file_copied'];
   $club_file_type= $row['club_file_type'];
 
-  $image_info = getimagesize("../data/".$club_image_copyied);
+  $image_info = getimagesize("../data/".$club_image_copied);
   $image_width = $image_info[0];
   $image_height = $image_info[1];
   $image_type = $image_info[2];
@@ -150,7 +150,14 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   <div id="col2">
     <div id="write_form_title"></div>
     <div class="wrap">
-        <h2 id="h2"><big><strong>모임등록</strong></big></h2>
+      <?php
+      if($mode=="update"){
+      echo  "<h2 id='h2'><big><strong>모임수정</strong></big></h2>";
+      }else{
+       echo  "<h2 id='h2'><big><strong>모임등록</strong></big></h2>";
+
+      }
+       ?>
       <form name="tx_editor_form" id="tx_editor_form" action="./admin_query.php?mode=<?=$mode?>" method="post" enctype="multipart/form-data" accept-charset="utf-8">
         <div id="write_form">
           <!--모임이름, 모집정원, 모집시작일 ,모집종료일, 가격  -->
@@ -198,20 +205,20 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
             <tr>
               <td>수업일정</td>
               <td colspan="2">
-                <input type="text" id="club_schedule_cal" name="club_schedule" size="45"  value="<?=$club_schedule?>">
+                <input type="text" id="club_schedule_cal" name="club_schedule" size="60 "  value="<?=$club_schedule?>">
               </td>
             </tr>
             <tr>
-              <td>사진 [gif,jpeg,png파일만 등록]</td>
+              <td>사진 (gif,jpeg,png파일)</td>
               <td colspan="2">
               <?php
                 if($mode=="update"){
               ?>
-                <img src="../data/<?=$club_image_copyied?>" width="<?=$image_width?>">
-                <input type="checkbox" name="del_file" value="1" id="del_file">삭제
-                <input type="file" name="upimage" value="">
+                <img src="../data/<?=$club_image_copied?>" width="<?=$image_width?>"><br>
 
-
+                <input type="checkbox" name="del_img" value="1" id="del_img">삭제
+                <input type="file" name="upimage" value=""  accept="image/gif,image/jpeg,image/png"
+                        onclick="document.getElementById('del_img').checked=true; document.getElementById('del_img').disabled=true"><br>
 
               <?php
                 }else{
@@ -223,8 +230,24 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
               </td>
             </tr>
             <tr>
-              <td>모임일정 [첨부파일]</td>
-              <td colspan="2"><input type="file" name="upfile" value=""></td>
+              <td>모임세부사항 [첨부파일]</td>
+              <td colspan="2">
+                <?php
+                if($mode=="update"  && !empty($club_file_name)){
+                  echo "$club_file_name 파일이 등록되어 있습니다.";
+                  
+                  echo '<input type="checkbox" name="del_file" value="1" id="del_file">삭제';
+                  ?>
+                  <input type="file" name="upfile" value=""
+                          onclick="document.getElementById('del_file').checked=true; document.getElementById('del_file').disabled=true">
+
+              <?php
+                }else{
+                  echo "<input type='file' name='upfile' value=''>";
+                }
+              ?>
+
+              </td>
             </tr>
             <tr>
               <td colspan="3">내용</td>

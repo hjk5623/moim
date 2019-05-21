@@ -31,14 +31,14 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
 
   //사진
   $club_image_name = $row['club_image_name'];
-  $club_image_copyied= $row['club_image_copyied'];
+  $club_image_copied= $row['club_image_copied'];
 
   //첨부파일
   $club_file_name= $row['club_file_name'];
-  $club_file_copyied= $row['club_file_copyied'];
+  $club_file_copied= $row['club_file_copied'];
   $club_file_type= $row['club_file_type'];
 
-  $image_info = getimagesize("../data/".$club_image_copyied);
+  $image_info = getimagesize("../data/".$club_image_copied);
   $image_width = $image_info[0];
   $image_height = $image_info[1];
   $image_type = $image_info[2];
@@ -101,7 +101,7 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
           </tr>
           <tr>
             <td id="write_td">모임장소</td>
-            <td><input id="address1" type="text" name="club_rent_info1" value="<?=$club_rent_info?>" onclick="execDaumPostcode()" size="45" placeholder="주소"></td>
+            <td><input id="address1" type="text" name="club_rent_info1" value="<?=$club_rent_info?>" size="45" placeholder="주소"></td>
           </tr>
           <tr>
             <td id="write_td">모집정원</td>
@@ -121,20 +121,28 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
           </tr>
           <tr>
             <td>수업일정</td>
-            <td colspan="2"><input type="text" name="club_schedule" value="<?=$club_schedule?>"></td>
+            <td colspan="2"><input type="text" name="club_schedule" size="45" value="<?=$club_schedule?>"></td>
           </tr>
           <tr>
             <td>모임대표이미지</td>
             <td colspan="2">
              <?php
-              echo "<img src='../data/$club_image_copyied' width='$image_width'>";
+              echo "<img src='../data/$club_image_copied' width='$image_width'>";
               ?>
             </td>
           </tr>
-          <!-- <tr> -->
-            <!-- <td>모임일정 [첨부파일]</td> -->
-            <!-- <td colspan="2"><input type="file" name="upfile" value=""></td> -->
-          <!-- </tr> -->
+          <tr>
+
+            <td align="center" >첨부파일</td>
+            <?php
+             $file_path = "../data/".$club_file_copied;
+             $file_size = filesize($file_path);
+             ?>
+             <td>
+              <img src="../img/attach_file.png" alt="" width="18px" height="15px;"> 첨부파일 : <?=$club_file_name?> (<?=$file_size?> Byte)&nbsp;&nbsp;&nbsp;
+              <a href='download.php?mode=download_c&club_num=<?=$club_num?>'>[저장]</a>
+            </td>
+          </tr>
           <tr>
             <td colspan="3" style="text-align:center">내용</td>
           </tr>

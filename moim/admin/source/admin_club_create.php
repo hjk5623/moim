@@ -164,8 +164,20 @@ session_start();
             <td colspan="2"><input type="file" name="upimage" value="" accept="image/gif,image/jpeg,image/png"></td>
           </tr>
           <tr>
-            <td>모임일정 [첨부파일]</td>
-            <td colspan="2"><input type="file" name="upfile" value=""></td>
+            <td>모임세부사항 [첨부파일]</td>
+            <td colspan="2">
+              <?php
+              if($mode=="update"  && !empty($file_name_0)){
+                echo "$file_name_0 파일이 등록되어 있습니다.";
+                echo '<input type="checkbox" name="del_file" value="1" id="del_file">삭제';
+                echo '<div class="clear"></div>';
+              }else{
+                echo "<input type='file' name='upfile' value=''>";
+
+              }
+            ?>
+
+            </td>
           </tr>
           <tr>
             <td colspan="3" style="text-align:left">내용</td>

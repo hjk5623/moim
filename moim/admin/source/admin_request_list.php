@@ -7,40 +7,30 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../css/request_list.css">
 <?php
-
   $sql="SELECT * from user_club where user_check='no' order by user_num desc;";
-
   $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
   $total_record = mysqli_num_rows($result); //전체 레코드 수
 
 // 페이지 당 글수, 블럭당 페이지 수
 $rows_scale=3;
 $pages_scale=5;
-
 // 전체 페이지 수 ($total_page) 계산
 $total_pages= ceil($total_record/$rows_scale);
-
 if(empty($_GET['page'])){
     $page=1;
 }else{
     $page = $_GET['page'];
 }
-
 // 현재 페이지 시작 위치 = (페이지 당 글 수 * (현재페이지 -1))  [[ EX) 현재 페이지 2일 때 => 3*(2-1) = 3 ]]
 $start_row= $rows_scale * ($page -1) ;
-
 // 이전 페이지 = 현재 페이지가 1일 경우. null값.
 $pre_page= $page>1 ? $page-1 : NULL;
-
 // 다음 페이지 = 현재페이지가 전체페이지 수와 같을 때  null값.
 $next_page= $page < $total_pages ? $page+1 : NULL;
-
 // 현재 블럭의 시작 페이지 = (ceil(현재페이지/블럭당 페이지 제한 수)-1) * 블럭당 페이지 제한 수 +1  [[  EX) 현재 페이지 5일 때 => ceil(5/3)-1 * 3  +1 =  (2-1)*3 +1 = 4 ]]
 $start_page= (ceil($page / $pages_scale ) -1 ) * $pages_scale +1 ;
-
 // 현재 블럭 마지막 페이지
 $end_page= ($total_pages >= ($start_page + $pages_scale)) ? $start_page + $pages_scale-1 : $total_pages;
-
 $number=$total_record- $start_row;
 
 ?>
@@ -51,7 +41,7 @@ $number=$total_record- $start_row;
   include $_SERVER['DOCUMENT_ROOT']."/moim/admin/source/admin.php";
   ?>
   <article class="main">
-    <h2 id="h2"><big><strong>모임등록</strong></big></h2>
+    <h2 id="h2"><big><strong>신청모임관리</strong></big></h2>
          <table id="memberlist" border="1">
          <tr>
            <td>NO</td>

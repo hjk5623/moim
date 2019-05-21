@@ -117,6 +117,21 @@ $row = mysqli_fetch_array($result_total);
 $total_sales = $row['0'];
 if(!$total_sales){ $total_sales =0;}
 }
+
+
+
+//
+// $sql_category="SELECT count('모임의 수') from `club` where `club_category` likw '$category%';";
+// $result_category = mysqli_query($conn,$sql_category) or die("실패원인1: ".mysqli_error($conn));
+// $row = mysqli_fetch_array($result_category);
+// $result_category = $row['0'];
+// if(!$result_category){ $result_category =0;}
+
+
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="ko" dir="ltr">
@@ -129,35 +144,6 @@ if(!$total_sales){ $total_sales =0;}
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <link rel="stylesheet" type="text/css" href="../css/admin_sales.css">
-<!-- <style media="screen">
-  #hr{
-    padding-top:40px;
-    margin-top:20px;
-  }
-  #table_div{
-     display: inline-block;
-     vertical-align: middle;
-  }
-  #linechart{
-    width:800px;
-    float:right;
-    margin-right:100px;
-  }
-  #salestable{
-    text-align:center;
-    margin-left:80px;
-    height:500px;
-    width:500px;
-  }
- #btnExport{
-   float:right;
- }
- #excel_table{
-
- }
-</style> -->
-
-
 <script type="text/javascript">
 
 google.charts.load('current', {'packages':['line']});	/*LINE차트를 사용하기 위한 준비  */
@@ -251,7 +237,7 @@ $sep_price = number_format($sep_price);
 $oct_price = number_format($oct_price);
 $nov_price = number_format($nov_price);
 $dec_price  = number_format($dec_price);
-$total_sales =number_format($total_sales);
+$total_sales = number_format($total_sales);
 
 ?>
 <div class="" style="border:1px solid black;">
@@ -324,6 +310,16 @@ $total_sales =number_format($total_sales);
   <!--라인차트가 그려지는 부분  -->
 </div>
 </div>
+
+
+<div class="" style="border:1px solid black;">
+  <div id="piechart">
+
+  </div>
+
+</div>
+
+
 <?php
 //---------------------------------------------------------------------------------------------------
 //엑셀파일로 내역확인하기
@@ -372,11 +368,8 @@ $i++;
       <td colspan="3"><?=number_format($total2) ?>원</td>
    </tr>
 </table>
-<?php
-//---------------------------------------------------------------------------------------------------
-?>
 </div>
-</div><!-- end of ticketbox-->
+</div>
 <br><br>
 <footer>
 
