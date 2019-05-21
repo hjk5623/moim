@@ -11,7 +11,7 @@ $userid=$_SESSION['userid'];
 <meta charset="UTF-8">
 <?php
 
-  $sql="SELECT * FROM club inner join buy on club.club_num = buy.buy_club_num and buy.buy_id='$userid' and club.club_open='no' and buy.buy_refund ='no' order by club_num desc;";
+  $sql="SELECT * FROM club inner join buy on club.club_num = buy.buy_club_num and buy.buy_id='$userid' and club.club_open='no' and buy.buy_refund='yes' order by club_num desc;";
 
   $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
   $total_record = mysqli_num_rows($result); //전체 레코드 수
@@ -82,7 +82,6 @@ $number=$total_record- $start_row;
         $club_rent_info=$row["club_rent_info"];
         $club_schedule=$row["club_schedule"];
         $club_end=$row["club_end"];
-        $buy_cancle=$row["buy_cancle"];
 
         ?>
         <tr>
@@ -95,19 +94,6 @@ $number=$total_record- $start_row;
           <td><?=$club_rent_info?></td>
           <td><?=$club_schedule?></td>
           <td><?=$club_end?></td>
-          <td>
-            <?php
-              if($buy_cancle=="no"){
-            ?>
-            <button type="button" name="button" class="apply_cancle" value="<?=$buy_num?>">취소</button>
-            <?php
-              }else{
-             ?>
-              <span>환불진행중</span>
-            <?php
-              }
-              ?>
-          </td>
         </tr>
         <?php
         $number--;

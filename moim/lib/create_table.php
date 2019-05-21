@@ -32,6 +32,9 @@
           `buy_num` int(11) NOT NULL AUTO_INCREMENT,
           `buy_id` varchar(10) NOT NULL,
           `buy_club_num` int(11) NOT NULL,
+          `buy_cancle` varchar(10) NOT NULL,
+          `buy_refund` varchar(10) NOT NULL,
+          `buy_process_date` date NOT NULL,
           PRIMARY KEY (`buy_num`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
           break;

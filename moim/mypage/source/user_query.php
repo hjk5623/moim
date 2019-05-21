@@ -37,28 +37,20 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "insert"){
 }else if(isset($_GET["mode"]) && $_GET["mode"] == "apply_cancle"){
     $buy_num = $_POST["buy_num"];
 
-    $sql= "SELECT `buy_club_num` from buy where `buy_num`=$buy_num;";
+    $sql= "SELECT `buy_num` from buy where `buy_num`=$buy_num;";
     $result = mysqli_query($conn,$sql);
 
     if (!$result) {
       die('Error: ' . mysqli_error($conn));
     }
     $row = mysqli_fetch_array($result);
-    $buy_club_num = $row["buy_club_num"];
+    $buy_num = $row["buy_num"];
 
-    $sql= "UPDATE club set `club_apply`= `club_apply`-1 where `club_num`=$buy_club_num;";
+    $sql= "UPDATE buy set `buy_cancle`= 'yes' where `buy_num`=$buy_num;";
     $result = mysqli_query($conn,$sql);
 
     if (!$result) {
       die('Error: ' . mysqli_error($conn));
     }
-
-    $sql= "DELETE FROM buy where `buy_num`=$buy_num";
-    $result = mysqli_query($conn,$sql);
-
-    if (!$result) {
-      die('Error: ' . mysqli_error($conn));
-    }
-
 
 }
