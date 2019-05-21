@@ -1,8 +1,7 @@
 <?php
+session_start();
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
-include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
 
-create_table($conn,'membership');
 //id_check
 if(isset($_GET["mode"]) && $_GET["mode"] == "id_check"){
   if(empty($_POST["id"])){
@@ -139,9 +138,13 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "id_check"){
     }
     if(!empty($_POST["kakao_id"])){
       $kakao_id = $_POST["kakao_id"];
+    }else{
+      $kakao_id="";
     }
     if(!empty($_POST["google_id"])){
       $google_id = $_POST["google_id"];
+    }else{
+      $google_id="";
     }
 
     $q_email2 = mysqli_real_escape_string($conn, $email2);
@@ -151,16 +154,12 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "id_check"){
     $sql="insert into membership(id, name, passwd, phone, address, email, kakao_id, google_id) ";
     $sql.="values('$q_id','$q_name','$q_passwd','$phone','$q_address','$q_email', '$kakao_id', '$google_id');";
 
-
-
-    $sql="insert into membership(id, name, passwd, phone, address, email, kakao_id) ";
-    $sql.="values('$q_id','$q_name','$q_passwd','$phone','$q_address','$q_email', '$kakao_id');";
     $result = mysqli_query($conn,$sql);
     if (!$result) {
       die('Error: ' . mysqli_error($conn));
     }
 
-    if(isset($_POST["kakao_id"])!=""){
+    if($kakao_id!=""){
       $sql="SELECT id,name FROM `membership` where kakao_id='$kakao_id'";
       $result = mysqli_query($conn,$sql);
       $row = mysqli_fetch_array($result);
@@ -171,7 +170,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "id_check"){
       $_SESSION['userid']=$row['id'];
       $_SESSION['username']=$row['name'];
       echo "<script> location.href = '../../mainpage.php'; </script>";
-    }else if(isset($_POST["google_id"])!=""){
+    }else if($google_id!=""){
       $sql="SELECT id,name FROM `membership` where google_id='$google_id'";
       $result = mysqli_query($conn,$sql);
       $row = mysqli_fetch_array($result);

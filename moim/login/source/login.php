@@ -82,7 +82,7 @@
     <div class="login-box">
       <div class="login-form">
         <h1>LOG IN</h1>
-        <form name="login_form" action="../../member/source/member_form.php" method="post">
+        <form name="login_form" action="../../member/source/flagcheck.php" method="post">
           <input type="hidden" name="kakao_id" id="kakao_id" value="">
           <input type="hidden" name="google_id" id="google_id" value="">
           <input class="txtb" type="text" name="id" id="id" placeholder="UserID">
@@ -96,7 +96,7 @@
         <ul class="login-ul">
           <li><a href="./id_pw_find_form.php?mode=find_id">아이디찾기</a></li>
           <li><a href="./id_pw_find_form.php?mode=find_passwd">비밀번호찾기</a></li>
-          <li><a href="../../member/source/member_form.php">회원가입</a></li>
+          <li><a href="../../member/source/flagcheck.php">회원가입</a></li>
           <!--수정-->
         </ul>
       </div>

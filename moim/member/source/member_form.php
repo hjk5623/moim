@@ -1,4 +1,9 @@
-<?php session_start(); ?>
+<?php
+session_start();
+include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
+include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
+create_table($conn,'membership');
+?>
 <!DOCTYPE html>
 <html lang="ko" dir="ltr">
   <head>
@@ -22,7 +27,6 @@
      ?>
      <div class="inputdiv">
        <form name="member_form" action="member_query.php?mode=insert" method="post" class="signup_form">
-         <!-- <input type="hidden" id="flag_checkbox" value="false"> -->
          <input type="hidden" id="flag_id" value="false">
          <input type="hidden" id="flag_name" value="false">
          <input type="hidden" id="flag_passwd" value="false">
@@ -33,6 +37,7 @@
          <input type="hidden" id="flag_address" value="false">
          <input type="hidden" id="flag_email" value="false">
          <input type="hidden" name="kakao_id" value="<?=$kakao_id?>">
+         <input type="hidden" name="google_id" value="<?=$google_id?>">
          <h1>SIGN UP</h1>
 
          <div class="inputbox">

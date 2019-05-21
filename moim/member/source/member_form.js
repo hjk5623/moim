@@ -263,38 +263,71 @@ $(document).ready(function() {
 
   //가입하기버튼
   $("#button2").click(function(event) {
-    // if(document.getElementById("flag_checkbox").value!="true"){
-    //   alert("이용약관을 동의하세요");
-    //   return;
-    // }else if(document.getElementById("flag_id").value!="true"){
-    //   alert("아이디를 확인해주세요");
-    //   return;
-    // }else if(document.getElementById("flag_name").value!="true"){
-    //   alert("이름을 확인해주세요");
-    //   return;
-    // }else if(document.getElementById("flag_passwd").value!="true"){
-    //   alert("비밀번호를 확인해주세요");
-    //   return;
-    // }else if(document.getElementById("flag_passwd_check").value!="true"){
-    //   alert("비밀번호를 확인해주세요");
-    //   return;
-    // }else if(document.getElementById("flag_phone2").value!="true"){
-    //   alert("전화번호를 확인해주세요");
-    //   return;
-    // }else if(document.getElementById("flag_phone3").value!="true"){
-    //   alert("전화번호를 확인해주세요");
-    //   return;
-    // }else if(document.getElementById("flag_address").value!="true"){
-    //   alert("주소를 확인해주세요");
-    //   return;
-    // }else if(document.getElementById("flag_email").value!="true"){
-    //   alert("이메일 인증을 해주세요");
-    //   return;
-    // }
+    if(document.getElementById("flag_id").value!="true"){
+      alert("아이디를 확인해주세요");
+      return;
+    }else if(document.getElementById("flag_name").value!="true"){
+      alert("이름을 확인해주세요");
+      return;
+    }else if(document.getElementById("flag_passwd").value!="true"){
+      alert("비밀번호를 확인해주세요");
+      return;
+    }else if(document.getElementById("flag_passwd_check").value!="true"){
+      alert("비밀번호를 확인해주세요");
+      return;
+    }else if(document.getElementById("flag_phone2").value!="true"){
+      alert("전화번호를 확인해주세요");
+      return;
+    }else if(document.getElementById("flag_phone3").value!="true"){
+      alert("전화번호를 확인해주세요");
+      return;
+    }else if(document.getElementById("flag_address").value!="true"){
+      alert("주소를 확인해주세요");
+      return;
+    }else if(document.getElementById("flag_email").value!="true"){
+      alert("이메일 인증을 해주세요");
+      return;
+    }
     document.getElementById("email2").disabled=false;
     document.member_form.submit();
   });
 
+  $("#check1").click(function(event) {
+    var check1 = document.getElementById("check1");
+    var span1 = document.getElementById("span1");
+    document.getElementById("flag_checkbox1").value="false";
+    if (check1.checked==true){
+      $("#span1").css('color', 'white');
+      $("#span1").html("위 사항에 준수합니다.");
+      document.getElementById("flag_checkbox1").value="true";
+    }else{
+      $("#span1").css('color', 'red');
+      $("#span1").html("위 사항에 준수합니다.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;약관에 동의하세요");
+    }
+  });
+  $("#check2").click(function(event) {
+    var check2 = document.getElementById("check2");
+    var span2 = document.getElementById("span2");
+    document.getElementById("flag_checkbox2").value="false";
+    if (check2.checked==true){
+      $("#span2").css('color', 'white');
+      $("#span2").html("위 사항에 준수합니다.");
+      document.getElementById("flag_checkbox2").value="true";
+    }else{
+      $("#span2").css('color', 'red');
+      $("#span2").html("위 사항에 준수합니다.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;약관에 동의하세요");
+    }
+  });
+  $("#check3").click(function(event) {
+    var flag_checkbox1 = document.getElementById("flag_checkbox1");
+    var flag_checkbox2 = document.getElementById("flag_checkbox2");
+    if(flag_checkbox1.value=="false" || flag_checkbox2.value=="false"){
+      alert("모든약관에 동의주세요");
+      document.getElementById("check3").checked=false;
+    }else{
+      document.flagcheck_form.submit();
+    }
+  });
 });//ready
 
 //이메일 시간계산
@@ -359,21 +392,4 @@ function execDaumPostcode() {/* 폼은 다음 주소찾기 빌리면서 입력�
             document.getElementById('address3').focus();
         }
     }).open();
-}
-
-//이용약관 체크박스
-function checkbox(){
-  // document.getElementById("flag_checkbox").value="false";
-  // var label1 = document.getElementById("label1");
-  // var span1 = document.getElementById("span1");
-  // if(label1.checked==true){
-  //   span1.style.color="black";
-  //   span1.innerHTML="이용약관에 동의합니다.";
-  //   document.getElementById("flag_checkbox").value="true";
-  // }else{
-  //   span1.style.color="red";
-  //   span1.innerHTML="이용약관에 동의합니다.<br>동의가 필요합니다.";
-  // }
-  window.document.location.href='./member_form.php';
-  return;
 }

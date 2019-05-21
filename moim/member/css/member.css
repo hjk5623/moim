@@ -183,3 +183,7 @@ input[type=number]::-webkit-outer-spin-button {
 .signup_form span{
   font-size: 15px;
 }
+
+option{
+  color: black;
+}
