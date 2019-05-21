@@ -4,11 +4,11 @@ include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php"; //club_DB 생성
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
 
 create_table($conn, 'buy');
-
+$mode="";
 if(isset($_GET['id'])){
   $userid=$_GET['id'];
 }else{
-  $suerid="";
+  $userid="";
 }
 if(isset($_GET['club_num'])){
   $club_num=$_GET['club_num'];
@@ -45,7 +45,7 @@ if(isset($_GET['club_price'])){
  	    merchant_uid : 'merchant_' + new Date().getTime(),
  	    name : '<?=$club_name?>', //order 테이블에 들어갈 주문명 혹은 주문 번호
  	    amount : '<?=$club_price?>', //주문 금액
- 	    buyer_name : '<?=$userid?>', //구매자 이름
+ 	    buyer_name : '신청번호 :<?=$club_num?>_<?=$userid?>', //구매자 이름
  	    kakaoOpenApp : true
  	}, function(rsp) {
      //callback함수
@@ -69,11 +69,8 @@ if(isset($_GET['club_price'])){
  	    			msg += '카드 승인번호 : ' + rsp.apply_num;
 
  	    			alert(msg);
-            <?php
-            $sql="INSERT INTO `buy` VALUES (null,'$userid',$club_num);";
-            $result = mysqli_query($conn,$sql);
-            ?>
-            location.href="./list.php";
+
+            location.href="./query.php?mode=<?=$mode="pay"?>&id=<?=$userid?>&club_num=<?=$club_num?>";
 
  	    		} else {
  	    			//[3] 아직 제대로 결제가 되지 않았습니다.
@@ -82,7 +79,7 @@ if(isset($_GET['club_price'])){
 
  	    	});
          alert('구매되었습니다.'); //결제 성공시 알림창 띄워준다
-         location.href="./list.php";
+         location.href="./query.php?mode=<?=$mode="pay"?>&id=<?=$userid?>&club_num=<?=$club_num?>";
 
  	    }else{
          var msg = '결제에 실패하였습니다.';

@@ -1,6 +1,9 @@
 <?php
 session_start();
+include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php"; //club_DB 생성
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
+
+$mode="";
 
 if(isset($_GET['club_num'])){
   $club_num=$_GET['club_num'];
@@ -26,6 +29,7 @@ $row = mysqli_fetch_array($result);
 $club_name = $row['club_name'];
 $club_price = $row['club_price'];
 $club_content =$row['club_content'];
+$club_content=htmlspecialchars_decode($club_content);
 $club_rent_info =$row['club_rent_info'];
 $club_to =$row['club_to'];
 $club_apply =$row['club_apply'];
@@ -33,20 +37,30 @@ $club_start =$row['club_start'];
 $club_end =$row['club_end'];
 $club_schedule =$row['club_schedule'];
 $hit= $row['club_hit']+1;
-$club_image_name_0=$row['club_image_name'];
 $club_image_copied=$row['club_image_copied'];
+$club_file_name=$row['club_file_name'];
+$club_file_copied=$row['club_file_copied'];
 
 //클릭한 상품의 조회수 업데이트
 $sql= "update club set club_hit=$hit where club_num=$club_num";
 mysqli_query($conn, $sql) or die(mysqli_error($conn));
 
 //중복 결제를 막기위한 구매테이블과 클럽테이블의 이너조인
-$sql= "select * from buy Inner join club on buy.buy_no = club.club_num where club_name='$club_name' and buy_id = '$userid'";
+$sql= "select * from buy Inner join club on buy.buy_club_num = club.club_num where club_name='$club_name' and buy_id = '$userid'";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_array($result);
 
-$buy_no = $row['buy_no'];
+$buy_club_num = $row['buy_club_num'];
 $buy_id = $row['buy_id'];
+
+//카트에 중복담기 x
+$sql= "select * from cart Inner join club on cart.cart_club_num = club.club_num where club_name='$club_name' and cart_id = '$userid'";
+$result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_array($result);
+
+$cart_club_num=$row['cart_club_num'];
+$cart_id=$row['cart_id'];
+
  ?>
  <!DOCTYPE html>
  <html lang="ko" dir="ltr">
@@ -57,26 +71,38 @@ $buy_id = $row['buy_id'];
      <script type="text/javascript">
        function buy_page(){
          var id = document.getElementById('userid').value;
-         var buy_id = document.getElementById('buy_id').value;
-         var buy_no = document.getElementById('buy_no').value;
          var club_num = document.getElementById('club_num').value;
+         var buy_id = document.getElementById('buy_id').value;
+         var buy_club_num = document.getElementById('buy_club_num').value;
+
 
          if (id=="") {
            alert("로그인이 필요합니다.");
-         }else if((buy_no==club_num)&&(id==buy_id)){
+         }else if((buy_club_num==club_num)&&(id==buy_id)){
            alert("결제된 모임입니다. 다시 확인하여 주십시오.");
          }else{
          location.href="./payment.php?club_num=<?=$club_num?>&club_name=<?=$club_name?>&club_price=<?=$club_price?>&id=<?=$userid?>";
         }
        }
        function cart_page(){
-         alert("찜 등록되었습니다.");
-         location.href="../../mypage/source/user_cart.php?club_image=<?=$image?>&club_name=<?=$club_name?>&club_to=<?=$club_to?>&club_apply=<?=$club_apply?>&club_price=<?=$club_price?>&id=<?=$userid?>";
+         var id = document.getElementById('userid').value;
+         var club_num = document.getElementById('club_num').value;
+         var cart_club_num = document.getElementById('cart_club_num').value;
+         var cart_id = document.getElementById('cart_id').value;
+         <?php
+         create_table($conn,'cart');
+          ?>
+         if ((cart_id==id)&&(cart_club_num==club_num)) {
+           alert("이미 등록하셨습니다.");
+         }else{
+           alert("찜 등록되었습니다.");
+           location.href="./query.php?mode=<?=$mode="cart"?>&id=<?=$userid?>&club_num=<?=$club_num?>";
+         }
        }
        function del_check(){
          var result=confirm("삭제하시겠습니까?");
          if(result){
-           window.location.href='./query.php?mode=delete&club_num=<?=$club_num?>';
+           window.location.href='./query.php?mode=<?=$mode="delete"?>&club_num=<?=$club_num?>';
          }
        }
      </script>
@@ -98,17 +124,35 @@ $buy_id = $row['buy_id'];
      </nav>
      <section class="sec1"></section>
      <section>
-       <img src="../../img/<?=$club_image_copied?>" width="350px" height="400px">
+       <img src="../../admin/data/<?=$club_image_copied?>" width="350px" height="400px">
        <div class=""><b>모임명:<?=$club_name?></b></div>
        <div class=""><b>가격:<?=$club_price?></b></div>
        <div class=""><b>신청인원:<?=$club_apply?>/<?=$club_to?></b></div>
        <input type="hidden" id="userid" value="<?=$userid?>">
        <input type="hidden" id="buy_id" value="<?=$buy_id?>">
-       <input type="hidden" id="buy_no" value="<?=$buy_no?>">
+       <input type="hidden" id="buy_club_num" value="<?=$buy_club_num?>">
        <input type="hidden" id="club_num" value="<?=$club_num?>">
-       <div class=""><button type="button" name="button" onclick="buy_page()">구매하기</button><button type="button"  name="button" onclick="cart_page()">카트담기</button></div>
+       <input type="hidden" id="cart_club_num" value="<?=$cart_club_num?>">
+       <input type="hidden" id="cart_id" value="<?=$cart_id?>">
+       <div class=""><button type="button" name="button1" onclick="buy_page()">구매하기</button><button type="button"  name="button2" onclick="cart_page()">카트담기</button></div>
        <div class=""><b>내용:<?=$club_content?></b></div>
        <div class=""><b>대관정보:<?=$club_rent_info?></b></div>
+       <div class=""><b>세부사항:
+         <?php
+         //1. 해당된 가입자이고, 파일이 있으면 파일명,사이즈,실제위치 정보확인
+           if(!empty($_SESSION['userid'])&&!empty($club_file_copied)){
+             $mode="download";
+             $file_path= "../../admin/data/$club_file_copied";
+             $file_size= filesize($file_path);
+
+         //2. 업로드된 이름을 보여주고 [저장] 할것인지 선택
+             echo ("
+              $club_file_name ($file_size Byte)
+             <a href='query.php?mode=$mode&club_num=$club_num'>저장</a>
+             ");
+           }
+          ?>
+       </b></div>
        <?php
        $club_rent_info=explode("/",$club_rent_info);
        $address=$club_rent_info[0];
@@ -167,9 +211,9 @@ $buy_id = $row['buy_id'];
    <a href="./list.php">목록 |</a>
    <?php
     if ($_SESSION['userid']=="admin") {
-      echo ('<a href="#">수정 |</a>&nbsp;');
+      echo ('<a href="../../admin/source/admin_club_create2.php?mode=update&club_num='.$club_num.'">수정 |</a>&nbsp;');
       echo ('<span onclick="del_check()">삭제 |</span>&nbsp;');
-      echo ('<a href="#">모임 만들기</a>');
+      echo ('<a href="../../admin/source/admin_club_create2.php">모임 만들기</a>');
     }
 
     ?>
