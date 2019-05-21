@@ -130,7 +130,7 @@
           $sql = "CREATE TABLE `user_club` (
           `user_num` int(11) NOT NULL AUTO_INCREMENT,
           `user_name` varchar(10) NOT NULL,
-          `user_id varchar(10) NOT NULL,
+          `user_id` varchar(10) NOT NULL,
           `user_content` text NOT NULL,
           `user_category` varchar(10) NOT NULL,
           `user_to` int(11) NOT NULL,
