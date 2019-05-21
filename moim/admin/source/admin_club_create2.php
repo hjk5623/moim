@@ -160,6 +160,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
        ?>
       <form name="tx_editor_form" id="tx_editor_form" action="./admin_query.php?mode=<?=$mode?>" method="post" enctype="multipart/form-data" accept-charset="utf-8">
         <div id="write_form">
+          <input type="hidden" name="club_num" value="<?=$club_num?>">
           <!--모임이름, 모집정원, 모집시작일 ,모집종료일, 가격  -->
           <table border="1">
             <tr>
@@ -177,7 +178,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
                   <option value="미술">미술</option>
                   <option value="사진">사진</option>
                   <option value="디자인">디자인</option>
-                  <option value="취미생활/기타">기타</option>
+                  <option value="취미생활/기타">취미생활/기타</option>
                 </select>
               </td>
             </tr>
@@ -235,7 +236,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
                 <?php
                 if($mode=="update"  && !empty($club_file_name)){
                   echo "$club_file_name 파일이 등록되어 있습니다.";
-                  
+
                   echo '<input type="checkbox" name="del_file" value="1" id="del_file">삭제';
                   ?>
                   <input type="file" name="upfile" value=""
@@ -257,7 +258,6 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
                 <textarea name="content" id="content" rows="10" cols="80">
                   <?php echo "$club_content" ?>
                 </textarea>
-
                 <script type="text/javascript">
                   CKEDITOR.replace('content');
                 </script>

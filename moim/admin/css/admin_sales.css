@@ -23,3 +23,10 @@
 #excel_table{
 
 }
+
+#piechart{
+ width: 900px;
+ height: 600px;
+ margin-top:20px;
+ margin-left:80px;
+}

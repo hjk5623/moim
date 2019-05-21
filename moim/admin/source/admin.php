@@ -18,16 +18,21 @@
           <li><a href="../../mainpage.php">HOME</a></li>
           <li><a href="#">LOG OUT</a></li>
           <li><a href="admin_member.php">회원관리</a></li>
-          <li><a href="admin_sales.php">매출내역</a></li>
+          <li><a href="admin_sales.php">통계</a>
+            <!-- <ul>
+              <li><a href="admin_sales.php">매출내역</a></li>
+              <li><a href="admin_category_chart.php">카테고리별 모임순위</a></li>
+            </ul> -->
+          </li>
           <li><a href="admin_club_create2.php">모임등록</a>
             <ul>
               <li><a href="admin_club_list.php">모임목록</a></li>
-                <li><a href="admin_club_create2.php">모임등록양식</a></li>
-                </ul>
-              </li>
-              <li><a href="admin_club_accept.php">모임개설여부</a></li>
-              <li><a href="admin_request_list.php">신청모임관리</a></li>
+              <li><a href="admin_club_create2.php">모임등록양식</a></li>
             </ul>
+          </li>
+              <li><a href="admin_club_accept.php">모임개설승인</a></li>
+              <li><a href="admin_request_list.php">신청모임관리</a></li>
+              <li><a href="admin_refund.php">환불관리</a></li>
 
       </div>
     </nav>

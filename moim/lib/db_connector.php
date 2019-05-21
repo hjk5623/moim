@@ -5,6 +5,11 @@ $username = "root";
 $password = "123456";
 $dbflag="NO";
 
+// $servername = "192.168.0.190";
+// $username = "moim_team";
+// $password = "12!@ahdla";
+// $dbflag="NO";
+
 //1. Create connection (mysql -u root -p 123456 -h 192.168.0.190)
 $conn = mysqli_connect($servername, $username, $password);
 if (!$conn) {    die("Connection failed: " . mysqli_connect_error()); }

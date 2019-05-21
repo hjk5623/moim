@@ -120,15 +120,34 @@ if(!$total_sales){ $total_sales =0;}
 
 
 
-//
-// $sql_category="SELECT count('모임의 수') from `club` where `club_category` likw '$category%';";
-// $result_category = mysqli_query($conn,$sql_category) or die("실패원인1: ".mysqli_error($conn));
-// $row = mysqli_fetch_array($result_category);
-// $result_category = $row['0'];
-// if(!$result_category){ $result_category =0;}
 
 
+//카테고리의 개수 출력
+$sql_c="SELECT distinct `club_category` from club;";
+$result_c = mysqli_query($conn,$sql_c);
+$count_c = mysqli_num_rows($result_c);  // 중복제거 카테고리의 개수 출력
+if (!$result_c) {
+  alert_back('Error: ' . mysqli_error($conn));
+}
 
+//for 문
+for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
+  $row_c=mysqli_fetch_array($result_c); //각 카테고리의 이름 뽑아오기.
+
+  $category[$i]=$row_c[0];
+  // var_export($category[$i]);
+
+  $sql_cc="SELECT count('모임의 수') from `club` where `club_category` like '$category[$i]';";
+  $result_cc = mysqli_query($conn,$sql_cc);
+  if (!$result_cc) {
+    alert_back('Error: ' . mysqli_error($conn));
+  }
+  $row_cc=mysqli_fetch_array($result_cc);
+  // var_export($row1[0]);
+  $cat[$i] =$row_cc[0];
+  var_export($row_cc[0]);
+  // $count2 = mysqli_num_rows();
+}
 
 
 
@@ -199,6 +218,35 @@ $(document).ready(function() {
     });
 
  });
+
+
+
+ google.charts.load('current', {'packages':['corechart']});
+ google.charts.setOnLoadCallback(drawChart1);
+ function drawChart1() {
+     var data = google.visualization.arrayToDataTable([
+       ['Task', 'Hours per Day'],
+       <?php
+       for($i=0;$i<$count_c;$i++){
+         if($i!=$count_c-1){
+           echo "['".$category[$i]."',".$cat[$i]."],";
+         }else{
+             echo "['".$category[$i]."',".$cat[$i]."]";
+         }
+       }
+       ?>
+
+     ]);
+
+
+   var options = {
+     title: '카테고리별 모임현황'
+   };
+
+   var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+   chart.draw(data, options);
+ }
 </script>
 </head>
 <body>
@@ -208,8 +256,8 @@ $(document).ready(function() {
   ?>
 </nav>
 <h1 id="hr"></h1><br>
-<div id ="ticket_box45">
-<div id="select_ticket"><h4>매출 내역</h4>
+<div id ="">
+<div id=""><h4>매출 내역</h4>
 <form name="month_form" action="admin_sales.php" method="post">
   <select name="find">
         <option value="<?= $current_date ?>"  ><?= $current_date ?>년</option>
@@ -311,11 +359,12 @@ $total_sales = number_format($total_sales);
 </div>
 </div>
 
-
 <div class="" style="border:1px solid black;">
   <div id="piechart">
-
+      <!--파인차트가 그려지는 부분  -->
+    
   </div>
+
 
 </div>
 

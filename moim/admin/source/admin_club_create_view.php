@@ -91,37 +91,37 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
         <table border="1">
           <tr>
           <td>모임이름</td>
-            <td colspan="2"><input type="text" name="club_name" value="<?=$club_name?>"> </td>
+            <td colspan="2"><input type="text" name="club_name" value="<?=$club_name?>" readonly> </td>
           </tr>
           <tr>
             <td id="write_td">카테고리</td>
             <td colspan="2">
-              <input type="text" name="club_category" value="<?=$club_category?>">
+              <input type="text" name="club_category" value="<?=$club_category?>" readonly>
             </td>
           </tr>
           <tr>
             <td id="write_td">모임장소</td>
-            <td><input id="address1" type="text" name="club_rent_info1" value="<?=$club_rent_info?>" size="45" placeholder="주소"></td>
+            <td><input id="address1" type="text" name="club_rent_info1" value="<?=$club_rent_info?>" size="45" readonly></td>
           </tr>
           <tr>
             <td id="write_td">모집정원</td>
-            <td colspan="2"><input type="number" name="club_to" value="<?=$club_to?>"></td>
+            <td colspan="2"><input type="number" name="club_to" value="<?=$club_to?>" readonly></td>
           </tr>
           <tr>
             <td>모집시작일</td>
-            <td colspan="2"><input type="text" name="club_start" value="<?=$club_start?>" id="datepicker1"></td>
+            <td colspan="2"><input type="text" name="club_start" value="<?=$club_start?>" id="datepicker1" readonly></td>
           </tr>
           <tr>
             <td>모집종료일</td>
-            <td colspan="2"><input type="text" name="club_end" value="<?=$club_end?>" id="datepicker2"></td>
+            <td colspan="2"><input type="text" name="club_end" value="<?=$club_end?>" id="datepicker2" readonly></td>
           </tr>
           <tr>
             <td>가격</td>
-            <td colspan="2"><input type="text" name="club_price" value="<?=$club_price?>"></td>
+            <td colspan="2"><input type="text" name="club_price" value="<?=$club_price?>" readonly></td>
           </tr>
           <tr>
-            <td>수업일정</td>
-            <td colspan="2"><input type="text" name="club_schedule" size="45" value="<?=$club_schedule?>"></td>
+            <td>모임세부사항</td>
+            <td colspan="2"><input type="text" name="club_schedule" size="45" value="<?=$club_schedule?>" readonly></td>
           </tr>
           <tr>
             <td>모임대표이미지</td>
@@ -144,7 +144,7 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
             </td>
           </tr>
           <tr>
-            <td colspan="3" style="text-align:center">내용</td>
+            <td colspan="3">내용</td>
           </tr>
           <tr>
             <td colspan="3">
