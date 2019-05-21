@@ -2,7 +2,12 @@
   session_start();
   include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php"; //club_DB 생성
   include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
-  create_table($conn,'club');
+
+  if(isset($_SESSION['userid'])){
+    $userid=$_SESSION['userid'];
+  }else{
+    $userid="";
+  }
 
   if(isset($_GET['mode'])){
     $mode=$_GET['mode'];
@@ -55,12 +60,13 @@
 
     <section>
       <?php
+      $today = date("Y-m-d", time());
       if (isset($mode)&& $_GET['mode']) {
-        $sql = "select * from club where club_category='$mode' order by club_hit desc";
+        $sql = "select * from club where club_category='$mode' and club_open = 'no' and club_end >= '$today' order by club_hit desc";
         $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
         $count=mysqli_num_rows($result);
       }else{
-        $sql = "select * from club order by club_hit desc";
+        $sql = "select * from club where club_open = 'no' and club_end >= '$today' order by club_hit desc";
         $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
         $count=mysqli_num_rows($result);
       }
@@ -69,10 +75,10 @@
           $club_num= $row['club_num'];
           $club_name=$row['club_name'];
           $club_image_name_0=$row['club_image_name'];
-          $club_image_copyied=$row['club_image_copyied'];
+          $club_image_copied=$row['club_image_copied'];
           ?>
         <a href="./view.php?club_num=<?=$club_num?>" id="">
-        <img src="../../img/<?=$club_image_copyied?>" width="350px" height="400px">
+        <img src="../../img/<?=$club_image_copied?>" width="350px" height="400px">
         </a>
         <div class=""><b><?=$club_name?></b></div>
         <?php
