@@ -59,7 +59,7 @@
           `club_start` date NOT NULL,
           `club_end` date NOT NULL,
           `club_apply` int(11) NOT NULL,
-          `club_schedule` varchar(30) NOT NULL,
+          `club_schedule` varchar(300) NOT NULL,
           `club_hit` int(11) NOT NULL,
           `club_open` varchar(10) NOT NULL,
           `club_image_name` varchar(50) DEFAULT NULL,
@@ -67,6 +67,7 @@
           `club_file_name` varchar(50) DEFAULT NULL,
           `club_file_copied` varchar(50) DEFAULT NULL,
           `club_file_type` varchar(50) DEFAULT NULL,
+          `club_intro` varchar(300) DEFAULT NULL,
           PRIMARY KEY (`club_num`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
           break;
@@ -140,7 +141,7 @@
           `user_rent_info` varchar(50) NOT NULL,
           `user_start` date NOT NULL,
           `user_end` date NOT NULL,
-          `user_schedule` varchar(30) NOT NULL,
+          `user_schedule` varchar(300) NOT NULL,
           `user_price` int(11) NOT NULL,
           `user_check` varchar(10) NOT NULL,
           `user_image_name` varchar(50) DEFAULT NULL,
@@ -148,6 +149,7 @@
           `user_file_name` varchar(50) DEFAULT NULL,
           `user_file_copied` varchar(50) DEFAULT NULL,
           `user_file_type` varchar(50) DEFAULT NULL,
+          `user_intro` varchar(300) DEFAULT NULL,
           PRIMARY KEY (`user_num`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
           break;

@@ -8,6 +8,7 @@
     <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
     <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
     <script src="//cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/user_request.css">
     <link href="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.css" rel="stylesheet"/><!--날짜다중선택 -->
 <script src="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.js"></script><!--날짜다중선택 -->
 
@@ -57,52 +58,15 @@
           closeText: '닫기'
         });
       });
-      //주소 API
-      function execDaumPostcode() {/* 폼은 다음 주소찾기 빌리면서 입력값은 여기서 받고 처리하네?  */
-          new daum.Postcode({
-              oncomplete: function(data) {
-                  // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-                  // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                  // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                  var fullAddr = ''; // 최종 주소 변수
-                  var extraAddr = ''; // 조합형 주소 변수
-
-                  // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                  if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                      fullAddr = data.roadAddress;
-
-                  } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                      fullAddr = data.jibunAddress;
-                  }
-
-                  // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
-                  if(data.userSelectedType === 'R'){
-                      //법정동명이 있을 경우 추가한다.
-                      if(data.bname !== ''){
-                          extraAddr += data.bname;
-                      }
-                      // 건물명이 있을 경우 추가한다.
-                      if(data.buildingName !== ''){
-                          extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                      }
-                      // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
-                      fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
-                  }
-
-                  // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                  // document.getElementById('address2').value = data.zonecode; //5자리 새우편번호 사용
-                  document.getElementById('user_rent_info').value = fullAddr;
-
-
-              }
-          }).open();
-      }
     </script>
   </head>
   <body onload="textarea_edit()">
+    <?php
+    include $_SERVER['DOCUMENT_ROOT']."/moim/mypage/lib/user_menu.php";
+    ?>
+    <h1 class="h1_request">모임만들기</h1>
     <form name="user_form" action="./user_query.php?mode=insert" method="post" enctype="multipart/form-data">
-      <table id="table1" border="1">
+      <table id="table_request" class="table_request" border="1">
         <tr>
           <td>모임명</td>
           <td><input type="text" name="user_name"></td>
@@ -127,11 +91,32 @@
         </tr>
         <tr>
           <td>분야</td>
-          <td><input type="text" name="user_category"></td>
+          <td>
+            <select class="user_category" name="user_category">
+              <option value="선택">선택</option>
+              <option value="글쓰기">글쓰기</option>
+              <option value="놀이">놀이</option>
+              <option value="영화">영화</option>
+              <option value="미술">미술</option>
+              <option value="사진">사진</option>
+              <option value="디자인">디자인</option>
+              <option value="취미생활/기타">취미생활/기타</option>
+            </select>
+          </td>
         </tr>
         <tr>
           <td>대관정보</td>
-          <td><input type="text" id="user_rent_info" name="user_rent_info" onclick="execDaumPostcode()"></td>
+          <td>
+            <select class="user_rent_info" name="user_rent_info">
+              <option value="선택">선택</option>
+              <option value="대관1">대관1</option>
+              <option value="대관2">대관2</option>
+              <option value="대관3">대관3</option>
+              <option value="대관4">대관4</option>
+              <option value="대관5">대관5</option>
+            </select>
+
+          </td>
         </tr>
         <tr>
           <td>가격</td>
@@ -146,8 +131,11 @@
           <td><input type="file" name="user_file"></td>
         </tr>
         <tr>
+          <td>간단 소개</td>
+          <td><textarea name="user_intro" rows="8" cols="80"></textarea></td>
+        </tr>
+        <tr>
           <td colspan="2"><textarea name="user_content" id="user_content" rows="8" cols="80"></textarea></td>
-
         </tr>
         <tr>
           <td colspan="2">
