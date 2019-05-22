@@ -39,6 +39,20 @@ if(isset($_GET['mode'])&&$_GET['mode']=="delete"){ //모임 삭제 했을 경우
     $today = date("Y-m-d", time());
     $sql="INSERT INTO `buy` VALUES (null,'$userid',$club_num,'no','no','$today');";
     $result = mysqli_query($conn,$sql);
+
+    $sql = "select * from club where club_num=$club_num";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_array($result);
+    $club_to =$row['club_to'];
+    $club_apply =$row['club_apply'];
+
+    // 결제완료시 지원한 인원수 증가
+    if ($club_to>$club_apply) {
+      $club_apply =$row['club_apply']+1;
+      $sql= "update club set club_apply=$club_apply where club_num=$club_num";
+      mysqli_query($conn, $sql) or die(mysqli_error($conn));
+    }
+
     echo "<script>
       location.href='./list.php';
     </script>";

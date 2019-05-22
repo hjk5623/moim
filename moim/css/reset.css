@@ -17,6 +17,7 @@ background:transparent;
 body{
 font-family:'Montserrat',DroidSans,AppleSDGothicNeo,Sans-serif,Helvetica;
 line-height:1;
+align-items: center;
 }
 
 article,aside,details,figcaption,figure, footer,header,hgroup,menu,nav,section{

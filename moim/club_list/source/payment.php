@@ -30,7 +30,7 @@ if(isset($_GET['club_price'])){
  <html>
  <head>
  <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
- <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-x.y.z.js"></script>
+ <!-- <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-x.y.z.js"></script> -->
  	<script  src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
  <script type="text/javascript">
  function payment(){
@@ -89,19 +89,6 @@ if(isset($_GET['club_price'])){
     		  location.href="./view.php?club_num=<?=$club_num?>";
  	    }//end of else
 
-
- 	   // if( rsp.success){ //결제 성공시
- 		 //   alert('1'); //결제 성공시 알림창에 1을 띄워준다
- 		 //   if(mode == "order"){ //mode가 order라면 insert.php에 no,valu,mode를 넘겨준다
-      //     //shopping/source/view (상품 상세페이지)에서 buy now 버튼을 클릭하면 mode가 order이 된다.
- 			// 	location.href="./insert.php?no="+'<?=$no?>'+"&value="+'<?=$value?>'+"&mode="+'<?=$mode?>';
-      //  }else{ //mode가 order가 아니라면 insert.php에 mode만 넘겨준다.
- 			// 	location.href="./insert.php?mode="+'<?=$mode?>';
- 		 //  }
- 	   // }else{//실패시 알림창에 2가뜨고, shopmain으로 이동한다.
- 		 //   alert('2');
- 		 //   location.href="../../shopping/source/shopmain.php";
- 	   // }//end of else
  	});
  	}
    payment();
