@@ -1,7 +1,8 @@
 <?php
 
-if(isset( $_FILES['upimage']) && !empty($_FILES['upimage'])){
-  // 사진첨부 업로드과정
+if(!empty($_FILES['upimage']['name'])){
+
+  // 사진첨부 업로드과정;
   //1. $_FILES['upimage']로부터 5가지 배열명을 가져온다.
   //한개의 파일 업로드 정보가(5가지 정보) 배열로 들어있다.
   $upimage = $_FILES['upimage'];
@@ -10,6 +11,7 @@ if(isset( $_FILES['upimage']) && !empty($_FILES['upimage'])){
   $upimage_tmp_name = $_FILES['upimage']['tmp_name'];
   $upimage_error = $_FILES['upimage']['error'];
   $upimage_size = $_FILES['upimage']['size'];
+
 
   //2. 파일명과 확장자를 구분해서 저장한다
   $image_file = explode(".", $upimage_name);  //파일명과 확장자 구분에서
@@ -55,7 +57,7 @@ if(isset( $_FILES['upimage']) && !empty($_FILES['upimage'])){
 
 /////////////////////////////////////////////////////////////////
 //첨부파일 업로드과정
-if(isset( $_FILES['upfile']) && !empty($_FILES['upfile'])){
+if(!empty($_FILES['upfile']['name'])){
 
   //1. $_FILES['upfile']로부터 5가지 배열명을 가져온다.
   //한개의 파일 업로드 정보가(5가지 정보) 배열로 들어있다.

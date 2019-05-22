@@ -34,14 +34,12 @@ $club_end = $row['club_end'];
 // payment_date = 2019-05-05
 // $payment_date = substr($payment_date, 5,2);    // 07/07/07/03 */   월별로 나오도록 자르기
 
-//1월~12월까지의 쿼리문
-// 모집종료일 기준으로 월별매출 계산 (신청인원 * 모임가격)
+//1월~12월까지의 쿼리문 -- 모집종료일 기준으로 월별매출 계산 (신청인원 * 모임가격)
 $sql1 = "SELECT sum(`club_price` * `club_apply`) AS '매출' from `club` where club_end like '_____$jan%'  and `club_end` like '$find%'  and club_open='yes'; ";
 $result1 = mysqli_query($conn,$sql1) or die("실패원인1: ".mysqli_error($conn));
 $row = mysqli_fetch_array($result1);
 $jan_price = $row['0'];
 if(!$jan_price){$jan_price =0;}
-
 
 $sql2 = "SELECT sum(`club_price` * `club_apply`) AS '매출' from `club` where club_end like '_____$feb%'  and `club_end` like '$find%'  and club_open='yes'; ";
 $result2 = mysqli_query($conn,$sql2) or die("실패원인1: ".mysqli_error($conn));
@@ -119,10 +117,7 @@ if(!$total_sales){ $total_sales =0;}
 }
 
 
-
-
-
-//카테고리의 개수 출력
+//모임의 카테고리의 개수 출력
 $sql_c="SELECT distinct `club_category` from club;";
 $result_c = mysqli_query($conn,$sql_c);
 $count_c = mysqli_num_rows($result_c);  // 중복제거 카테고리의 개수 출력
@@ -133,9 +128,7 @@ if (!$result_c) {
 //for 문
 for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
   $row_c=mysqli_fetch_array($result_c); //각 카테고리의 이름 뽑아오기.
-
   $category[$i]=$row_c[0];
-  // var_export($category[$i]);
 
   $sql_cc="SELECT count('모임의 수') from `club` where `club_category` like '$category[$i]';";
   $result_cc = mysqli_query($conn,$sql_cc);
@@ -143,10 +136,8 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
     alert_back('Error: ' . mysqli_error($conn));
   }
   $row_cc=mysqli_fetch_array($result_cc);
-  // var_export($row1[0]);
   $cat[$i] =$row_cc[0];
-  var_export($row_cc[0]);
-  // $count2 = mysqli_num_rows();
+
 }
 
 
@@ -154,79 +145,84 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
 ?>
 <!DOCTYPE html>
 <html lang="ko" dir="ltr">
+
 <head>
-<meta charset="UTF-8">
-<title></title>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../css/admin_sales.css">
-<script type="text/javascript">
+  <meta charset="UTF-8">
+  <title></title>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../css/admin_sales.css">
+  <script type="text/javascript">
+    google.charts.load('current', {
+      'packages': ['line']
+    }); /*LINE차트를 사용하기 위한 준비  */
+    google.charts.setOnLoadCallback(drawChart); /* 로딩 완료시 함수 실행하여 차트 생성 */
 
-google.charts.load('current', {'packages':['line']});	/*LINE차트를 사용하기 위한 준비  */
-google.charts.setOnLoadCallback(drawChart);		/* 로딩 완료시 함수 실행하여 차트 생성 */
+    function drawChart() {
+      // 구글차트를 그리기 위한 데이터를 google.visualization.DataTable  객체에 삽입하여 차트로 바인딩
 
-function drawChart() {
- // 구글차트를 그리기 위한 데이터를 google.visualization.DataTable  객체에 삽입하여 차트로 바인딩
+      //방법1. 자바스크립트 상에서 비어있는 DataTable 객체를 만들어놓고, 칼럼값들을 정의하고 그리고 데이터 값(rows)들을 추가
+      var data = new google.visualization.DataTable(); //DataTable 객체 생성
+      //↓그래프에 표시할 칼럼 추가
+      //↓column 값은 (데이터형식, 컬럼명) 이렇게 쌍으로 입력 --- 데이터형식은 'string', 'number','boolean','date','datetime','timeofday' 중 하나 선택
+      data.addColumn('number', 'Month');
+      data.addColumn('number', '매출');
+      //데이터 헤더부분을 정의하고나면, 데이터를 셋팅 -- 한번에 여러 row 들을 셋팅하는 addRows  를 사용하므로
+      //배열 형식으로 [] 로 묶인다. 그 안의 값도  ['Month'의 값 , '매출'의 값] 이런 포맷의 array 형식으로 이루어져 있다.
+      data.addRows([
+        [1, <?= $jan_price ?>],
+        [2, <?= $feb_price ?>],
+        [3, <?= $mar_price ?>],
+        [4, <?= $apr_price ?>],
+        [5, <?= $may_price ?>],
+        [6, <?= $jun_price ?>],
+        [7, <?= $jul_price ?>],
+        [8, <?= $aug_price ?>],
+        [9, <?= $sep_price ?>],
+        [10, <?= $oct_price ?>],
+        [11, <?= $nov_price ?>],
+        [12, <?= $dec_price ?>]
+      ]);
 
- //방법1. 자바스크립트 상에서 비어있는 DataTable 객체를 만들어놓고, 칼럼값들을 정의하고 그리고 데이터 값(rows)들을 추가
-   var data = new google.visualization.DataTable();  //DataTable 객체 생성
-  //↓그래프에 표시할 칼럼 추가
-  //↓column 값은 (데이터형식, 컬럼명) 이렇게 쌍으로 입력 --- 데이터형식은 'string', 'number','boolean','date','datetime','timeofday' 중 하나 선택
-   data.addColumn('number', 'Month');
-   data.addColumn('number', '매출');
-   //데이터 헤더부분을 정의하고나면, 데이터를 셋팅 -- 한번에 여러 row 들을 셋팅하는 addRows  를 사용하므로
-   //배열 형식으로 [] 로 묶인다. 그 안의 값도  ['Month'의 값 , '매출'의 값] 이런 포맷의 array 형식으로 이루어져 있다.
-   data.addRows([
-     [1,  <?= $jan_price ?>],
-     [2,  <?= $feb_price ?>],
-     [3,  <?= $mar_price ?>],
-     [4,  <?= $apr_price ?>],
-     [5,  <?= $may_price ?>],
-     [6,  <?= $jun_price ?>],
-     [7,  <?= $jul_price ?>],
-     [8,  <?= $aug_price ?>],
-     [9,  <?= $sep_price ?>],
-     [10, <?= $oct_price ?>],
-     [11, <?= $nov_price ?>],
-     [12, <?= $dec_price ?>]
-   ]);
+      // 차트의 이름이  Monthly payment history , 크기를 지정해줌
+      var options = {
+        chart: {
+          title: '월별 매출 현황',
+          subtitle: 'in won (KRW)'
+        },
+        width: 815,
+        height: 500
+      };
+      // 그려진 차트가 들어가는  div의 이름이 'linechart'
+      // 마지막으로 라인차트를 그려주면 된다.
+      var chart = new google.charts.Line(document.getElementById('linechart'));
+      chart.draw(data, google.charts.Line.convertOptions(options));
+    }
 
-   // 차트의 이름이  Monthly payment history , 크기를 지정해줌
-   var options = {
-     chart: {
-       title: '월별 매출 현황',
-       subtitle: 'in won (KRW)'
-     },
-     width: 815,
-     height: 500
-   };
-   // 그려진 차트가 들어가는  div의 이름이 'linechart'
-   // 마지막으로 라인차트를 그려주면 된다.
-   var chart = new google.charts.Line(document.getElementById('linechart'));
-   chart.draw(data, google.charts.Line.convertOptions(options));
-}
-
-// 매출내역 상세확인버튼을 누르면  엑셀파일을 다운받을 수 있다.
-$(document).ready(function() {
-    $("#btnExport").click(function (e) {
-      //  div id=dvData 여기 안의 내용 (테이블표) 을 엑셀파일로 전달.
-       window.open('data:application/vnd.ms-excel;chsarset=utf-8,\uFEFF' + encodeURI($('#dvData').html()));
+    // 매출내역 상세확인버튼을 누르면  엑셀파일을 다운받을 수 있다.
+    $(document).ready(function() {
+      $("#btnExport").click(function(e) {
+        //  div id=dvData 여기 안의 내용 (테이블표) 을 엑셀파일로 전달.
+        window.open('data:application/vnd.ms-excel;chsarset=utf-8,\uFEFF' + encodeURI($('#dvData').html()));
         e.preventDefault();
+      });
+
     });
 
- });
 
 
+    google.charts.load('current', {
+      'packages': ['corechart']
+    });
+    google.charts.setOnLoadCallback(drawChart1);
 
- google.charts.load('current', {'packages':['corechart']});
- google.charts.setOnLoadCallback(drawChart1);
- function drawChart1() {
-     var data = google.visualization.arrayToDataTable([
-       ['Task', 'Hours per Day'],
-       <?php
+    function drawChart1() {
+      var data = google.visualization.arrayToDataTable([
+        ['Task', 'Hours per Day'],
+        <?php
        for($i=0;$i<$count_c;$i++){
          if($i!=$count_c-1){
            echo "['".$category[$i]."',".$cat[$i]."],";
@@ -236,192 +232,196 @@ $(document).ready(function() {
        }
        ?>
 
-     ]);
+      ]);
 
 
-   var options = {
-     title: '카테고리별 모임현황'
-   };
+      var options = {
+        title: '카테고리별 모임현황'
+      };
 
-   var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+      var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
-   chart.draw(data, options);
- }
-</script>
+      chart.draw(data, options);
+    }
+  </script>
 </head>
+
 <body>
-<nav>
-  <?php
+  <nav>
+    <?php
   include $_SERVER['DOCUMENT_ROOT']."/moim/admin/source/admin.php";
   ?>
-</nav>
-<h1 id="hr"></h1><br>
-<div id ="">
-<div id=""><h4>매출 내역</h4>
-<form name="month_form" action="admin_sales.php" method="post">
-  <select name="find">
-        <option value="<?= $current_date ?>"  ><?= $current_date ?>년</option>
-        <option value="<?= $current_date -1 ?>"><?= $current_date -1 ?>년</option>
-        <option value="<?= $current_date -2 ?>" ><?= $current_date -2 ?>년</option>
-        <option value="<?= $current_date -3 ?>"><?= $current_date -3 ?>년</option>
-        <option value="<?= $current_date -4 ?>"><?= $current_date -4 ?>년</option>
-        <option value="<?= $current_date -5 ?>"><?= $current_date -5 ?>년</option>
-        <option value="<?= $current_date -6 ?>"><?= $current_date -6 ?>년</option>
-  </select>
-   <input type="submit" value="검색">
-   </div>
-   <br>
-</form>
-<?php
-$jan_price = number_format($jan_price);
-$feb_price = number_format($feb_price);
-$mar_price = number_format($mar_price);
-$apr_price = number_format($apr_price);
-$may_price = number_format($may_price);
-$jun_price = number_format($jun_price);
-$jul_price = number_format($jul_price);
-$aug_price = number_format($aug_price);
-$sep_price = number_format($sep_price);
-$oct_price = number_format($oct_price);
-$nov_price = number_format($nov_price);
-$dec_price  = number_format($dec_price);
-$total_sales = number_format($total_sales);
+  </nav>
+  <h1 id="hr"></h1><br>
+  <div id="">
+    <div id="">
+      <h4>매출 내역</h4>
+      <form name="month_form" action="admin_sales.php" method="post">
+        <select name="find">
+          <option value="<?= $current_date ?>"><?= $current_date ?>년</option>
+          <option value="<?= $current_date -1 ?>"><?= $current_date -1 ?>년</option>
+          <option value="<?= $current_date -2 ?>"><?= $current_date -2 ?>년</option>
+          <option value="<?= $current_date -3 ?>"><?= $current_date -3 ?>년</option>
+          <option value="<?= $current_date -4 ?>"><?= $current_date -4 ?>년</option>
+          <option value="<?= $current_date -5 ?>"><?= $current_date -5 ?>년</option>
+          <option value="<?= $current_date -6 ?>"><?= $current_date -6 ?>년</option>
+        </select>
+        <input type="submit" value="검색">
+    </div>
+    <br>
+    </form>
+    <?php
+      $jan_price = number_format($jan_price);
+      $feb_price = number_format($feb_price);
+      $mar_price = number_format($mar_price);
+      $apr_price = number_format($apr_price);
+      $may_price = number_format($may_price);
+      $jun_price = number_format($jun_price);
+      $jul_price = number_format($jul_price);
+      $aug_price = number_format($aug_price);
+      $sep_price = number_format($sep_price);
+      $oct_price = number_format($oct_price);
+      $nov_price = number_format($nov_price);
+      $dec_price  = number_format($dec_price);
+      $total_sales = number_format($total_sales);
 
-?>
-<div class="" style="border:1px solid black;">
-<div class="table_div">
-  <table class="salestable" border="1">
-    <th>월별 매출 현황</th>
-    <tr>
-      <td>구분</td>
-      <td>기간</td>
-      <td>매출액</td>
-    </tr>
-    <tr>
-      <td rowspan="6" >상반기</td>
-      <td>1월</td>
-      <td><?=$jan_price?>원</td>
-    </tr>
-    <tr>
-      <td>2월</td>
-      <td><?=$feb_price?>원</td>
-    </tr>
-    <tr>
-      <td>3월</td>
-      <td><?=$mar_price?>원</td>
-    </tr>
-    <tr>
-      <td>4월</td>
-      <td><?=$apr_price?>원</td>
-    </tr>
-    <tr>
-      <td>5월</td>
-      <td><?=$may_price?>원</td>
-    </tr>
-    <tr>
-      <td>6월</td>
-      <td><?=$jun_price?>원</td>
-    </tr>
-    <tr>
-      <td rowspan="6" >하반기</td>
-      <td>7월</td>
-      <td><?=$jul_price?>원</td>
-    </tr>
-    <tr>
-      <td>8월</td>
-      <td><?=$aug_price?>원</td>
-    </tr>
-    <tr>
-      <td>9월</td>
-      <td><?=$sep_price?>원</td>
-    </tr>
-    <tr>
-      <td>10월</td>
-      <td><?=$oct_price?>원</td>
-    </tr>
-    <tr>
-      <td>11월</td>
-      <td><?=$nov_price?>원</td>
-    </tr>
-    <tr>
-      <td>12월</td>
-      <td><?=$dec_price?>원</td>
-    </tr>
-    <tr>
-      <td colspan="2"><?=$find?>년도 매출총액 </td>
-      <td><?=$total_sales?>원</td>
-    </tr>
-  </table>
-</div>
+      ?>
+    <div class="" style="border:1px solid black;">
+      <div class="table_div">
+        <table class="salestable" border="1">
+          <th>월별 매출 현황</th>
+          <tr>
+            <td>구분</td>
+            <td>기간</td>
+            <td>매출액</td>
+          </tr>
+          <tr>
+            <td rowspan="6">상반기</td>
+            <td>1월</td>
+            <td><?=$jan_price?>원</td>
+          </tr>
+          <tr>
+            <td>2월</td>
+            <td><?=$feb_price?>원</td>
+          </tr>
+          <tr>
+            <td>3월</td>
+            <td><?=$mar_price?>원</td>
+          </tr>
+          <tr>
+            <td>4월</td>
+            <td><?=$apr_price?>원</td>
+          </tr>
+          <tr>
+            <td>5월</td>
+            <td><?=$may_price?>원</td>
+          </tr>
+          <tr>
+            <td>6월</td>
+            <td><?=$jun_price?>원</td>
+          </tr>
+          <tr>
+            <td rowspan="6">하반기</td>
+            <td>7월</td>
+            <td><?=$jul_price?>원</td>
+          </tr>
+          <tr>
+            <td>8월</td>
+            <td><?=$aug_price?>원</td>
+          </tr>
+          <tr>
+            <td>9월</td>
+            <td><?=$sep_price?>원</td>
+          </tr>
+          <tr>
+            <td>10월</td>
+            <td><?=$oct_price?>원</td>
+          </tr>
+          <tr>
+            <td>11월</td>
+            <td><?=$nov_price?>원</td>
+          </tr>
+          <tr>
+            <td>12월</td>
+            <td><?=$dec_price?>원</td>
+          </tr>
+          <tr>
+            <td colspan="2"><?=$find?>년도 매출총액 </td>
+            <td><?=$total_sales?>원</td>
+          </tr>
+        </table>
+      </div>
 
-<div id="linechart">
-  <!--라인차트가 그려지는 부분  -->
-</div>
-</div>
+      <div id="linechart">
+        <!--라인차트가 그려지는 부분  -->
+      </div>
+    </div>
 
-<div class="" style="border:1px solid black;">
-  <div id="piechart">
-      <!--파인차트가 그려지는 부분  -->
-    
+    <div class="" style="border:1px solid black;">
+      <div id="piechart">
+        <!--파인차트가 그려지는 부분  -->
+
+      </div>
+    </div>
+    <?php
+    //---------------------------------------------------------------------------------------------------
+    //엑셀파일로 내역확인하기
+    ?>
+    <button id="btnExport">매출 내역 상세확인</button>
+
+    <div id="dvData">
+      <table id="excel_table" style="visibility: hidden;border-collapse: collapse; font-family: " Trebuchet MS", Helvetica, sans-serif;">
+      <?php
+      $i=0;
+      $total=0;
+
+      $sql0="SELECT sum(club_price) from buy inner join club on buy_club_num=club_num where buy_cancle='no';";
+      $result0=mysqli_query($conn, $sql0) or die("실패원인 : " . mysqli_error($conn));
+      $row0=mysqli_fetch_array($result0);
+      $total=$row0[0];
+
+      $sql ="SELECT * from buy inner join club on buy_club_num = club_num where buy_cancle='no';";
+      $result = mysqli_query($conn, $sql) or die("실패원인 : " . mysqli_error($conn));
+      ?>
+        <tr>
+          <td style="border: 1px solid black; text-align: center;">번호</td>
+          <td style="border: 1px solid black; text-align: center;">아이디</td>
+          <td style="border: 1px solid black; text-align: center;">모임이름</td>
+          <td style="border: 1px solid black; text-align: center;">구매날짜</td>
+          <td style="border: 1px solid black; text-align: center;">결제금액</td>
+        </tr>
+        <?php
+
+        while($row = mysqli_fetch_array($result)){
+
+           $buy_id = $row['buy_id'];
+           $club_name = $row['club_name'];
+           $buy_process_date = $row['buy_process_date'];
+           $club_price = $row['club_price'];
+
+        ?>
+        <tr>
+          <td style="border: 1px solid black; text-align: center;"><?= $i+1 ?></td>
+          <td style="border: 1px solid black; text-align: center;"><?= $buy_id ?></td>
+          <td style="border: 1px solid black; text-align: center;"><?=$club_name ?></td>
+          <td style="border: 1px solid black; text-align: center;"><?= $buy_process_date ?></td>
+          <td style="border: 1px solid black; text-align: center;"><?= $club_price ?></td>
+        </tr>
+        <?php
+        $i++;
+        }
+        ?>
+        <tr>
+          <td colspan="3"  style="border: 1px solid black; text-align: center;">총 매출</td>
+          <td colspan="2"  style="border: 1px solid black; text-align: center;"><?=$total?>원</td>
+        </tr>
+      </table>
+    </div>
   </div>
+  <br><br>
+  <footer>
 
-
-</div>
-
-
-<?php
-//---------------------------------------------------------------------------------------------------
-//엑셀파일로 내역확인하기
-?>
-<button id="btnExport">매출 내역 상세확인</button>
-
-<div id="dvData">
-<table id="excel_table" style="visibility: hidden;border-collapse: collapse; font-family: "Trebuchet MS", Helvetica, sans-serif;">
-<?php
-  // $sql = "SELECT * from reserve_info";
-  // $result = mysqli_query($con, $sql) or die("실패원인 : " . mysqli_error($con));
-?>
- <tr>
-      <td>구분</td>
-      <td>기간</td>
-      <td>매출액</td>
-   </tr>
-<?php
-   $i=0;
-   $total2=0;
-while($row = mysqli_fetch_array($result)){
-
-   $id1 = $row['id'];
-   $start_apnum1 = $row['start_apnum'];
-   $back_apnum1 = $row['back_apnum'];
-   $reserve_num1 = $row['reserve_num'];
-   $payment_price1 = $row['payment_price'];
-   $payment_date1 = $row['payment_date'];
-   $total2 = $total2 + $payment_price1;
-
-?>
- <tr>
-      <td><?= $i+1 ?></td>
-      <td><?= $id1 ?></td>
-      <td><?= $start_apnum1,$back_apnum1 ?></td>
-      <td><?= $reserve_num1 ?></td>
-      <td><?= $payment_date1 ?></td>
-      <td><?= number_format($payment_price1) ?></td>
- </tr>
-<?php
-$i++;
-}
-?>
-   <tr>
-      <td colspan="3">총 매출</td>
-      <td colspan="3"><?=number_format($total2) ?>원</td>
-   </tr>
-</table>
-</div>
-</div>
-<br><br>
-<footer>
-
-</footer>
+  </footer>
 </body>
+
 </html>

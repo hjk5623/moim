@@ -1,5 +1,4 @@
 <?php
-// 위지윅에디터이용으로 이 페이지는 이제 사용하지 않을 예쩡 혹시몰라 안지우고 살려둠..
 session_start();
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 
@@ -64,7 +63,7 @@ $number = $total_record - $start_row;
     <tr>
       <td>NO</td>
       <td>모임명</td>
-      <!-- <td>카테고리</td> -->
+      <td>카테고리</td>
       <td>모집시작일</td>
       <td>모집종료일</td>
       <td>모집정원</td>
@@ -77,7 +76,7 @@ $number = $total_record - $start_row;
         $row=mysqli_fetch_array($result);
         $club_num = $row['club_num'];
         $club_name = $row['club_name'];
-        // $club_category = $row['club_category'];
+        $club_category = $row['club_category'];
         $club_start = $row['club_start'];
         $club_end = $row['club_end'];
         $club_to = $row['club_to'];
@@ -86,6 +85,7 @@ $number = $total_record - $start_row;
      <tr>
        <td> <?=$number?> </td>
        <td> <?=$club_name?> </td>
+       <td> <?=$club_category?> </td>
        <td> <?=$club_start?> </td>
        <td> <?=$club_end?> </td>
        <td> <?=$club_to?> </td>

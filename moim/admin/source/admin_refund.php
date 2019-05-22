@@ -1,25 +1,21 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
-?>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="../css/request_list.css">
-<?php
-  $sql="SELECT * from user_club where user_check='no' order by user_num desc;";
-  $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
-  $total_record = mysqli_num_rows($result); //전체 레코드 수
+
+$sql="SELECT * from buy inner join club on buy_club_num=club_num where buy_cancle='yes' and buy_refund='no' ;"; //환불신청 yes, 아직 환불처리 no 리스트
+$result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+$total_record= mysqli_num_rows($result);
+$row=mysqli_fetch_array($result);
+
 
 // 페이지 당 글수, 블럭당 페이지 수
-$rows_scale=3;
+$rows_scale=5;
 $pages_scale=5;
 // 전체 페이지 수 ($total_page) 계산
 $total_pages= ceil($total_record/$rows_scale);
 if(empty($_GET['page'])){
-    $page=1;
+  $page=1;
 }else{
-    $page = $_GET['page'];
+  $page = $_GET['page'];
 }
 // 현재 페이지 시작 위치 = (페이지 당 글 수 * (현재페이지 -1))  [[ EX) 현재 페이지 2일 때 => 3*(2-1) = 3 ]]
 $start_row= $rows_scale * ($page -1) ;
@@ -33,8 +29,38 @@ $start_page= (ceil($page / $pages_scale ) -1 ) * $pages_scale +1 ;
 $end_page= ($total_pages >= ($start_page + $pages_scale)) ? $start_page + $pages_scale-1 : $total_pages;
 $number=$total_record- $start_row;
 
+
 ?>
- <script></script>
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../css/request_list.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    function refund_submit(num,id){
+      // console.log(num);
+      // console.log(id);
+      $.ajax({
+        url: './admin_query.php?mode=refund_update',
+        type: 'POST',
+        data: {
+          buy_id: id,
+          buy_club_num: num
+        }
+      }) .done(function(result) {
+        console.log(result);
+        location.href='./admin_refund.php';
+      })
+      .fail(function() {
+        console.log("error");
+      })
+      .always(function() {
+        console.log("complete");
+      });
+    }
+  </script>
 </head>
 <body>
   <?php
@@ -42,100 +68,78 @@ $number=$total_record- $start_row;
   ?>
   <article class="main">
     <h2 id="h2"><big><strong>환불관리</strong></big></h2>
-         <table id="memberlist" border="1">
-         <tr>
-           <td>NO</td>
-           <td>신청인</td>
-           <td>모집명</td>
-           <td>분야</td>
-           <td>모집시작</td>
-           <td>모집마감</td>
-           <td>마감인원</td>
-           <td>모임일정</td>
-           <td>가격</td>
-           <td>대관</td>
-           <td>환불</td>
-         </tr>
-      <?php
-
-
+    <form name="refund" class="" action="admin_query.php?mode=refund_update" method="post">
+      <table id="memberlist" border="1">
+        <tr>
+          <td>ORDER NO</td>
+          <td>id</td>
+          <td>모임이름</td>
+          <td>환불취소신청날짜</td>
+          <td>환불</td>
+        </tr>
+        <?php
       for($i=$start_row; ($i<$start_row+$rows_scale) && ($i< $total_record); $i++){
         //가져올 레코드 위치 이동
         mysqli_data_seek($result, $i);
-
         //하나 레코드 가져오기
         $row=mysqli_fetch_array($result);
-        $user_num=$row["user_num"];
-        $user_id=$row["user_id"];
-        $user_name=$row["user_name"];
-        $user_category=$row["user_category"];
-        $user_start=$row["user_start"];
-        $user_end=$row["user_end"];
-        $user_to=$row["user_to"];
-        $user_schedule=$row["user_schedule"];
-        $user_price=$row["user_price"];
-        $user_rent_info=$row["user_rent_info"];
+        $buy_club_num=$row["buy_club_num"];
+        $buy_id=$row["buy_id"];
+        $refund_code = $buy_club_num."_".$buy_id;
+        $buy_process_date=$row["buy_process_date"];
+        $club_name=$row["club_name"];
+        $club_name=$row["club_name"];
 
         ?>
         <tr>
-          <td> </td>
-          <td> </td>
-          <td> </td>
-          <td> </td>
-          <td> </td>
-          <td> </td>
-          <td> </td>
-          <td> </td>
-          <td> </td>
-          <td> </td>
+          <td><?=$refund_code?> </td>
+          <td><?=$buy_id?></td>
+          <td><?=$club_name?></td>
+          <td><?=$buy_process_date?> </td>
           <td>
-            <a href="./admin_request_view.php?user_num=<?=$user_num?>&page=<?=$page?>"><button type="button" name="button" id="view">환불</button></a>
-            <!--1. 등록 버튼은 submit으로 하고 등록화면에서 받아서 값 셋팅-->
-            <!--2. 등록화면에서 진짜 등록했을때 user_club에서 user_check를 yes로 업데이트할 것-->
-            <!-- <button type="button" name="button" id="view">등록</button> -->
-            <!--1. 취소 버튼을 누르면 user_club에서 user_check를 yes로 업데이트-->
-            <!--파일,이미지 삭제는 마이페이지에서 삭제시킬것-->
-            <!-- <button type="button" name="button" id="view">취소</button> -->
+            <button type="button" name="button" id="view" onclick="refund_submit(<?=$buy_club_num?>,'<?=$buy_id?>'); window.open('https://admin.iamport.kr/payments','_blank', 'width=550 height=500');">환불</button></a>
           </td>
         </tr>
         <?php
         $number--;
       }
          ?>
-   </table>
-   <hr>
-        <div id='page_box' style="text-align: center;">
+      </table>
+    </form>
+    <hr>
+    <div id='page_box' style="text-align: center;">
       <?PHP
-                #----------------이전블럭 존재시 링크------------------#
-                if($start_page > $pages_scale){
-                   $go_page= $start_page - $pages_scale;
-                   echo "<a id='before_block' href='admin_refund.php?page=$go_page'> << </a>";
-                }
-                #----------------이전페이지 존재시 링크------------------#
-                if($pre_page){
-                    echo "<a id='before_page' href='admin_refund.php?page=$pre_page'> < </a>";
-                }
-                 #--------------바로이동하는 페이지를 나열---------------#
-                for($dest_page=$start_page;$dest_page <= $end_page;$dest_page++){
-                   if($dest_page == $page){
-                        echo( "&nbsp;<b id='present_page'>$dest_page</b>&nbsp" );
-                    }else{
-                        echo "<a id='move_page' href='admin_refund.php?page=$dest_page'>$dest_page</a>";
-                    }
-                 }
-                 #----------------이전페이지 존재시 링크------------------#
-                 if($next_page){
-                     echo "<a id='next_page' href='admin_refund.php?page=$next_page'> > </a>";
-                 }
-                 #---------------다음페이지를 링크------------------#
-                if($total_pages >= $start_page+ $pages_scale){
-                  $go_page= $start_page+ $pages_scale;
-                  echo "<a id='next_block' href='admin_refund.php?page=$go_page'> >> </a>";
-                 }
+        #----------------이전블럭 존재시 링크------------------#
+        if($start_page > $pages_scale){
+           $go_page= $start_page - $pages_scale;
+           echo "<a id='before_block' href='admin_refund.php?page=$go_page'> << </a>";
+        }
+        #----------------이전페이지 존재시 링크------------------#
+        if($pre_page){
+            echo "<a id='before_page' href='admin_refund.php?page=$pre_page'> < </a>";
+        }
+         #--------------바로이동하는 페이지를 나열---------------#
+        for($dest_page=$start_page;$dest_page <= $end_page;$dest_page++){
+           if($dest_page == $page){
+                echo( "&nbsp;<b id='present_page'>$dest_page</b>&nbsp" );
+            }else{
+                echo "<a id='move_page' href='admin_refund.php?page=$dest_page'>$dest_page</a>";
+            }
+         }
+         #----------------이전페이지 존재시 링크------------------#
+         if($next_page){
+             echo "<a id='next_page' href='admin_refund.php?page=$next_page'> > </a>";
+         }
+         #---------------다음페이지를 링크------------------#
+        if($total_pages >= $start_page+ $pages_scale){
+          $go_page= $start_page+ $pages_scale;
+          echo "<a id='next_block' href='admin_refund.php?page=$go_page'> >> </a>";
+         }
        ?>
-   </div>
+    </div>
 
-         </article>
+  </article>
 
 </body>
+
 </html>

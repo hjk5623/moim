@@ -48,9 +48,6 @@ if(isset($_GET["user_num"]) && !empty($_GET["user_num"])){
    <head>
      <meta charset="utf-8">
      <title></title>
-     <link rel="stylesheet" type="text/css" href="../css/common.css">
-     <link rel="stylesheet" type="text/css" href="../css/greet.css">
-     <script type="text/javascript" src="../js/member_form.js"></script>
    </head>
    <body>
      <?php

@@ -1,5 +1,8 @@
 <?php
+if(!isset($_SESSION)){
+session_start();
 
+}
  ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -16,13 +19,15 @@
       <div class="menubar">
         <ul>
           <li><a href="../../mainpage.php">HOME</a></li>
-          <li><a href="#">LOG OUT</a></li>
+          <?php
+            if(!isset($_SESSION['userid'])){
+              echo ('<li><a href="../../login/source/login.php">LOG IN</a></li>');
+            }else{
+              echo ('<li><a href="../../login/source/logout.php">LOG OUT</a></li>');
+            }
+           ?>
           <li><a href="admin_member.php">회원관리</a></li>
           <li><a href="admin_sales.php">통계</a>
-            <!-- <ul>
-              <li><a href="admin_sales.php">매출내역</a></li>
-              <li><a href="admin_category_chart.php">카테고리별 모임순위</a></li>
-            </ul> -->
           </li>
           <li><a href="admin_club_create2.php">모임등록</a>
             <ul>

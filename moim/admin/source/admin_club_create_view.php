@@ -28,6 +28,7 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
   $club_start = $row['club_start'];
   $club_end = $row['club_end'];
   $club_schedule = $row['club_schedule'];
+  $club_intro = $row['club_intro'];
 
   //사진
   $club_image_name = $row['club_image_name'];
@@ -120,7 +121,7 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
             <td colspan="2"><input type="text" name="club_price" value="<?=$club_price?>" readonly></td>
           </tr>
           <tr>
-            <td>모임세부사항</td>
+            <td>모임일정</td>
             <td colspan="2"><input type="text" name="club_schedule" size="45" value="<?=$club_schedule?>" readonly></td>
           </tr>
           <tr>
@@ -133,7 +134,7 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
           </tr>
           <tr>
 
-            <td align="center" >첨부파일</td>
+            <td align="center" >모임세부사항</td>
             <?php
              $file_path = "../data/".$club_file_copied;
              $file_size = filesize($file_path);
@@ -143,6 +144,12 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
               <a href='download.php?mode=download_c&club_num=<?=$club_num?>'>[저장]</a>
             </td>
           </tr>
+            <tr>
+              <td>간단소개</td>
+              <td colspan="2">
+                  <?=$club_intro?>
+              </td>
+            </tr>
           <tr>
             <td colspan="3">내용</td>
           </tr>

@@ -18,16 +18,6 @@ if(empty($search_value)){ //검색을 하지 않는경우 전체 리스트를 �
     $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
     $total_record = mysqli_num_rows($result); //전체 레코드 수
 
-  //
-  // $sql="SELECT * from membership";
-  // $result=mysqli_query($conn, $sql) or die("실패원인1 :".mysqli_error($conn));
-  // if(!mysqli_num_rows($result)){
-  //   $total_record=0;
-  // }else{
-  //   $total_record=mysqli_num_rows($result) or die("실패원인2 : ".mysqli_error($conn));
-  // }
-  //
-
 // 페이지 당 글수, 블럭당 페이지 수
 $rows_scale=10;
 $pages_scale=10;

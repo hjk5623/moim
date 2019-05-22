@@ -5,7 +5,9 @@ $mode="clubinsert";
 $checked="";
 //
 $club_num=$club_name= $club_content= $club_category= $club_price= $club_to= $club_rent_info= $club_start=$club_end=$club_schedule="";
-$club_rent_info[0]=$club_rent_info[1]="";
+$club_rent_info[0]=$club_rent_info[1]=$club_intro="";
+$user_num="";
+
 if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   $mode="update";
   $club_num = $_GET['club_num'];
@@ -28,6 +30,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   $club_start = $row['club_start'];
   $club_end = $row['club_end'];
   $club_schedule= $row['club_schedule'];
+  $club_intro= $row['club_intro'];
 
 
   //사진
@@ -45,9 +48,48 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   $image_type = $image_info[2];
   if($image_width>600) $image_width=600;
 
+}else if(isset($_GET['mode']) && $_GET['mode'] == "request_create"){
+  $mode="request_create";
+  $user_num = $_GET['user_num'];
+
+
+  $sql="SELECT * from `user_club` where user_num='$user_num';";
+  $result = mysqli_query($conn,$sql);
+  if (!$result) {
+    die('Error: ' . mysqli_error($conn));
+  }
+  $row=mysqli_fetch_array($result);
+  $club_content=$row['user_content'];
+  $club_content=htmlspecialchars_decode($club_content);
+  $club_category  = $row['user_category']; //요리
+  $club_price = $row['user_price'];
+
+  $club_to= $row['user_to'];
+  $club_rent_info = $row['user_rent_info'];
+  $club_rent_info=explode("/", $club_rent_info);
+  $club_start = $row['user_start'];
+  $club_end = $row['user_end'];
+  $club_schedule= $row['user_schedule'];
+  $club_intro= $row['user_intro'];
+
+
+  //사진
+  $club_image_name= $row['user_image_name'];
+  $club_image_copied= $row['user_image_copied'];
+
+  //첨부파일
+  $club_file_name= $row['user_file_name'];
+  $club_file_copied= $row['user_file_copied'];
+  $club_file_type= $row['user_file_type'];
+
+  $image_info = getimagesize("../data/".$club_image_copied);
+  $image_width = $image_info[0];
+  $image_height = $image_info[1];
+  $image_type = $image_info[2];
+  if($image_width>600) $image_width=600;
+
+
 }
-
-
 
 
 ?>
@@ -68,7 +110,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
     $(function() {
       $('#club_schedule_cal').multiDatesPicker({
         minDate: 0, //오늘부터 선택
-        dateFormat :'mm-dd',
+        dateFormat :'y-mm-dd',
         showButtonPanel:true,
         closeText: '닫기',
         club_schedule_cal: '#club_schedule_cal'
@@ -160,7 +202,9 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
        ?>
       <form name="tx_editor_form" id="tx_editor_form" action="./admin_query.php?mode=<?=$mode?>" method="post" enctype="multipart/form-data" accept-charset="utf-8">
         <div id="write_form">
+          <!--수정시에 club_num 전송, 신청모임등록시에 user_num 전송-->
           <input type="hidden" name="club_num" value="<?=$club_num?>">
+          <input type="hidden" name="user_num" value="<?=$user_num?>">
           <!--모임이름, 모집정원, 모집시작일 ,모집종료일, 가격  -->
           <table border="1">
             <tr>
@@ -210,16 +254,15 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
               </td>
             </tr>
             <tr>
-              <td>사진 (gif,jpeg,png파일)</td>
+              <td>사진 [gif,jpeg,png파일]</td>
               <td colspan="2">
               <?php
-                if($mode=="update"){
+                if($mode=="update" || $mode=="request_create"){
               ?>
                 <img src="../data/<?=$club_image_copied?>" width="<?=$image_width?>"><br>
-
                 <input type="checkbox" name="del_img" value="1" id="del_img">삭제
                 <input type="file" name="upimage" value=""  accept="image/gif,image/jpeg,image/png"
-                        onclick="document.getElementById('del_img').checked=true; document.getElementById('del_img').disabled=true"><br>
+                    onclick="document.getElementById('del_img').checked=true; document.getElementById('del_img').disabled=true"><br>
 
               <?php
                 }else{
@@ -234,20 +277,28 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
               <td>모임세부사항 [첨부파일]</td>
               <td colspan="2">
                 <?php
-                if($mode=="update"  && !empty($club_file_name)){
+                if( ($mode=="update" || $mode="request_create")  && !empty($club_file_name)  ){
                   echo "$club_file_name 파일이 등록되어 있습니다.";
 
                   echo '<input type="checkbox" name="del_file" value="1" id="del_file">삭제';
                   ?>
                   <input type="file" name="upfile" value=""
                           onclick="document.getElementById('del_file').checked=true; document.getElementById('del_file').disabled=true">
-
               <?php
                 }else{
                   echo "<input type='file' name='upfile' value=''>";
                 }
               ?>
 
+              </td>
+            </tr>
+
+            <tr>
+              <td>모임간단소개</td>
+              <td colspan="2">
+                <textarea name="club_intro" rows="8" cols="80">
+                  <?=$club_intro?>
+                </textarea>
               </td>
             </tr>
             <tr>
