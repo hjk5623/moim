@@ -5,10 +5,10 @@ session_start();
 create_table($conn, 'club');
 create_table($conn, 'club_ripple');
 
- if(isset($_GET["no"])){
-   $no= $_GET["no"];
+ if(isset($_GET["club_num"])){
+   $club_num= $_GET["club_num"];
  }else{
-   $no= "";
+   $club_num= "";
  }
 ?>
 <!DOCTYPE html>
@@ -71,8 +71,8 @@ create_table($conn, 'club_ripple');
   <section class="sec10"></section>
 
   <?php
-  if(!empty($no) && isset($no)){
-    $sql = "select * from club where club_num='$no'";
+  if(!empty($club_num) && isset($club_num)){
+    $sql = "select * from club where club_num='$club_num'";
   }
   $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
   $row= mysqli_fetch_array($result);
@@ -94,7 +94,7 @@ create_table($conn, 'club_ripple');
   $club_file_name= $row['club_file_name'];
   $club_rent_info= explode("/",$club_rent_info);
   $address= $club_rent_info[0];
-  $sql= "update club set club_hit=$club_hit where club_num=$no";
+  $sql= "update club set club_hit=$club_hit where club_num=$club_num";
   mysqli_query($conn, $sql) or die(mysqli_error($conn));
   ?>
 
@@ -109,10 +109,12 @@ create_table($conn, 'club_ripple');
       <img src="../img/<?=$club_image_name?>" alt="" class="title-img"> <!--모임이미지-->
     </div>
     <div class="">
+
       <?php
+      //관리자만 수정/삭제 버튼이 보임
       if(!empty($_SESSION['userid']) && $_SESSION['userid']==="admin"){ ?>
         <button type="button" name="button">수정</button>
-        <button type="button" name="button" onclick="location.href='ing_query.php?mode=c_delete&no=<?=$club_num?>'">삭제</button>
+        <button type="button" name="button" onclick="location.href='ing_query.php?mode=c_delete&club_num=<?=$club_num?>'">삭제</button>
       <?php } ?>
     </div>
     <section id="sec1" class="bmt-section bmt-section--no-border">
@@ -183,42 +185,103 @@ create_table($conn, 'club_ripple');
      });
    </script>
  </div>
- <div class="">
+ <script type="text/javascript">
+ $(window).on('load', function () {
+     load('#js-load', '4');
+     $("#js-btn-wrap .button").on("click", function () {
+         load('#js-load', '4', '#js-btn-wrap');
+     })
+ });
+
+ function load(id, cnt, btn) {
+     var girls_list = id + " .js-load:not(.active)";
+     var girls_length = $(girls_list).length;
+     var girls_total_cnt;
+     if (cnt < girls_length) {
+         girls_total_cnt = cnt;
+     } else {
+         girls_total_cnt = girls_length;
+         $('.button').hide()
+     }
+     $(girls_list + ":lt(" + girls_total_cnt + ")").addClass("active");
+ }
+</script>
+ <!-- <style media="screen">
+ /* .js-load {
+  display: none;
+}
+.js-load.active {
+  display: block;
+} */
+.is_comp.js-load:after {
+  display: none;
+}
+.btn-wrap, .lists, .main {
+  display: block;
+}
+.main {
+  max-width: 640px;
+  margin: 0 auto;
+}
+.lists {
+  margin: 0;
+}
+.lists__item {
+  padding: 20px;
+  background: #EEE;
+}
+.lists__item:nth-child(2n) {
+  background: #59b1eb;
+  color: #fff;
+}
+.btn-wrap {
+  text-align: center;
+}
+ </style> -->
+ <div class="ripple"> <!--임시 클래스명임. 바꿀겁니다-->
    <p class="ss_title">후기</p>
-   <?php
-     $sql="SELECT * FROM `club_ripple` WHERE c_parent_num='$club_num'";
-     $ripple_result = mysqli_query($conn,$sql);
-     while($ripple_row= mysqli_fetch_array($ripple_result)){
-       $c_ripple_num= $ripple_row['c_ripple_num'];
-       $c_parent_num= $club_num;
-       $c_ripple_name= $ripple_row['c_ripple_name'];
-       $c_ripple_date= $ripple_row['c_ripple_date'];
-       $c_ripple_content= $ripple_row['c_ripple_content'];
-       $c_ripple_content= str_replace("\n", "<br>", $c_ripple_content);
-       $c_ripple_content= str_replace(" ", "&nbsp;", $c_ripple_content);
-   ?>
-     <div id="ripple_title">
-       <ul>
-         <li><?=$c_ripple_name."&nbsp;&nbsp;".$c_ripple_date?></li>
-         <li id="del_btn">
-           <button type="button" name="button" onclick="location.href='ing_query.php?mode=c_delete_ripple&no=<?=$no?>&name=<?=$c_ripple_name?>&c_ripple_num=<?=$c_ripple_num?>'">삭제</button>
+
+     <div id="js-load"> <!-- 작성된 후기를 보여주는 부분 -->
+
+       <ul class="lists">
+         <?php
+         $sql="SELECT * FROM `club_ripple` WHERE c_parent_num='$club_num'";
+         $result = mysqli_query($conn,$sql);
+         $row_num= mysqli_num_rows($result);
+         while($ripple_row= mysqli_fetch_array($result)){
+           $c_ripple_num= $ripple_row['c_ripple_num'];
+           $c_parent_num= $club_num;
+           $c_ripple_id= $ripple_row['c_ripple_id'];
+           $c_ripple_name= $ripple_row['c_ripple_name'];
+           $c_ripple_date= $ripple_row['c_ripple_date'];
+           $c_ripple_content= $ripple_row['c_ripple_content'];
+           $c_ripple_content= str_replace("\n", "<br>", $c_ripple_content);
+           $c_ripple_content= str_replace(" ", "&nbsp;", $c_ripple_content);
+           ?>
+<!-- 보여지는 후기글 -->
+         <li class="lists__item js-load"><?=$c_ripple_name."&nbsp;&nbsp;".$c_ripple_date?> <!--작성자 이름과 작성시간-->
+           <?php
+           //후기작성자만 (자기글)삭제버튼이 보임 & 관리자는 모든 후기 삭제가능
+           if(!empty($_SESSION['userid']) && $_SESSION['userid']===$c_ripple_id || $_SESSION['userid']==="admin"){ ?>
+             <button type="button" name="button" onclick="location.href='ing_query.php?mode=c_delete_ripple&club_num=<?=$club_num?>&name=<?=$c_ripple_name?>&c_ripple_num=<?=$c_ripple_num?>'">삭제</button>
+           <?php } ?>
+           <br><?=$c_ripple_content?>
          </li>
        </ul>
      </div>
-     <div id="c_ripple_content">
-       <?=$c_ripple_content?>
-     </div>
+     <!-- <div id="c_ripple_content"></div> -->
    <?php
      }//end of while
    ?>
-   <form name="ripple_form" action="ing_query.php?mode=c_insert_ripple&no=<?=$no?>" method="post">
-     <!-- <input type="hidden" name="parent" value="<?=$q_num?>"> -->
+   <!-- 후기 입력폼 -->
+   <form name="ripple_form" action="ing_query.php?mode=c_insert_ripple&club_num=<?=$club_num?>" method="post">
      <div id="ripple_insert">
-       <div id="ripple_textarea"><textarea name="c_ripple_content" rows="3" cols="80"></textarea></div>
-       <div id="ripple_button"><button type="submit" name="button">후기 등록</button></div>
+       <div id="ripple_textarea">
+         <textarea name="c_ripple_content" placeholder="후기를 작성해주세요."></textarea>
+         <button type="submit" name="button">후기 등록</button></div>
      </div><!--end of ripple_insert  -->
    </form>
- </div>
+ </div> <!-- end of ripple -->
     </section>
 
     <section class="bmt-section" id="sec4">
@@ -235,7 +298,7 @@ create_table($conn, 'club_ripple');
         <ul id="ullist">
 
           <?php
-            $sql = "select * from club order by club_hit desc";
+            $sql = "SELECT * FROM club WHERE club_open='yes' ORDER BY club_hit desc";
             $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
             $row_count= mysqli_num_rows($result);
             for($i=1; $i<=$row_count; $i++){
@@ -249,7 +312,7 @@ create_table($conn, 'club_ripple');
                     <div class="box">
                       <img src="../img/<?=$club_image_name?>" class="btm2_image">
                     </div>
-                      <a href="#" class="club_info">
+                      <a href="./ing_view.php?club_num=<?=$club_num?>" class="club_info">
                       <div class="inner">
                         <h4 class="btm2_head">다양한 스킨</h4>
                       </div>

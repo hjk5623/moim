@@ -2,10 +2,10 @@
 session_start();
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
 
-if(isset($_GET["no"])){
-  $no= $_GET["no"];
+if(isset($_GET["club_num"])){
+  $club_num= $_GET["club_num"];
 }else{
-  $no= "";
+  $club_num= "";
 }
 
 $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
@@ -18,11 +18,34 @@ $c_ripple_num= (isset($_GET["c_ripple_num"]))? $_GET["c_ripple_num"] : "";
 $content= $q_content = $sql= $result = $userid="";
 $userid = $_SESSION['userid'];
 if(isset($_GET["mode"]) && $_GET["mode"] == "c_delete"){ // club_open= yes인 모임을 지운다
-  $sql = "DELETE FROM `club` WHERE club_num='$no'";
+  //삭제할 게시물의 이미지명,파일명을 가져와서 삭제한다.
+  $sql="SELECT `club_file_copied`,`club_image_copied` FROM `club` WHERE club_num ='$club_num';";
+  $result= mysqli_query($conn,$sql);
+  if (!$result) {
+    die('Error: ' . mysqli_error($conn));
+  }
+  $row= mysqli_fetch_array($result);
+  $club_file_copied= $row['club_file_copied'];
+  $club_image_copied= $row['club_image_copied'];
+
+  if(!empty($club_file_copied)&&!empty($club_image_copied)){
+    unlink("../../admin/data/".$club_file_copied);
+    unlink("../../admin/data/".$club_image_copied);
+  }
+
+  $sql = "DELETE FROM `club` WHERE club_num='$club_num'";
   $result = mysqli_query($conn,$sql);
   if (!$result) {
     die('Error: ' . mysqli_error($conn));
   }
+
+  $sql = "DELETE FROM `club_ripple` WHERE c_parent_num='$club_num'";
+  $result = mysqli_query($conn,$sql);
+  if (!$result) {
+    die('Error: ' . mysqli_error($conn));
+  }
+
+  mysqli_close($conn);
   echo "<script>location.href='ing_list.php';</script>";
 
 }else if(isset($_GET["mode"]) && $_GET["mode"] == "c_insert_ripple"){ //후기 등록하기
@@ -33,7 +56,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "c_delete"){ // club_open= yes인 �
   }
   //로그인한 사람만 덧글 달기를 할 수 있음
   $q_userid = mysqli_real_escape_string($conn, $userid);
-  $sql="select * from buy where buy_club_num='$no' and buy_id='$userid'";
+  $sql="select * from buy where buy_club_num='$club_num' and buy_id='$userid'";
   $result = mysqli_query($conn,$sql);
   if (!$result) {
     die('Error: ' . mysqli_error($conn));
@@ -52,19 +75,20 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "c_delete"){ // club_open= yes인 �
       $row= mysqli_fetch_array($result);
       $name= $row['name'];
 
-      $c_parent_num= test_input($no);
+      $c_parent_num= test_input($club_num);
+      $c_ripple_id= test_input($_SESSION["userid"]);
       $c_ripple_name= test_input($name);
       $c_ripple_content= test_input($_POST["c_ripple_content"]);
       $q_c_ripple_content= mysqli_real_escape_string($conn, $c_ripple_content);
       $c_ripple_date= date("Y-m-d (H:i)");
 
-      $sql="INSERT INTO `club_ripple` VALUES (null,'$c_parent_num','$c_ripple_name','$q_c_ripple_content','$c_ripple_date')";
+      $sql="INSERT INTO `club_ripple` VALUES (null,'$c_parent_num','$c_ripple_id','$c_ripple_name','$q_c_ripple_content','$c_ripple_date')";
       $result = mysqli_query($conn,$sql);
       if (!$result) {
         die('Error: ' . mysqli_error($conn));
       }
       mysqli_close($conn);
-      echo "<script>location.href='ing_view.php?no=$no';</script>'";
+      echo "<script>location.href='ing_view.php?club_num=$club_num';</script>'";
 
     }//end of if rowcount
 }else if(isset($_GET["mode"]) && $_GET["mode"] == "c_delete_ripple"){ //후기 지우기
@@ -76,6 +100,6 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "c_delete"){ // club_open= yes인 �
   if (!$result) {
     die('Error: ' . mysqli_error($conn));
   }
-  echo "<script>location.href='ing_view.php?no=$no';</script>";
+  echo "<script>location.href='ing_view.php?club_num=$club_num';</script>";
 }
  ?>

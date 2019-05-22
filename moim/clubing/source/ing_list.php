@@ -34,6 +34,7 @@ if ($month == 1) {
 $preyear = $year - 1;
 $nextyear = $year + 1;
 
+//mktime= 괄호안에 넣은 날짜의 요일을 알려준다.
 $predate = date("Y-m-d", mktime(0, 0, 0, $month - 1, 1, $year));
 $nextdate = date("Y-m-d", mktime(0, 0, 0, $month + 1, 1, $year));
 
@@ -92,14 +93,14 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
         }
     </script>
     <style media="screen">
-      table,tr,td{
+      table,tr,td{ /*달력에 적용한 최소한의css*/
         border: 1px solid lightgray;
         border-collapse: collapse;
       }
       td{
         width: 150px;
       }
-      #cal_click{
+      #cal_click{ /*달력버튼 잘보이라고*/
         background-color: yellow;
       }
     </style>
@@ -130,6 +131,8 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
         <li><a href="ing_list.php?mode=cook">요리</a></li>
         <li><a href="ing_list.php?mode=movie">영화</a></li>
         <li><a href="ing_list.php?mode=art">미술</a></li>
+        <li><a href="ing_list.php?mode=design">디자인</a></li>
+        <li><a href="ing_list.php?mode=etc">취미생활&기타</a></li>
       </ul>
     </div>
 
@@ -161,7 +164,7 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
         console.log(value);
         for(i=0;i<value.length-1;i++){
           value_day = value[i].split("/");
-          $("#schedule"+value_day[0]).append("<a href='./view.php?club_num="+value_day[2]+"'>"+value_day[1]+"<br></a>");
+          $("#schedule"+value_day[0]).append("<a href='./ing_view.php?club_num="+value_day[2]+"'>"+value_day[1]+"<br></a>");
           $("#schedule"+value_day[0]).css("color","blue");
           console.log(value_day[2]);
         }
@@ -173,7 +176,6 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
         console.log("complete");
       });
     });
-
     </script>
     <section class="scroll-sec">
     <!--if mode=="calendar" 캘린더 보여주기-------------------------------------------------------------->
@@ -185,7 +187,7 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
         <tr align="center" >
           <td>
             <!-- 현재 보고있는 달의 작년 -->
-            <a href=<?php echo 'ing_list.php?mode=calendar&year='.$preyear.'&month='.$month . '&day=1'; ?>>PRE YEAR</a>
+            <a href=<?php echo 'ing_list.php?mode=calendar&year='.$preyear.'&month='.$month . '&day=1';?> id=$pre_year>PRE YEAR</a>
           </td>
           <td>
             <!-- 이전달 -->
@@ -241,15 +243,10 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
             // 12. 오늘 날짜면 굵은 글씨
             if ($year == $thisyear && $month == $thismonth && $day == date("j")) {
                 // 13. 날짜 출력
-                echo '<font class='.$style.'>';
-                echo $day;
                 echo '</font>';
                 echo " 오늘";
-                echo " <div id='schedule".$day."'><div>";
             } else {
-                echo '<font class='.$style.'>';
                 echo $day;
-                echo '</font>';
                 echo "<div id='schedule".$day."'><div>";
             }
             // 14. 날짜 증가
@@ -259,18 +256,18 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
     }
  ?>
   </tr>
-  <?php } ?>
+<?php } //end of for ?>
 </table>
-<?php } ?>
+<?php } //end of if ?>
 </div>
       <div class="img-table">
         <ul id="ullist">
 
           <?php
           if(!empty($mode)&&isset($mode)){
-            $sql = "select * from club where club_category='$mode' order by club_hit desc";
+            $sql = "SELECT * FROM club WHERE club_category='$mode' and club_open='yes' ORDER BY club_hit desc";
           }else{
-            $sql = "select * from club order by club_hit desc";
+            $sql = "SELECT * FROM club WHERE club_open='yes' ORDER BY club_hit desc";
           }
             $result= mysqli_query($conn, $sql) or die(mysqli_error($conn));
             $row_count= mysqli_num_rows($result);
@@ -285,7 +282,7 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
                     <div class="box">
                       <img src="../img/<?=$club_image_name?>" class="btm2_image">
                     </div>
-                      <a href="./ing_view.php?no=<?=$club_num?>" class="club_info">
+                      <a href="./ing_view.php?club_num=<?=$club_num?>" class="club_info">
                       <div class="inner">
                         <h4 class="btm2_head">다양한 스킨</h4>
                       </div>
