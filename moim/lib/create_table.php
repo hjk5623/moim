@@ -123,7 +123,6 @@
           `ripple_gno` int(11) NOT NULL,
           `ripple_depth` int(11) NOT NULL,
           `ripple_ord` int(11) NOT NULL,
-          `ripple_subject` varchar(50) NOT NULL,
           `ripple_content` text NOT NULL,
           `ripple_date` date NOT NULL,
           `parent_num` int NOT NULL,

@@ -34,7 +34,7 @@ if(!isset($_SESSION)){
           <li><a href="./user_apply.php">CLUB_LIST</a></li>
           <li><a href="./user_open.php">CLUBING</a></li>
           <li><a href="./user_cart.php">CART</a></li>
-          <li><a href="">USER_CLUB</a></li>
+          <li><a href="./user_apply_list.php">USER_CLUB</a></li>
           <li><a href="./user_refund.php">REFUND</a></li>
 
       </div>

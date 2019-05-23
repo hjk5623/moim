@@ -1,17 +1,21 @@
 <?php
 session_start();
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
-$userid=$_SESSION['userid'];
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../css/user_open.css">
+  <link rel="stylesheet" type="text/css" href="../css/user_apply_list.css">
 <meta charset="UTF-8">
-<?php
 
-  $sql="SELECT * FROM club inner join buy on club.club_num = buy.buy_club_num and buy.buy_id='$userid' and club.club_open='yes' order by buy_num desc;";
+<?php
+  if(isset($_SESSION['userid'])){
+    $userid=$_SESSION['userid'];
+  }else{
+    $userid="";
+  }
+
+  $sql="SELECT * from user_club where user_id='$userid' order by user_num desc;";
 
   $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
   $total_record = mysqli_num_rows($result); //전체 레코드 수
@@ -49,21 +53,25 @@ $number=$total_record- $start_row;
 ?>
  <script></script>
 </head>
-
 <body>
   <?php
-  include $_SERVER['DOCUMENT_ROOT']."/moim/mypage/lib/user_menu.php";
+    include $_SERVER['DOCUMENT_ROOT']."/moim/mypage/lib/user_menu.php";
   ?>
-  <h1 class="h1_open">진행중 모임</h1>
-  		 <table class="table_open" id="table_open" border="1">
+  <article class="main">
+    <h1 class="h1_apply_list">모임신청내역</h1>
+  		 <table id="memberlist" border="1">
          <tr>
            <td>순서</td>
+           <td>신청인</td>
            <td>모임명</td>
-           <td>분류</td>
+           <td>분야</td>
+           <td>모집시작</td>
+           <td>모집마감</td>
+           <td>모집인원</td>
            <td>가격</td>
-           <td>대관장소</td>
-           <td>모임일정</td>
-           <td>비고</td>
+           <td>장소</td>
+           <td>확인</td>
+           <td>처리상태</td>
          </tr>
       <?php
 
@@ -74,26 +82,54 @@ $number=$total_record- $start_row;
 
         //하나 레코드 가져오기
         $row=mysqli_fetch_array($result);
-        $buy_num=$row["buy_num"];
-        $club_num=$row["club_num"];
-        $club_name=$row["club_name"];
-        $club_category=$row["club_category"];
-        $club_price=$row["club_price"];
-        $club_to=$row["club_to"];
-        $club_apply=$row["club_apply"];
-        $club_rent_info=$row["club_rent_info"];
-        $club_schedule=$row["club_schedule"];
-        $club_end=$row["club_end"];
-
+        $user_num=$row["user_num"];
+        $user_id=$row["user_id"];
+        $user_name=$row["user_name"];
+        $user_category=$row["user_category"];
+        $user_start=$row["user_start"];
+        $user_end=$row["user_end"];
+        $user_to=$row["user_to"];
+        $user_price=$row["user_price"];
+        $user_rent_info=$row["user_rent_info"];
+        $user_check=$row["user_check"];
         ?>
         <tr>
           <td><?=$number?></td>
-          <td><a href="../../clubing/source/ing_view.php?club_num=<?=$club_num?>"><?=$club_name?></a></td>
-          <td><?=$club_category?></td>
-          <td><?=$club_price?></td>
-          <td><?=$club_rent_info?></td>
-          <td><?=$club_schedule?></td>
-          <td></td>
+          <td><?=$user_id?></td>
+          <td><?=$user_name?></td>
+          <td><?=$user_category?></td>
+          <td><?=$user_start?></td>
+          <td><?=$user_end?></td>
+          <td><?=$user_to?></td>
+          <td><?=$user_price?></td>
+          <td><?=$user_rent_info?></td>
+          <td>
+          <?php
+            if($user_check=="no"){
+           ?>
+            <a href="./user_apply_view.php?user_num=<?=$user_num?>&page=<?=$page?>"><button type="button" name="button" id="view">내용</button></a>
+           <?php
+            }else{
+            ?>
+            <a href="./user_apply_view.php?user_num=<?=$user_num?>&page=<?=$page?>"><button type="button" name="button" id="view">내용</button></a>
+            <?php
+            }
+             ?>
+
+          </td>
+          <td>
+            <?php
+              if($user_check=="no"){
+            ?>
+              심사중
+            <?php
+              }else{
+            ?>
+              심사완료(이메일 확인 요망)
+            <?php
+              }
+             ?>
+          </td>
         </tr>
         <?php
         $number--;
@@ -106,30 +142,33 @@ $number=$total_record- $start_row;
                 #----------------이전블럭 존재시 링크------------------#
                 if($start_page > $pages_scale){
                    $go_page= $start_page - $pages_scale;
-                   echo "<a id='before_block' href='user_club_list.php?page=$go_page'> << </a>";
+                   echo "<a id='before_block' href='user_apply_list.php?page=$go_page'> << </a>";
                 }
                 #----------------이전페이지 존재시 링크------------------#
                 if($pre_page){
-                    echo "<a id='before_page' href='user_club_list.php?page=$pre_page'> < </a>";
+                    echo "<a id='before_page' href='user_apply_list.php?page=$pre_page'> < </a>";
                 }
                  #--------------바로이동하는 페이지를 나열---------------#
                 for($dest_page=$start_page;$dest_page <= $end_page;$dest_page++){
                    if($dest_page == $page){
                         echo( "&nbsp;<b id='present_page'>$dest_page</b>&nbsp" );
                     }else{
-                        echo "<a id='move_page' href='user_club_list.php?page=$dest_page'>$dest_page</a>";
+                        echo "<a id='move_page' href='user_apply_list.php?page=$dest_page'>$dest_page</a>";
                     }
                  }
                  #----------------이전페이지 존재시 링크------------------#
                  if($next_page){
-                     echo "<a id='next_page' href='user_club_list.php?page=$next_page'> > </a>";
+                     echo "<a id='next_page' href='user_apply_list.php?page=$next_page'> > </a>";
                  }
                  #---------------다음페이지를 링크------------------#
                 if($total_pages >= $start_page+ $pages_scale){
                   $go_page= $start_page+ $pages_scale;
-                  echo "<a id='next_block' href='user_club_list.php?page=$go_page'> >> </a>";
+                  echo "<a id='next_block' href='user_apply_list.php?page=$go_page'> >> </a>";
                  }
        ?>
    </div>
+
+         </article>
+
 </body>
 </html>

@@ -24,13 +24,12 @@
       }
     </script>
     <script type="text/javascript">
-    function textarea_edit(){
-      CKEDITOR.replace('user_content');
-    }
+
+
     $(function() {
       $('#datepicker3').multiDatesPicker({
         minDate: 0, //오늘부터 선택
-        dateFormat: 'mm-dd',
+        dateFormat: 'y-mm-dd',
         club_schedule_cal: '#datepicker3',
         showButtonPanel: true,
         closeText: '닫기'
@@ -60,7 +59,7 @@
       });
     </script>
   </head>
-  <body onload="textarea_edit()">
+  <body>
     <?php
     include $_SERVER['DOCUMENT_ROOT']."/moim/mypage/lib/user_menu.php";
     ?>
@@ -136,6 +135,9 @@
         </tr>
         <tr>
           <td colspan="2"><textarea name="user_content" id="user_content" rows="8" cols="80"></textarea></td>
+          <script type="text/javascript">
+            CKEDITOR.replace('user_content');
+          </script>
         </tr>
         <tr>
           <td colspan="2">

@@ -7,7 +7,6 @@ $userid=$_SESSION['userid'];
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript" src="./user.js"></script>
 <link rel="stylesheet" type="text/css" href="../css/user_refund.css">
 <meta charset="UTF-8">
 <?php
