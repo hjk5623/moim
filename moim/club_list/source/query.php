@@ -20,6 +20,9 @@ if(isset($_GET['mode'])&&$_GET['mode']=="delete"){ //모임 삭제 했을 경우
     if (!empty($club_image_copied)) {
       $del_file=unlink("../../admin/data/".$club_image_copied);
     }
+    if (!empty($club_file_copied)) {
+      $del_file2=unlink("../../admin/data/".$club_file_copied);
+    }
 
     $sql="DELETE FROM club WHERE club_num=$club_num";
     $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));

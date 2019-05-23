@@ -68,7 +68,7 @@ $row_length= 150;
           <ul class="place-list-two">
             <?php
             $today = date("Y-m-d", time());
-            if (isset($mode)&& $_GET['mode']) {
+            if (!(empty($_GET['mode']))&&(isset($_GET['mode']))){
               $sql = "select * from club where club_category='$mode' and club_open = 'no' and club_end >= '$today' order by club_hit desc";
               $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
               $count=mysqli_num_rows($result);
