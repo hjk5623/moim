@@ -25,7 +25,7 @@ if(empty($user_file_copied) || $user_file_type =='image'){
 }
 
 if($user_check=="yes"){
-  $file_path = "../../admin/$user_file_copied";
+  $file_path = "../../admin/data/$user_file_copied";
 }else{
   $file_path = "../data/$user_file_copied";
 }
