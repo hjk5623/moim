@@ -1,7 +1,7 @@
 ﻿<?php
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
-include $_SERVER['DOCUMENT_ROOT']."/moim/admin/lib/file_upload.php";
+
 
 create_table($conn,'club');
 
@@ -48,24 +48,22 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "clubinsert"){
  $club_end= test_input($_POST["club_end"]);         //모집종료일 예)2019-05-20
  $club_schedule= test_input($_POST["club_schedule"]); // 모임일정
 
- // include $_SERVER['DOCUMENT_ROOT']."/moim/admin/lib/file_upload.php";
- // var_export($file_extension);
+ include $_SERVER['DOCUMENT_ROOT']."/moim/admin/lib/file_upload.php";
 
-   $sql="INSERT INTO `club` VALUES (null,'$club_name','$content','$club_category','$club_price','$club_to','$club_rent_info','$club_start','$club_end',0,'$club_schedule',0,'no','$upimage_name','$copied_image_name','$upfile_name','$copied_file_name','$file_extension','$club_intro');";
+ $sql="INSERT INTO `club` VALUES (null,'$club_name','$content','$club_category','$club_price','$club_to','$club_rent_info','$club_start','$club_end',0,'$club_schedule',0,'no','$upimage_name','$copied_image_name','$upfile_name','$copied_file_name','$file_extension','$club_intro');";
+ $result = mysqli_query($conn,$sql);
+ if (!$result) {
+   alert_back('Error: ' . mysqli_error($conn));
+ }
+
+ $sql="SELECT club_num from `club` order by club_num desc limit 1;";
    $result = mysqli_query($conn,$sql);
    if (!$result) {
-     alert_back('Error: ' . mysqli_error($conn));
+     die('Error: ' . mysqli_error($conn));
    }
+   $row=mysqli_fetch_array($result);
+   $club_num = $row['club_num'];
 
-   $sql="SELECT club_num from `club` order by club_num desc limit 1;";
-     $result = mysqli_query($conn,$sql);
-     if (!$result) {
-       die('Error: ' . mysqli_error($conn));
-     }
-     $row=mysqli_fetch_array($result);
-     $club_num = $row['club_num'];
-
-  // mysqli_close($conn);
   echo "<script> location.href='./admin_club_create_view.php?club_num=$club_num'; </script>";
 }
 
@@ -81,6 +79,9 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "clubaccept"){
   }
   echo "<script> location.href='./admin_club_accept.php'; </script>";
 }
+
+
+
 //모임삭제
 if(isset($_GET["mode"]) && $_GET["mode"] == "clubdelete"){
   $club_num = test_input($_GET['club_num']);
@@ -117,7 +118,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "clubdelete"){
   if (!$result) {
     die('Error: ' . mysqli_error($conn));
   }
-  // echo "<script> location.href='./admin_club_accept.php'; </script>";
+
 
 }
 
@@ -130,15 +131,13 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "memberdel"){
   if (!$result) {
     alert_back('Error: ' . mysqli_error($conn));
   }
-  // echo "<script> alert('회원삭제완료');
-  //         location.href='admin_member.php';
-  //       </script>
-  //       ";
+
 }
 
 //모임수정
 
 if(isset($_GET["mode"]) && $_GET["mode"] == "update"){
+  include $_SERVER['DOCUMENT_ROOT']."/moim/admin/lib/file_upload.php";
     if(empty($_POST["club_name"])){
      echo "<script>alert('모임이름을 입력해주세요.'); history.go(-1);</script>";
      return;
@@ -275,6 +274,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "refund_update"){
 
 
 if(isset($_GET["mode"]) && $_GET["mode"] == "request_create"){
+    include $_SERVER['DOCUMENT_ROOT']."/moim/admin/lib/file_upload.php";
     $user_num = $_POST["user_num"];
 
     if(empty($_POST["club_name"])){
@@ -308,6 +308,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "request_create"){
      $club_category = test_input($_POST["club_category"]);          //모임카테고리
      $club_price = test_input($_POST["club_price"]);               //모임 가격
      $club_to= test_input($_POST["club_to"]);                    //모집정원
+     $club_intro= test_input($_POST["club_intro"]);                    //모집정원
 
      $club_rent_info1= test_input($_POST["club_rent_info1"]);      //모임장소(대관관련)
      $club_rent_info2= test_input($_POST["club_rent_info2"]);      //모임장소(대관관련)
@@ -419,6 +420,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "request_disapprove"){
   }
 
 }
+mysqli_close($conn);
 
 
 

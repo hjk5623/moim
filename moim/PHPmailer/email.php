@@ -59,5 +59,33 @@ if(isset($_GET["mode"]) && $_GET["mode"]=="find_passwd"){
 
   echo '[{"code":"'.$code.'"}]';
 
+}else if(isset($_GET["mode"]) && $_GET["mode"]=="open"){
+  include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
+  $club_num=$_POST['club_num'];
+
+  $sql="SELECT * FROM membership inner join buy on membership.id = buy.buy_id where buy_club_num=$club_num";  // 해당 모임을 구매한 사람의 id
+  $result = mysqli_query($conn,$sql);
+  if (!$result) {
+    die('Error: ' . mysqli_error($conn));
+  }
+  $count=mysqli_num_rows($result);
+  include './Sendmail.php';
+  for($i=0;$i<$count;$i++){
+
+    $row = mysqli_fetch_array($result);
+    $email=$row['email'];
+    $to=$email;
+    $from="관리자";
+    $subject="Mo,im 모임개설";
+    $body="Mo,im 고객님이 신청하신 모임이 개설되었습니다. \n 홈페이지에서 확인하세요.";
+    $cc_mail="";
+    $bcc_mail=""; /* 메일 보내기*/
+    $sendmail->send_mail($to, $from, $subject, $body,$cc_mail,$bcc_mail);
+
+  }
+
+
+
+
 }
 ?>

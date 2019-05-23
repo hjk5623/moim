@@ -193,7 +193,7 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
           title: '월별 매출 현황',
           subtitle: 'in won (KRW)'
         },
-        width: 815,
+        width: 600,
         height: 500
       };
       // 그려진 차트가 들어가는  div의 이름이 'linechart'
@@ -211,8 +211,6 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
       });
 
     });
-
-
 
     google.charts.load('current', {
       'packages': ['corechart']
@@ -236,7 +234,11 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
 
 
       var options = {
-        title: '카테고리별 모임현황'
+        chart:{
+          title: '카테고리별 모임현황'
+        },
+        width: 600,
+        height: 400,
       };
 
       var chart = new google.visualization.PieChart(document.getElementById('piechart'));
@@ -247,29 +249,30 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
 </head>
 
 <body>
-  <nav>
-    <?php
-  include $_SERVER['DOCUMENT_ROOT']."/moim/admin/source/admin.php";
+  <?php
+    include $_SERVER['DOCUMENT_ROOT']."/moim/admin/source/admin.php";
   ?>
-  </nav>
   <h1 id="hr"></h1><br>
-  <div id="">
-    <div id="">
-      <h4>매출 내역</h4>
-      <form name="month_form" action="admin_sales.php" method="post">
-        <select name="find">
-          <option value="<?= $current_date ?>"><?= $current_date ?>년</option>
-          <option value="<?= $current_date -1 ?>"><?= $current_date -1 ?>년</option>
-          <option value="<?= $current_date -2 ?>"><?= $current_date -2 ?>년</option>
-          <option value="<?= $current_date -3 ?>"><?= $current_date -3 ?>년</option>
-          <option value="<?= $current_date -4 ?>"><?= $current_date -4 ?>년</option>
-          <option value="<?= $current_date -5 ?>"><?= $current_date -5 ?>년</option>
-          <option value="<?= $current_date -6 ?>"><?= $current_date -6 ?>년</option>
-        </select>
-        <input type="submit" value="검색">
+  <div id="sales_main_div">
+    <div id="sales_div">
+      <h1>월별 매출 현황</h1>
+      <hr class="memberlist_hr">
+      <div class="search_div">
+        <form name="month_form" action="admin_sales.php" method="post" class="year_form">
+          <select name="find">
+            <option value="<?= $current_date ?>"><?= $current_date ?>년</option>
+            <option value="<?= $current_date -1 ?>"><?= $current_date -1 ?>년</option>
+            <option value="<?= $current_date -2 ?>"><?= $current_date -2 ?>년</option>
+            <option value="<?= $current_date -3 ?>"><?= $current_date -3 ?>년</option>
+            <option value="<?= $current_date -4 ?>"><?= $current_date -4 ?>년</option>
+            <option value="<?= $current_date -5 ?>"><?= $current_date -5 ?>년</option>
+            <option value="<?= $current_date -6 ?>"><?= $current_date -6 ?>년</option>
+          </select>
+          <input type="submit" value="검색">
+        </form>
+      </div>
     </div>
     <br>
-    </form>
     <?php
       $jan_price = number_format($jan_price);
       $feb_price = number_format($feb_price);
@@ -286,15 +289,16 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
       $total_sales = number_format($total_sales);
 
       ?>
-    <div class="" style="border:1px solid black;">
       <div class="table_div">
-        <table class="salestable" border="1">
-          <th>월별 매출 현황</th>
+        <table class="salestable">
+        <thead>
           <tr>
             <td>구분</td>
             <td>기간</td>
             <td>매출액</td>
           </tr>
+        </thead>
+        <tbody class="uptbody">
           <tr>
             <td rowspan="6">상반기</td>
             <td>1월</td>
@@ -320,6 +324,8 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
             <td>6월</td>
             <td><?=$jun_price?>원</td>
           </tr>
+          </tbody>
+          <tbody class="downtbody">
           <tr>
             <td rowspan="6">하반기</td>
             <td>7월</td>
@@ -345,22 +351,22 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
             <td>12월</td>
             <td><?=$dec_price?>원</td>
           </tr>
-          <tr>
-            <td colspan="2"><?=$find?>년도 매출총액 </td>
-            <td><?=$total_sales?>원</td>
-          </tr>
+          </tbody>
+            <tr class="lasttbody">
+              <td colspan="2"><?=$find?>년도 매출총액 </td>
+              <td><?=$total_sales?>원</td>
+            </tr>
         </table>
       </div>
 
+    <div class="chart_div">
+      <h2>월별 매출 및 카테고리별 모임현황</h2>
+      <hr class="memberlist_hr">
       <div id="linechart">
         <!--라인차트가 그려지는 부분  -->
       </div>
-    </div>
-
-    <div class="" style="border:1px solid black;">
       <div id="piechart">
         <!--파인차트가 그려지는 부분  -->
-
       </div>
     </div>
     <?php
@@ -418,10 +424,6 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
       </table>
     </div>
   </div>
-  <br><br>
-  <footer>
-
-  </footer>
 </body>
 
 </html>

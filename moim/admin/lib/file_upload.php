@@ -66,14 +66,14 @@ if(!empty($_FILES['upimage']['name'])){
   $row=mysqli_fetch_array($result);
   $user_image_copied = $row['user_image_copied'];
   $user_image_name = $row['user_image_name'];
-  var_export($user_image_copied);
-  var_export($user_image_name);
+  // var_export($user_image_copied);
+  // var_export($user_image_name);
 
   $oldfile = "../../mypage/data/".$user_image_copied; // 원본파일 --mypage 의 data폴더에 있는 파일
   $newfile = "../data/".$user_image_copied; // 복사파일 -- admin의 data 폴더에
 
-  var_export($oldfile);
-  var_export($newfile);
+  // var_export($oldfile);
+  // var_export($newfile);
 
   copy($oldfile, $newfile);
   unlink($oldfile);
@@ -142,13 +142,13 @@ if(!empty($_FILES['upfile']['name'])){
   $user_file_copied = $row['user_file_copied'];
   $user_file_type = $row['user_file_type'];
   $user_file_name = $row['user_file_name'];
-  var_export($user_file_copied);
+  // var_export($user_file_copied);
 
   $oldfile = "../../mypage/data/".$user_file_copied; // 원본파일 --mypage 의 data폴더에 있는 파일
   $newfile = "../data/".$user_file_copied; // 복사파일 -- admin의 data 폴더에
 
-  var_export($oldfile);
-  var_export($newfile);
+  // var_export($oldfile);
+  // var_export($newfile);
 
   copy($oldfile, $newfile);
   unlink($oldfile);

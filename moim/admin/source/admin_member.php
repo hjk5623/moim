@@ -2,7 +2,7 @@
 // 회원리스트작업 아직 미정
 session_start();
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
-
+$mode="";
 $kind="";
 if(isset($_GET['mode']) && $_GET['mode']=="search"){
   $search_value = $_POST['search_value'];
@@ -48,9 +48,9 @@ $number=$start_row+1;
     <link rel="stylesheet" type="text/css" href="../css/admin_member.css">
     <script type="text/javascript">
 
-      function check_delete(id){
+      function check_delete(id,name){
         console.log(id);
-        var result1=confirm("한번 삭제한 자료는 복구할 수 없습니다.?\n정말 삭제하시겠습니까?");
+        var result1=confirm("✔"+name+" 회원을 삭제하시겠습니까?\n 정말 삭제하시겠습니까?");
         if(result1){
         $.ajax({
           url: './admin_query.php?mode=memberdel',
@@ -79,31 +79,30 @@ $number=$start_row+1;
     ?>
     <div class="memberlist">
       <!-- <b>회원리스트</b> -->
-      <hr>
       <div id="head">
       <h1 id="hr">Member List</h1>
-        <div id="search">
+        <div class="search">
           <form action="./admin_member.php?mode=search" method="post" id="form1">
-            <select name="kind">
+            <select name="kind" class="kind_sel">
               <option value="id1">아이디</option>
               <option value="name1">이름</option>
             </select>
               <input type="text" name="search_value">
-              <input type="submit" value="검색" id="form1">
+              <input type="submit" value="search" id="form1">
           </form>
         </div>
     </div>
-    <hr>
-   <table id="memberlist_table" border="1">
+    <hr class="memberlist_hr">
+   <table id="memberlist_table">
   <?php
-  echo "<tr>
+  echo "<thead><tr>
         <td>아이디</td>
         <td>이름</td>
         <td>전화번호</td>
         <td>주소</td>
         <td>이메일</td>
         <td>탈퇴</td>
-        </tr>";
+        </tr></thead>";
   //↓가져올 레코드 위치 이동 즉, 레코드셋의 위치. 원하는 순번의 데이터를 선택할때 쓴다.
   mysqli_data_seek($result, $start_row);
   for($i=$start_row; ($i<$start_row+$rows_scale) && ($i< $total_record); $i++){
@@ -119,7 +118,7 @@ $number=$start_row+1;
     $item_email=$row["email"];
 
   ?>
-
+  <tbody>
     <tr class="memberlist_tr2" style="text-align:center;">
         <input type="hidden" name="id" class="hidden_id" value="<?=$item_id?>">
         <td><?=$item_id?></td>
@@ -127,15 +126,15 @@ $number=$start_row+1;
         <td><?=$item_phone?></td>
         <td><?=$address?></td>
         <td><?=$item_email?></td>
-        <td>&nbsp;&nbsp;<button type="button" class="button" onclick="check_delete('<?=$item_id?>');">삭제</button></td>
+        <td>&nbsp;&nbsp;<button type="button" class="button" onclick="check_delete('<?=$item_id?>','<?=$item_name?>');">삭제</button></td>
       </tr>
+    </tbody>
     <?php
 
   }
     ?>
 
 </table>
-<hr>
 
   <div id='page_box' style="text-align: center;">
 <?PHP
@@ -169,7 +168,5 @@ $number=$start_row+1;
   </div>
 
     </div>
-
-
   </body>
 </html>

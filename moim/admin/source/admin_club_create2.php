@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 $mode="clubinsert";
@@ -207,7 +207,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
           <input type="hidden" name="club_num" value="<?=$club_num?>">
           <input type="hidden" name="user_num" value="<?=$user_num?>">
           <!--모임이름, 모집정원, 모집시작일 ,모집종료일, 가격  -->
-          <table border="1">
+          <table class="club_create2_table">
             <tr>
               <td>모임이름</td>
               <td colspan="2"><input type="text" name="club_name" value="<?=$club_name?>"></td>
@@ -234,15 +234,15 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
             </tr>
             <tr>
               <td id="write_td">모집정원</td>
-              <td colspan="2"><input type="number" name="club_to" value="<?=$club_to?>"></td>
+              <td colspan="2"><input type="number" name="club_to" value="<?=$club_to?>"  placeholder="모집정원"></td>
             </tr>
             <tr>
               <td>모집시작일</td>
-              <td colspan="2"><input type="text" name="club_start" value="<?=$club_start?>" id="datepicker1"></td>
+              <td colspan="2"><input type="text" name="club_start" value="<?=$club_start?>" id="datepicker1" placeholder="모집시작일"></td>
             </tr>
             <tr>
               <td>모집종료일</td>
-              <td colspan="2"><input type="text" name="club_end" value="<?=$club_end?>" id="datepicker2"></td>
+              <td colspan="2"><input type="text" name="club_end" value="<?=$club_end?>" id="datepicker2" placeholder="모집종료일"></td>
             </tr>
             <tr>
               <td>가격</td>
@@ -251,21 +251,27 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
             <tr>
               <td>수업일정</td>
               <td colspan="2">
-                <input type="text" id="club_schedule_cal" name="club_schedule" size="60 "  value="<?=$club_schedule?>">
+                <input type="text" id="club_schedule_cal" name="club_schedule" size="60 "  value="<?=$club_schedule?>" placeholder="수업일정">
               </td>
             </tr>
             <tr>
               <td>사진 [gif,jpeg,png파일]</td>
               <td colspan="2">
               <?php
-                if($mode=="update" || $mode=="request_create"){
+                if($mode=="update"){
               ?>
-                <img src="../../mypage/data/<?=$club_image_copied?>" width="<?=$image_width?>"><br>
-
+                <img src="../data/<?=$club_image_copied?>" width="<?=$image_width?>"><br>
                 <input type="checkbox" name="del_img" value="1" id="del_img">삭제
                 <input type="file" name="upimage" value=""  accept="image/gif,image/jpeg,image/png"
                     onclick="document.getElementById('del_img').checked=true; document.getElementById('del_img').disabled=true"><br>
 
+              <?php
+                }else if($mode=="request_create"){
+              ?>
+                <img src="../../mypage/data/<?=$club_image_copied?>" width="<?=$image_width?>"><br>
+                <input type="checkbox" name="del_img" value="1" id="del_img">삭제
+                <input type="file" name="upimage" value=""  accept="image/gif,image/jpeg,image/png"
+                    onclick="document.getElementById('del_img').checked=true; document.getElementById('del_img').disabled=true"><br>
               <?php
                 }else{
                ?>

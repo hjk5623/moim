@@ -59,6 +59,7 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
   <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+  <link rel="stylesheet" href="../css/admin_club_create_view.css">
   <style media="screen">
       table {
         margin: 0 auto;
@@ -77,19 +78,13 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
   <?php
   include $_SERVER['DOCUMENT_ROOT']."/moim/admin/source/admin.php";
   ?>
-  <div id="col2">
-    <p id="board_title_p">&nbsp;&nbsp;</p>
-    <div id="board_title_div">
-    </div>
-    <!--end of title -->
-    <div class="clear"></div>
-    <div id="write_form_title"></div>
-    <div class="clear"></div>
     <div class="body">
+    <h2>모임내용</h2>
+      <hr class="memberlist_hr">
       <form name="tx_editor_form" id="tx_editor_form" action="./admin_query.php?mode=clubinsert" method="post" enctype="multipart/form-data" accept-charset="utf-8">
         <div id="write_form"  style="margin-top:100px;">
           <!--모임이름, 모집정원, 모집시작일 ,모집종료일, 가격  -->
-        <table border="1">
+        <table class="create_view_table">
           <tr>
           <td>모임이름</td>
             <td colspan="2"><input type="text" name="club_name" value="<?=$club_name?>" readonly> </td>
@@ -167,7 +162,6 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
           </table>
         </div><!--end of write_form -->
       </div>
-    </div> <!-- end of content -->
   </div> <!-- end of wrap -->
 </body>
 

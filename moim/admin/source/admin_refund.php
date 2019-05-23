@@ -42,23 +42,27 @@ $number=$total_record- $start_row;
     function refund_submit(num,id){
       // console.log(num);
       // console.log(id);
-      $.ajax({
-        url: './admin_query.php?mode=refund_update',
-        type: 'POST',
-        data: {
-          buy_id: id,
-          buy_club_num: num
-        }
-      }) .done(function(result) {
-        console.log(result);
-        location.href='./admin_refund.php';
-      })
-      .fail(function() {
-        console.log("error");
-      })
-      .always(function() {
-        console.log("complete");
-      });
+      var result1=confirm(id+"회원의 환불을 처리하시겠습니까?");
+      if(result1){
+        $.ajax({
+          url: './admin_query.php?mode=refund_update',
+          type: 'POST',
+          data: {
+            buy_id: id,
+            buy_club_num: num
+          }
+        }) .done(function(result) {
+          console.log(result);
+          location.href='./admin_refund.php';
+        })
+        .fail(function() {
+          console.log("error");
+        })
+        .always(function() {
+          console.log("complete");
+        });
+
+      }
     }
   </script>
 </head>
@@ -69,14 +73,16 @@ $number=$total_record- $start_row;
   <article class="main">
     <h2 id="h2"><big><strong>환불관리</strong></big></h2>
     <form name="refund" class="" action="admin_query.php?mode=refund_update" method="post">
-      <table id="memberlist" border="1">
-        <tr>
-          <td>ORDER NO</td>
-          <td>id</td>
-          <td>모임이름</td>
-          <td>환불취소신청날짜</td>
-          <td>환불</td>
-        </tr>
+      <table id="memberlist">
+        <thead>
+          <tr>
+            <td>ORDER NO</td>
+            <td>id</td>
+            <td>모임이름</td>
+            <td>환불취소신청날짜</td>
+            <td>환불</td>
+          </tr>
+        </thead>
         <?php
       for($i=$start_row; ($i<$start_row+$rows_scale) && ($i< $total_record); $i++){
         //가져올 레코드 위치 이동
@@ -97,7 +103,8 @@ $number=$total_record- $start_row;
           <td><?=$club_name?></td>
           <td><?=$buy_process_date?> </td>
           <td>
-            <button type="button" name="button" id="view" onclick="refund_submit(<?=$buy_club_num?>,'<?=$buy_id?>'); window.open('https://admin.iamport.kr/payments','_blank', 'width=550 height=500');">환불</button></a>
+            <button type="button" name="button" id="view" onclick="window.open('https://admin.iamport.kr/payments','_blank', 'width=550 height=500');">거래내역조회</button></a>
+            <button type="button" name="button" id="view" onclick="refund_submit(<?=$buy_club_num?>,'<?=$buy_id?>');">환불처리완료</button></a>
           </td>
         </tr>
         <?php

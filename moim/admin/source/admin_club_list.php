@@ -38,6 +38,7 @@ $number = $total_record - $start_row;
 <head>
   <meta charset="utf-8">
   <title></title>
+  <link rel="stylesheet" href="../css/admin_club_list.css">
   <style media="screen">
     #accept_table{
       text-align: center;
@@ -58,18 +59,22 @@ $number = $total_record - $start_row;
   <?php
   include $_SERVER['DOCUMENT_ROOT']."/moim/admin/source/admin.php";
   ?>
+  <div class="admin_club_list">
   <h2 id="h2"><big><strong>CLUB LIST</strong></big></h2>
-  <table border="1" id="accept_table" style="width:800px;">
-    <tr>
-      <td>NO</td>
-      <td>모임명</td>
-      <td>카테고리</td>
-      <td>모집시작일</td>
-      <td>모집종료일</td>
-      <td>모집정원</td>
-      <td>신청인원</td>
-      <td>비고</td>
-    </tr>
+  <hr class="memberlist_hr">
+  <table id="accept_table">
+    <thead>
+      <tr>
+        <td>NO</td>
+        <td>모임명</td>
+        <td>카테고리</td>
+        <td>모집시작일</td>
+        <td>모집종료일</td>
+        <td>모집정원</td>
+        <td>신청인원</td>
+        <td>비고</td>
+      </tr>
+    </thead>
     <?php
     mysqli_data_seek($result,$start_row); // 레코드셋의 위치를 가리킨다. result set 에서 원하는 순번의 데이터를 선택하는데 쓰인다
       for($i=$start_row;$i< $start_row+$rows_scale && $i<$total_record; $i++){
@@ -132,6 +137,7 @@ $number = $total_record - $start_row;
       }
    ?>
   </div>
+</div><!--admin_club_list-->
 </body>
 
 </html>

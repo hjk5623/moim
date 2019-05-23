@@ -25,18 +25,6 @@ if (!mysqli_num_rows($result2)){
 }
 
 
-
-//모든 모임
-// $sql2="SELECT * from `club` where club_open='yes' order by club_end asc;";
-// $result2 = mysqli_query($conn,$sql2);
-// if (!mysqli_num_rows($result2)){
-//   $total_record2 = 0;
-// }else{
-//   $flag="open";
-//   $total_record2 = mysqli_num_rows($result2) or die('Error: ' . mysqli_error($conn));
-// }
-
-
 // 페이지 당 글수, 블럭당 페이지 수
 $rows_scale=5;
 $pages_scale=5;
@@ -75,14 +63,8 @@ $number2=$total_record2 - $start_row2;
 <head>
   <meta charset="utf-8">
   <title></title>
-  <style media="screen">
-    #accept_table{
-      text-align: center;
-    }
-    a {
-      text-decoration: none
-    }
-  </style>
+  <link rel="stylesheet" href="../css/admin_club_accept.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
 
   <script type="text/javascript">
@@ -127,26 +109,25 @@ $number2=$total_record2 - $start_row2;
   <?php
   include $_SERVER['DOCUMENT_ROOT']."/moim/admin/source/admin.php";
   ?>
-    <div class="search_club" style="margin-top:100px;">
-      <div class="">
-        <p>모임개설조건 | 모집정원의 1/2 이상의 인원이 신청된 경우 </p>
-        <p>모임삭제조건 | 모집종료일이 지나고, 모집정원이 </p>
-      </div>
-      <form name="board_form" action="admin_club_accept.php?mode=search" method="post">
-
-    </form>
+  <div class="admin_club_accept">
+    <div class="condition_club" >
+      <p><i class="fas fa-check fa-fw"></i>모임개설조건 - 모집정원의 1/2 이상의 인원이 신청된 경우 </p>
+      <p><i class="fas fa-check fa-fw"></i>모임삭제조건 - 모집종료일이 지나고, 모집정원이 모임개설 조건에 충족하지 못할 경우</p>
     </div>
   <h2><big><strong>모집이 마감된 모임</strong></big></h2>
-  <table border="1" id="accept_table" style="width:800px;">
-    <tr>
-      <td>모임명</td>
-      <td>카테고리</td>
-      <td>모집시작일</td>
-      <td>모집종료일</td>
-      <td>모집정원</td>
-      <td>신청인원</td>
-      <td>개설 | 삭제</td>
-    </tr>
+  <hr class="memberlist_hr">
+  <table id="accept_table" class="accept_table">
+    <thead>
+      <tr>
+        <td>모임명</td>
+        <td>카테고리</td>
+        <td>모집시작일</td>
+        <td>모집종료일</td>
+        <td>모집정원</td>
+        <td>신청인원</td>
+        <td>개설 | 삭제</td>
+      </tr>
+    </thead>
     <?php
     mysqli_data_seek($result,$start_row); // 레코드셋의 위치를 가리킨다. result set 에서 원하는 순번의 데이터를 선택하는데 쓰인다
       for($i=$start_row;$i< $start_row+$rows_scale && $i<$total_record; $i++){
@@ -159,19 +140,21 @@ $number2=$total_record2 - $start_row2;
         $club_to = $row['club_to'];
         $club_apply=$row['club_apply'];
      ?>
-     <tr>
-       <td> <?=$club_name?> </td>
-       <td> <?=$club_category?> </td>
-       <td> <?=$club_start?> </td>
-       <td> <?=$club_end?> </td>
-       <td> <?=$club_to?> </td>
-       <td> <?=$club_apply?> </td>
-       <td>
-         <input type="hidden" name="present_day" id="present_day" value="<?=$present_day?>">
-         <input type="button" name="" onclick="club_accept(<?=$club_to?>,<?=$club_apply?>,<?=$club_num?>,'<?=$club_name?>');" value="개설">
-         <input type="button" name="" onclick="check_delete('<?=$club_end?>',<?=$club_num?>,'<?=$club_name?>');" value="삭제">
-       </td>
-     </tr>
+     <tbody>
+       <tr>
+         <td> <?=$club_name?> </td>
+         <td> <?=$club_category?> </td>
+         <td> <?=$club_start?> </td>
+         <td> <?=$club_end?> </td>
+         <td> <?=$club_to?> </td>
+         <td> <?=$club_apply?> </td>
+         <td>
+           <input type="hidden" name="present_day" id="present_day" value="<?=$present_day?>">
+           <input type="button" name="" onclick="club_accept(<?=$club_to?>,<?=$club_apply?>,<?=$club_num?>,'<?=$club_name?>');" value="개설">
+           <input type="button" name="" onclick="check_delete('<?=$club_end?>',<?=$club_num?>,'<?=$club_name?>');" value="삭제">
+         </td>
+       </tr>
+     </tbody>
    <?php
     } // end of for
     ?>
@@ -212,15 +195,18 @@ $number2=$total_record2 - $start_row2;
 
   <!-- 개설이 완료된 모임 리스트 -->
   <h2><big><strong>개설완료된모임</strong></big></h2>
-  <table border="1" id="accept_table" style="width:800px;">
-    <tr>
-      <td>모임명</td>
-      <td>카테고리</td>
-      <td>모집시작일</td>
-      <td>모집종료일</td>
-      <td>모집정원</td>
-      <td>신청인원</td>
-    </tr>
+  <hr class="memberlist_hr">
+  <table id="accept_table" class="accept_table">
+    <thead>
+      <tr>
+        <td>모임명</td>
+        <td>카테고리</td>
+        <td>모집시작일</td>
+        <td>모집종료일</td>
+        <td>모집정원</td>
+        <td>신청인원</td>
+      </tr>
+    </thead>
     <?php
     mysqli_data_seek($result2,$start_row2); // 레코드셋의 위치를 가리킨다. result set 에서 원하는 순번의 데이터를 선택하는데 쓰인다
       for($i=$start_row2;$i< $start_row2+$rows_scale && $i<$total_record2; $i++){
@@ -233,15 +219,16 @@ $number2=$total_record2 - $start_row2;
         $club_to = $row['club_to'];
         $club_apply=$row['club_apply'];
      ?>
-     <tr>
-       <td> <?=$club_name?> </td>
-       <td> <?=$club_category?> </td>
-       <td> <?=$club_start?> </td>
-       <td> <?=$club_end?> </td>
-       <td> <?=$club_to?> </td>
-       <td> <?=$club_apply?> </td>
-
-     </tr>
+     <tbody>
+       <tr>
+         <td> <?=$club_name?> </td>
+         <td> <?=$club_category?> </td>
+         <td> <?=$club_start?> </td>
+         <td> <?=$club_end?> </td>
+         <td> <?=$club_to?> </td>
+         <td> <?=$club_apply?> </td>
+       </tr>
+     </tbody>
    <?php
     } // end of for
     ?>
@@ -279,6 +266,7 @@ $number2=$total_record2 - $start_row2;
       }
    ?>
   </div>
+</div><!--admin_club_accept-->
 </body>
 
 </html>

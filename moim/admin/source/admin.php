@@ -14,7 +14,9 @@ session_start();
   <body>
     <nav>
       <div class="brand">
+        <a href="../../mainpage.php">
         <h2>Mo,im</h2>
+        </a>
       </div>
       <div class="menubar">
         <ul>
@@ -41,6 +43,12 @@ session_start();
 
       </div>
     </nav>
+    <slider>
+      <slide><p>THIS</p></slide>
+      <slide><p>IS</p></slide>
+      <slide><p>ADMIN</p></slide>
+      <slide><p>PAGE</p></slide>
+    </slider>
     <div id="container">
       <div id="subwrap">
         <div class="nav">
