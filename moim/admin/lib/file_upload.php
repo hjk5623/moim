@@ -1,4 +1,5 @@
 <?php
+// include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 
 if(!empty($_FILES['upimage']['name'])){
 
@@ -53,10 +54,38 @@ if(!empty($_FILES['upimage']['name'])){
       // echo "<script>alert('이미지_서버전송오류');</script>";
     }
 
+}else{ // 새로 첨부하는 이미지가 없는경우
+  $user_num = $_POST['user_num'];
+  // var_export($user_num);
+
+  $sql="SELECT * from `user_club` where user_num='$user_num';";
+  $result = mysqli_query($conn,$sql);
+  if (!$result) {
+    alert_back('Error: ' . mysqli_error($conn));
+  }
+  $row=mysqli_fetch_array($result);
+  $user_image_copied = $row['user_image_copied'];
+  $user_image_name = $row['user_image_name'];
+  var_export($user_image_copied);
+  var_export($user_image_name);
+
+  $oldfile = "../../mypage/data/".$user_image_copied; // 원본파일 --mypage 의 data폴더에 있는 파일
+  $newfile = "../data/".$user_image_copied; // 복사파일 -- admin의 data 폴더에
+
+  var_export($oldfile);
+  var_export($newfile);
+
+  copy($oldfile, $newfile);
+  unlink($oldfile);
+
+  $upimage_name=$user_image_name;
+  $copied_image_name = $user_image_copied;
+
 }
 
 /////////////////////////////////////////////////////////////////
 //첨부파일 업로드과정
+
 if(!empty($_FILES['upfile']['name'])){
 
   //1. $_FILES['upfile']로부터 5가지 배열명을 가져온다.
@@ -100,6 +129,33 @@ if(!empty($_FILES['upfile']['name'])){
   if(!move_uploaded_file($upfile_tmp_name ,$uploaded_file)){
     // echo "<script>alert('파일_서버전송오류');</script>";
   }
+
+}else{ // 새로운 첨부파일 없는경우
+  $user_num = $_POST['user_num'];
+
+  $sql="SELECT * from `user_club` where user_num='$user_num';";
+  $result = mysqli_query($conn,$sql);
+  if (!$result) {
+    alert_back('Error: ' . mysqli_error($conn));
+  }
+  $row=mysqli_fetch_array($result);
+  $user_file_copied = $row['user_file_copied'];
+  $user_file_type = $row['user_file_type'];
+  $user_file_name = $row['user_file_name'];
+  var_export($user_file_copied);
+
+  $oldfile = "../../mypage/data/".$user_file_copied; // 원본파일 --mypage 의 data폴더에 있는 파일
+  $newfile = "../data/".$user_file_copied; // 복사파일 -- admin의 data 폴더에
+
+  var_export($oldfile);
+  var_export($newfile);
+
+  copy($oldfile, $newfile);
+  unlink($oldfile);
+
+  $upfile_name=$user_file_name;
+  $copied_file_name=$user_file_copied;
+  $file_extension=$user_file_type;
 
 }
 

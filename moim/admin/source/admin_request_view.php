@@ -31,7 +31,7 @@ if(isset($_GET["user_num"]) && !empty($_GET["user_num"])){
     $user_file_type=$row['user_file_type'];
 
     if(isset($user_image_copied)){
-      $image_info = getimagesize("../data/".$user_image_copied);
+      $image_info = getimagesize("../../mypage/data/".$user_image_copied);
       $image_width = $image_info[0];
       $image_height = $image_info[1];
       $image_type = $image_info[2];
@@ -61,7 +61,7 @@ if(isset($_GET["user_num"]) && !empty($_GET["user_num"])){
          <tr>
            <td align="center" >첨부파일</td>
            <?php
-            $file_path = "../data/".$user_file_copied;
+            $file_path = "../../mypage/data/".$user_file_copied;
             $file_size = filesize($file_path);
             ?>
             <td>
@@ -71,7 +71,7 @@ if(isset($_GET["user_num"]) && !empty($_GET["user_num"])){
          </tr>
          <tr>
            <td colspan="2">
-             <img src="../data/<?=$user_image_copied?>" width="<?=$image_width?>">
+             <img src="../../mypage/data/<?=$user_image_copied?>" width="<?=$image_width?>">
            </td>
          </tr>
          <tr>

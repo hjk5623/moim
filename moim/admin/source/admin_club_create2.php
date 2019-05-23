@@ -60,6 +60,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   }
   $row=mysqli_fetch_array($result);
   $club_content=$row['user_content'];
+  $club_name=$row['user_name'];
   $club_content=htmlspecialchars_decode($club_content);
   $club_category  = $row['user_category']; //요리
   $club_price = $row['user_price'];
@@ -82,7 +83,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   $club_file_copied= $row['user_file_copied'];
   $club_file_type= $row['user_file_type'];
 
-  $image_info = getimagesize("../data/".$club_image_copied);
+  $image_info = getimagesize("../../mypage/data/".$club_image_copied);
   $image_width = $image_info[0];
   $image_height = $image_info[1];
   $image_type = $image_info[2];
@@ -259,7 +260,8 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
               <?php
                 if($mode=="update" || $mode=="request_create"){
               ?>
-                <img src="../data/<?=$club_image_copied?>" width="<?=$image_width?>"><br>
+                <img src="../../mypage/data/<?=$club_image_copied?>" width="<?=$image_width?>"><br>
+
                 <input type="checkbox" name="del_img" value="1" id="del_img">삭제
                 <input type="file" name="upimage" value=""  accept="image/gif,image/jpeg,image/png"
                     onclick="document.getElementById('del_img').checked=true; document.getElementById('del_img').disabled=true"><br>

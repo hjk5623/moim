@@ -182,7 +182,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "update"){
      $club_schedule= test_input($_POST["club_schedule"]); // 모임일정
 
      /////////////////////파일 이미지 수정 처리 ////////////////////////////////////
-     include $_SERVER['DOCUMENT_ROOT']."/moim/admin/lib/file_upload.php";
+     // include $_SERVER['DOCUMENT_ROOT']."/moim/admin/lib/file_upload.php";
 
      //기존의 이미지를 삭제하는 경우
      if(isset($_POST['del_img']) && $_POST['del_img']=='1'){
@@ -319,19 +319,19 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "request_create"){
      $club_schedule= test_input($_POST["club_schedule"]); // 모임일정 19-05-05 , 19-06-06
 
      /////////////////////파일 이미지 수정 처리 ////////////////////////////////////
-     // include $_SERVER['DOCUMENT_ROOT']."/moim/admin/lib/file_upload.php";
+
 
      //기존의 이미지를 삭제하는 경우
      if(isset($_POST['del_img']) && $_POST['del_img']=='1'){
-       $sql="SELECT `user_image_copied` from `user_club` where user_num='$user_num';";
-       $result = mysqli_query($conn,$sql);
+     $sql="SELECT `user_image_copied` from `user_club` where user_num='$user_num';";
+     $result = mysqli_query($conn,$sql);
       if (!$result) {
         alert_back('8Error: ' . mysqli_error($conn));
       }
       $row=mysqli_fetch_array($result);
       $user_image_copied = $row['user_image_copied'];
       if(!empty($user_image_copied)){
-        unlink("../data/".$user_image_copied);
+        unlink("../../mypage/data/".$user_image_copied);
       }
       $sql="UPDATE `user_club` SET  `user_image_name`='', `user_image_copied`='' WHERE `user_num` ='$user_num';";
       $result = mysqli_query($conn,$sql);
@@ -343,7 +343,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "request_create"){
     if(!empty($_FILES['upimage']['name'])){
       //파일업로드기능 include
 
-      $sql="UPDATE `user_club` SET  `user_image_name` = '$upimage_name', `club_image_copied` = '$copied_image_name'  WHERE `user_num` ='$user_num';";
+      $sql="UPDATE `user_club` SET  `user_image_name` = '$upimage_name', `user_image_copied` = '$copied_image_name'  WHERE `user_num` ='$user_num';";
       $result = mysqli_query($conn,$sql);
       if (!$result) {
         die('6Error: ' . mysqli_error($conn));
@@ -360,7 +360,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "request_create"){
      $row=mysqli_fetch_array($result);
      $user_file_copied = $row['user_file_copied'];
      if(!empty($club_file_copied)){
-       unlink("../data/".$club_file_copied);
+       unlink("../../mypage/data/".$club_file_copied);
      }
      $sql="UPDATE `user_club` SET  `user_file_name`='', `user_file_copied`='', `user_file_type`=''  WHERE `user_num` ='$user_num';";
      $result = mysqli_query($conn,$sql);
@@ -369,14 +369,16 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "request_create"){
      }
     }
 
-    //내용을 수정하든 안하든 이미지첨부을 첨부하면__이미지가 업로드가 되었느냐, 안되었느냐만 체크
+    //내용을 수정하든 안하든 파일첨부을 첨부하면__이미지가 업로드가 되었느냐, 안되었느냐만 체크
    if(!empty($_FILES['upfile']['name'])){
      $sql="UPDATE `user_club` SET  `user_file_name` = '$upfile_name', `user_file_copied` = '$copied_file_name', `user_file_type`='$file_extension'   WHERE `user_num`='$user_num';";
      $result = mysqli_query($conn,$sql);
      if (!$result) {
        die('3Error: ' . mysqli_error($conn));
      }
-   }
+    }
+
+
 
 
    $sql="INSERT INTO `club` VALUES (null,'$club_name','$content','$club_category','$club_price','$club_to','$club_rent_info','$club_start','$club_end',0,'$club_schedule',0,'no','$upimage_name','$copied_image_name','$upfile_name','$copied_file_name','$file_extension','$club_intro');";
@@ -402,7 +404,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "request_create"){
      $club_num = $row['club_num'];
 
   // mysqli_close($conn);
-  echo "<script> location.href='./admin_club_create_view.php?club_num=$club_num'; </script>";
+  // echo "<script> location.href='./admin_club_create_view.php?club_num=$club_num'; </script>";
 }
 
 //신청모임 승인 거절//****************************************************************************************************/
