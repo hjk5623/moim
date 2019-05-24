@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
  include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
  include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
@@ -20,6 +20,7 @@ create_table($conn, 'club_ripple');
   $club_num= $row['club_num'];
   $club_name= $row['club_name'];
   $club_content= $row['club_content'];
+$club_content=htmlspecialchars_decode($club_content);
   $club_category= $row['club_category'];
   $club_price= $row['club_price'];
   $club_to= $row['club_to'];
