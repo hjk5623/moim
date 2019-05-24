@@ -57,10 +57,11 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title></title>
+    <title>clubing list- 보미</title>
     <link rel="stylesheet" href="../css/club.css">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/menu.js"></script>
     <script>
       var startHeightMin=0; //트리거 시작 스크롤 위치
       var itemHeight=100; // 아이템별 높이
@@ -92,23 +93,13 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
             }
         }
     </script>
-    <style media="screen">
-      table,tr,td{ /*달력에 적용한 최소한의css*/
-        border: 1px solid lightgray;
-        border-collapse: collapse;
-      }
-      td{
-        width: 150px;
-      }
-      #cal_click{ /*달력버튼 잘보이라고*/
-        background-color: yellow;
-      }
-    </style>
   </head>
   <body>
-    <nav>
+    <nav class="top_nav">
       <div class="brand">
+        <a href="../../mainpage.php">
         <h2>Mo,im</h2>
+        </a>
       </div>
       <ul>
         <li><a href="../../mainpage.php">HOME</a></li>
@@ -121,20 +112,21 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
       </ul>
     </nav>
 
-  <section class="sec10"></section>
+    <section class="sec1"></section>
 
-  <div id="intd_warp">
-    <div class="sline">
-      <ul>
-        <li><a href="ing_list.php">전체</a></li>
-        <li><a href="ing_list.php?mode=write">글쓰기</a></li>
-        <li><a href="ing_list.php?mode=cook">요리</a></li>
-        <li><a href="ing_list.php?mode=movie">영화</a></li>
-        <li><a href="ing_list.php?mode=art">미술</a></li>
-        <li><a href="ing_list.php?mode=design">디자인</a></li>
-        <li><a href="ing_list.php?mode=etc">취미생활&기타</a></li>
-      </ul>
-    </div>
+    <div class="sub_menu">
+      <div class="sub_menubar">
+        <a href="ing_list.php">전체</a>
+        <a href="ing_list.php?mode=write">글쓰기</a>
+        <a href="ing_list.php?mode=cook">요리</a>
+        <a href="ing_list.php?mode=movie">영화</a>
+        <a href="ing_list.php?mode=art">미술</a>
+        <a href="ing_list.php?mode=design">디자인</a>
+        <a href="ing_list.php?mode=etc">경제/경영</a>
+        <a href="ing_list.php?mode=etc">취미생활&기타</a>
+        <a href="ing_list.php?mode=calendar" id=cal_click>달력</a>
+      </div>
+    </div> <!--end of sub_menu-->
 
     <section class="bmt-section" id="startdiv">
       <div class="pt1">
@@ -143,12 +135,10 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
       <div class="pt2 btm20">
       <p class="p2_desc_text">진행 중인 모든 모임을 보여줍니다.</p>
       </div>
-      <div class="">
-        <a href="ing_list.php?mode=calendar" id=cal_click>달력</a>
-      </div>
     </section>
+
     <script type="text/javascript">
-    $(document).ready(function(){
+    $(document).ready(function(){ //달력- 일정 가져오기
       $.ajax({
         url: './ing_schedule.php',
         type: 'POST',
@@ -178,91 +168,96 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
     });
     </script>
     <section class="scroll-sec">
-    <!--if mode=="calendar" 캘린더 보여주기-------------------------------------------------------------->
-    <?php
-      if(!empty($mode) && $mode==="calendar"){ ?>
+   <!--if mode=="calendar" 캘린더 보여주기-------------------------------------------------------------->
+   <?php
+     if(!empty($mode) && $mode==="calendar"){ ?>
 
-      <div class="container">
-      <table class="table table-bordered table-responsive">
-        <tr align="center" >
-          <td>
-            <!-- 현재 보고있는 달의 작년 -->
-            <a href=<?php echo 'ing_list.php?mode=calendar&year='.$preyear.'&month='.$month . '&day=1';?> id=$pre_year>PRE YEAR</a>
-          </td>
-          <td>
-            <!-- 이전달 -->
-            <a href=<?php echo 'ing_list.php?mode=calendar&year='.$prev_year.'&month='.$prev_month . '&day=1'; ?>>◀</a>
-          </td>
-          <td height="50" bgcolor="#FFFFFF" colspan="3">
-            <!-- 현재달력으로 돌아옴 -->
-            <a href=<?php echo 'ing_list.php?mode=calendar&year=' . $thisyear . '&month=' . $thismonth . '&day=1'; ?>>
-            <?php echo "&nbsp;&nbsp;" . $year . '년 ' . $month . '월 ' . "&nbsp;&nbsp;"; ?></a>
-          </td>
-          <td>
-            <!-- 다음달 -->
-            <a href=<?php echo 'ing_list.php?mode=calendar&year='.$next_year.'&month='.$next_month.'&day=1'; ?>>▶</a>
-          </td>
-          <td>
-            <!-- 현재 보고있는 달의 내년 -->
-            <a href=<?php echo 'ing_list.php?mode=calendar&year='.$nextyear.'&month='.$month.'&day=1'; ?>>NEXT YEAR</a>
-          </td>
-        </tr>
-        <tr class="info">
-          <th hight="30">일</td>
-          <th>월</th>
-          <th>화</th>
-          <th>수</th>
-          <th>목</th>
-          <th>금</th>
-          <th>토</th>
-        </tr>
-  <?php
-    // 5. 화면에 표시할 화면의 초기값을 1로 설정
-    $day=1;
+   <div class="container_cal">
+     <table class="table table-bordered table-responsive">
+       <tr class="table_top">
+         <td>
+           <!-- 현재 보고있는 달의 작년 -->
+           <a href=<?php echo 'ing_list.php?mode=calendar&year='.$preyear.'&month='.$month . '&day=1';?> id=$pre_year>PRE YEAR</a>
+         </td>
+         <td>
+           <!-- 이전달 -->
+           <a href=<?php echo 'ing_list.php?mode=calendar&year='.$prev_year.'&month='.$prev_month . '&day=1'; ?>>◀</a>
+         </td>
+         <td colspan="3">
+           <!-- 현재달력으로 돌아옴 -->
+           <a href=<?php echo 'ing_list.php?mode=calendar&year=' . $thisyear . '&month=' . $thismonth . '&day=1'; ?>>
+           <?php echo "&nbsp;&nbsp;" . $year . '년 ' . $month . '월 ' . "&nbsp;&nbsp;"; ?></a>
+         </td>
+         <td>
+           <!-- 다음달 -->
+           <a href=<?php echo 'ing_list.php?mode=calendar&year='.$next_year.'&month='.$next_month.'&day=1'; ?>>▶</a>
+         </td>
+         <td>
+           <!-- 현재 보고있는 달의 내년 -->
+           <a href=<?php echo 'ing_list.php?mode=calendar&year='.$nextyear.'&month='.$month.'&day=1'; ?>>NEXT YEAR</a>
+         </td>
+       </tr>
 
-    // 6. 총 주 수에 맞춰서 세로줄 만들기
-    for($i=1; $i <= $total_week; $i++){?>
-      <tr>
-    <?php
-    // 7. 총 가로칸 만들기
-    for ($j = 0; $j < 7; $j++) {
-        // 8. 첫번째 주이고 시작요일보다 $j가 작거나 마지막주이고 $j가 마지막 요일보다 크면 표시하지 않음
-        echo '<td height="50" valign="top">';
-        if (!(($i == 1 && $j < $start_week) || ($i == $total_week && $j > $last_week))) {
-            if ($j == 0) {
-                // 9. $j가 0이면 일요일이므로 빨간색
-                $style = "holy";
-            } else if ($j == 6) {
-                // 10. $j가 0이면 토요일이므로 파란색
-                $style = "blue";
-            } else {
-                // 11. 그외는 평일이므로 검정색
-                $style = "black";
-            }
+       <tr class="table_day">
+         <th>일</th>
+         <th>월</th>
+         <th>화</th>
+         <th>수</th>
+         <th>목</th>
+         <th>금</th>
+         <th>토</th>
+       </tr>
+ <?php
+   // 5. 화면에 표시할 화면의 초기값을 1로 설정
+   $day=1;
 
-            // 12. 오늘 날짜면 굵은 글씨
-            if ($year == $thisyear && $month == $thismonth && $day == date("j")) {
-                // 13. 날짜 출력
-                echo '</font>';
-                echo " 오늘";
-            } else {
-                echo $day;
-                echo "<div id='schedule".$day."'><div>";
-            }
-            // 14. 날짜 증가
-            $day++;
-        }
-        echo '</td>';
-    }
- ?>
-  </tr>
+   // 6. 총 주 수에 맞춰서 세로줄 만들기
+   for($i=1; $i <= $total_week; $i++){?>
+   <tr>
+   <?php
+   // 7. 총 가로칸 만들기
+   for ($j = 0; $j < 7; $j++) {
+       // 8. 첫번째 주이고 시작요일보다 $j가 작거나 마지막주이고 $j가 마지막 요일보다 크면 표시하지 않음
+       echo '<td class="cal_day">';
+       if (!(($i == 1 && $j < $start_week) || ($i == $total_week && $j > $last_week))) {
+           if ($j == 0) {
+               // 9. $j가 0이면 일요일이므로 빨간색
+               $style = "holy";
+           } else if ($j == 6) {
+               // 10. $j가 0이면 토요일이므로 파란색
+               $style = "blue";
+           } else {
+               // 11. 그외는 평일이므로 검정색
+               $style = "black";
+           }
+
+           // 12. 오늘 날짜면 굵은 글씨
+           if ($year == $thisyear && $month == $thismonth && $day == date("j")) {
+               // 13. 날짜 출력
+               echo $day." ";
+               echo " 오늘";
+               echo "<div id='schedule".$day."'></div>";
+           } else {
+               echo $day;
+               echo "<div id='schedule".$day."'></div>";
+           }
+           // 14. 날짜 증가
+           $day++;
+       }
+       echo '</td>';
+     }
+?>
+ </tr>
 <?php } //end of for ?>
 </table>
 <?php } //end of if ?>
 </div>
-      <div class="img-table">
-        <ul id="ullist">
 
+      <div class="img-table about-box-two"> <!--여기서부터 목록-->
+        <div class="about-area-two">
+          <h2></h2>
+        <ul id="ullist" class="place-list-two">
+        <!-- <ul class="place-list-two"> -->
           <?php
           if(!empty($mode)&&isset($mode)){
             $sql = "SELECT * FROM club WHERE club_category='$mode' and club_open='yes' ORDER BY club_hit desc";
@@ -275,32 +270,32 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
               $row= mysqli_fetch_array($result);
               $club_num= $row['club_num'];
               $club_name= $row['club_name'];
-              $club_image_name= $row['club_image_name'];
+              // $club_image_name= $row['club_image_name'];
+              $club_image_copied=$row['club_image_copied'];
+              $club_intro=$row['club_intro'];
+
+              $row_length= 150;
+
+              if (strlen($club_intro) > $row_length) {
+                $club_intro = substr($club_intro, 0 , $row_length).'<br>.....';
+              }
           ?>
-                <li class="btm2_item noshow">
-                  <div class="container">
-                    <div class="box">
-                      <img src="../img/<?=$club_image_name?>" class="btm2_image">
-                    </div>
-                      <a href="./ing_view.php?club_num=<?=$club_num?>" class="club_info">
-                      <div class="inner">
-                        <h4 class="btm2_head">다양한 스킨</h4>
-                      </div>
-                      <p class="btm2_desc"><?=$club_name?></p>
-                      <!-- <div class="details">
-                        <div class="content">
-                        <h2>모임1의 이름</h2>
-                        <p>모임1의 정보입니다.간단한 정보와 이름, 특징을 나타내는 곳입니다.</p>
-                        </div>
-                      </div> -->
-                    </a>
-                  </div>
-                </li>
+          <li class="btm2_item noshow">
+            <div class="container_list">
+              <a href="./ing_view.php?club_num=<?=$club_num?>" id="">
+                <img class="top-place-two" src="../../admin/data/<?=$club_image_copied?>">
+                <h3><?=$club_name?></h3>
+                <p class="txt-two"><?=$club_intro?></p>
+                <span class="view-two">더보기</span>
+              </a>
+            </div>
+          </li>
           <?php
               }
           ?>
         </ul>
-      </div>
+      </div><!--end of about-area-two-->
+    </div><!--end of about-box-two-->
     </section>
   </div>
   </body>

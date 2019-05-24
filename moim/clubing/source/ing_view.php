@@ -10,14 +10,42 @@ create_table($conn, 'club_ripple');
  }else{
    $club_num= "";
  }
+
+  if(!empty($club_num) && isset($club_num)){
+    $sql = "select * from club where club_num='$club_num'";
+  }
+  $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+  $row= mysqli_fetch_array($result);
+
+  $club_num= $row['club_num'];
+  $club_name= $row['club_name'];
+  $club_content= $row['club_content'];
+  $club_category= $row['club_category'];
+  $club_price= $row['club_price'];
+  $club_to= $row['club_to'];
+  $club_rent_info= $row['club_rent_info'];
+  $club_start= $row['club_start'];
+  $club_end= $row['club_end'];
+  $club_apply= $row['club_apply'];
+  $club_schedule= $row['club_schedule'];
+  $club_hit= $row['club_hit']+1;
+  $club_open= $row['club_open'];
+  $club_image_name= $row['club_image_name'];
+  $club_file_name= $row['club_file_name'];
+  $club_intro= $row['club_intro'];
+
+  $sql= "update club set club_hit=$club_hit where club_num=$club_num";
+  mysqli_query($conn, $sql) or die(mysqli_error($conn));
+
 ?>
 <!DOCTYPE html>
 <html lang="ko" dir="ltr">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title></title>
+    <title>clubing list- 보미</title>
     <link rel="stylesheet" href="../css/club.css">
+    <link rel="stylesheet" href="../css/club_view.css">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script>
@@ -55,12 +83,14 @@ create_table($conn, 'club_ripple');
   <body>
     <nav>
       <div class="brand">
+        <a href="../../mainpage.php">
         <h2>Mo,im</h2>
+        </a>
       </div>
       <ul>
         <li><a href="../../mainpage.php">HOME</a></li>
         <li><a href="#">LOG OUT</a></li>
-        <li><a href="#">CLUB LIST</a></li>
+        <li><a href="./list.php">CLUB LIST</a></li>
         <li><a href="#">INTRO</a></li>
         <li><a href="#">MY PAGE</a></li>
         <li><a href="#">HOME</a></li>
@@ -68,287 +98,215 @@ create_table($conn, 'club_ripple');
       </ul>
     </nav>
 
-  <section class="sec10"></section>
-
-  <?php
-  if(!empty($club_num) && isset($club_num)){
-    $sql = "select * from club where club_num='$club_num'";
-  }
-  $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
-  $row= mysqli_fetch_array($result);
-
-  $club_num= $row['club_num'];
-  $club_name= $row['club_name'];
-  $club_content= $row['club_content'];
-  $club_category= $row['club_category'];
-  $club_price= $row['club_price'];
-  $club_to= $row['club_to'];
-  $club_rent_info= $row['club_rent_info'];
-  $club_start= $row['club_start'];
-  $club_end= $row['club_end'];
-  $club_apply= $row['club_apply'];
-  $club_schedule= $row['club_schedule'];
-  $club_hit= $row['club_hit']+1;
-  $club_open= $row['club_open'];
-  $club_image_name= $row['club_image_name'];
-  $club_file_name= $row['club_file_name'];
-  $club_rent_info= explode("/",$club_rent_info);
-  $address= $club_rent_info[0];
-  $sql= "update club set club_hit=$club_hit where club_num=$club_num";
-  mysqli_query($conn, $sql) or die(mysqli_error($conn));
-  ?>
-
-  <div id="intd_warp">
-    <div class="sline"></div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <div class="titles">
-      <p class="title_large"><?=$club_name?></p> <!--모임이름-->
-      <img src="../img/<?=$club_image_name?>" alt="" class="title-img"> <!--모임이미지-->
-    </div>
-    <div class="">
-
-      <?php
-      //관리자만 수정/삭제 버튼이 보임
-      if(!empty($_SESSION['userid']) && $_SESSION['userid']==="admin"){ ?>
-        <button type="button" name="button">수정</button>
-        <button type="button" name="button" onclick="location.href='ing_query.php?mode=c_delete&club_num=<?=$club_num?>'">삭제</button>
-      <?php } ?>
-    </div>
-    <section id="sec1" class="bmt-section bmt-section--no-border">
-    <div class="pt2 ">
-    <ul class="btm_list">
-          <li class="btm_item">
-            <h4 class="btm_head">모임 특징</h4>
-            <p class="btm_desc">모임특징샘플입니다. 이 모임은 여행을 하는 모임입니다.</p>
-          </li>
-          <li class="btm_item">
-            <h4 class="btm_head">모집 기간</h4>
-            <p class="btm_desc"><?=$club_start?> ~ <?=$club_end?></p>
-          </li>
-          <li class="btm_item">
-            <h4 class="btm_head">가격</h4>
-            <p class="btm_desc"><?=$club_price?></p>
-          </li>
-        </ul>
-    </div>
-    </section>
-
-    <section class="bmt-section ">
-      <div class="pt1">
-      <p class="title_large">상세 정보</p>
-      </div>
-      <div class="pt2">
-      <p class="p2_desc_text"><?=$club_name?>의 상세 정보입니다.</p>
-      </div>
-
-      <div class="ss_left"  id="startdiv">
-        <p class="ss_title"><?=$club_name?>의 첫번째 특징</p>
-        <p class="ss_desc"><?=$club_name?>의 첫번째 특징은 남녀노소 모집을 하고 있고 일상에서 벗어나 각자의 취미와 장점을 드러내어
-        사람들과 공유할 수 있습니다.</p>
-
-        <p class="ss_title mgt30"><?=$club_name?>의 두번째 특징</p>
-        <p class="ss_desc"><?=$club_name?>의 두번째 특징은 자유로운 시간에 즐길 수 있고 퇴근 시간 및 주말에도 함께 즐길 수 있습니다.</p>
-      </div>
-      <div id="map" style="width:700px;height:350px;"></div>
-      <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a321e1b83ba2a8b469c05bab1c41988&libraries=services"></script>
-      <script>
-      var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-      mapOption = {
-       center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-       level: 3 // 지도의 확대 레벨
-      };
-     // 지도를 생성합니다
-      var map = new daum.maps.Map(mapContainer, mapOption);
-    // 주소-좌표 변환 객체를 생성합니다
-      var geocoder = new daum.maps.services.Geocoder();
-     // 주소로 좌표를 검색합니다
-      geocoder.addressSearch('<?=$address?>', function(result, status) {
-       // 정상적으로 검색이 완료됐으면
-      if (status === daum.maps.services.Status.OK) {
-        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
-        // 결과값으로 받은 위치를 마커로 표시합니다
-        var marker = new daum.maps.Marker({
-          map: map,
-          position: coords
-        });
-        // 인포윈도우로 장소에 대한 설명을 표시합니다
-        var infowindow = new daum.maps.InfoWindow({
-          content: '<div style="width:150px;text-align:center;padding:6px 0;">모임장소</div>'
-        });
-        infowindow.open(map, marker);
-        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-        map.setCenter(coords);
-       }
-     });
-   </script>
- </div>
- <script type="text/javascript">
- $(window).on('load', function () {
-     load('#js-load', '4');
-     $("#js-btn-wrap .button").on("click", function () {
-         load('#js-load', '4', '#js-btn-wrap');
-     })
- });
-
- function load(id, cnt, btn) {
-     var girls_list = id + " .js-load:not(.active)";
-     var girls_length = $(girls_list).length;
-     var girls_total_cnt;
-     if (cnt < girls_length) {
-         girls_total_cnt = cnt;
-     } else {
-         girls_total_cnt = girls_length;
-         $('.button').hide()
-     }
-     $(girls_list + ":lt(" + girls_total_cnt + ")").addClass("active");
- }
-</script>
- <!-- <style media="screen">
- /* .js-load {
-  display: none;
-}
-.js-load.active {
-  display: block;
-} */
-.is_comp.js-load:after {
-  display: none;
-}
-.btn-wrap, .lists, .main {
-  display: block;
-}
-.main {
-  max-width: 640px;
-  margin: 0 auto;
-}
-.lists {
-  margin: 0;
-}
-.lists__item {
-  padding: 20px;
-  background: #EEE;
-}
-.lists__item:nth-child(2n) {
-  background: #59b1eb;
-  color: #fff;
-}
-.btn-wrap {
-  text-align: center;
-}
- </style> -->
- <div class="ripple"> <!--임시 클래스명임. 바꿀겁니다-->
-   <p class="ss_title">후기</p>
-
-     <div id="js-load"> <!-- 작성된 후기를 보여주는 부분 -->
-
-       <ul class="lists">
-         <?php
-         $sql="SELECT * FROM `club_ripple` WHERE c_parent_num='$club_num'";
-         $result = mysqli_query($conn,$sql);
-         $row_num= mysqli_num_rows($result);
-         while($ripple_row= mysqli_fetch_array($result)){
-           $c_ripple_num= $ripple_row['c_ripple_num'];
-           $c_parent_num= $club_num;
-           $c_ripple_id= $ripple_row['c_ripple_id'];
-           $c_ripple_name= $ripple_row['c_ripple_name'];
-           $c_ripple_date= $ripple_row['c_ripple_date'];
-           $c_ripple_content= $ripple_row['c_ripple_content'];
-           $c_ripple_content= str_replace("\n", "<br>", $c_ripple_content);
-           $c_ripple_content= str_replace(" ", "&nbsp;", $c_ripple_content);
-           ?>
-<!-- 보여지는 후기글 -->
-         <li class="lists__item js-load"><?=$c_ripple_name."&nbsp;&nbsp;".$c_ripple_date?> <!--작성자 이름과 작성시간-->
-           <?php
-           //후기작성자만 (자기글)삭제버튼이 보임 & 관리자는 모든 후기 삭제가능
-           if(!empty($_SESSION['userid']) && $_SESSION['userid']===$c_ripple_id || $_SESSION['userid']==="admin"){ ?>
-             <button type="button" name="button" onclick="location.href='ing_query.php?mode=c_delete_ripple&club_num=<?=$club_num?>&name=<?=$c_ripple_name?>&c_ripple_num=<?=$c_ripple_num?>'">삭제</button>
-           <?php } ?>
-           <br><?=$c_ripple_content?>
-         </li>
-       </ul>
-     </div>
-     <!-- <div id="c_ripple_content"></div> -->
-   <?php
-     }//end of while
-   ?>
-   <!-- 후기 입력폼 -->
-   <form name="ripple_form" action="ing_query.php?mode=c_insert_ripple&club_num=<?=$club_num?>" method="post">
-     <div id="ripple_insert">
-       <div id="ripple_textarea">
-         <textarea name="c_ripple_content" placeholder="후기를 작성해주세요."></textarea>
-         <button type="submit" name="button">후기 등록</button></div>
-     </div><!--end of ripple_insert  -->
-   </form>
- </div> <!-- end of ripple -->
-    </section>
-
-    <section class="bmt-section" id="sec4">
-      <div class="pt1">
-      <p class="title_large">모든 모임 보기</p>
-      </div>
-      <div class="pt2 btm20">
-      <p class="p2_desc_text">진행 중인 모든 모임을 보여줍니다.</p>
-      </div>
-    </section>
-
-    <section class="scroll-sec">
-      <div class="img-table">
-        <ul id="ullist">
-
-          <?php
-            $sql = "SELECT * FROM club WHERE club_open='yes' ORDER BY club_hit desc";
-            $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
-            $row_count= mysqli_num_rows($result);
-            for($i=1; $i<=$row_count; $i++){
-              $row= mysqli_fetch_array($result);
-              $club_num= $row['club_num'];
-              $club_name= $row['club_name'];
-              $club_image_name= $row['club_image_name'];
-          ?>
-                <li class="btm2_item noshow">
-                  <div class="container">
-                    <div class="box">
-                      <img src="../img/<?=$club_image_name?>" class="btm2_image">
-                    </div>
-                      <a href="./ing_view.php?club_num=<?=$club_num?>" class="club_info">
-                      <div class="inner">
-                        <h4 class="btm2_head">다양한 스킨</h4>
-                      </div>
-                      <p class="btm2_desc"><?=$club_name?></p>
-                      <!-- <div class="details">
-                        <div class="content">
-                        <h2>모임1의 이름</h2>
-                        <p>모임1의 정보입니다.간단한 정보와 이름, 특징을 나타내는 곳입니다.</p>
-                        </div>
-                      </div> -->
-                    </a>
-                  </div>
-                </li>
-          <?php
-              }
-              mysqli_close($conn);
-          ?>
-
-        </ul>
-      </div>
-    </section>
-  </div>
-
     <section class="sec1"></section>
-    <section class="sec2">
-      <!-- <h1>모집 모임1</h1>
-      <p>안녕하세요 모집 모임 1 소개 샘플입니다.</p> -->
-    </section>
-    <section class="sec3">
-      <!-- <ul>
-        <li><a href="ing_list.php">전체</a></li>
-        <li><a href="ing_list.php?mode=clothe">글쓰기</a></li>
-        <li><a href="ing_list.php?mode=cosmetics">요리</a></li>
-        <li><a href="ing_list.php?mode=acc">영화</a></li>
-        <li><a href="ing_list.php?mode=travel">미술</a></li>
-      </ul> -->
-    </section>
+    <section class="club_view_sec">
+      <div class="club_view"> <!---->
+        <div class="club_info">
+          <div class="club_img">
+            <div class="club_view_name"><b><?=$club_name?></b></div>
+            <img src="../img/clubing01.jpg" width="500px" height="400px"><!--테스트 후 아래것으로 교체하기-->
+            <!-- <img src="../../admin/data/<?=$club_image_copied?>" width="500px" height="400px"> -->
+          </div>
+          <div class="club_div">
+             <div class="club_view_price"><b>가격:<?=$club_price?>원</b></div>
+             <div class="club_view_apply"><b>신청인원:<?=$club_apply?>/<?=$club_to?>명</b></div>
+             <div class=""><b>신청기간:<?=$club_start?>~<?=$club_end?></b></div>
+             <div class=""><b>모임날짜:<?=$club_schedule?></b></div>
+             <div class=""><b>장소:<?=$club_rent_info?></b></div>
+             <div class="club_view_intro"><b><?=$club_intro?></b></div>
+           </div>
+        </div><!--club_info-->
+        <hr class="divider">
+
+        <div class="club_view_content"><b><?=$club_content?></b></div>
+        <div class="club_view_copied"><b>세부사항:
+        <?php
+          //1. 해당된 가입자이고, 파일이 있으면 파일명,사이즈,실제위치 정보확인
+          if(!empty($_SESSION['userid'])&&!empty($club_file_copied)){
+            $mode="download";
+            $file_path= "../../admin/data/$club_file_copied";
+            $file_size= filesize($file_path);
+
+            //2. 업로드된 이름을 보여주고 [저장] 할것인지 선택
+            echo ("
+            $club_file_name ($file_size Byte)
+            <a href='query.php?mode=$mode&club_num=$club_num'>저장</a>
+            ");
+          }//end of if
+        ?>
+      </b></div> <!--end of club_view_copied-->
+      <?php
+      $club_rent_info=explode("/",$club_rent_info);
+      $address=$club_rent_info[0];
+      ?>
+      <hr class="divider">
+      <div class="club_view_map">
+        <div class="place">
+          <p>장소</p>
+        </div>
+        <!-- <p style="margin-top:12px"> -->
+            <!-- <em class="link">
+            <a href="javascript:void(0);" onclick="window.open('http://fiy.daum.net/fiy/map/CsGeneral.daum', '_blank', 'width=981, height=650')">
+            혹시 주소 결과가 잘못 나오는 경우에는 여기에 제보해주세요.
+          </a>
+        </em>  -->
+         <!-- </p> -->
+        <div id="map"></div>
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a321e1b83ba2a8b469c05bab1c41988&libraries=services"></script>
+        <script>
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+          center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+          level: 3 // 지도의 확대 레벨
+        };
+
+        // 지도를 생성합니다
+        var map = new daum.maps.Map(mapContainer, mapOption);
+
+        // 주소-좌표 변환 객체를 생성합니다
+        var geocoder = new daum.maps.services.Geocoder();
+
+        // 주소로 좌표를 검색합니다
+        geocoder.addressSearch('<?=$address?>', function(result, status) {
+
+          // 정상적으로 검색이 완료됐으면
+          if (status === daum.maps.services.Status.OK) {
+
+            var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+
+            // 결과값으로 받은 위치를 마커로 표시합니다
+            var marker = new daum.maps.Marker({
+              map: map,
+              position: coords
+            });
+
+            // 인포윈도우로 장소에 대한 설명을 표시합니다
+            var infowindow = new daum.maps.InfoWindow({
+              content: '<div style="width:150px;text-align:center;padding:6px 0;">모임장소</div>'
+            });
+            infowindow.open(map, marker);
+
+            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+            map.setCenter(coords);
+          }
+        });
+      </script>
+    </div><!--club_view_map-->
+    </section> <!--end of club_view_sec-->
+
+    <div class="ripple"> <!--임시 클래스명임. 바꿀겁니다-->
+      <p class="ss_title">후기</p>
+      <!-- 후기 입력폼 -->
+      <form name="ripple_form" action="ing_query.php?mode=c_insert_ripple&club_num=<?=$club_num?>" method="post">
+      <!-- <form name="ripple_form" method="post"> -->
+        <div id="ripple_insert">
+          <div id="ripple_textarea">
+            <textarea name="c_ripple_content" id="c_ripple_content" placeholder="후기를 작성해주세요."></textarea>
+            <button type="submit" name="button" id="ripple_btn">후기 등록</button>
+          </div>
+        </div><!--end of ripple_insert  -->
+      </form>
+        <div> <!-- 작성된 후기를 보여주는 부분 -->
+          <ul>
+            <!-- <li class="col-md-6 col-md-offset-3 results"></li> -->
+            <li class="results"></li>
+            <!-- 후기작성자만 (자기글)삭제버튼이 보임 & 관리자는 모든 후기 삭제가능 -->
+
+          </ul>
+          <div>
+            <button type="button" class="btn btn-default" id="loadmorebtn" name="button">더 보기</button>
+          </div>
+        </div>
+        <input type="hidden" id="hidden_num" value="<?=$club_num?>">
+        <script type="text/javascript"> <!--후기 더보기-->
+
+          var hidden_num = $("#hidden_num").val();
+          var mypage= 1;
+          mycontent(mypage);
+          $('#loadmorebtn').click(function(event) {
+            mypage++;
+            mycontent(mypage);
+          });
+          function mycontent(mypage){
+            $.post('loadmore.php?club_num='+hidden_num, {page: mypage}, function(data) {
+              if(data.trim().length==0){
+                $('#loadmorebtn').text("더보기").hide()
+              }
+              $('.results').append(data)
+              // $("html, body").animate({scrollTop: $('#loadmorebtn').offset().tap}, 800)
+            })
+          }//end of mycontent
+        </script>
+
+    </div> <!-- end of ripple -->
+       </section>
+
+       <section class="bmt-section" id="sec4">
+         <div class="pt1">
+         <p class="title_large">모든 모임 보기</p>
+         </div>
+         <div class="pt2 btm20">
+         <p class="p2_desc_text">진행 중인 모든 모임을 보여줍니다.</p>
+         </div>
+       </section>
+
+       <section class="scroll-sec promotion-section-two">
+         <div class="img-table about-box-two"> <!--여기서부터 목록-->
+           <div class="about-area-two">
+             <h2></h2>
+           <!-- <ul id="ullist" class="place-list-two"> -->
+           <ul class="place-list-two">
+             <?php
+             if(!empty($mode)&&isset($mode)){
+               $sql = "SELECT * FROM club WHERE club_category='$mode' and club_open='yes' ORDER BY club_hit desc";
+             }else{
+               $sql = "SELECT * FROM club WHERE club_open='yes' ORDER BY club_hit desc";
+             }
+               $result= mysqli_query($conn, $sql) or die(mysqli_error($conn));
+               $row_count= mysqli_num_rows($result);
+               for($i=1; $i<=$row_count; $i++){
+                 $row= mysqli_fetch_array($result);
+                 $club_num= $row['club_num'];
+                 $club_name= $row['club_name'];
+                 // $club_image_name= $row['club_image_name'];
+                 $club_image_copied=$row['club_image_copied'];
+                 $club_intro=$row['club_intro'];
+
+                 $row_length= 150;
+
+                 if (strlen($club_intro) > $row_length) {
+                   $club_intro = substr($club_intro, 0 , $row_length).'<br>.....';
+                 }
+             ?>
+             <li>
+               <a href="./ing_view.php?club_num=<?=$club_num?>" id="">
+                 <img class="top-place-two" src="../../admin/data/<?=$club_image_copied?>">
+                 <h3><?=$club_name?></h3>
+                 <p class="txt-two"><?=$club_intro?></p>
+                 <span class="view-two">더보기</span>
+               </a>
+             </li>
+                   <!-- <li class="btm2_item noshow">
+                     <div class="container">
+                       <div class="box">
+                         <img src="../img/<?=$club_image_name?>" class="btm2_image">
+                       </div>
+                         <a href="./ing_view.php?club_num=<?=$club_num?>" class="club_info">
+                         <div class="inner">
+                           <h4 class="btm2_head">다양한 스킨</h4>
+                         </div>
+                         <p class="btm2_desc"><?=$club_name?></p>
+                       </a>
+                     </div>
+                   </li> -->
+             <?php
+                 }
+             ?>
+           </ul>
+         </div><!--end of about-area-two-->
+       </div><!--end of about-box-two-->
+        </div><!--end of club_view-->
+       </section><!--end of scroll-sec-->
+     </div><!--end of club_view-->
   </body>
 </html>
