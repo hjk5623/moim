@@ -163,6 +163,18 @@
             PRIMARY KEY (`c_ripple_num`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
             break;
+          case 'agit':
+            $sql = "CREATE TABLE `agit` (
+             `agit_num` int(11) NOT NULL AUTO_INCREMENT,
+             `agit_name` varchar(20) NOT NULL,
+             `agit_address` varchar(100) NOT NULL,
+             `agit_image_name` varchar(50) NOT NULL,
+             `agit_image_copied` varchar(50) NOT NULL,
+             `agit_content` text NOT NULL,
+             `agit_code` varchar(50) NOT NULL,
+             PRIMARY KEY (`agit_num`)
+           ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+            break;
         default :
           echo "<script>alert('해당된 테이블 이름이 없습니다.');</script>";
           break;
