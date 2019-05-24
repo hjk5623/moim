@@ -1,239 +1,177 @@
-ï»¿<?php
-include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
-include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
+package chapter18.lab810_translation_dictionary;
 
-create_table($conn,'membership');
-//id_check
-if(isset($_GET["mode"]) && $_GET["mode"] == "id_check"){
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 
-    if(empty($_POST["id"])){
-      echo '[{"id":"ì•„ì´ë””ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.<br>ì˜ë¬¸,ìˆ«ì 6~8ìë¦¬"},{"row":"1"}]';
-       return;
-   }else{
-      $id = test_input($_POST["id"]);
-      if (!preg_match("/^[a-zA-Z0-9]{5,8}$/",$id)) {
-        echo '[{"id":"ì•„ì´ë””ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.<br>ì˜ë¬¸,ìˆ«ì 6~8ìë¦¬"},{"row":"1"}]';
-        return;
-      }
-    }
-  $id = test_input($_POST["id"]);
-  $q_id = mysqli_real_escape_string($conn, $id);
+public class TranslationServer {
 
-  $sql="SELECT * FROM `membership` where id='$q_id'";
+	public static void main(String[] args) throws IOException {
+		//1.¼­¹ö¼ÒÄÏ »ı¼º
+		ServerSocket server = new ServerSocket();
+		server.bind(new InetSocketAddress("192.168.1.17",5004));
+		
+		try {
+			while(true) {
+				System.out.println("¼­¹ö°¡ ´ë±âÇÏ°í ÀÖ½À´Ï´Ù. ");
+				//2.wait for Client socket
+				Socket clientSocket =server.accept();
+				//4. °´Ã¼ ¸¸µê (Thread »ó¼ÓÇÑ ³»ºÎÅ¬·¡½º) -> clientSocketÁ¤º¸ Àü´Ş  
+				Translator translator = new Translator(clientSocket);
+				// 6.start()-> run() ½ÇÇà
+				translator.start();
+			}
+		} finally {
+			server.close();
+		}
+	}//end of main
+	
+	private static class Translator extends Thread{
+		public Socket clientSocket;
+		
+		public Translator(Socket clientSocket) {
+			this.clientSocket = clientSocket;
+		}
+		//5. run() ±¸Çö 
+		@Override
+		public void run() {
+			//5.1 BufferedReader, PrintWriter »ı¼º 
+			try {
+				InputStream is = clientSocket.getInputStream();
+				InputStreamReader isr = new InputStreamReader(is);
+				BufferedReader br = new BufferedReader(isr);
+				
+				OutputStream os = clientSocket.getOutputStream();
+				PrintWriter pr = new PrintWriter(os,true);
 
-  $result = mysqli_query($conn,$sql);
+				//5.2 ¸Ş¼¼Áö¸¦ Å¬¶óÀÌ¾ğÆ®¿¡°Ô ÇÑ ¹ø Àü¼Û
+				pr.print("¾È³çÇÏ¼¼¿ä. ´ç½ÅÀÇ ÀÌ¸§ " + clientSocket.getInetAddress().getHostAddress() + " ÀÔ´Ï´Ù.");
+				
+				//5.3 ¹«ÇÑ·çÇÁ¸¦ ÅëÇØ Å¬¶óÀÌ¾ğÆ®¿Í ÁÖ°í¹Ş´Â´Ù. 
+				while(true) {
+					String receiveMessage = br.readLine(); //¸Ş¼¼Áö¸¦ ¹ŞÀ» ¶§±îÁö ´ë±â»óÅÂ
+					if(receiveMessage == null)break;  		//Å¬¶óÀÌ¾ğÆ®°¡ ÁÖ´Â ¸Ş½ÃÁö°¡ ¾øÀ» ¶§ : ³¡³µÀ» ¶§ 
+					if(receiveMessage.equals("java")) {
+						pr.println("java = ¿ì¸®ÀÇ ¹äÁÙ..... \n »õ·Î¿î ´Ü¾î¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä");
+					}else {
+						pr.println(receiveMessage+" ±×·± ´Ü¾î ¾ø¾î¿ä.. \n´Ù½Ã ÀÔ·ÂÇÏ¼¼¿ä! ");
+					}
+				}
+			} catch (IOException e) {
+				System.out.println("Client Socket closed");
+			} finally {
+				try {
+					clientSocket.close();
+				} catch (IOException e) { }
+			}
+		}//end of run
+	}// end of  class Translator
 
-  if (!$result) {
-    die('Error: ' . mysqli_error($conn));
-  }
-  $rowcount=mysqli_num_rows($result);
+}//end of class TranslationServer 
 
-  if ($rowcount) {
-    $s = '[{"id":"ì¤‘ë³µëœ ì•„ì´ë”” ì…ë‹ˆë‹¤."},{"row":"'.$rowcount.'"}]';
-  }else{
-    $s = '[{"id":"ì‚¬ìš© ê°€ëŠ¥ í•©ë‹ˆë‹¤."},{"row":"'.$rowcount.'"}]';
-  }
-  echo $s;
-//insert
-}else if(isset($_GET["mode"]) && $_GET["mode"] == "insert"){
-  if(empty($_POST["id"])){
-    echo "<script>alert('ì•„ì´ë””ë¥¼ ì…ë ¥í•˜ì„¸ìš”.');history.go(-1);</script>";
-    exit;
-  }else{
-    $id = test_input($_POST["id"]);
-    if (!preg_match("/^[a-zA-Z0-9]{5,8}$/",$id)) {
-      echo "<script>alert('ì•„ì´ë””ê°€ í˜•ì‹ì´ ë§ì§€ ì•ŠìŠµë‹ˆë‹¤.');history.go(-1);</script>";
-      exit;
-    }
-  }
-  $q_id = mysqli_real_escape_string($conn, $id);
-  $sql="SELECT * FROM `membership` where id='$q_id'";
-  $result = mysqli_query($conn,$sql);
 
-  if (!$result) {
-    die('Error: ' . mysqli_error($conn));
-  }
-  $rowcount=mysqli_num_rows($result);
+//=====================
+package chapter18.lab810_translation_dictionary;
 
-  if($rowcount){
-    echo "<script>alert('í•´ë‹¹ ì•„ì´ë””ê°€ ì¡´ì¬í•©ë‹ˆë‹¤.');history.go(-1);</script>";
-    exit;
-  }else{
-    if(empty($_POST["passwd"])){
-      echo "<script>alert('íŒ¨ìŠ¤ì›Œë“œë¥¼ ì…ë ¥í•˜ì„¸ìš”.');history.go(-1);</script>";
-      exit;
-    }else{
-      $passwd = test_input($_POST["passwd"]);
-      if (!preg_match("/(?=.*\d{1,10})(?=.*[~`!@#$%\^&*()-+=]{1,10})(?=.*[a-zA-Z]{1,10}).{8,20}$/",$passwd)) {
-        echo "<script>alert('íŒ¨ìŠ¤ì›Œë“œ í˜•ì‹ì´ ë§ì§€ ì•ŠìŠµë‹ˆë‹¤.');history.go(-1);</script>";
-        exit;
-      }
-    }
-    $q_passwd = mysqli_real_escape_string($conn, $passwd);
-    if(empty($_POST["name"])){
-      echo "<script>alert('ì´ë¦„ì„ ì…ë ¥í•˜ì„¸ìš”.');history.go(-1);</script>";
-      exit;
-    }else{
-      $name = test_input($_POST["name"]);
-      if (!preg_match("/^[ê°€-í£\x20]{2,6}$/u",$name)) {
-        echo "<script>alert('ì´ë¦„ í˜•ì‹ì´ ë§ì§€ ì•ŠìŠµë‹ˆë‹¤.');history.go(-1);</script>";
-        exit;
-      }
-    }
-    $q_name = mysqli_real_escape_string($conn, $name);
-    if($_POST["phone1"]=="ì„ íƒ"){
-      echo "<script>alert('í•¸ë“œí° ë²ˆí˜¸ ì•ìë¦¬ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”.');history.go(-1);</script>";
-      exit;
-    }else{
-      $phone1 = test_input($_POST["phone1"]);
-    }
-    $q_phone1 = mysqli_real_escape_string($conn, $phone1);
-    if(empty($_POST["phone2"])){
-      echo "<script>alert('í•¸ë“œí° ë²ˆí˜¸ ë‘ ë²ˆì§¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.');history.go(-1);</script>";
-      exit;
-    }else{
-      $phone2 = test_input($_POST["phone2"]);
-    }
-    $q_phone2 = mysqli_real_escape_string($conn, $phone2);
-    if(empty($_POST["phone3"])){
-      echo "<script>alert('í•¸ë“œí° ë²ˆí˜¸ ì„¸ ë²ˆì§¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.');history.go(-1);</script>";
-      exit;
-    }else{
-      $phone3 = test_input($_POST["phone3"]);
-    }
-    $q_phone3 = mysqli_real_escape_string($conn, $phone3);
-    if(empty($_POST["address1"])){
-      echo "<script>alert('ì£¼ì†Œë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.');history.go(-1);</script>";
-      exit;
-    }else{
-      $address1 = test_input($_POST["address1"]);
-    }
-    if(empty($_POST["address2"])){
-      echo "<script>alert('ì£¼ì†Œë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.');history.go(-1);</script>";
-      exit;
-    }else{
-      $address2 = test_input($_POST["address2"]);
-    }
-    if(empty($_POST["address3"])){
-      echo "<script>alert('ì£¼ì†Œë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.');history.go(-1);</script>";
-      exit;
-    }else{
-      $address3 = test_input($_POST["address3"]);
-    }
-    $q_address1 = mysqli_real_escape_string($conn, $address1);
-    $q_address2 = mysqli_real_escape_string($conn, $address2);
-    $q_address3 = mysqli_real_escape_string($conn, $address3);
-    $q_address = $q_address2."/".$q_address1."/".$q_address3;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
-    if(empty($_POST["email1"])){
-      echo "<script>alert('ì´ë©”ì¼ ì²« ë²ˆì§¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.');history.go(-1);</script>";
-      exit;
-    }else{
-      $email1 = test_input($_POST["email1"]);
-    }
-    $q_email1 = mysqli_real_escape_string($conn, $email1);
-    if($_POST["email2"]=="ì´ë©”ì¼ì„ ì„ íƒí•˜ì„¸ìš”"){
-      echo "<script>alert('ì´ë©”ì¼ì„ ì„ íƒí•˜ì„¸ìš”.');history.go(-1);</script>";
-      exit;
-    }else{
-      $email2 = test_input($_POST["email2"]);
-    }
-    $q_email2 = mysqli_real_escape_string($conn, $email2);
+public class TranslationClient extends JFrame implements ActionListener{
+	private static BufferedReader br;
+	private static PrintWriter pw;
+	private static Socket serverSocket;
+	private static JTextField field;
+	private static JTextArea area;
+	public TranslationClient() {
+		//Ã¢À» ¸¸µç´Ù.
+		setTitle("Client");
+		setSize(500, 300);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
+		
+		//±ÛÀÚ¸¦ ÀÔ·ÂÇÒ field »ı¼º -> Event ÇÚµé·¯¿¡ µî·Ï
+		field = new JTextField(50);
+		field.addActionListener(this);
+		
+		//Text area ¸¸µé°í ¾µ ¼ö ¾øµµ·Ï ÀĞ±â Àü¿ëÀ¸·Î ¼¼ÆÃ
+		area = new JTextArea(10,50);
+		area.setEditable(false);
+		
+		//Ã¢¿¡´Ù°¡ ¹èÄ¡ (ÇÊµå¸¦ ºÏÂÊ¿¡ ¹èÄ¡, area ->center)
+		add(field, BorderLayout.NORTH);
+		add(area, BorderLayout.CENTER);
+	}
+	
+	
+	public static void main(String[] args) throws IOException {
+		TranslationClient tc = new TranslationClient();
+		
+		//3. Å¬¶óÀÌ¾ğÆ® ¼ÒÄÏÀ» ¸¸µç´Ù. Á¢¼Ó ¿äÃ»À» ÁøÇà 
+		serverSocket = new Socket();
+		try {
+			serverSocket.connect(new InetSocketAddress("192.168.1.17", 5004),5000 );
+			
+			//7.BufferedReader PrintWriter 
+			InputStream is = serverSocket.getInputStream();
+			InputStreamReader isr = new InputStreamReader(is);
+			br = new BufferedReader(isr);
+			
+			OutputStream os = serverSocket.getOutputStream();
+			pw = new PrintWriter(os,true);
+			
+			//8.¼­¹ö¿¡¼­ Àü¼ÛÇÑ µ¥ÀÌÅÍ¸¦ ¹Ş´Â´Ù. -> Error check 
+			//area Ã¢¿¡´Ù°¡ ÀÔ·Â 
+			String receiveMessage = br.readLine();
+			area.append(receiveMessage+"\n"); 
+			
+			if(receiveMessage == null) {
+				throw new IOException();
+			}
+			//9. Ã¢¿¡ ÀÔ·Â 
+		} catch (IOException e) {
+			System.out.println("Warning! ¼­¹ö Á¢¼Ó ¿äÃ» ºÒ°¡!");
+		} /*finally {
+			serverSocket.close();
+		}*/
+	}
+	//ActionListenerÀÇ abstract method   µî·ÏµÈ ÀÌº¥Æ®°¡ ¹ß»ı -> ÀÚµ¿À¸·Î ºÒ·¯ÁÖ´Â Callback ÇÔ¼ö 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		//ÀÔ·ÂÇÑ ¹®ÀÚ¸¦ °¡Á®¿È -> ¼­¹ö¿¡ Àü¼Û 
+		String sendMessage = field.getText(); //Sever 57-> String receiveMessage = br.readLine(); //¸Ş¼¼Áö¸¦ ¹ŞÀ» ¶§±îÁö ´ë±â»óÅÂ
+		pw.println(sendMessage);
+		String receiveMessage;
+		try {
+			//´ë±âÇÏ°í ÀÖ´Ù°¡ ¼­¹ö¿¡¼­ º¸³»¿Â ¸Ş¼¼Áö¸¦ area¿¡ Ãß°¡ 
+			receiveMessage = br.readLine();
+			if(receiveMessage == null) {
+				throw new IOException();
+			}
+			area.append(receiveMessage+"\n");
+		} catch (IOException e1) {
+		
+		}
+		
+		
+	}
 
-    $phone=$phone1."-".$phone2."-".$phone3;
-    $q_email=$q_email1."@".$q_email2;
-
-    $sql="insert into membership(id, name, passwd, phone, address, email) ";
-    $sql.="values('$q_id','$q_name','$q_passwd','$phone','$q_address','$q_email');";
-    $result = mysqli_query($conn,$sql);
-    if (!$result) {
-      die('Error: ' . mysqli_error($conn));
-    }
-    mysqli_close($conn);
-    echo "<script> location.href = '../../login/login.php'; </script>";
-  }
 }
-mysqli_close($conn);
-
-?>
-
-_________________________________________________________________________________________________________________________________________
-
-      `club_num` int(11) NOT NULL AUTO_INCREMENT,
-          `club_name` varchar(10) NOT NULL,
-
-          `club_content` varchar(300) NOT NULL,
-
-          `club_category` varchar(10) NOT NULL,
-
-          `club_price` int(11) NOT NULL,
-
-          `club_to` int(11) NOT NULL,
-
-          `club_rent_info` varchar(50) NOT NULL,	-- 
-
-          `club_start` date NOT NULL,
-
-          `club_end` date NOT NULL,
-
-          `club_apply` int(11) NOT NULL,
-
-          `club_schedule` varchar(30) NOT NULL,
-
-          `club_hit` int(11) NOT NULL,
-
-          `club_open` varchar(10) NOT NULL,
-
-          `club_image_name` varchar(50) DEFAULT NULL,
-
-          `club_image_copyied` varchar(50) DEFAULT NULL,
-
-          `club_file_name` varchar(50) DEFAULT NULL,
-
-          `club_file_copyied` varchar(50) DEFAULT NULL,
-
-          `club_file_type` varchar(50) DEFAULT NULL,
-
-
-
-"SELECT `club_price` * `club_apply` AS 'ë§¤ì¶œ' from `club` where club_end like '_____$mar%'  and `club_end` like '$find%'; ";
-
-"SELECT `club_price` * `club_apply` AS 'ë§¤ì¶œ' from `club` where club_end like '_____$apr%'  and `club_end` like '$find%'; ";
-
-"SELECT `club_price` * `club_apply` AS 'ë§¤ì¶œ' from `club` where club_end like '_____$may%'  and `club_end` like '$find%'; ";
-"SELECT `club_price` * `club_apply` AS 'ë§¤ì¶œ' from `club` where club_end like '_____$jun%'  and `club_end` like '$find%'; ";
-"SELECT `club_price` * `club_apply` AS 'ë§¤ì¶œ' from `club` where club_end like '_____$jul%'  and `club_end` like '$find%'; ";
-
-
-"SELECT `club_price` * `club_apply` AS 'ë§¤ì¶œ' from `club` where club_end like '_____$aug%'  and `club_end` like '$find%'; ";
-
-"SELECT `club_price` * `club_apply` AS 'ë§¤ì¶œ' from `club` where club_end like '_____$sep%'  and `club_end` like '$find%'; ";
-
-"SELECT `club_price` * `club_apply` AS 'ë§¤ì¶œ' from `club` where club_end like '_____$oct%'  and `club_end` like '$find%'; ";
-
-"SELECT `club_price` * `club_apply` AS 'ë§¤ì¶œ' from `club` where club_end like '_____$nov%'  and `club_end` like '$find%'; ";
-
-"SELECT `club_price` * `club_apply` AS 'ë§¤ì¶œ' from `club` where club_end like '_____$dec%'  and `club_end` like '$find%'; ";
-
-
-_____$mar
-_____$apr
-_____$may
-_____$jun
-_____$jul
-_____$aug
-_____$sep
-_____$oct
-_____$nov
-_____$dec
-
-
-// <?=$address?>
-
-
-
-
-
-
-
 

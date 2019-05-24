@@ -65,7 +65,8 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
   ?>
   <article class="main">
     <h2 id="h2"><big><strong>신청모임관리</strong></big></h2>
-         <table id="memberlist" border="1">
+      <table id="memberlist" border="1">
+        <thead>
          <tr>
            <td>NO</td>
            <td>신청인</td>
@@ -79,6 +80,7 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
            <td>장소</td>
            <td>비고</td>
          </tr>
+        </thead>
       <?php
 
 
@@ -128,7 +130,7 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
          ?>
    </table>
    <hr>
-        <div id='page_box' style="text-align: center;">
+    <div id='page_box' style="text-align: center;">
       <?PHP
         #----------------이전블럭 존재시 링크------------------#
         if($start_page > $pages_scale){
@@ -157,9 +159,7 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
           echo "<a id='next_block' href='admin_request_list.php?page=$go_page'> >> </a>";
          }
        ?>
-   </div>
-
-         </article>
-
+    </div>
+  </article>
 </body>
 </html>

@@ -4,6 +4,7 @@ include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
 
 
 create_table($conn,'club');
+create_table($conn,'agit');
 
 //모임등록
 if(isset($_GET["mode"]) && $_GET["mode"] == "clubinsert"){
@@ -271,8 +272,6 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "refund_update"){
 }
 
 //신청모임등록//****************************************************************************************************/
-
-
 if(isset($_GET["mode"]) && $_GET["mode"] == "request_create"){
     include $_SERVER['DOCUMENT_ROOT']."/moim/admin/lib/file_upload.php";
     $user_num = $_POST["user_num"];
@@ -380,8 +379,6 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "request_create"){
     }
 
 
-
-
    $sql="INSERT INTO `club` VALUES (null,'$club_name','$content','$club_category','$club_price','$club_to','$club_rent_info','$club_start','$club_end',0,'$club_schedule',0,'no','$upimage_name','$copied_image_name','$upfile_name','$copied_file_name','$file_extension','$club_intro');";
    $result = mysqli_query($conn,$sql);
    if (!$result) {
@@ -420,7 +417,40 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "request_disapprove"){
   }
 
 }
-mysqli_close($conn);
+
+
+//아지트등록
+if(isset($_GET["mode"]) && $_GET["mode"] == "agit_create"){
+  if(empty($_POST["agit_name"])){
+     echo "<script>alert('모임이름을 입력해주세요.'); history.go(-1);</script>";
+     return;
+   }else if(empty($_POST["agit_rent_info1"]) || empty($_POST["agit_rent_info2"]) ){
+     echo "<script>alert('장소를 입력해주세요. 상세주소까지 입력해주세요.'); history.go(-1);</script>";
+     return;
+   }
+   $agit_name= test_input($_POST["agit_name"]);                   //모임명
+   $content=test_input($_POST["content"]);                       //모임내용
+
+   $agit_rent_info1= test_input($_POST["agit_rent_info1"]);      //모임장소(대관관련)
+   $agit_rent_info2= test_input($_POST["agit_rent_info2"]);      //모임장소(대관관련)
+   $agit_rent_info=  $agit_rent_info1."/".$agit_rent_info2;  //모임장소(대관관련)
+
+
+   include $_SERVER['DOCUMENT_ROOT']."/moim/admin/lib/file_upload.php";
+
+   $sql="INSERT INTO `agit` VALUES (null,'$agit_name','$agit_rent_info','$upimage_name','$copied_image_name','$content');";
+   $result = mysqli_query($conn,$sql);
+   if (!$result) {
+     alert_back('Error: ' . mysqli_error($conn));
+   }
+
+   echo "<script> location.href='./admin_agit_list.php'; </script>";
+
+}
+
+
+
+// mysqli_close($conn);
 
 
 

@@ -22,12 +22,12 @@ session_start();
         <ul>
           <li><a href="../../mainpage.php">HOME</a></li>
           <?php
-            if(!isset($_SESSION['userid'])){
-              echo ('<li><a href="../../login/source/login.php">LOG IN</a></li>');
-            }else{
-              echo ('<li><a href="../../login/source/logout.php">LOG OUT</a></li>');
-            }
-           ?>
+            // if(!isset($_SESSION['userid'])){
+            //   echo ('<li><a href="../../login/source/login.php">LOG IN</a></li>');
+            // }else{
+            //   echo ('<li><a href="../../login/source/logout.php">LOG OUT</a></li>');
+            // }
+            ?>
           <li><a href="admin_member.php">회원관리</a></li>
           <li><a href="admin_sales.php">통계</a>
           </li>
@@ -37,9 +37,15 @@ session_start();
               <li><a href="admin_club_create2.php">모임등록양식</a></li>
             </ul>
           </li>
-              <li><a href="admin_club_accept.php">모임개설승인</a></li>
-              <li><a href="admin_request_list.php">신청모임관리</a></li>
-              <li><a href="admin_refund.php">환불관리</a></li>
+          <li><a href="admin_club_accept.php">모임개설승인</a></li>
+          <li><a href="admin_request_list.php">신청모임관리</a></li>
+          <li><a href="admin_agit_create.php">아지트등록</a>
+            <ul>
+              <li><a href="admin_agit_list.php">아지트목록</a></li>
+              <li><a href="admin_agit_create.php">아지트등록양식</a></li>
+            </ul>
+          </li>
+          <li><a href="admin_refund.php">환불관리</a></li>
 
       </div>
     </nav>

@@ -104,7 +104,7 @@ $number=$total_record- $start_row;
           <td><?=$buy_process_date?> </td>
           <td>
             <button type="button" name="button" id="view" onclick="window.open('https://admin.iamport.kr/payments','_blank', 'width=550 height=500');">거래내역조회</button></a>
-            <button type="button" name="button" id="view" onclick="refund_submit(<?=$buy_club_num?>,'<?=$buy_id?>');">환불처리완료</button></a>
+            <button type="button" name="button" id="view" onclick="refund_submit(<?=$buy_club_num?>,'<?=$buy_id?>');">환불처리</button></a>
           </td>
         </tr>
         <?php

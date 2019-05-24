@@ -1,19 +1,18 @@
-﻿<?php
+<?php
 session_start();
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
-$mode="clubinsert";
+$mode="agit_create";  //default는 agit_create
 $checked="";
-//
-$club_num=$club_name= $club_content= $club_category= $club_price= $club_to= $club_rent_info= $club_start=$club_end=$club_schedule="";
-$club_rent_info[0]=$club_rent_info[1]=$club_intro="";
-$user_num="";
 
+$agit_num=$agit_name= $club_content= $club_category= $club_price= $club_to= $club_rent_info= $club_start=$club_end=$club_schedule="";
+$agit_rent_info[0]=$agit_rent_info[1]=$agit_code="";
+$user_num="";
 
 if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   $mode="update";
   $club_num = $_GET['club_num'];
 
-  $sql="SELECT * from `club` where club_num='$club_num';";
+  $sql="SELECT * from `agit` where agit_num='$agit_num';";
   $result = mysqli_query($conn,$sql);
   if (!$result) {
     die('Error: ' . mysqli_error($conn));
@@ -69,7 +68,6 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   $club_to= $row['user_to'];
   $club_rent_info = $row['user_rent_info'];
   $club_rent_info=explode("/", $club_rent_info);
-
   $club_start = $row['user_start'];
   $club_end = $row['user_end'];
   $club_schedule= $row['user_schedule'];
@@ -109,37 +107,6 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   <link href="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.css" rel="stylesheet"/><!--날짜다중선택 -->
   <script src="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.js"></script><!--날짜다중선택 -->
   <script type="text/javascript">
-    //multiDatesPicker
-    $(function() {
-      $('#club_schedule_cal').multiDatesPicker({
-        minDate: 0, //오늘부터 선택
-        dateFormat :'y-mm-dd',
-        showButtonPanel:true,
-        closeText: '닫기',
-        club_schedule_cal: '#club_schedule_cal'
-      });
-    })
-
-    //datepocler의 옵션을 설정
-    $.datepicker.setDefaults({
-      dateFormat: 'yy-mm-dd',
-      prevText: '이전 달',
-      nextText: '다음 달',
-      monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-      dayNames: ['일', '월', '화', '수', '목', '금', '토'], //달력의 요일 부분 텍스트
-      dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'], //달력의 요일 부분 Toottip 텍스트
-      showMonthAfterYear: true, //년도 먼저 나오고, 뒤에 월 표시
-      yearSuffix: '년' //달력의 년도 부분 뒤에 붙는 텍스트
-    });
-    // 출발일 입력칸은 input 태그의 text 타입이지만 이곳을 클릭하면 datepicker가 작동된다.
-    //$("#datepicker1 , #datepicker2").datepicker 라고 input 객체를 datepicker 로 사용하겠다고 선언되어있기때문에
-    $(function() {
-      $("#datepicker1 , #datepicker2").datepicker({
-        minDate: 0, //오늘부터 선택
-        showButtonPanel:true,
-        closeText: '닫기'
-      });
-    });
     //주소 API
     function execDaumPostcode() {
       /* 폼은 다음 주소찾기 빌리면서 입력값은 여기서 받고 처리하네?  */
@@ -158,7 +125,6 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
           } else { // 사용자가 지번 주소를 선택했을 경우(J)
             fullAddr = data.jibunAddress;
           }
-
           // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
           if (data.userSelectedType === 'R') {
             //법정동명이 있을 경우 추가한다.
@@ -172,7 +138,6 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
             // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
             fullAddr += (extraAddr !== '' ? ' (' + extraAddr + ')' : '');
           }
-
           // 우편번호와 주소 정보를 해당 필드에 넣는다.
           // document.getElementById('address2').value = data.zonecode; //5자리 새우편번호 사용
           document.getElementById('address1').value = fullAddr;
@@ -183,12 +148,6 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
         }
       }).open();
     }
-    // $(document).ready(function() {
-    //   $("#agit_category").on(change(function(event) {
-    //     console.log(this.value);
-    //   });)
-    // });
-
   </script>
 
   <title></title>
@@ -205,7 +164,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
       if($mode=="update"){
       echo  "<h2 id='h2'><big><strong>모임수정</strong></big></h2>";
       }else{
-       echo  "<h2 id='h2'><big><strong>모임등록</strong></big></h2>";
+       echo  "<h2 id='h2'><big><strong>아지트등록</strong></big></h2>";
 
       }
        ?>
@@ -217,130 +176,26 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
           <!--모임이름, 모집정원, 모집시작일 ,모집종료일, 가격  -->
           <table class="club_create2_table">
             <tr>
-              <td>모임이름</td>
-              <td colspan="2"><input type="text" name="club_name" value="<?=$club_name?>"></td>
+              <td>아지트이름</td>
+              <td colspan="2"><input type="text" name="agit_name" value="<?=$agit_name?>"></td>
             </tr>
             <tr>
-              <td id="write_td">카테고리</td>
-              <td colspan="2">
-                <select name="club_category" id="club_category">
-                  <option>선택</option>
-                  <option value="글쓰기">글쓰기</option>
-                  <option value="요리">요리</option>
-                  <option value="영화">영화</option>
-                  <option value="미술">미술</option>
-                  <option value="사진">사진</option>
-                  <option value="디자인">디자인</option>
-                  <option value="디자인">경제/경영</option>
-                  <option value="취미생활/기타">취미생활/기타</option>
-                </select>
-              </td>
+              <td>아지트코드</td>
+              <td colspan="2"><input type="text" name="agit_code" value="<?=$agit_code?>" placeholder="예시:hongdae--seoul"></td>
             </tr>
             <tr>
-              <td id="write_td">모임장소</td>
-              <td style="width:171px">
-                <select name="agit_category" id="agit_category">
-                  <option>아지트선택</option>
-                  <?php
-                    $sql1="SELECT `agit_name`,`agit_address` from `agit`;";
-                    $result1 = mysqli_query($conn,$sql1);
-                    if (!$result1) {
-                      die('Error: ' . mysqli_error($conn));
-                    }
-                    $count=mysqli_num_rows($result1);
-                    for($i=0;$i<$count;$i++){
-                      $row1=mysqli_fetch_array($result1);
-                    ?>
-                    <option value="<?=$row1['agit_address']?> "> <?=$row1['agit_name']?></option>;
-                    <?php
-                    }
-                   ?>
-                </select>
-              </td>
-              <td><input id="address1" type="text" name="club_rent_info1" value="<?=$club_rent_info[0]?>" onclick="execDaumPostcode()" size="45" placeholder="주소">
-                  <input id="address2" type="text" name="club_rent_info2" value="<?=$club_rent_info[1]?>" placeholder="상세주소">
-              </td>
+              <td id="write_td">아지트주소</td>
+              <td><input id="address1" type="text" name="agit_rent_info1" value="<?=$agit_rent_info[0]?>" onclick="execDaumPostcode()" size="45" placeholder="주소"></td>
+              <td><input id="address2" type="text" name="agit_rent_info2" value="<?=$agit_rent_info[1]?>" placeholder="상세주소"></td>
             </tr>
-            <tr>
-              <td id="write_td">모집정원</td>
-              <td colspan="2"><input type="number" name="club_to" value="<?=$club_to?>"  placeholder="모집정원"></td>
-            </tr>
-            <tr>
-              <td>모집시작일</td>
-              <td colspan="2"><input type="text" name="club_start" value="<?=$club_start?>" id="datepicker1" placeholder="모집시작일"></td>
-            </tr>
-            <tr>
-              <td>모집종료일</td>
-              <td colspan="2"><input type="text" name="club_end" value="<?=$club_end?>" id="datepicker2" placeholder="모집종료일"></td>
-            </tr>
-            <tr>
-              <td>가격</td>
-              <td colspan="2"><input type="number" name="club_price" value="<?=$club_price?>"></td>
-            </tr>
-            <tr>
-              <td>수업일정</td>
-              <td colspan="2">
-                <input type="text" id="club_schedule_cal" name="club_schedule" size="60 "  value="<?=$club_schedule?>" placeholder="수업일정">
-              </td>
-            </tr>
+
             <tr>
               <td>사진 [gif,jpeg,png파일]</td>
               <td colspan="2">
-              <?php
-                if($mode=="update"){
-              ?>
-                <img src="../data/<?=$club_image_copied?>" width="<?=$image_width?>"><br>
-                <input type="checkbox" name="del_img" value="1" id="del_img">삭제
-                <input type="file" name="upimage" value=""  accept="image/gif,image/jpeg,image/png"
-                    onclick="document.getElementById('del_img').checked=true; document.getElementById('del_img').disabled=true"><br>
-
-              <?php
-                }else if($mode=="request_create"){
-              ?>
-                <img src="../../mypage/data/<?=$club_image_copied?>" width="<?=$image_width?>"><br>
-                <input type="checkbox" name="del_img" value="1" id="del_img">삭제
-                <input type="file" name="upimage" value=""  accept="image/gif,image/jpeg,image/png"
-                    onclick="document.getElementById('del_img').checked=true; document.getElementById('del_img').disabled=true"><br>
-              <?php
-                }else{
-               ?>
                 <input type="file" name="upimage" value="" accept="image/gif,image/jpeg,image/png">
-              <?php
-                }
-               ?>
               </td>
             </tr>
-            <tr>
-              <td>모임세부사항 [첨부파일]</td>
-              <td colspan="2">
-                <?php
-                if( ($mode=="update" || $mode="request_create")  && !empty($club_file_name)  ){
-                  echo "$club_file_name 파일이 등록되어 있습니다.";
-
-                  echo '<input type="checkbox" name="del_file" value="1" id="del_file">삭제';
-                  ?>
-                  <input type="file" name="upfile" value=""
-                          onclick="document.getElementById('del_file').checked=true; document.getElementById('del_file').disabled=true">
-              <?php
-                }else{
-                  echo "<input type='file' name='upfile' value=''>";
-                }
-              ?>
-
-              </td>
-            </tr>
-
-            <tr>
-              <td>모임간단소개</td>
-              <td colspan="2">
-                <textarea name="club_intro" rows="8" cols="80">
-                  <?=$club_intro?>
-                </textarea>
-              </td>
-            </tr>
-            <tr>
-              <td >내용</td>
-              <td colspan="2">문단형식 :: 제목은 [제목1], 소제목은 [제목3]으로 작성부탁드립니다. </td>
+              <td colspan="3">아지트소개</td>
             </tr>
             <tr>
               <td colspan="3">
@@ -354,7 +209,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
             </tr>
             <tr>
               <td colspan="3" style="text-align:right">
-                <input type="button" name="" value="list" onclick="location.href='./admin_club_list.php'" >
+                <input type="button" name="" value="list" onclick="location.href='./admin_agit_list.php'" >
                 <input type="submit" name="" value="submit">
               </td>
             </tr>

@@ -130,9 +130,12 @@ if(!empty($_FILES['upfile']['name'])){
     // echo "<script>alert('파일_서버전송오류');</script>";
   }
 
-}else{ // 새로운 첨부파일 없는경우
-  $user_num = $_POST['user_num'];
 
+
+////////////////////////////////
+}else if( empty($_FILES['upfile']['name']) ){ // 새로운 첨부파일 없는경우
+
+  $user_num = $_POST['user_num'];
   $sql="SELECT * from `user_club` where user_num='$user_num';";
   $result = mysqli_query($conn,$sql);
   if (!$result) {
@@ -142,15 +145,12 @@ if(!empty($_FILES['upfile']['name'])){
   $user_file_copied = $row['user_file_copied'];
   $user_file_type = $row['user_file_type'];
   $user_file_name = $row['user_file_name'];
-  // var_export($user_file_copied);
+
 
   $oldfile = "../../mypage/data/".$user_file_copied; // 원본파일 --mypage 의 data폴더에 있는 파일
   $newfile = "../data/".$user_file_copied; // 복사파일 -- admin의 data 폴더에
 
-  // var_export($oldfile);
-  // var_export($newfile);
-
-  copy($oldfile, $newfile);
+  copy($oldfile,$newfile);
   unlink($oldfile);
 
   $upfile_name=$user_file_name;

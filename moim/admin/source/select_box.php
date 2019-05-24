@@ -1,4 +1,5 @@
-﻿<?php
+<?php
+// 셀렉트박스테스트!!!!!!!!!!!!!!!!!!!!!!!!
 session_start();
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 $mode="clubinsert";
@@ -183,14 +184,18 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
         }
       }).open();
     }
-    // $(document).ready(function() {
-    //   $("#agit_category").on(change(function(event) {
-    //     console.log(this.value);
-    //   });)
-    // });
+  </script>
+  <script type="text/javascript">
+    function select_box(){
+      var agit =$('#agit_category option:selected').val();
+      var agit_addr=agit.split("/");
+     // alert(agit_addr[0]);
+      $('#address1').val(agit_addr[0]);
+      $('#address2').val(agit_addr[1]);
+
+    }
 
   </script>
-
   <title></title>
 </head>
 
@@ -239,7 +244,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
             <tr>
               <td id="write_td">모임장소</td>
               <td style="width:171px">
-                <select name="agit_category" id="agit_category">
+                <select name="agit_category" id="agit_category" onchange="select_box()">
                   <option>아지트선택</option>
                   <?php
                     $sql1="SELECT `agit_name`,`agit_address` from `agit`;";
@@ -251,7 +256,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
                     for($i=0;$i<$count;$i++){
                       $row1=mysqli_fetch_array($result1);
                     ?>
-                    <option value="<?=$row1['agit_address']?> "> <?=$row1['agit_name']?></option>;
+                    <option value="<?=$row1['agit_address']?>"> <?=$row1['agit_name']?></option>;
                     <?php
                     }
                    ?>
