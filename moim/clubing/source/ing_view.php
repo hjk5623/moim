@@ -114,6 +114,12 @@ create_table($conn, 'club_ripple');
              <div class=""><b>모임날짜:<?=$club_schedule?></b></div>
              <div class=""><b>장소:<?=$club_rent_info?></b></div>
              <div class="club_view_intro"><b><?=$club_intro?></b></div>
+             <?php
+             //관리자만 수정/삭제 버튼이 보임
+             if(!empty($_SESSION['userid']) && $_SESSION['userid']==="admin"){ ?>
+               <!-- <button type="button" name="button">수정</button> -->
+               <button type="button" name="button" onclick="location.href='ing_query.php?mode=c_delete&club_num=<?=$club_num?>'">삭제</button>
+             <?php } ?>
            </div>
         </div><!--club_info-->
         <hr class="divider">
