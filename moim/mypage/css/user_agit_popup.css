@@ -1,0 +1,58 @@
+/* .agit_look{
+  width: 100px;
+  border: 3px solid #333333;
+  background: #f1f1f1;
+  padding: 15px 20px;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  display: block;
+  -webkit-transition: all 150ms ease-out;
+  transition: all 150ms ease-out;
+  -webkit-transform: translateY(0px);
+          transform: translateY(0px);
+} */
+
+.agit_layer{
+  width: 100%;
+  margin: 0 auto;
+}
+
+.agit_h1{
+  font-size: 20px;
+  font-weight: normal;
+}
+
+
+.agit_info{
+  width: 500px;
+  margin: 0 auto;
+}
+
+.agit_info .agit_content h1,h2,h3{
+  color: #d47885;
+}
+
+.agit_map{
+  width: 1000px;
+}
+
+#map{
+  width: 100%;
+  margin: 0 auto;
+}
+
+.agit_look{
+  text-decoration: none;
+  float: right;
+  margin: 5%;
+  font-size: 15px;
+  cursor: pointer;
+  color: black;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.agit_look:hover{
+  background: black;
+  color: white;
+}

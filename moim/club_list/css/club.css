@@ -81,7 +81,7 @@ nav ul li a:hover:before {
 
 .sec1 {
   width: 100%;
-  height: 800px;
+  height: 80vh;
   box-sizing: border-box;
   background: url("../img/clublist2.jpg");
   background-size: cover;
@@ -127,10 +127,12 @@ nav ul li a:hover:before {
   align-items: center;
   justify-content: space-between;
   /* margin: 5%; */
+  /* display: none; */
 }
 
 .about-box-two{
   text-align: center;
+  /* display: none; */
 }
 
 .about-area-two{
@@ -144,7 +146,9 @@ nav ul li a:hover:before {
   font-weight: normal;
 }
 
-.about-area-two .place-list-two{}
+.noshow {
+  display: none;
+}
 
 .about-area-two .place-list-two li{
   /* width: 30%; */
@@ -154,6 +158,13 @@ nav ul li a:hover:before {
   margin-left: 0;
   margin: 1%;
   padding: 0;
+}
+
+.about-area-two .place-list-two li i{
+  position: absolute;
+  color: black;
+  margin-left: 85%;
+  margin-top: 5%;
 }
 
 .about-area-two .place-list-two li a{
@@ -167,7 +178,6 @@ nav ul li a:hover:before {
 .about-area-two .place-list-two li .top-place-two{
   width: 370px;
   height: 380px;
-  display: block;
 }
 
 

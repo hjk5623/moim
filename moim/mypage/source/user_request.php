@@ -1,3 +1,4 @@
+<?php include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php"; ?>
 <!DOCTYPE html>
 <html lang="ko" dir="ltr">
   <head>
@@ -57,6 +58,19 @@
           closeText: '닫기'
         });
       });
+
+      function agit(){
+        var mode = document.getElementById('mode').value;
+        if (mode=="선택") {
+          alert("아지트를 선택해주세요.");
+        }else{
+          var popupX = (window.screen.width/2)-(600/2);
+          var popupY = (window.screen.height/2)-(400/2);
+          window.open('./user_agit_popup.php?mode='+mode,'','left='+popupX+',top='+popupY+', width=1000, height=700, status=no, scrollbars=no');
+        }
+
+
+      }
     </script>
   </head>
   <body>
@@ -104,16 +118,24 @@
           </td>
         </tr>
         <tr>
-          <td>대관정보</td>
+          <td>아지트</td>
           <td>
-            <select class="user_rent_info" name="user_rent_info">
+            <select class="user_rent_info" name="user_rent_info" id="mode">
               <option value="선택">선택</option>
-              <option value="대관1">대관1</option>
-              <option value="대관2">대관2</option>
-              <option value="대관3">대관3</option>
-              <option value="대관4">대관4</option>
-              <option value="대관5">대관5</option>
+            <?php
+              $sql = "select * from agit;";
+              $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+              $count=mysqli_num_rows($result);
+              for($i=0;$i<$count;$i++){
+                $row= mysqli_fetch_array($result);
+                $agit_name=$row['agit_name'];
+                ?>
+                <option value="<?=$agit_name?>"><?=$agit_name?></option>
+                <?php
+              }
+                 ?>
             </select>
+            <button type="button" onclick="agit();">정보보기</button>
 
           </td>
         </tr>

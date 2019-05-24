@@ -155,6 +155,8 @@ $cart_id=$row['cart_id'];
              <input type="hidden" id="club_num" value="<?=$club_num?>">
              <input type="hidden" id="cart_club_num" value="<?=$cart_club_num?>">
              <input type="hidden" id="cart_id" value="<?=$cart_id?>">
+             <input type="hidden" id="club_to" value="<?=$club_to?>">
+             <input type="hidden" id="club_apply" value="<?=$club_apply?>">
            <div class="club_view_btn"><button type="button" name="button1" onclick="buy_page()" class="buy_btn">구매하기</button>&nbsp;&nbsp;&nbsp;<button type="button"  name="button2" onclick="cart_page()" class="cart_btn">카트담기</button></div>
          </div><!--club_info-->
 
@@ -240,7 +242,7 @@ $cart_id=$row['cart_id'];
            <?php
             if ($_SESSION['userid']=="admin") {
               echo ('<a href="../../admin/source/admin_club_create2.php?mode=update&club_num='.$club_num.'">수정</a>&nbsp;');
-              echo ('<span onclick="del_check()">삭제</span>&nbsp;');
+              echo ('<a href="#" onclick="del_check()">삭제</a>&nbsp;');
               echo ('<a href="../../admin/source/admin_club_create2.php">모임 만들기</a>');
             }
             ?>
