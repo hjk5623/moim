@@ -14,6 +14,7 @@
   background: #000;
   box-shadow: 0 30px 30px rgba(0, 0, 0, 0.5);
   display: inline-block;
+  z-index: 1;
 }
 
 .box .imgbx{
