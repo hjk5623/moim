@@ -68,7 +68,7 @@ if(isset($_GET["mode"])=='update'){
 
     <tr>
       <td>내용</td>
-      <td colspan="3"><textarea style="resize: none" name="notice_content" rows="15" cols="79"><?=$notice_content?></textarea> </td>
+      <td colspan="3"><textarea resize="none;" name="notice_content" rows="15" cols="79"><?=$notice_content?></textarea> </td>
     </tr>
     <tr>
       <td>첨부파일</td>
