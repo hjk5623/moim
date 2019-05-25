@@ -49,7 +49,6 @@
         case 'club':
           $sql = "CREATE TABLE `club` (
           `club_num` int(11) NOT NULL AUTO_INCREMENT,
-          `club_id` varchar(10) NOT NULL,
           `club_name` varchar(10) NOT NULL,
           `club_content` text NOT NULL,
           `club_category` varchar(10) NOT NULL,

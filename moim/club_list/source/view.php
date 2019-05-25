@@ -243,7 +243,6 @@ $cart_id=$row['cart_id'];
             if ($_SESSION['userid']=="admin") {
               echo ('<a href="../../admin/source/admin_club_create2.php?mode=update&club_num='.$club_num.'">수정</a>&nbsp;');
               echo ('<a href="#" onclick="del_check()">삭제</a>&nbsp;');
-              echo ('<a href="../../admin/source/admin_club_create2.php">모임 만들기</a>');
             }
             ?>
           </div>

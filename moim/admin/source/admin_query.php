@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
 
@@ -89,29 +89,29 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "clubdelete"){
   $q_club_num= mysqli_real_escape_string($conn,$club_num);     //삭제할때는 sql injection 을 반드시 방어해라~!
 
   //삭제할 게시물의 이미지파일명을 가져와서 삭제한다.
-  $sql="SELECT `club_image_copyied` from `club` where club_num='$q_club_num';";
+  $sql="SELECT `club_image_copied` from `club` where club_num='$q_club_num';";
   $result = mysqli_query($conn,$sql);
   if (!$result) {
     alert_back('Error: ' . mysqli_error($conn));
   }
   $row=mysqli_fetch_array($result);
-  $club_image_copyied = $row['club_image_copyied'];
+  $club_image_copied = $row['club_image_copied'];
 
-  if(!empty($club_image_copyied)){ //이미지파일인지 아닌지 확인할 필요가 없음. db 에 $file_copied_0 가 있으면 그걸 지우면 되므로
-    unlink("../data/".$club_image_copyied);
+  if(!empty($club_image_copied)){ //이미지파일인지 아닌지 확인할 필요가 없음. db 에 $file_copied_0 가 있으면 그걸 지우면 되므로
+    unlink("../data/".$club_image_copied);
   }
 
   //삭제할 게시물의 첨부파일명을 가져와서 삭제한다.
-  $sql="SELECT `club_file_copyied` from `club` where club_num='$q_club_num';";
+  $sql="SELECT `club_file_copied` from `club` where club_num='$q_club_num';";
   $result = mysqli_query($conn,$sql);
   if (!$result) {
     alert_back('Error: ' . mysqli_error($conn));
   }
   $row=mysqli_fetch_array($result);
-  $club_file_copyied = $row['club_file_copyied'];
+  $club_file_copied = $row['club_file_copied'];
 
-  if(!empty($club_file_copyied)){ //이미지파일인지 아닌지 확인할 필요가 없음. db 에 $file_copied_0 가 있으면 그걸 지우면 되므로
-    unlink("../data/".$club_file_copyied);
+  if(!empty($club_file_copied)){ //이미지파일인지 아닌지 확인할 필요가 없음. db 에 $file_copied_0 가 있으면 그걸 지우면 되므로
+    unlink("../data/".$club_file_copied);
   }
 
   $sql="DELETE from `club` where club_num='$q_club_num'";
