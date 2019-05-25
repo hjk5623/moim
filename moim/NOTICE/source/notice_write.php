@@ -1,4 +1,5 @@
 <?php
+session_start();
 header("Cache-Control: no-store, no-cache, must-revalidate");
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
@@ -8,10 +9,11 @@ if(!isset($_SESSION['userid'])){
   </script>";
   exit;
 }
+
 $mode="insert";
 // $id=$_SESSION['userid'];
 $checked="";
-$notice_num=$notice_id=$notice_subject=$notice_content=$notice_date=$notice_hit=$notice_file_name=$notice_file_copyied=$notice_file_type="";
+$notice_num=$notice_id=$notice_subject=$notice_content=$notice_date=$notice_hit=$notice_file_name=$notice_file_copied=$notice_file_type="";
 
 if(isset($_GET["mode"])=='update'){
   $mode="update";
@@ -35,7 +37,7 @@ if(isset($_GET["mode"])=='update'){
       $notice_date=$row['notice_date'];
       $notice_hit=$row['notice_hit'];
       $notice_file_name=$row['notice_file_name'];
-      $notice_file_copyied=$row['notice_file_copyied'];
+      $notice_file_copied=$row['notice_file_copied'];
       $notice_file_type=$row['notice_file_type'];
       mysqli_close($conn);
 

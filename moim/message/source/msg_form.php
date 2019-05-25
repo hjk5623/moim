@@ -18,8 +18,14 @@ $name = $_SESSION['username'];
    <form action="./msg_query.php?mode=send" method="Post">
      <div>
        <div>
+         <?php
+       if($_SESSION['userid']=="admin" || $_SESSION['userid']=="notice_id"){
+         echo "<b>상대방 아이디</b> : <input type='text' size='12px;' name='receive_id'>";
+       }else{
+          echo "<b>상대방 아이디</b> : <input type='text' size='12px;' value='admin' name='receive_id' readonly>";
+       }
+        ?>
 
-         <b>상대방 아이디</b> : <input type="text" size="12px;" name="receive_id">
        </div>
         <b>보내는 메세지</b> <br> <textarea name="msg_content" rows="10" cols="57"></textarea>
     </div>

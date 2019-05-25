@@ -4,8 +4,8 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/create_table.php";
 if(!isset($_SESSION['userid'])){
-  echo "<script>alert('권한이 없습니다');
-  window.close();
+  echo "<script>alert('권한이 없습니다3');
+  history.go(-1);
   </script>";
   exit;
 }

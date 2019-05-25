@@ -1,6 +1,5 @@
 <?php
 session_start();
-// include $_SERVER['DOCUMENT_ROOT']."/html5/ansisung/lib/session_call.php";
 header("Cache-Control: no-store, no-cache, must-revalidate");
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
@@ -104,7 +103,7 @@ if(!isset($_SESSION['userid'])){
       $notice_date=substr($row['notice_date'], 0,10);
       $notice_hit=$row['notice_hit'];
       $notice_file_name=$row['notice_file_name'];
-      $notice_file_copyied=$row['notice_file_copyied'];
+      $notice_file_copied=$row['notice_file_copied'];
       $notice_file_type=$row['notice_file_type'];
       // $subject = str_replace("\n", "<br>", $subject);
       // $subject = str_replace(" ", "&nbsp;", $subject);

@@ -1,11 +1,6 @@
 <?php
 session_start();
 header("Cache-Control: no-store, no-cache, must-revalidate");
- ?>
-
-<meta charset="utf-8">
-<?php
-
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
 $qna_subject = $qna_content = $qna_id = $qna_date = "";
@@ -87,7 +82,6 @@ $mode="insert";
   $q_num = mysqli_real_escape_string($conn, $qna_num);
   $qna_date = date("Y-m-d (H:i)");
 
-        include "./lib/file_upload.php";
 
   $sql="UPDATE `qna` SET `qna_subject` = '$q_subject', `qna_content` = '$q_content', `qna_date` = '$qna_date' WHERE `qna_num` = '$q_num';";
   //뭐하나 추가
@@ -96,6 +90,7 @@ $mode="insert";
   if (!$result) {
     die('Error: ' . mysqli_error($conn));
   }
+  mysqli_close($conn);
   echo "<script> location.href = './qna_view.php?qna_num=$qna_num'; </script>";
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -138,12 +133,8 @@ else if(isset($_GET["mode"])&&$_GET["mode"]=="ripple_insert"){
       if (!$result) {
         die('Error: ' . mysqli_error($conn));
       }
-
-
-
       mysqli_close($conn);
       echo "<script>location.href='./qna_view.php?qna_num=$qna_num';</script>";
-  //end of if rowcount
 
 }else if(isset($_GET["mode"])&&$_GET["mode"]=="ripple_delete"){
 
@@ -156,13 +147,8 @@ else if(isset($_GET["mode"])&&$_GET["mode"]=="ripple_insert"){
     if (!$result) {
       die('Error: ' . mysqli_error($conn));
     }
-
-
-
     mysqli_close($conn);
     echo "<script>location.href='./qna_view.php?qna_num=$ripple_parent';</script>";
-
-
 }
 //////////////////////////////////////////////////////////////수정없으니까
 else if(isset($_GET["mode"])&&$_GET["mode"]=="update"){
@@ -187,7 +173,7 @@ else if(isset($_GET["mode"])&&$_GET["mode"]=="update"){
     if (!$result) {
       die('Error: ' . mysqli_error($conn));
     }
-
+    mysqli_close($conn);
     echo "<script>location.href='./view.php?num=$num&hit=$hit';</script>";
 }/////////////////////////////////////////////////////////////////////////////
 else if(isset($_GET["mode"])&&$_GET["mode"]=="ripple_response"){
@@ -241,9 +227,8 @@ else if(isset($_GET["mode"])&&$_GET["mode"]=="ripple_response"){
     $row=mysqli_fetch_array($result);
     $max_num=$row['max(ripple_num)'];
 
+    mysqli_close($conn);
     echo "<script>location.href='./qna_view.php?qna_num=$qna_num';</script>";
 }
-
-mysqli_close($conn);
 
 ?>

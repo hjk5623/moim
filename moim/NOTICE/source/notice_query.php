@@ -1,8 +1,5 @@
 <?php
-// session_start();
- ?>
-
-<?php
+session_start();
 header("Cache-Control: no-store, no-cache, must-revalidate");
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 
@@ -57,7 +54,7 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
     $notice_num = test_input($_GET["notice_num"]);
     $q_num = mysqli_real_escape_string($conn,$notice_num);
 
-    $sql="SELECT `notice_file_copyied` from `notice` where notice_num = '$q_num';";
+    $sql="SELECT `notice_file_copied` from `notice` where notice_num = '$q_num';";
     $result = mysqli_query($conn,$sql);
     if (!$result) {
 
@@ -65,10 +62,10 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
       echo "<script>history.go(-1);</script>";
     }
     $row=mysqli_fetch_array($result);
-    $notice_file_copyied=$row['notice_file_copyied'];
+    $notice_file_copied=$row['notice_file_copied'];
 
-    if(!empty($notice_file_copyied)){
-      unlink("../data/".$notice_file_copyied);
+    if(!empty($notice_file_copied)){
+      unlink("../data/".$notice_file_copied);
     }
 
     $sql = "DELETE FROM `notice` WHERE notice_num = $q_num";
@@ -101,21 +98,21 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
   $notice_date = date("Y-m-d (H:i)");
 
   if(isset($_POST['check_image']) && $_POST['check_image'] == '1'){
-      $sql = "SELECT `notice_file_copyied` from `notice` where notice_num = '$q_num' order by notice_num desc limit 1;";
+      $sql = "SELECT `notice_file_copied` from `notice` where notice_num = '$q_num' order by notice_num desc limit 1;";
       $result = mysqli_query($conn,$sql);
       if (!$result) {
         alert_back('Error: ' . mysqli_error($conn));
         // die('Error: ' . mysqli_error($conn));
       }
       $row = mysqli_fetch_array($result);
-      $notice_file_copyied=$row['notice_file_copyied'];
+      $notice_file_copied=$row['notice_file_copied'];
 
-      if(!empty($notice_file_copyied)){
+      if(!empty($notice_file_copied)){
         //이미지 정보를 가져오기 위한 함수(width, height, type)
-        unlink("../data/".$notice_file_copyied);
+        unlink("../data/".$notice_file_copied);
       }
 
-      $sql="UPDATE `notice`SET `notice_file_name`='',`notice_file_copyied`='' WHERE `notice_num` = '$q_num';";
+      $sql="UPDATE `notice`SET `notice_file_name`='',`notice_file_copied`='' WHERE `notice_num` = '$q_num';";
       $result = mysqli_query($conn,$sql);
       if (!$result) {
         die('Error: ' . mysqli_error($conn));
@@ -125,7 +122,7 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
   if(!empty($_FILES['upfile']['name']) && isset($_FILES['upfile']['name'])){
       //include 파일 업로드 기능
       include "../lib/file_upload.php";
-      $sql="UPDATE `notice` SET `notice_subject` = '$q_subject', `notice_content` = '$q_content', `notice_date` = '$notice_date', `notice_file_copyied` = '$copied_file_name',
+      $sql="UPDATE `notice` SET `notice_subject` = '$q_subject', `notice_content` = '$q_content', `notice_date` = '$notice_date', `notice_file_copied` = '$copied_file_name',
        `notice_file_type` = '$upfile_type', `notice_file_name` = '$upfile_name' WHERE `notice_num` = '$q_num';";      $result = mysqli_query($conn,$sql);
       if (!$result) {
         die('Error: ' . mysqli_error($conn));
@@ -152,15 +149,15 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
     }
     $row=mysqli_fetch_array($result);
     $notice_file_name=$row['notice_file_name'];
-    $notice_file_copyied=$row['notice_file_copyied'];
+    $notice_file_copied=$row['notice_file_copied'];
     $notice_file_type=$row['notice_file_type'];
     mysqli_close($conn);
 }
 //1. 테이블에서 파일명이 있는지 점검
-if(empty($notice_file_copyied)){
+if(empty($notice_file_copied)){
   alert_back('테이블에 파일명이 존재하지 않습니다');
 }
-$file_path = "../data/$notice_file_copyied";
+$file_path = "../data/$notice_file_copied";
 //2. 서버에 data영역에 실제파일이 있는지 점검
 if(file_exists($file_path)){
   $fp = fopen($file_path, "rb"); //$fp 파일핸들값

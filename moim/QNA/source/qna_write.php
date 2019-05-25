@@ -1,6 +1,5 @@
 <?php
-// include $_SERVER['DOCUMENT_ROOT']."/html5/anew/lib/session_call.php";
-// include $_SERVER['DOCUMENT_ROOT']."/html5/anew/lib/db_connector.php";
+session_start();
 header("Cache-Control: no-store, no-cache, must-revalidate");
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";

@@ -9,7 +9,6 @@ if(!isset($_SESSION['userid'])){
 header("Cache-Control: no-store, no-cache, must-revalidate");
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 
-
 if(empty($_GET['page'])){
   $page=1;
 } else{
@@ -45,14 +44,14 @@ if(isset($_GET["notice_num"])&&!empty($_GET["notice_num"])){
       // $content=str_replace("\n", "<br>",$content);
       // $content=str_replace(" ", "&nbsp;",$content);
       $notice_file_name=$row['notice_file_name'];
-      $notice_file_copyied=$row['notice_file_copyied'];
+      $notice_file_copied=$row['notice_file_copied'];
 
       $notice_date=$row['notice_date'];
 
       //숫자 0, "", '0', null $a = array() 다 비어있음
-      if(!empty($notice_file_copyied)){
+      if(!empty($notice_file_copied)){
         //이미지 정보를 가져오기 위한 함수(width, height, type)
-        $image_info = getimagesize("../data/".$notice_file_copyied);
+        $image_info = getimagesize("../data/".$notice_file_copied);
         $image_width = $image_info[0];
         $image_height = $image_info[1];
         $image_type = $image_info[2];
@@ -96,8 +95,8 @@ if(isset($_GET["notice_num"])&&!empty($_GET["notice_num"])){
   <tr>
     <td>내용</td>
     <td colspan="3"><?php
-    if(!empty($notice_file_copyied)){
-      $file_path = "../data/".$notice_file_copyied;
+    if(!empty($notice_file_copied)){
+      $file_path = "../data/".$notice_file_copied;
       $file_size = filesize($file_path);
 
       //2. 업로드된 이름을 보여주고 [저장] 할것인지 선택하게한다.
@@ -122,7 +121,7 @@ if(isset($_GET["notice_num"])&&!empty($_GET["notice_num"])){
              <a href="./notice_list.php?page=<?=$page?>"> 목록 </a>
              <?php
              //관리자이거나 작성자일경우 수정과 삭제가 가능하도록 설정
-                // if($_SESSION['userid']=="admin" || $_SESSION['userid']==$id){
+                // if($_SESSION['userid']=="admin" || $_SESSION['userid']==$notice_id){
 
                 // }아직 세션이 없음
 

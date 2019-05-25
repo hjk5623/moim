@@ -1,13 +1,10 @@
 <?php
-// session_start();
- ?>
+session_start();
 
-<meta charset="utf-8">
-<?php
 header("Cache-Control: no-store, no-cache, must-revalidate");
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 $faq_num = $faq_question = $faq_answer = $faq_cetegory = "";
-$mode="insert";
+
 // $userid=$_SESSION['userid'];
 //   if(empty($userid)&&$userid!='admin'){
 //     echo "<script>alert('로그인해주세요');history.go(-1);</script>";
@@ -24,7 +21,7 @@ $mode="insert";
     $q_userid = mysqli_real_escape_string($conn, $userid);
 
     if(false){//!$_SESSION['userid']=="admin"
-      echo "<script>alert('권한이 없습니다');history.go(-1);</script>";
+      echo "<script>alert('권한이 없습니다2');history.go(-1);</script>";
       exit;
     }else{
 

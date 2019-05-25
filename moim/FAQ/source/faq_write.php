@@ -1,16 +1,15 @@
 <?php
+session_start();
 header("Cache-Control: no-store, no-cache, must-revalidate");
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
 if(!isset($_SESSION['userid'])){
-  echo "<script>alert('권한이 없습니다');
-  window.close();
-  </script>";
+  echo "<script>alert('권한이 없습니다1');history.go(-1);</script>";
   exit;
 }
 // $id=$_SESSION['userid'];
 $checked="";
 $faq_num=$faq_question=$faq_answer=$faq_cetegory="";
-
+$mode="insert";
 if(isset($_GET["mode"]) && $_GET["mode"] =='update'){
   $mode="update";
       $faq_num = test_input($_GET["faq_num"]);
@@ -47,12 +46,12 @@ if(isset($_GET["mode"]) && $_GET["mode"] =='update'){
   <table border="1">
     <tr>
       <td><?=$faq_num?></td>
-      <td><input type="text" name="faq_cetegory" placeholder="카테고리"></td>
-      <td><input type="text" name="faq_question" placeholder="질문입력"></td>
+      <td><input type="text" name="faq_cetegory" placeholder="카테고리" autocomplete="off"></td>
+      <td><input type="text" name="faq_question" placeholder="질문입력" autocomplete="off"></td>
     </tr>
 
     <tr>
-      <td colspan="3"><input type="text" name="faq_answer" placeholder="답변입력"></td>
+      <td colspan="3"><input type="text" name="faq_answer" placeholder="답변입력" autocomplete="off"></td>
     </tr>
 
     <tr>
