@@ -183,11 +183,24 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
         }
       }).open();
     }
-    // $(document).ready(function() {
-    //   $("#agit_category").on(change(function(event) {
-    //     console.log(this.value);
-    //   });)
-    // });
+    function select_box(){
+    var agit =$('#agit_category option:selected').val();
+    var agit_addr=agit.split("/");
+    if(agit_addr=="아지트선택"){
+      $('#address1').prop('type','text');
+      $('#address1_1').prop('type','hidden');
+      $('#address1').val("");
+      $('#address2').val("");
+    }else{
+      $('#address1').prop('type','hidden');
+      $('#address1_1').prop('type','text');
+      $('#address1_1').val(agit_addr[0]);
+      $('#address2').val(agit_addr[1]);
+
+    }
+
+  }
+
 
   </script>
 
@@ -239,7 +252,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
             <tr>
               <td id="write_td">모임장소</td>
               <td style="width:171px">
-                <select name="agit_category" id="agit_category">
+                <select name="agit_category" id="agit_category" onchange="select_box()">
                   <option>아지트선택</option>
                   <?php
                     $sql1="SELECT `agit_name`,`agit_address` from `agit`;";
@@ -257,8 +270,10 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
                    ?>
                 </select>
               </td>
-              <td><input id="address1" type="text" name="club_rent_info1" value="<?=$club_rent_info[0]?>" onclick="execDaumPostcode()" size="45" placeholder="주소">
-                  <input id="address2" type="text" name="club_rent_info2" value="<?=$club_rent_info[1]?>" placeholder="상세주소">
+              <td>
+                <input id="address1" type="text" name="club_rent_info1" value="<?=$club_rent_info[0]?>" onclick="execDaumPostcode()" size="55" placeholder="주소" autocomplete="off">
+                  <input id="address1_1" type="hidden" name="club_rent_info1" value="<?=$club_rent_info[0]?>" size="55" placeholder="주소" autocomplete="off">
+                  <input id="address2" type="text" name="club_rent_info2" value="<?=$club_rent_info[1]?>" placeholder="상세주소" autocomplete="off">
               </td>
             </tr>
             <tr>
