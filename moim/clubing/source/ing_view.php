@@ -20,7 +20,7 @@ create_table($conn, 'club_ripple');
   $club_num= $row['club_num'];
   $club_name= $row['club_name'];
   $club_content= $row['club_content'];
-$club_content=htmlspecialchars_decode($club_content);
+  $club_content= htmlspecialchars_decode($club_content);
   $club_category= $row['club_category'];
   $club_price= $row['club_price'];
   $club_to= $row['club_to'];
@@ -46,7 +46,7 @@ $club_content=htmlspecialchars_decode($club_content);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>clubing list- 보미</title>
     <link rel="stylesheet" href="../css/club.css">
-    <link rel="stylesheet" href="../css/club_view.css">
+    <link rel="stylesheet" href="../css/clubing_view.css">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script>
@@ -120,6 +120,7 @@ $club_content=htmlspecialchars_decode($club_content);
              if(!empty($_SESSION['userid']) && $_SESSION['userid']==="admin"){ ?>
                <!-- <button type="button" name="button">수정</button> -->
                <button type="button" name="button" onclick="location.href='ing_query.php?mode=c_delete&club_num=<?=$club_num?>'">삭제</button>
+               <button type="button" name="button" onclick="location.href='../../admin/source/admin_club_create2.php?mode=update&club_num=<?=$club_num?>'">수정</button>
              <?php } ?>
            </div>
         </div><!--club_info-->
@@ -201,6 +202,8 @@ $club_content=htmlspecialchars_decode($club_content);
     </div><!--club_view_map-->
     </section> <!--end of club_view_sec-->
 
+    <section class="ripple_section">
+      <hr class="divider">
     <div class="ripple"> <!--임시 클래스명임. 바꿀겁니다-->
       <p class="ss_title">후기</p>
       <!-- 후기 입력폼 -->
@@ -225,8 +228,8 @@ $club_content=htmlspecialchars_decode($club_content);
           </div>
         </div>
         <input type="hidden" id="hidden_num" value="<?=$club_num?>">
-        <script type="text/javascript"> <!--후기 더보기-->
 
+        <script type="text/javascript"> <!--후기 더보기-->
           var hidden_num = $("#hidden_num").val();
           var mypage= 1;
           mycontent(mypage);
@@ -246,7 +249,8 @@ $club_content=htmlspecialchars_decode($club_content);
         </script>
 
     </div> <!-- end of ripple -->
-       </section>
+  </section>
+  <hr class="divider">
 
        <section class="bmt-section" id="sec4">
          <div class="pt1">

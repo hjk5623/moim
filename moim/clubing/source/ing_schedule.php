@@ -19,9 +19,12 @@ $row_count= mysqli_num_rows($result);
       $club_name= $row['club_name'];
       $club_schedule= $row['club_schedule']; //ex) 19-05-12, 19-05-19, 19-05-26
 
-      $club_schedule= substr($club_schedule,0,7); // ex) 19-05-12 => 모임 시작일만 자름
+      $club_schedule= substr($club_schedule,0,8); // ex) 19-05-12 => 모임 시작일만 자름
       $club_schedule= explode("-",$club_schedule); // -를 기준으로 나눈다
-      $schedule[$i]= $club_schedule[2]."/".$club_name."/$club_num"; // $club_schedule[2]= 일
+      if($club_schedule[2]<=9){
+        $club_schedule[2]= substr($club_schedule[2],1);
+      }
+      $schedule[$i]= $club_schedule[2]."/".$club_name."/".$club_num;  //$club_schedule[2]= 일
       echo $schedule[$i].",";
    }
 

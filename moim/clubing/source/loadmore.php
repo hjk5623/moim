@@ -21,7 +21,8 @@ $result-> bind_param("dd", $position, $perpage);
 $result-> execute();
 $result-> bind_result($c_ripple_name, $c_ripple_date, $c_ripple_content, $c_ripple_id, $c_ripple_num);
 while($result->fetch()){
-  echo "<div class='well well-sm'><b>".$c_ripple_name." ".$c_ripple_date."</b>"; //후기 작성자의 이름, 작성날짜
+  echo "<hr class='divider_ripple'>";
+  echo "<div class='well well-sm'><b>".$c_ripple_name."</b>".$c_ripple_date.""; //후기 작성자의 이름, 작성날짜
   if(!empty($_SESSION['userid']) && $_SESSION['userid']===$c_ripple_id || $_SESSION['userid']==="admin"){ ?>
     <button type="button" name="button" onclick="location.href='./ing_query.php?mode=c_delete_ripple&club_num=<?=$club_num?>&name=<?=$c_ripple_name?>&c_ripple_num=<?=$c_ripple_num?>'">삭제</button>
 <?php }//end of if

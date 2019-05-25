@@ -152,12 +152,11 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
         result=result.replace("\r","");
         var value= result.split(",");
         console.log(value);
-        for(i=0;i<value.length-1;i++){
-          value_day = value[i].split("/");
+        for(i=0; i<value.length-1; i++){
+          value_day = value[i].split("/"); // $club_schedule[2] =일)/ $club_name / $club_num
           $("#schedule"+value_day[0]).append("<a href='./ing_view.php?club_num="+value_day[2]+"'>"+value_day[1]+"<br></a>");
           $("#schedule"+value_day[0]).css("color","blue");
-          console.log(value_day[2]);
-        }
+        }//end of for
       })
       .fail(function() {
         console.log("error");
