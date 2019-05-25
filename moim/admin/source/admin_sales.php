@@ -156,6 +156,9 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
   <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
   <link rel="stylesheet" type="text/css" href="../css/admin_sales.css">
   <script type="text/javascript">
+    $(document).ready(function() {
+      $("#find").val("<?=$find?>").prop("selected", true);
+    });
     google.charts.load('current', {
       'packages': ['line']
     }); /*LINE차트를 사용하기 위한 준비  */
@@ -259,7 +262,7 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
       <hr class="memberlist_hr">
       <div class="search_div">
         <form name="month_form" action="admin_sales.php" method="post" class="year_form">
-          <select name="find">
+          <select name="find" id="find">
             <option value="<?= $current_date ?>"><?= $current_date ?>년</option>
             <option value="<?= $current_date -1 ?>"><?= $current_date -1 ?>년</option>
             <option value="<?= $current_date -2 ?>"><?= $current_date -2 ?>년</option>
