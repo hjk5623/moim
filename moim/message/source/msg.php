@@ -1,7 +1,7 @@
 <?php
 session_start();
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
-include $_SERVER['DOCUMENT_ROOT']."/moimw/lib/create_table.php";
+include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
 create_table($conn, 'msg');
 if(!isset($_SESSION['userid'])){
   echo "<script>alert('권한이 없습니다');
