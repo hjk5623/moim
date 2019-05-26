@@ -14,7 +14,7 @@ if(!is_numeric($numpage)){ //숫자타입이 아니면 에러메시지를 준다
   exit();
 }
 $position= (($numpage-1) * $perpage);
-$result= $conn->prepare("SELECT c_ripple_name, c_ripple_date, c_ripple_content, c_ripple_id, c_ripple_num FROM club_ripple ORDER BY c_ripple_num desc LIMIT ?, ?");
+$result= $conn->prepare("SELECT `c_ripple_name`, `c_ripple_date`, `c_ripple_content`, `c_ripple_id`, `c_ripple_num` FROM `club_ripple` WHERE `c_parent_num`=$club_num ORDER BY `c_ripple_num` desc LIMIT ?, ?");
 $result-> bind_param("dd", $position, $perpage);
 //이 함수는 매개 변수를 SQL 쿼리에 바인딩하고 데이터베이스에 매개 변수가 무엇인지 알려줍니다.
 //d= double
