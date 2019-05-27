@@ -3,11 +3,10 @@ session_start();
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
 $perpage= 3;
 $numpage= filter_var($_POST['page'], FILTER_SANITIZE_NUMBER_INT, FILTER_FLAG_STRIP_HIGH);
-if(isset($_GET["club_num"])){
-  $club_num= $_GET["club_num"];
-}else{
-  $club_num= "";
-}
+
+$userid= (isset($_SESSION['userid'])) ? $_SESSION['userid'] : "";
+$club_num= (isset($_GET["club_num"])) ? $_GET["club_num"] : "";
+
 if(!is_numeric($numpage)){ //숫자타입이 아니면 에러메시지를 준다.
   // header('HTTP/1.1 500 Invalid page number!');
   echo "숫자타입이 아닙니다";
@@ -23,9 +22,10 @@ $result-> bind_result($c_ripple_name, $c_ripple_date, $c_ripple_content, $c_ripp
 while($result->fetch()){
   echo "<hr class='divider_ripple'>";
   echo "<div class='well well-sm'><b>".$c_ripple_name."</b>".$c_ripple_date.""; //후기 작성자의 이름, 작성날짜
-  if(!empty($_SESSION['userid']) && $_SESSION['userid']===$c_ripple_id || $_SESSION['userid']==="admin"){ ?>
+  if(!empty($userid) && $userid===$c_ripple_id || $userid==="admin"){ ?>
     <button type="button" name="button" onclick="location.href='./ing_query.php?mode=c_delete_ripple&club_num=<?=$club_num?>&name=<?=$c_ripple_name?>&c_ripple_num=<?=$c_ripple_num?>'">삭제</button>
-<?php }//end of if
+<?php
+  }else{}//end of else
   echo "<br>".$c_ripple_content."</div>"; //후기 내용
 }//end of while
 ?>

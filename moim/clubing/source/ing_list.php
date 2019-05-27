@@ -117,13 +117,14 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
     <div class="sub_menu">
       <div class="sub_menubar">
         <a href="ing_list.php">전체</a>
-        <a href="ing_list.php?mode=write">글쓰기</a>
-        <a href="ing_list.php?mode=cook">요리</a>
-        <a href="ing_list.php?mode=movie">영화</a>
-        <a href="ing_list.php?mode=art">미술</a>
-        <a href="ing_list.php?mode=design">디자인</a>
-        <a href="ing_list.php?mode=etc">경제/경영</a>
-        <a href="ing_list.php?mode=etc">취미생활&기타</a>
+        <a href="ing_list.php?mode=글쓰기">글쓰기</a>
+        <a href="ing_list.php?mode=요리">요리</a>
+        <a href="ing_list.php?mode=영화">영화</a>
+        <a href="ing_list.php?mode=미술">미술</a>
+        <a href="ing_list.php?mode=사진">사진</a>
+        <a href="ing_list.php?mode=디자인">디자인</a>
+        <a href="ing_list.php?mode=경제/경영">경제/경영</a>
+        <a href="ing_list.php?mode=취미생활&기타">취미생활&기타</a>
         <a href="ing_list.php?mode=calendar" id=cal_click>달력</a>
       </div>
     </div> <!--end of sub_menu-->
@@ -258,10 +259,13 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
         <ul id="ullist" class="place-list-two">
         <!-- <ul class="place-list-two"> -->
           <?php
+          $today= substr(date("Y-m-d"),2); //오늘날짜를 19-05-27 형태로 만든다.
           if(!empty($mode)&&isset($mode)){
-            $sql = "SELECT * FROM club WHERE club_category='$mode' and club_open='yes' ORDER BY club_hit desc";
+            //카테고리를 선택한 경우
+            $sql = "SELECT * FROM club WHERE club_category='$mode' and club_open='yes' and SUBSTRING(`club_schedule`,-8,8) > '$today' ORDER BY club_hit desc";
           }else{
-            $sql = "SELECT * FROM club WHERE club_open='yes' ORDER BY club_hit desc";
+            //전체보기
+            $sql = "SELECT * FROM club WHERE club_open='yes' and SUBSTRING(`club_schedule`,-8,8) > '$today' ORDER BY club_hit desc";
           }
             $result= mysqli_query($conn, $sql) or die(mysqli_error($conn));
             $row_count= mysqli_num_rows($result);

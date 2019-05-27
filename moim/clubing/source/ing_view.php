@@ -35,7 +35,7 @@ create_table($conn, 'club_ripple');
   $club_file_name= $row['club_file_name'];
   $club_intro= $row['club_intro'];
 
-  $sql= "update club set club_hit=$club_hit where club_num=$club_num";
+  $sql= "UPDATE club SET `club_hit`='$club_hit' WHERE `club_num`='$club_num'";
   mysqli_query($conn, $sql) or die(mysqli_error($conn));
 
 ?>
@@ -229,15 +229,15 @@ create_table($conn, 'club_ripple');
         </div>
         <input type="hidden" id="hidden_num" value="<?=$club_num?>">
 
-        <script type="text/javascript"> <!--후기 더보기-->
+        <script type="text/javascript"> //후기
           var hidden_num = $("#hidden_num").val();
           var mypage= 1;
           mycontent(mypage);
-          $('#loadmorebtn').click(function(event) {
+          $('#loadmorebtn').click(function(event) { //후기 '더보기' 버튼 클릭시
             mypage++;
             mycontent(mypage);
           });
-          function mycontent(mypage){
+          function mycontent(mypage){ // 후기 더보기
             $.post('loadmore.php?club_num='+hidden_num, {page: mypage}, function(data) {
               if(data.trim().length==0){
                 $('#loadmorebtn').text("더보기").hide()
@@ -279,7 +279,6 @@ create_table($conn, 'club_ripple');
                  $row= mysqli_fetch_array($result);
                  $club_num= $row['club_num'];
                  $club_name= $row['club_name'];
-                 // $club_image_name= $row['club_image_name'];
                  $club_image_copied=$row['club_image_copied'];
                  $club_intro=$row['club_intro'];
 
@@ -297,21 +296,8 @@ create_table($conn, 'club_ripple');
                  <span class="view-two">더보기</span>
                </a>
              </li>
-                   <!-- <li class="btm2_item noshow">
-                     <div class="container">
-                       <div class="box">
-                         <img src="../img/<?=$club_image_name?>" class="btm2_image">
-                       </div>
-                         <a href="./ing_view.php?club_num=<?=$club_num?>" class="club_info">
-                         <div class="inner">
-                           <h4 class="btm2_head">다양한 스킨</h4>
-                         </div>
-                         <p class="btm2_desc"><?=$club_name?></p>
-                       </a>
-                     </div>
-                   </li> -->
              <?php
-                 }
+           }//end of for
              ?>
            </ul>
          </div><!--end of about-area-two-->

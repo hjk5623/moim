@@ -88,7 +88,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "c_delete"){ // club_open= yes인 �
         die('Error: ' . mysqli_error($conn));
       }
       mysqli_close($conn);
-      echo "<script>location.href='ing_view.php?club_num=$club_num';</script>'";
+      echo "<script>location.href='ing_view.php?club_num=$club_num';</script>";
 
     }//end of if rowcount
 }else if(isset($_GET["mode"]) && $_GET["mode"] == "c_delete_ripple"){ //후기 지우기
