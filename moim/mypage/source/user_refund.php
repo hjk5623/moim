@@ -52,17 +52,21 @@ $number=$total_record- $start_row;
   <?php
   include $_SERVER['DOCUMENT_ROOT']."/moim/mypage/lib/user_menu.php";
   ?>
-   <h1 class="h1_refund">환불내역</h1>
-	 <table id="table_refund" class="" border="1">
-     <tr>
-       <td>순서</td>
-       <td>환불번호</td>
-       <td>이름</td>
-       <td>모임명</td>
-       <td>가격</td>
-       <td>환불일</td>
-       <td>비고</td>
-     </tr>
+  <div class="user_refund_div">
+  <h1 class="h1_refund">환불내역</h1>
+   <hr>
+	 <table id="table_refund" class="table_refund">
+    <thead>
+      <tr>
+         <td>순서</td>
+         <td>환불번호</td>
+         <td>이름</td>
+         <td>모임명</td>
+         <td>가격</td>
+         <td>환불일</td>
+         <td>비고</td>
+       </tr>
+    </thead>
   <?php
     for($i=$start_row; ($i<$start_row+$rows_scale) && ($i< $total_record); $i++){
       //가져올 레코드 위치 이동
@@ -78,22 +82,24 @@ $number=$total_record- $start_row;
       $buy_process_date=$row["buy_process_date"];
 
       ?>
-      <tr>
-        <td><?=$number?></td>
-        <td><?=$refund_num?></td>
-        <td><?=$_SESSION['username']?></td>
-        <td><?=$club_name?></td>
-        <td><?=$club_price?></td>
-        <td><?=$buy_process_date?></td>
-        <td></td>
-      </tr>
+      <tbody>
+        <tr>
+          <td><?=$number?></td>
+          <td><?=$refund_num?></td>
+          <td><?=$_SESSION['username']?></td>
+          <td><?=$club_name?></td>
+          <td><?=$club_price?></td>
+          <td><?=$buy_process_date?></td>
+          <td></td>
+        </tr>
+      </tbody>
       <?php
       $number--;
     }
        ?>
  </table>
- <hr>
- <div id='page_box' style="text-align: center;">
+
+ <div id='page_box'>
 	<?PHP
     #----------------이전블럭 존재시 링크------------------#
     if($start_page > $pages_scale){
@@ -122,6 +128,7 @@ $number=$total_record- $start_row;
       echo "<a id='next_block' href='user_club_list.php?page=$go_page'> >> </a>";
      }
    ?>
+ </div>
  </div>
 </body>
 </html>

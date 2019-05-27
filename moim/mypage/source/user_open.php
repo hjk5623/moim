@@ -54,8 +54,11 @@ $number=$total_record- $start_row;
   <?php
   include $_SERVER['DOCUMENT_ROOT']."/moim/mypage/lib/user_menu.php";
   ?>
+  <div class="user_open_div">
   <h1 class="h1_open">진행중 모임</h1>
-  		 <table class="table_open" id="table_open" border="1">
+     <hr>
+  		 <table class="table_open" id="table_open">
+         <thead>
          <tr>
            <td>순서</td>
            <td>모임명</td>
@@ -65,6 +68,7 @@ $number=$total_record- $start_row;
            <td>모임일정</td>
            <td>비고</td>
          </tr>
+         </thead>
       <?php
 
 
@@ -86,6 +90,7 @@ $number=$total_record- $start_row;
         $club_end=$row["club_end"];
 
         ?>
+        <tbody>
         <tr>
           <td><?=$number?></td>
           <td><a href="../../clubing/source/ing_view.php?club_num=<?=$club_num?>"><?=$club_name?></a></td>
@@ -95,12 +100,14 @@ $number=$total_record- $start_row;
           <td><?=$club_schedule?></td>
           <td></td>
         </tr>
+        </tbody>
         <?php
         $number--;
       }
          ?>
    </table>
-   <hr>
+   </div>
+
      	<div id='page_box' style="text-align: center;">
 		<?PHP
                 #----------------이전블럭 존재시 링크------------------#

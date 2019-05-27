@@ -39,6 +39,12 @@ if(!isset($_SESSION)){
 
       </div>
     </nav>
+    <slider>
+      <slide><p>MY PAGE</p></slide>
+      <slide><p>MY PAGE</p></slide>
+      <slide><p class="mypage3">MY PAGE</p></slide>
+      <slide><p>MY PAGE</p></slide>
+    </slider>
     <div id="container">
       <div id="subwrap">
         <div class="nav">

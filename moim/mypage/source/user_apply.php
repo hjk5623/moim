@@ -54,8 +54,11 @@ $number=$total_record- $start_row;
 <?php
   include $_SERVER['DOCUMENT_ROOT']."/moim/mypage/lib/user_menu.php";
 ?>
+<div class="user_apply_div">
   <h1 class="h1_apply">모집중 모임</h1>
-  <table id="table_apply" class="table_apply" border="1">
+  <hr>
+  <table id="table_apply" class="table_apply">
+    <thead>
     <tr>
       <td>순서</td>
       <td>모임명</td>
@@ -63,12 +66,13 @@ $number=$total_record- $start_row;
       <td>가격</td>
       <td>모집인원</td>
       <td>신청인원</td>
-      <td>대관장소</td>
-      <td>모임일정</td>
+      <td class="place">대관장소</td>
+      <td class="date">모임일정</td>
       <td>모집마감</td>
       <td>결제일</td>
       <td>비고</td>
     </tr>
+    </thead>
 <?php
 
   for($i=$start_row; ($i<$start_row+$rows_scale) && ($i< $total_record); $i++){
@@ -91,6 +95,7 @@ $number=$total_record- $start_row;
   $buy_cancle=$row["buy_cancle"];
 
   ?>
+  <tbody>
     <tr>
       <td><?=$number?></td>
       <td><a href="../../club_list/source/view.php?club_num=<?=$club_num?>"><?=$club_name?></a></td>
@@ -102,7 +107,7 @@ $number=$total_record- $start_row;
       <td><?=$club_schedule?></td>
       <td><?=$club_end?></td>
       <td><?=$buy_process_date?></td>
-      <td>
+      <td class="apply_bt">
       <?php
       if($buy_cancle=="no"){
       ?>
@@ -116,13 +121,15 @@ $number=$total_record- $start_row;
       ?>
       </td>
     </tr>
+    </tbody>
   <?php
   $number--;
   }
   ?>
 </table>
-<hr>
-<div id='page_box' style="text-align: center;">
+
+</div>
+<div id='page_box'>
 <?PHP
   #----------------이전블럭 존재시 링크------------------#
   if($start_page > $pages_scale){

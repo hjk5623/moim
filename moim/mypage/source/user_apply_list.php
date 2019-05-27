@@ -57,22 +57,25 @@ $number=$total_record- $start_row;
   <?php
     include $_SERVER['DOCUMENT_ROOT']."/moim/mypage/lib/user_menu.php";
   ?>
-  <article class="main">
+  <div class="user_apply_list_div">
     <h1 class="h1_apply_list">모임신청내역</h1>
-  		 <table id="memberlist" border="1">
-         <tr>
-           <td>순서</td>
-           <td>신청인</td>
-           <td>모임명</td>
-           <td>분야</td>
-           <td>모집시작</td>
-           <td>모집마감</td>
-           <td>모집인원</td>
-           <td>가격</td>
-           <td>장소</td>
-           <td>확인</td>
-           <td>처리상태</td>
-         </tr>
+       <hr>
+  		 <table id="memberlist" class="memberlist">
+         <thead>
+            <tr>
+               <td>순서</td>
+               <td>신청인</td>
+               <td>모임명</td>
+               <td>분야</td>
+               <td>모집시작</td>
+               <td>모집마감</td>
+               <td>모집인원</td>
+               <td>가격</td>
+               <td>장소</td>
+               <td>확인</td>
+               <td>처리상태</td>
+             </tr>
+          </thead>
       <?php
 
 
@@ -136,7 +139,8 @@ $number=$total_record- $start_row;
       }
          ?>
    </table>
-   <hr>
+
+
      	<div id='page_box' style="text-align: center;">
 		<?PHP
                 #----------------이전블럭 존재시 링크------------------#
@@ -167,8 +171,6 @@ $number=$total_record- $start_row;
                  }
        ?>
    </div>
-
-         </article>
-
+      </div>
 </body>
 </html>

@@ -55,22 +55,27 @@ $number=$total_record- $start_row;
   <?php
   include $_SERVER['DOCUMENT_ROOT']."/moim/mypage/lib/user_menu.php";
   ?>
+  <div class="user_cart_div">
   <h1 class="h1_open">관심 모임</h1>
-  		 <table class="table_open" id="table_open" border="1">
-         <tr>
-           <td>
-             <input type="checkbox" name="all_check" class="all_check" id="all_check">
-           </td>
-           <td>순서</td>
-           <td>모임명</td>
-           <td>분류</td>
-           <td>가격</td>
-           <td>장소</td>
-           <td>모임일정</td>
-           <td>비고</td>
-           <td>삭제</td>
-         </tr>
-      <?php
+  <hr>
+		 <table class="table_open" id="table_open">
+       <thead>
+        <tr>
+         <td class="check_td">
+          전체선택<input type="checkbox" name="all_check" class="all_check" id="all_check">
+         </td>
+         <td>순서</td>
+         <td>모임명</td>
+         <td>분류</td>
+         <td>가격</td>
+         <td class="place">장소</td>
+         <td>모임일정</td>
+         <td>비고</td>
+         <td>삭제</td>
+        </tr>
+       </thead>
+    <?php
+
 
       for($i=$start_row; ($i<$start_row+$rows_scale) && ($i< $total_record); $i++){
         //가져올 레코드 위치 이동
@@ -90,8 +95,9 @@ $number=$total_record- $start_row;
         $club_end=$row["club_end"];
         $club_open=$row["club_open"];
         ?>
+        <tbody>
         <tr>
-          <td><input type="checkbox" name="choice_check" class="choice_check" value="<?=$cart_num?>"> </td>
+          <td class="check_td"><input type="checkbox" name="choice_check" class="choice_check" value="<?=$cart_num?>"> </td>
           <td><?=$number?></td>
           <td>
             <?php
@@ -126,18 +132,18 @@ $number=$total_record- $start_row;
             <button type="button" name="del_btn" class="del_btn" id="del_btn" value="<?=$cart_num?>">삭제</button>
           </td>
         </tr>
+        </tbody>
         <?php
         $number--;
       }
          ?>
-        <tr>
-          <td colspan="9">
-            <button type="button" name="button" id="choice_btn">선택삭제</button>
-          </td>
-        </tr>
    </table>
-   <hr>
-     	<div id='page_box' style="text-align: center;">
+   <div class="btn_div">
+     <button type="button" name="button" id="choice_btn">선택삭제</button>
+   </div>
+  </div>
+
+     	<div id='page_box'>
 		<?PHP
                 #----------------이전블럭 존재시 링크------------------#
                 if($start_page > $pages_scale){

@@ -80,11 +80,13 @@ if(isset($_GET["user_num"]) && !empty($_GET["user_num"])){
                <td colspan="2">
                  <?php
                   if($user_check=="yes"){
+                ?>
                     <img src="../../admin/data/<?=$user_image_copied?>" width="<?=$image_width?>">
-                ?><?php
+                <?php
                   }else{
+                ?>
                     <img src="../data/<?=$user_image_copied?>" width="<?=$image_width?>">
-                ?><?php
+                <?php
                   }
                   ?>
 

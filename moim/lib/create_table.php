@@ -49,12 +49,12 @@
         case 'club':
           $sql = "CREATE TABLE `club` (
           `club_num` int(11) NOT NULL AUTO_INCREMENT,
-          `club_name` varchar(10) NOT NULL,
+          `club_name` varchar(100) NOT NULL,
           `club_content` text NOT NULL,
           `club_category` varchar(10) NOT NULL,
           `club_price` int(11) NOT NULL,
           `club_to` int(11) NOT NULL,
-          `club_rent_info` varchar(50) NOT NULL,
+          `club_rent_info` varchar(100) NOT NULL,
           `club_start` date NOT NULL,
           `club_end` date NOT NULL,
           `club_apply` int(11) NOT NULL,
@@ -155,7 +155,7 @@
             $sql = "CREATE TABLE `club_ripple` (
             `c_ripple_num` int(11) NOT NULL AUTO_INCREMENT,
             `c_parent_num` int(11) NOT NULL,
-            `c_buy_id` varchar(10) NOT NULL,
+            `c_ripple_id` varchar(10) NOT NULL,
             `c_ripple_name` varchar(10) NOT NULL,
             `c_ripple_content` text NOT NULL,
             `c_ripple_date` date NOT NULL,
@@ -167,13 +167,19 @@
              `agit_num` int(11) NOT NULL AUTO_INCREMENT,
              `agit_name` varchar(20) NOT NULL,
              `agit_address` varchar(100) NOT NULL,
-             `agit_image_name` varchar(50) NOT NULL,
-             `agit_image_copied` varchar(50) NOT NULL,
+             `agit_image_name0` varchar(50) NOT NULL,
+             `agit_image_name1` varchar(50) NOT NULL,
+             `agit_image_name2` varchar(50) NOT NULL,
+             `agit_image_name3` varchar(50) NOT NULL,
+             `agit_image_copied0` varchar(50) NOT NULL,
+             `agit_image_copied1` varchar(50) NOT NULL,
+             `agit_image_copied2` varchar(50) NOT NULL,
+             `agit_image_copied3` varchar(50) NOT NULL,
              `agit_content` text NOT NULL,
              `agit_code` varchar(50) NOT NULL,
              PRIMARY KEY (`agit_num`)
            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-            break;
+                break;
         default :
           echo "<script>alert('해당된 테이블 이름이 없습니다.');</script>";
           break;
