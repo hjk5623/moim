@@ -42,6 +42,7 @@ $start_page = (ceil($page / $pages_scale ) -1 ) * $pages_scale +1 ;
 $end_page = ($total_pages >= ($start_page + $pages_scale)) ? $start_page + $pages_scale-1 : $total_pages;
 $number = $total_record - $start_row;
 
+
 ?>
 <!DOCTYPE html>
 <html lang="ko" dir="ltr">
@@ -60,13 +61,109 @@ $number = $total_record - $start_row;
     #h2{
       margin-top:100px;
     }
+    a{color:#000;}
+
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 10; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+      }
+
+    /* Modal Content/Box */
+    .modal-content {
+
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%; /* Could be more or less, depending on screen size */
+    }
+    /* The Close Button */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
   </style>
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
   <script type="text/javascript">
-
+    function agit_delete(num,name){
+      var agit_num= num;
+      var agit_name= name;
+      // console.log(agit_name);
+      var result = confirm("✔" + name + "를 삭제하시겠습니까?\n 정말 삭제하시겠습니까?");
+      if (result) {
+        $.ajax({
+            url: './admin_query.php?mode=agit_delete',
+            type: 'POST',
+            data: {
+              agit_num: agit_num
+            }
+          }).done(function(result) {
+            console.log(result);
+            location.href = 'admin_agit_list.php';
+          })
+          .fail(function() {
+            console.log("error");
+          })
+          .always(function() {
+            console.log("complete");
+          });
+      }
+    }
   </script>
 </head>
 <body>
+  <!--modal test  -->
+  <div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <table class="create_view_table">
+        <tr>
+        <td>이름</td>
+          <td colspan="2" id="modal_name"></td>
+        </tr>
+        <tr>
+          <td id="write_td">주소</td>
+          <td id="modal_address"></td>
+        </tr>
+        <tr>
+          <!-- <td>아지트대표이미지</td> -->
+          <td colspan="3">
+            <img src="" width="" id="modal_img0">
+            <img src="" width="" id="modal_img1">
+            <img src="" width="" id="modal_img2">
+            <img src="" width="" id="modal_img3">
+          </td>
+        </tr>
+        <!-- <tr>
+          <td colspan="3">내용</td>
+        </tr> -->
+        <tr>
+          <td colspan="3" id="modal_content">
+
+          </td>
+        </tr>
+        </table>
+    </div>
+</div>
+<!-- ↑↑↑↑↑↑ end of modal test  -->
+
   <?php
   include $_SERVER['DOCUMENT_ROOT']."/moim/admin/source/admin.php";
   ?>
@@ -107,10 +204,12 @@ $number = $total_record - $start_row;
        <td> <?=$agit_name?> </td>
        <td> <?=$agit_address?> </td>
        <td>
-          <a href="./admin_agit_view.php?agit_num=<?=$agit_num?>"><button type="button" name="button" id="view">내용</button></a>
-          <a href="./admin_agit_view.php?agit_num=<?=$agit_num?>"><button type="button" name="button" id="view">삭제</button></a>
+          <!-- <a href="./admin_agit_view.php?agit_num=   "> -->
+            <button type="button" name="button" id="myBtn" class="myBtn">내용</button>
+            <input type="hidden" class="hidden_agit" value="<?=$agit_num?>">
+          <!-- </a> -->
+          <button type="button" name="button" id="view" onclick="agit_delete(<?=$agit_num?>,'<?=$agit_name?>')">삭제</button></a>
        </td>
-         <input type="hidden" name="present_day" id="present_day" value="<?=$present_day?>">
      </tr>
    <?php
      $number--;
@@ -153,3 +252,64 @@ $number = $total_record - $start_row;
 </body>
 
 </html>
+<!--modal script  주의: modal div 의 아이디 , 버튼의 아이디 맞춰줄것 -->
+<script type="text/javascript">
+
+  var modal = document.getElementById('myModal');
+
+  $('.myBtn').click(function(event) {
+    var n = $('.myBtn').index(this);
+    var hidden_agit = $(".hidden_agit:eq("+n+")").val();
+    $.ajax({
+      url: './admin_query.php?mode=agit_modal',
+      type: 'POST',
+      data: {hidden_agit: hidden_agit}
+    })
+    .done(function(result) {
+      console.log(result);
+      var json_obj = $.parseJSON(result);
+      console.log("success");
+      $("#modal_name").html(json_obj[0].agit_name);
+      $("#modal_address").html(json_obj[2].agit_address);
+      modal_content = json_obj[1].agit_content.replace(/\*\*\*/gi, " ");
+      $("#modal_content").html(modal_content);
+      modal.style.display = "block";
+      $("#modal_img0").prop('src', '../data/'+json_obj[3].agit_image_copied0);
+      $("#modal_img1").prop('src', '../data/'+json_obj[4].agit_image_copied1);
+      $("#modal_img2").prop('src', '../data/'+json_obj[5].agit_image_copied2);
+      $("#modal_img3").prop('src', '../data/'+json_obj[6].agit_image_copied3);
+
+      $("#modal_img0").prop('width', '600');
+      $("#modal_img1").prop('width', '600');
+      $("#modal_img2").prop('width', '600');
+      $("#modal_img3").prop('width', '600');
+
+
+    })
+
+    .fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      console.log("complete");
+    });
+
+
+  });
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+</script>

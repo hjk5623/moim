@@ -33,7 +33,6 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   $club_schedule= $row['club_schedule'];
   $club_intro= $row['club_intro'];
 
-
   //사진
   $club_image_name = $row['club_image_name'];
   $club_image_copied= $row['club_image_copied'];
@@ -72,7 +71,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
 
   $club_start = $row['user_start'];
   $club_end = $row['user_end'];
-  $club_schedule= $row['user_schedule'];
+  $club_schedule= $row['club_schedule'];
   $club_intro= $row['user_intro'];
 
 
@@ -105,9 +104,10 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
   <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
   <script src="//cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script><!--위지윅에디터 -->
-  <link rel="stylesheet" type="text/css" href="../css/admin_club_create.css">
   <link href="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.css" rel="stylesheet"/><!--날짜다중선택 -->
   <script src="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.js"></script><!--날짜다중선택 -->
+  <script type="text/javascript" src="../js/admin_club_create_form.js"></script>
+  <link rel="stylesheet" type="text/css" href="../css/admin_club_create.css">
   <script type="text/javascript">
     //multiDatesPicker
     $(function() {
@@ -150,7 +150,6 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
           // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
           var fullAddr = ''; // 최종 주소 변수
           var extraAddr = ''; // 조합형 주소 변수
-
           // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
           if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
             fullAddr = data.roadAddress;
@@ -158,7 +157,6 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
           } else { // 사용자가 지번 주소를 선택했을 경우(J)
             fullAddr = data.jibunAddress;
           }
-
           // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
           if (data.userSelectedType === 'R') {
             //법정동명이 있을 경우 추가한다.
@@ -172,10 +170,10 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
             // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
             fullAddr += (extraAddr !== '' ? ' (' + extraAddr + ')' : '');
           }
-
           // 우편번호와 주소 정보를 해당 필드에 넣는다.
           // document.getElementById('address2').value = data.zonecode; //5자리 새우편번호 사용
           document.getElementById('address1').value = fullAddr;
+          document.getElementById('address1').readOnly = true ;
 
           // 커서를 상세주소 필드로 이동한다.
           document.getElementById('address2').value = "";
@@ -183,30 +181,160 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
         }
       }).open();
     }
-    function select_box(){
-    var agit =$('#agit_category option:selected').val();
-    var agit_addr=agit.split("/");
-    if(agit_addr=="아지트선택"){
-      $('#address1').prop('type','text');
-      $('#address1_1').prop('type','hidden');
-      $('#address1').val("");
-      $('#address2').val("");
-    }else{
-      $('#address1').prop('type','hidden');
-      $('#address1_1').prop('type','text');
-      $('#address1_1').val(agit_addr[0]);
-      $('#address2').val(agit_addr[1]);
 
-    }
+    function select_box(){
+      var agit =$('#agit_category option:selected').val();
+      var agit_addr=agit.split("/");
+      if(agit_addr=="아지트선택"){
+        $('#address1').prop('type','text');
+        $('#address1_1').prop('type','hidden');
+        $('#address1').val("");
+        $('#address2').val("");
+      }else{
+        $('#address1').prop('type','hidden');
+        $('#address1_1').prop('type','text');
+        $('#address1_1').val(agit_addr[0]);
+        $('#address1_1').attr('readOnly',true);
+        $('#address2').val(agit_addr[1]);
+        $('#address2').attr('readOnly',true);
+        $("#span_address").html("");
+      }
 
   }
 
+  // 모임일정등록_ select box 에서 선택하면 추가되는 방식으로
+  $(document).ready(function() {
+    var club_schedule = new Array();
+
+    $("#datepicker2").change(function(event) {
+    var start_date = $("#datepicker1").val().replace(/-/gi,"");
+    var end_date = $("#datepicker2").val().replace(/-/gi,"");
+      if(start_date>=end_date){
+        alert("마감일 선택이 잘못 되었습니다.");
+        var end_date = $("#datepicker2").val("");
+      }
+    });
+    $("#select_month").change(function(event) {
+     var lastDay = ( new Date( $("#select_year").val(), $("#select_month").val(), 0) ).getDate();
+     $("#select_day").html("<option value='일'>일</option>");
+     for(i=1;i<=lastDay;i++){
+       $("#select_day").append("<option value='"+i+"'>"+i+"</option>");
+      }
+    });
+
+    $("#schedule_btn").click(function(event) {
+      var select_month="";
+      var select_day="";
+      var end_date = $("#datepicker2").val().replace(/-/gi,"");
+      if($("#datepicker1").val()=="" || $("#datepicker2").val()==""){
+        alert("모집시작일 및 종료일을 선택하세요");
+        return;
+      }
+      if($("#select_year").val()=="" || $("#select_month").val()=="" || $("#select_day").val()=="일"){
+        alert("날짜를 선택해주세요");
+        return;
+      }
+      select_year = $("#select_year").val();
+      select_month = $("#select_month").val();
+      select_day = $("#select_day").val();
+      if($("#select_month").val() < 10){
+        select_month = "0"+$("#select_month").val();
+      }
+      if($("#select_day").val() < 10){
+        select_day = "0"+$("#select_day").val();
+      }
+
+      var select_date= select_year+select_month+select_day;
+      if(select_date<=end_date){
+        alert("모집 마감일보다 빠를 수 없습니다.");
+        return;
+      }
+        select_year = $("#select_year").val().substr(2);
+        select_date = select_year+"-"+select_month+"-"+select_day;
+        for(i=0; i<$("span[name=select_span]").length; i++){
+          if($.trim($("span[name=select_span]:eq("+i+")").text()) == select_date){
+            alert("같은 날짜를 추가할 수 없습니다.");
+            return;
+          }
+        }
+
+    if($("span[name=select_span]").length % 10 == 0){
+      $("#date_td").append("<br><span class='select_span' name='select_span'>"+select_date+"<span>");
+    }else{
+      $("#date_td").append("<span class='select_span' name='select_span'>&nbsp;&nbsp;&nbsp;&nbsp;"+select_date+"<span>");
+    }
+
+    for(i=0; i<$("span[name=select_span]").length; i++){
+      club_schedule[i] = $.trim($("span[name=select_span]:eq("+i+")").text()).replace(/-/gi,"");
+    }
+    if(club_schedule.length != 0){
+      club_schedule.sort();
+    }
+    for(i=0; i<club_schedule.length; i++){
+      user_year = club_schedule[i].substring(0,2)+"-";
+      user_month = club_schedule[i].substring(2,4)+"-";
+      user_day = club_schedule[i].substring(4,6);
+      club_schedule[i] = user_year + user_month+user_day;
+    }
+    $("#club_schedule").val(club_schedule);
+    var aa =  $("#club_schedule").val();
+    console.log(aa);
+  });
+
+  $(document).on("click",".select_span",function(){
+    var club_schedule = new Array();
+    var n = $('.select_span').index(this);
+    $(".select_span:eq("+n+")").remove();
+
+    for(i=0; i<$("span[name=select_span]").length; i++){
+      club_schedule[i] = $.trim($("span[name=select_span]:eq("+i+")").text()).replace(/-/gi,"");
+    }
+    if(club_schedule.length != 0){
+      club_schedule.sort();
+    }
+    for(i=0; i<club_schedule.length; i++){
+      user_year = club_schedule[i].substring(0,2)+"-";
+      user_month = club_schedule[i].substring(2,4)+"-";
+      user_day = club_schedule[i].substring(4,6);
+      club_schedule[i]=user_year+user_month+user_day;
+    }
+    $("#club_schedule").val(club_schedule);
+
+  });
+
+  }); // end of document.ready()
+
+
+
+
+
+
+    function request_send_email(num){
+      console.log(num);
+      $.ajax({
+        url: '../../PHPmailer/email.php?mode=request_approve',  //이용자가 신청한 모임을 등록하면 해당 이용자에게 메일을 전송
+        type: 'POST',
+        data: {
+          user_num: num
+        }
+      }) .done(function(result) {
+        console.log(result);
+        console.log("sdfsdlkfjsdlkfjsldkfjsldkfjlsdkjfl");
+        document.tx_editor_form.submit();
+        // window.location.href='./admin_query.php?mode=request_create&user_num='+num;
+      })
+      .fail(function() {
+        console.log("error");
+      })
+      .always(function() {
+        console.log("complete");
+      });
+    }
+
 
   </script>
-
   <title></title>
 </head>
-
 <body>
   <?php
   include $_SERVER['DOCUMENT_ROOT']."/moim/admin/source/admin.php";
@@ -227,17 +355,21 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
           <!--수정시에 club_num 전송, 신청모임등록시에 user_num 전송-->
           <input type="hidden" name="club_num" value="<?=$club_num?>">
           <input type="hidden" name="user_num" value="<?=$user_num?>">
+          <input type="hidden" name="club_schedule" id="club_schedule">
           <!--모임이름, 모집정원, 모집시작일 ,모집종료일, 가격  -->
           <table class="club_create2_table">
             <tr>
               <td>모임이름</td>
-              <td colspan="2"><input type="text" name="club_name" value="<?=$club_name?>"></td>
+              <td colspan="2">
+                <input type="text" name="club_name" id="club_name" value="<?=$club_name?>" placeholder="모임이름">
+                <span id="span_club_name"></span><br><br>
+              </td>
             </tr>
             <tr>
               <td id="write_td">카테고리</td>
               <td colspan="2">
-                <select name="club_category" id="club_category">
-                  <option>선택</option>
+                <select name="club_category" id="club_category" style="width:176px;">
+                  <option value="선택">선택</option>
                   <option value="글쓰기">글쓰기</option>
                   <option value="요리">요리</option>
                   <option value="영화">영화</option>
@@ -247,6 +379,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
                   <option value="디자인">경제/경영</option>
                   <option value="취미생활/기타">취미생활/기타</option>
                 </select>
+                <span id="span_club_category"></span><br><br>
               </td>
             </tr>
             <tr>
@@ -271,33 +404,87 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
                 </select>
               </td>
               <td>
-                <input id="address1" type="text" name="club_rent_info1" value="<?=$club_rent_info[0]?>" onclick="execDaumPostcode()" size="55" placeholder="주소" autocomplete="off">
+                  <input id="address1" type="text" name="club_rent_info1" value="<?=$club_rent_info[0]?>" onclick="execDaumPostcode()" size="55" placeholder="주소" autocomplete="off">
                   <input id="address1_1" type="hidden" name="club_rent_info1" value="<?=$club_rent_info[0]?>" size="55" placeholder="주소" autocomplete="off">
-                  <input id="address2" type="text" name="club_rent_info2" value="<?=$club_rent_info[1]?>" placeholder="상세주소" autocomplete="off">
+                  <input id="address2" type="text" name="club_rent_info2" value="<?=$club_rent_info[1]?>" placeholder="상세주소" autocomplete="off"><br>
+                  <span id="span_address"></span>
               </td>
             </tr>
+
+
             <tr>
               <td id="write_td">모집정원</td>
-              <td colspan="2"><input type="number" name="club_to" value="<?=$club_to?>"  placeholder="모집정원"></td>
+              <td colspan="2">
+                <input type="number" name="club_to" id="club_to" value="<?=$club_to?>"  placeholder="모집정원"><br>
+                <span id="span_club_to"></span><br><br>
+              </td>
             </tr>
             <tr>
               <td>모집시작일</td>
-              <td colspan="2"><input type="text" name="club_start" value="<?=$club_start?>" id="datepicker1" placeholder="모집시작일"></td>
+              <td colspan="2">
+                <input type="text" name="club_start" value="<?=$club_start?>" id="datepicker1" placeholder="모집시작일"><br>
+                <span id="span_club_start"></span><br><br>
+              </td>
             </tr>
             <tr>
-              <td>모집종료일</td>
-              <td colspan="2"><input type="text" name="club_end" value="<?=$club_end?>" id="datepicker2" placeholder="모집종료일"></td>
+              <td>모집마감일</td>
+              <td colspan="2">
+                <input type="text" name="club_end" value="<?=$club_end?>" id="datepicker2" placeholder="모집마감일"><br>
+                <span id="span_club_end"></span><br><br>
+              </td>
             </tr>
             <tr>
               <td>가격</td>
-              <td colspan="2"><input type="number" name="club_price" value="<?=$club_price?>"></td>
-            </tr>
-            <tr>
-              <td>수업일정</td>
               <td colspan="2">
-                <input type="text" id="club_schedule_cal" name="club_schedule" size="60 "  value="<?=$club_schedule?>" placeholder="수업일정">
+                <input type="number" name="club_price" id="club_price" value="<?=$club_price?>"  placeholder="가격"><br>
+                <span id="span_club_price"></span><br><br>
               </td>
             </tr>
+
+            <!--▼▼▼▼ 모임일정 multiDatespicker 사용  -->
+            <!-- <tr>
+              <td>모임일정</td>
+              <td colspan="2">
+                <input type="text" id="club_schedule_cal" name="club_schedule" size="60 "  value="<?=$club_schedule?>" placeholder="모임일정">
+              </td>
+            </tr> -->
+            <!--▲▲▲▲▲▲▲ multiDatespicker 사용  -->
+
+
+
+            <!--▼▼▼▼ 모임일정 selectbox사용  -->
+            <tr>
+              <td>모임 일정</td>
+              <td id="date_td" colspan="2">
+                <select class="select_year" id="select_year" name="">
+                  <option value="">년도</option>
+                  <?php
+                  for($i=2019;$i<=2030;$i++){
+                  ?>
+                  <option value="<?=$i?>"><?=$i?></option>
+                  <?php
+                  }
+                  ?>
+                </select>
+                <select class="select_month" id="select_month" name="">
+                  <option value="">월</option>
+                  <?php
+                  for($i=1;$i<=12;$i++){
+                  ?>
+                  <option value="<?=$i?>"><?=$i?></option>
+                  <?php
+                  }
+                  ?>
+                </select>
+                <select class="select_day" id="select_day" name="">
+                  <option value="">일</option>
+                </select>
+                <button type="button" name="button" id="schedule_btn">추가</button>
+              </td>
+            </tr>
+
+            <!--▲▲▲▲ 모임일정 selectbox사용  -->
+
             <tr>
               <td>사진 [gif,jpeg,png파일]</td>
               <td colspan="2">
@@ -348,14 +535,15 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
             <tr>
               <td>모임간단소개</td>
               <td colspan="2">
-                <textarea name="club_intro" rows="8" cols="80">
+                <textarea name="club_intro" rows="8" cols="80" autofocus id="club_intro">
                   <?=$club_intro?>
-                </textarea>
+                </textarea><br>
+                <span id="span_club_intro"></span><br><br>
               </td>
             </tr>
             <tr>
               <td >내용</td>
-              <td colspan="2">문단형식 :: 제목은 [제목1], 소제목은 [제목3]으로 작성부탁드립니다. </td>
+              <td colspan="2"> ✔ 제목은 [제목1], 소제목은 [제목3]으로 작성부탁드립니다. </td>
             </tr>
             <tr>
               <td colspan="3">
@@ -370,8 +558,16 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
             <tr>
               <td colspan="3" style="text-align:right">
                 <input type="button" name="" value="list" onclick="location.href='./admin_club_list.php'" >
-                <input type="submit" name="" value="submit">
-              </td>
+                <?php
+                  if(isset($_GET['mode']) && $_GET['mode'] == "request_create"){
+                ?>
+                <input type="button" name="" value="button" onclick="request_send_email(<?=$user_num?>);"></td>
+
+                <?php
+                  }else{
+                    echo "<input type='submit' name='' value='submit'></td>";
+                  }
+                 ?>
             </tr>
           </table>
       </form>

@@ -274,10 +274,10 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "refund_update"){
 //신청모임등록//****************************************************************************************************/
 if(isset($_GET["mode"]) && $_GET["mode"] == "request_create"){
     include $_SERVER['DOCUMENT_ROOT']."/moim/admin/lib/file_upload.php";
-    $user_num = $_POST["user_num"];
+    // $user_num = $_GET["user_num"];
 
     if(empty($_POST["club_name"])){
-     echo "<script>alert('모임이름을 입력해주세요.'); history.go(-1);</script>";
+     // echo "<script>alert('모임이름을 입력해주세요.'); history.go(-1);</script>";
      return;
    }else if(empty($_POST["club_to"]) || $_POST["club_to"] <0 ){
       echo "<script>alert('모임정원을 올바르게 입력해주세요.'); history.go(-1);</script>";
@@ -402,7 +402,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "request_create"){
      $club_num = $row['club_num'];
 
   // mysqli_close($conn);
-  // echo "<script> location.href='./admin_club_create_view.php?club_num=$club_num'; </script>";
+  echo "<script> location.href='./admin_club_create_view.php?club_num=$club_num'; </script>";
 }
 
 //신청모임 승인 거절//****************************************************************************************************/
@@ -428,25 +428,135 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "agit_create"){
      echo "<script>alert('장소를 입력해주세요. 상세주소까지 입력해주세요.'); history.go(-1);</script>";
      return;
    }
-   $agit_name= test_input($_POST["agit_name"]);                   //모임명
-   $content=test_input($_POST["content"]);                       //모임내용
+   $agit_name= test_input($_POST["agit_name"]);   //모임명
+   $content=test_input($_POST["content"]);        //모임내용
+   $agit_code=test_input($_POST["agit_code"]);    //아지트코드
+
 
    $agit_rent_info1= test_input($_POST["agit_rent_info1"]);      //모임장소(대관관련)
    $agit_rent_info2= test_input($_POST["agit_rent_info2"]);      //모임장소(대관관련)
    $agit_rent_info=  $agit_rent_info1."/".$agit_rent_info2;  //모임장소(대관관련)
 
 
-   include $_SERVER['DOCUMENT_ROOT']."/moim/admin/lib/file_upload.php";
+     $files = $_FILES["upfile"];
+     $count = count($files["name"]);
 
-   $sql="INSERT INTO `agit` VALUES (null,'$agit_name','$agit_rent_info','$upimage_name','$copied_image_name','$content');";
-   $result = mysqli_query($conn,$sql);
-   if (!$result) {
-     alert_back('Error: ' . mysqli_error($conn));
-   }
+     $upload_dir = '../data/';
+     for ($i = 0; $i < $count; $i ++) {
+       $upfile_name[$i] = $files["name"][$i];//실제 파일명
+       $upfile_tmp_name[$i] = $files["tmp_name"][$i];//서버에 임시 저장될 파일명.
+       $upfile_type[$i] = $files["type"][$i];//파일 형식
+       $upfile_size[$i] = $files["size"][$i];//파일 크기
+       $upfile_error[$i] = $files["error"][$i];//에러 발생확인
 
-   echo "<script> location.href='./admin_agit_list.php'; </script>";
+
+       var_dump($upfile_name[$i]);
+
+
+
+       $file = explode(".",$upfile_name[$i]);
+       $file_name = $file[0];
+       $file_ext  = $file[1];
+
+       //파일값이 비어있으면 에러입니다. 비어있을시 실행을 안하는 것.
+       if(!$upfile_error[$i]){
+         $new_file_name = date("Y_m_d_H_i_s");//날짜
+         $new_file_name = $new_file_name."_".$i;//날짜_i
+         $copied_file_name[$i] = $new_file_name.".".$file_ext;//날짜_i.확장자명.
+         $uploaded_file[$i] = $upload_dir.$copied_file_name[$i];//.data/날짜_i.확장자명.
+         if($upfile_size[$i]  > 5000000 ) {//size가 500KB초과일시.
+           echo("<script>alert('업로드 파일 크기가 지정된 용량(500KB)을 초과합니다!<br>파일 크기를 체크해주세요! '); history.go(-1) </script>");
+           exit;
+         }
+         if (($upfile_type[$i] != "image/gif") && ($upfile_type[$i] != "image/jpeg") && ($upfile_type[$i] != "image/pjpeg") && ($upfile_type[$i] != "image/png")){
+           echo("<script> alert('JPG와 GIF 이미지 파일만 업로드 가능합니다!'); history.go(-1)</script> ");
+           exit;
+         }
+         if (!move_uploaded_file($upfile_tmp_name[$i],$uploaded_file[$i])){//1번째 인자(임시파일)를 2번째 인자에 넣겠다.
+           echo("<script>alert('파일을 지정한 디렉토리에 복사하는데 실패했습니다.');</script>");
+           exit;
+         }
+       }
+     }
+
+      $sql="INSERT INTO `agit` VALUES (null,'$agit_name','$agit_rent_info','$upfile_name[0]','$upfile_name[1]','$upfile_name[2]','$upfile_name[3]','$copied_file_name[0]','$copied_file_name[1]','$copied_file_name[2]','$copied_file_name[3]','$content','$agit_code');";
+      $result = mysqli_query($conn,$sql);
+      if (!$result) {
+        alert_back('1Error: ' . mysqli_error($conn));
+      }
+
+      echo "<script> location.href='./admin_agit_list.php'; </script>";
+
 
 }
+
+// 아지트 삭제
+if(isset($_GET["mode"]) && $_GET["mode"] == "agit_delete"){
+  $agit_num=$_POST['agit_num'];
+  //삭제할 게시물의 이미지파일명을 가져와서 삭제한다.
+  $sql="SELECT `agit_image_copied0`,`agit_image_copied1`,`agit_image_copied2`,`agit_image_copied3` from `agit` where agit_num='$agit_num';";
+  $result = mysqli_query($conn,$sql);
+  if (!$result) {
+    alert_back('Error: ' . mysqli_error($conn));
+  }
+  $row=mysqli_fetch_array($result);
+  $agit_image_copied0 = $row['agit_image_copied0'];
+  $agit_image_copied1 = $row['agit_image_copied1'];
+  $agit_image_copied2 = $row['agit_image_copied2'];
+  $agit_image_copied3 = $row['agit_image_copied3'];
+
+  if(!empty($agit_image_copied0)){
+    unlink("../data/".$agit_image_copied0);
+    unlink("../data/".$agit_image_copied1);
+    unlink("../data/".$agit_image_copied2);
+    unlink("../data/".$agit_image_copied3);
+  }
+  $sql="DELETE from `agit` where agit_num='$agit_num'";
+  $result=mysqli_query($conn, $sql);
+  if (!$result) {
+    die('Error: ' . mysqli_error($conn));
+  }
+
+
+
+}
+
+
+
+//아지트 modal
+if(isset($_GET["mode"]) && $_GET["mode"] == "agit_modal"){
+
+  if(isset($_POST["hidden_agit"])){
+  $hidden_agit = $_POST["hidden_agit"];
+  }else{
+    $hidden_agit="";
+  }
+
+$sql = "SELECT * from `agit` where agit_num = '$hidden_agit';";
+$result = mysqli_query($conn,$sql);
+
+if (!$result) {
+  die('Error: ' . mysqli_error($conn));
+}
+
+$row=mysqli_fetch_array($result);
+$agit_name = $row['agit_name'];
+$agit_content = $row['agit_content'];
+$agit_content=htmlspecialchars_decode($agit_content);
+$agit_address = $row['agit_address'];
+$agit_content=preg_replace("/\s+/","***",$agit_content);
+
+$agit_image_copied0= $row['agit_image_copied0'];
+$agit_image_copied1= $row['agit_image_copied1'];
+$agit_image_copied2= $row['agit_image_copied2'];
+$agit_image_copied3= $row['agit_image_copied3'];
+
+
+echo '[{"agit_name":"'.$agit_name.'"},{"agit_content":"'.$agit_content.'"},{"agit_address":"'.$agit_address.'"},{"agit_image_copied0":"'.$agit_image_copied0.'"},{"agit_image_copied1":"'.$agit_image_copied1.'"},{"agit_image_copied2":"'.$agit_image_copied2.'"},{"agit_image_copied3":"'.$agit_image_copied3.'"}]';
+
+
+}
+
 
 
 

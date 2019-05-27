@@ -56,7 +56,7 @@ if(!empty($_FILES['upimage']['name'])){
 
 }else{ // 새로 첨부하는 이미지가 없는경우
   $user_num = $_POST['user_num'];
-  // var_export($user_num);
+  var_export($user_num);
 
   $sql="SELECT * from `user_club` where user_num='$user_num';";
   $result = mysqli_query($conn,$sql);

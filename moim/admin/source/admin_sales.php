@@ -124,13 +124,15 @@ $count_c = mysqli_num_rows($result_c);  // 중복제거 카테고리의 개수 �
 if (!$result_c) {
   alert_back('Error: ' . mysqli_error($conn));
 }
+$year=substr($find, 2,2);
+
 
 //for 문
 for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
   $row_c=mysqli_fetch_array($result_c); //각 카테고리의 이름 뽑아오기.
   $category[$i]=$row_c[0];
 
-  $sql_cc="SELECT count('모임의 수') from `club` where `club_category` like '$category[$i]';";
+  $sql_cc="SELECT count('모임의 수') from `club` where `club_category`='$category[$i]' and `club_schedule` like '$year%';";
   $result_cc = mysqli_query($conn,$sql_cc);
   if (!$result_cc) {
     alert_back('Error: ' . mysqli_error($conn));
@@ -225,7 +227,7 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
         ['Task', 'Hours per Day'],
         <?php
        for($i=0;$i<$count_c;$i++){
-         if($i!=$count_c-1){
+         if($i != $count_c-1){
            echo "['".$category[$i]."',".$cat[$i]."],";
          }else{
              echo "['".$category[$i]."',".$cat[$i]."]";
@@ -234,8 +236,6 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
        ?>
 
       ]);
-
-
       var options = {
         chart:{
           title: '카테고리별 모임현황'

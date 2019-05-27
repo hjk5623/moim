@@ -9,7 +9,7 @@ if(isset($_GET['mode']) && $_GET['mode']=="search"){
   $kind = $_POST['kind'];
 }
 if(empty($search_value)){ //검색을 하지 않는경우 전체 리스트를 보여준다.
-    $sql = "SELECT * from `membership`";
+    $sql = "SELECT * from `membership` where id not in ('admin')";
 }else if($kind=="id1"){ //아이디로 검색하는경우
     $sql="SELECT * from `membership` where id like '%$search_value%' ";
 }else if($kind=="name1"){ //이름으로 검색하는 경우
@@ -41,60 +41,60 @@ $number=$start_row+1;
 ?>
 <!DOCTYPE html>
 <html lang="ko" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../css/admin_member.css">
-    <script type="text/javascript">
 
-      function check_delete(id,name){
-        console.log(id);
-        var result1=confirm("✔"+name+" 회원을 삭제하시겠습니까?\n 정말 삭제하시겠습니까?");
-        if(result1){
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../css/admin_member.css">
+  <script type="text/javascript">
+    function check_delete(id, name) {
+      // console.log(id);
+      var result1 = confirm("✔" + name + " 회원을 삭제하시겠습니까?\n 정말 삭제하시겠습니까?");
+      if (result1) {
         $.ajax({
-          url: './admin_query.php?mode=memberdel',
-          type: 'POST',
-          data: {
-            user_id: id
-          }
-        }) .done(function(result) {
-          console.log(result);
-          location.href='admin_member.php';
-        })
-        .fail(function() {
-          console.log("error");
-        })
-        .always(function() {
-          console.log("complete");
-        });
-        }
+            url: './admin_query.php?mode=memberdel',
+            type: 'POST',
+            data: {
+              user_id: id
+            }
+          }).done(function(result) {
+            console.log(result);
+            location.href = 'admin_member.php';
+          })
+          .fail(function() {
+            console.log("error");
+          })
+          .always(function() {
+            console.log("complete");
+          });
       }
+    }
+  </script>
+</head>
 
-    </script>
-  </head>
-  <body>
-    <?php
+<body>
+  <?php
     include $_SERVER['DOCUMENT_ROOT']."/moim/admin/source/admin.php";
     ?>
-    <div class="memberlist">
-      <!-- <b>회원리스트</b> -->
-      <div id="head">
+  <div class="memberlist">
+    <!-- <b>회원리스트</b> -->
+    <div id="head">
       <h1 id="hr">Member List</h1>
-        <div class="search">
-          <form action="./admin_member.php?mode=search" method="post" id="form1">
-            <select name="kind" class="kind_sel">
-              <option value="id1">아이디</option>
-              <option value="name1">이름</option>
-            </select>
-              <input type="text" name="search_value">
-              <input type="submit" value="search" id="form1">
-          </form>
-        </div>
+      <div class="search">
+        <form action="./admin_member.php?mode=search" method="post" id="form1">
+          <select name="kind" class="kind_sel">
+            <option value="id1">아이디</option>
+            <option value="name1">이름</option>
+          </select>
+          <input type="text" name="search_value">
+          <input type="submit" value="search" id="form1">
+        </form>
+      </div>
     </div>
     <hr class="memberlist_hr">
-   <table id="memberlist_table">
-  <?php
+    <table id="memberlist_table">
+      <?php
   echo "<thead><tr>
         <td>아이디</td>
         <td>이름</td>
@@ -118,55 +118,54 @@ $number=$start_row+1;
     $item_email=$row["email"];
 
   ?>
-  <tbody>
-    <tr class="memberlist_tr2" style="text-align:center;">
-        <input type="hidden" name="id" class="hidden_id" value="<?=$item_id?>">
-        <td><?=$item_id?></td>
-        <td><?=$item_name?></td>
-        <td><?=$item_phone?></td>
-        <td><?=$address?></td>
-        <td><?=$item_email?></td>
-        <td>&nbsp;&nbsp;<button type="button" class="button" onclick="check_delete('<?=$item_id?>','<?=$item_name?>');">삭제</button></td>
-      </tr>
-    </tbody>
-    <?php
+      <tbody>
+        <tr class="memberlist_tr2" style="text-align:center;">
+          <input type="hidden" name="id" class="hidden_id" value="<?=$item_id?>">
+          <td><?=$item_id?></td>
+          <td><?=$item_name?></td>
+          <td><?=$item_phone?></td>
+          <td><?=$address?></td>
+          <td><?=$item_email?></td>
+          <td>&nbsp;&nbsp;<button type="button" class="button" onclick="check_delete('<?=$item_id?>','<?=$item_name?>');">삭제</button></td>
+        </tr>
+      </tbody>
+      <?php
 
   }
     ?>
 
-</table>
-
-  <div id='page_box' style="text-align: center;">
-<?PHP
-    #----------------이전블럭 존재시 링크------------------#
-    if($start_page > $pages_scale){
-       $go_page= $start_page - $pages_scale;
-       echo "<a id='before_block' href='admin_member.php?mode=$mode&page=$go_page'> << </a>";
-    }
-    #----------------이전페이지 존재시 링크------------------#
-    if($pre_page){
-        echo "<a id='before_page' href='admin_member.php?mode=$mode&page=$pre_page'> < </a>";
-    }
-     #--------------바로이동하는 페이지를 나열---------------#
-    for($dest_page=$start_page;$dest_page <= $end_page;$dest_page++){
-       if($dest_page == $page){
-            echo( "&nbsp;<b id='present_page'>$dest_page</b>&nbsp" );
-        }else{
-            echo "<a id='move_page' href='admin_member.php?mode=$mode&page=$dest_page'>$dest_page</a>";
+    </table>
+    <div id='page_box' style="text-align: center;">
+      <?PHP
+        #----------------이전블럭 존재시 링크------------------#
+        if($start_page > $pages_scale){
+           $go_page= $start_page - $pages_scale;
+           echo "<a id='before_block' href='admin_member.php?mode=$mode&page=$go_page'> << </a>";
         }
-     }
-     #----------------이전페이지 존재시 링크------------------#
-     if($next_page){
-         echo "<a id='next_page' href='admin_member.php?mode=$mode&page=$next_page'> > </a>";
-     }
-     #---------------다음페이지를 링크------------------#
-    if($total_pages >= $start_page+ $pages_scale){
-      $go_page= $start_page+ $pages_scale;
-      echo "<a id='next_block' href='admin_member.php?mode=$mode&page=$go_page'> >> </a>";
-     }
-   ?>
-  </div>
-
+        #----------------이전페이지 존재시 링크------------------#
+        if($pre_page){
+            echo "<a id='before_page' href='admin_member.php?mode=$mode&page=$pre_page'> < </a>";
+        }
+         #--------------바로이동하는 페이지를 나열---------------#
+        for($dest_page=$start_page;$dest_page <= $end_page;$dest_page++){
+           if($dest_page == $page){
+                echo( "&nbsp;<b id='present_page'>$dest_page</b>&nbsp" );
+            }else{
+                echo "<a id='move_page' href='admin_member.php?mode=$mode&page=$dest_page'>$dest_page</a>";
+            }
+         }
+         #----------------이전페이지 존재시 링크------------------#
+         if($next_page){
+             echo "<a id='next_page' href='admin_member.php?mode=$mode&page=$next_page'> > </a>";
+         }
+         #---------------다음페이지를 링크------------------#
+        if($total_pages >= $start_page+ $pages_scale){
+          $go_page= $start_page+ $pages_scale;
+          echo "<a id='next_block' href='admin_member.php?mode=$mode&page=$go_page'> >> </a>";
+         }
+      ?>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>

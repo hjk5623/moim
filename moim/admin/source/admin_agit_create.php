@@ -4,9 +4,8 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 $mode="agit_create";  //default는 agit_create
 $checked="";
 
-$agit_num=$agit_name= $club_content= $club_category= $club_price= $club_to= $club_rent_info= $club_start=$club_end=$club_schedule="";
-$agit_rent_info[0]=$agit_rent_info[1]=$agit_code="";
-$user_num="";
+$agit_num=$agit_name=$agit_code=$agit_conent="";
+$user_num=$agit_rent_info[0]=$agit_rent_info[1]="";
 
 if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   $mode="update";
@@ -21,7 +20,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   $club_name= $row['club_name'];
   $club_content=$row['club_content'];
   $club_content=htmlspecialchars_decode($club_content);
-  $club_category = $row['club_category']; //요리
+  $club_category = $row['club_category'];
   $club_price = $row['club_price'];
 
   $club_to= $row['club_to'];
@@ -31,7 +30,6 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   $club_end = $row['club_end'];
   $club_schedule= $row['club_schedule'];
   $club_intro= $row['club_intro'];
-
 
   //사진
   $club_image_name = $row['club_image_name'];
@@ -162,7 +160,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
     <div class="wrap">
       <?php
       if($mode=="update"){
-      echo  "<h2 id='h2'><big><strong>모임수정</strong></big></h2>";
+      echo  "<h2 id='h2'><big><strong>아지트수정</strong></big></h2>";
       }else{
        echo  "<h2 id='h2'><big><strong>아지트등록</strong></big></h2>";
 
@@ -170,9 +168,8 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
        ?>
       <form name="tx_editor_form" id="tx_editor_form" action="./admin_query.php?mode=<?=$mode?>" method="post" enctype="multipart/form-data" accept-charset="utf-8">
         <div id="write_form">
-          <!--수정시에 club_num 전송, 신청모임등록시에 user_num 전송-->
-          <input type="hidden" name="club_num" value="<?=$club_num?>">
-          <input type="hidden" name="user_num" value="<?=$user_num?>">
+          <!--수정시에 agit_num 전송-->
+          <input type="hidden" name="club_num" value="<?=$agit_num?>">
           <!--모임이름, 모집정원, 모집시작일 ,모집종료일, 가격  -->
           <table class="club_create2_table">
             <tr>
@@ -191,8 +188,11 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
 
             <tr>
               <td>사진 [gif,jpeg,png파일]</td>
-              <td colspan="2">
-                <input type="file" name="upimage" value="" accept="image/gif,image/jpeg,image/png">
+              <td colspan="2"><br>
+                <input type="file" name="upfile[]" value="" accept="image/gif,image/jpeg,image/png"><br><br>
+                <input type="file" name="upfile[]" value="" accept="image/gif,image/jpeg,image/png"><br><br>
+                <input type="file" name="upfile[]" value="" accept="image/gif,image/jpeg,image/png"><br><br>
+                <input type="file" name="upfile[]" value="" accept="image/gif,image/jpeg,image/png"><br><br>
               </td>
             </tr>
               <td colspan="3">아지트소개</td>
@@ -200,7 +200,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
             <tr>
               <td colspan="3">
                 <textarea name="content" id="content" rows="10" cols="80">
-                  <?php echo "$club_content" ?>
+                  <?php echo "$agit_conent  " ?>
                 </textarea>
                 <script type="text/javascript">
                   CKEDITOR.replace('content');

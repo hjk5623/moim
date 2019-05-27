@@ -96,7 +96,8 @@ $number = $total_record - $start_row;
        <td> <?=$club_to?> </td>
        <td> <?=$club_apply?> </td>
        <td>
-          <a href="./admin_club_create_view.php?club_num=<?=$club_num?>"><button type="button" name="button" id="view">내용</button></a>
+          <a href="./admin_club_create_view.php?club_num=<?=$club_num?>">
+            <button type="button" name="button" id="view">내용</button></a>
        </td>
          <input type="hidden" name="present_day" id="present_day" value="<?=$present_day?>">
      </tr>

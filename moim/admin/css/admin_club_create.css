@@ -58,7 +58,16 @@
   cursor: pointer;
 }
 
-
+#schedule_btn{
+  width: 50px;
+  padding: 10px 0;
+  font-size: 15px;
+  background-color: #001246;
+  border: none;
+  outline: none;
+  color: white;
+  cursor: pointer;
+}
 
 
 
