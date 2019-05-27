@@ -173,7 +173,10 @@ if(isset($_GET["qna_num"])&&!empty($_GET["qna_num"])){
                    $ripple_content = $ripple_row['ripple_content'];
                    $ripple_content = str_replace("\n", "<br>", $ripple_content);
                    $ripple_content = str_replace(" ", "&nbsp;", $ripple_content);
-                   $ripple_depth=(int)$ripple_row['ripple_depth'];
+                   $ripple_gno = $ripple_row['ripple_gno'];
+                   $ripple_ord = $ripple_row['ripple_ord'];
+                   $ripple_depth=$ripple_row['ripple_depth'];
+                   $ripple_gno=$ripple_row['ripple_gno'];
                    $space="";//depth의 앞 공간을 띄워주는 역할
                     for ($j=0; $j <$ripple_depth ; $j++) {
                       $space="[re]".$space;
@@ -181,12 +184,12 @@ if(isset($_GET["qna_num"])&&!empty($_GET["qna_num"])){
                   ?>
                 <tr>
                   <th><?=$number?></th>
-                  <th><?=$qna_id?></th><!-- 세션아이디...아마도 -->
+                  <th><?=$ripple_id?></th><!-- 세션아이디...아마도 -->
                   <th><?=$qna_date?></th>
                 </tr>
                 <tr>
                   <td colspan="1"><?=$space.$ripple_content?></td>
-                  <td><a href="./qna_query.php?mode=ripple_delete&ripple_num=<?=$ripple_num?>&ripple_parent=<?=$ripple_parent?>">삭제</a></td>
+                  <td><a href="./qna_query.php?mode=ripple_delete&ripple_num=<?=$ripple_num?>&ripple_parent=<?=$ripple_parent?>&ripple_depth=<?=$ripple_depth?>&ripple_gno=<?=$ripple_gno?>">삭제</a></td>
                   <td><a href="#" class="reply">답글</a><tr>
                     <form class="" action="./qna_query.php?mode=ripple_response&ripple_num=<?=$ripple_num?>&ripple_parent=<?=$ripple_parent?>" method="post">
                       <input type="hidden" name="qna_id" value="<?=$qna_id?>">

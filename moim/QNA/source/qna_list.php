@@ -1,5 +1,6 @@
 <?php
 session_start();
+$id = $_SESSION['userid'];
 header("Cache-Control: no-store, no-cache, must-revalidate");
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
@@ -104,7 +105,19 @@ if(!isset($_SESSION['userid'])){
 
          <tr>
            <td id="list_item1"><?=$number?></td>
-           <td id="list_item2"><a href="./qna_view.php?qna_num=<?=$qna_num?>&page=<?=$page?>"><?=$qna_subject?></a></td>
+             <td id="list_item2">
+               <?php
+               if($_SESSION['userid']==$qna_id||$_SESSION['userid']=='admin') {
+                 ?>
+               <a href="./qna_view.php?qna_num=<?=$qna_num?>&page=<?=$page?>"><?=$qna_subject?></a>
+               <?php
+             }else{
+               ?>
+               비밀글입니다
+               <?php
+             }
+             ?>
+             </td>
            <td id="list_item3"><?=$qna_id?></td>
            <td id="list_item4"><?=$qna_date?></td>
          </tr><!-- end of list_item -->
@@ -150,9 +163,9 @@ if(!isset($_SESSION['userid'])){
             <a href="qna_list.php?page=<?=$page?>">목록</a>
 
             <?php
-              if(!empty($_SESSION['userid'])&&$_SESSION['userid']=='admin') {
+              // if(!empty($_SESSION['userid'])&&$_SESSION['userid']=='admin') {
                 echo '<a href="qna_write.php">'."글쓰기".'</a>';
-              }
+              // }
               ?>
           </div><!-- end of button -->
        </div>

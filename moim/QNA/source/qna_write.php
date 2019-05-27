@@ -1,16 +1,17 @@
 <?php
 session_start();
+$id = $_SESSION['userid'];
 header("Cache-Control: no-store, no-cache, must-revalidate");
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
-if(!isset($_SESSION['userid'])){
+if(!isset($_SESSION['userid']) && $_SESSION['userid']=='admin'){
   echo "<script>alert('권한이 없습니다');
   window.close();
   </script>";
   exit;
 }
 $mode="insert";
-// $id=$_SESSION['userid'];
+
 $checked="";
 $qna_num=$qna_id=$qna_subject=$qna_content=$qna_date="";
 
@@ -47,11 +48,11 @@ if(isset($_GET["mode"])=='update'){
    <body>
 <form name="qna_form" action="qna_query.php?mode=<?=$mode?>" method="post">
   <input type="hidden" name="qna_num" value="<?=$qna_num?>">
+  <input type="hidden" name="qna_id" value="<?=$id?>">
   <table border="1">
     <tr>
       <td>아이디</td>
-      <td><?=$qna_id?></td>
-      <td>날짜 : <?=$qna_date?></td>
+      <td><?=$id?></td>
     </tr>
 
     <tr>

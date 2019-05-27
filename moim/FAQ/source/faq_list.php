@@ -117,8 +117,14 @@ if(!isset($_SESSION['userid'])){
            <td><?=$faq_cetegory?></td>
            <td><?=$faq_question?></td>
            <td>
+             <?php
+            if($_SESSION['userid']=='admin'){
+               ?>
              <a href="./faq_write.php?mode=update&faq_num=<?=$faq_num?>">수정</a>
              <a href="./faq_query.php?mode=delete&faq_num=<?=$faq_num?>">삭제</a>
+             <?php
+            }
+             ?>
            </td>
          </tr>
          <tr>
@@ -165,9 +171,9 @@ if(!isset($_SESSION['userid'])){
           <div id="button">
             <!-- <a href="faq_list.php?page=?=$page?>">목록</a> -->
             <?php
-              // if(!empty($_SESSION['userid'])&&$_SESSION['userid']=='admin') {
+              if(!empty($_SESSION['userid'])&&$_SESSION['userid']=='admin') {
                 echo '<a href="faq_write.php">'."글쓰기".'</a>';
-              // }
+              }
               ?>
           </div><!-- end of button -->
        </div>

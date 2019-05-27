@@ -56,7 +56,7 @@ mysqli_query($conn, $sql);
 		<br>
 		<div>
 			<a href="#" onclick="receive_message_close()">[확인]</a>
-			<a href="./msg_query.php?msg_num=<?=$num ?>">[삭제]</a>
+			<a href="./msg_query.php?mode=delete&msg_num=<?=$num ?>">[삭제]</a>
 		</div>
 
 		</body>

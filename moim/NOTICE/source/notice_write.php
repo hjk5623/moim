@@ -1,9 +1,10 @@
 <?php
 session_start();
+$id = $_SESSION['userid'];
 header("Cache-Control: no-store, no-cache, must-revalidate");
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
-if(!isset($_SESSION['userid'])){
+if(!isset($_SESSION['userid']) && $_SESSION['userid']=='admin'){
   echo "<script>alert('권한이 없습니다');
   window.close();
   </script>";
@@ -11,7 +12,6 @@ if(!isset($_SESSION['userid'])){
 }
 
 $mode="insert";
-// $id=$_SESSION['userid'];
 $checked="";
 $notice_num=$notice_id=$notice_subject=$notice_content=$notice_date=$notice_hit=$notice_file_name=$notice_file_copied=$notice_file_type="";
 
@@ -56,9 +56,8 @@ if(isset($_GET["mode"])=='update'){
   <table border="1">
     <tr>
       <td>아이디</td>
-      <td><?=$notice_id?></td>
-      <td>조회 : <?=$notice_hit?></td>
-      <td>날짜 : <?=$notice_date?></td>
+      <td colspan="3"><?=$id?></td>
+
     </tr>
 
     <tr>

@@ -2,6 +2,10 @@
 session_start();
 $id = $_SESSION['userid'];
 $name = $_SESSION['username'];
+$send_id="";
+if(isset($_GET["send_id"])){
+  $send_id=$_GET["send_id"];
+}
 ?>
  <!DOCTYPE html>
  <html>
@@ -20,7 +24,7 @@ $name = $_SESSION['username'];
        <div>
          <?php
        if($_SESSION['userid']=="admin" || $_SESSION['userid']=="notice_id"){
-         echo "<b>상대방 아이디</b> : <input type='text' size='12px;' name='receive_id'>";
+         echo "<b>상대방 아이디</b> : <input type='text' size='12px;' value='$send_id' name='receive_id' readonly>";
        }else{
           echo "<b>상대방 아이디</b> : <input type='text' size='12px;' value='admin' name='receive_id' readonly>";
        }

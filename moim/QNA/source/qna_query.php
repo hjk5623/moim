@@ -17,8 +17,6 @@ $mode="insert";
       echo "<script>alert('제목, 내용을 입력하세요');history.go(-1);</script>";
       exit;
       }
-      $userid='admin';
-    $q_userid = mysqli_real_escape_string($conn, $userid);
 
     if(false){//!$_SESSION['userid']=="admin"
       echo "<script>alert('권한이 없습니다');history.go(-1);</script>";
@@ -27,21 +25,19 @@ $mode="insert";
 
       $qna_subject = test_input($_POST["qna_subject"]);
       $qna_content = test_input($_POST["qna_content"]);
-      $qna_id= test_input($userid);
+      $qna_id = $_SESSION['userid'];
       }
       $q_subject = mysqli_real_escape_string($conn, $qna_subject);
       $q_content = mysqli_real_escape_string($conn, $qna_content);
       $q_userid = mysqli_real_escape_string($conn, $qna_id);
       $qna_date = date("Y-m-d (H:i)");
 
-      include "./lib/file_upload.php";
-
       $sql="INSERT INTO `qna` VALUES (null,'$q_userid','$q_subject','$q_content','$qna_date');";
       $result = mysqli_query($conn,$sql);
     if (!$result) {
       die('Error: ' . mysqli_error($conn));
     }
-    $sql = "SELECT qna_num from `qna` where qna_id = '$userid' order by qna_num desc limit 1;";
+    $sql = "SELECT qna_num from `qna` where qna_id = '$qna_id' order by qna_num desc limit 1;";
     $result = mysqli_query($conn,$sql);
     if (!$result) {
       die('Error: ' . mysqli_error($conn));
@@ -64,7 +60,6 @@ $mode="insert";
         mysqli_close($conn);
     echo "<script>location.href='./qna_list.php?page=1';</script>";
   }else if(isset($_GET["mode"]) && $_GET["mode"] == "update"){
-    $userid='admin';
   $qna_content=trim($_POST["qna_content"]);
   $qna_subject=trim($_POST["qna_subject"]);
   if(empty($qna_content) || empty($qna_subject)){
@@ -73,18 +68,18 @@ $mode="insert";
   }
   $qna_subject = test_input($_POST["qna_subject"]);
   $qna_content = test_input($_POST["qna_content"]);
-  $qna_userid= $userid;
+  $qna_id= $_SESSION['userid'];
   $qna_num= test_input($_POST["qna_num"]);
 
   $q_subject = mysqli_real_escape_string($conn, $qna_subject);
   $q_content = mysqli_real_escape_string($conn, $qna_content);
-  $q_userid = mysqli_real_escape_string($conn, $qna_userid);
+  $q_userid = mysqli_real_escape_string($conn, $qna_id);
   $q_num = mysqli_real_escape_string($conn, $qna_num);
   $qna_date = date("Y-m-d (H:i)");
 
 
   $sql="UPDATE `qna` SET `qna_subject` = '$q_subject', `qna_content` = '$q_content', `qna_date` = '$qna_date' WHERE `qna_num` = '$q_num';";
-  //뭐하나 추가
+
 
   $result = mysqli_query($conn,$sql);
   if (!$result) {
@@ -140,18 +135,37 @@ else if(isset($_GET["mode"])&&$_GET["mode"]=="ripple_insert"){
 
     $ripple_num = test_input($_GET["ripple_num"]);
     $ripple_parent = test_input($_GET["ripple_parent"]);
-    $q_num = mysqli_real_escape_string($conn, $num);
+    $ripple_depth = test_input($_GET["ripple_depth"]);
+    $ripple_gno = test_input($_GET["ripple_gno"]);
+    // var_dump($ripple_depth);
+    // exit;
+    // $q_num = mysqli_real_escape_string($conn, $qna_num);
+    //gno중에서 depth가 높고 ord도 높은애 선택해서 다 지움
 
-    $sql ="DELETE FROM `ripple` WHERE ripple_num=$ripple_num";
+    // $sql ="DELETE FROM `ripple` WHERE ripple_num=$ripple_num";
+    // $result = mysqli_query($conn,$sql);
+    // if (!$result) {
+    //   die('Error: ' . mysqli_error($conn));
+    // }
+
+    $sql ="DELETE from `ripple` where ripple_parent = $ripple_parent and ripple_gno = $ripple_gno and ripple_depth >= $ripple_depth;";
     $result = mysqli_query($conn,$sql);
     if (!$result) {
       die('Error: ' . mysqli_error($conn));
     }
+
+    // $sql ="DELETE FROM `ripple` WHERE ripple_gno=$ripple_gno";
+    // $result = mysqli_query($conn,$sql);
+    // if (!$result) {
+    //   die('Error: ' . mysqli_error($conn));
+    // }
+
+
     mysqli_close($conn);
     echo "<script>location.href='./qna_view.php?qna_num=$ripple_parent';</script>";
 }
-//////////////////////////////////////////////////////////////수정없으니까
-else if(isset($_GET["mode"])&&$_GET["mode"]=="update"){
+//////////////////////////////////////////////////////////////수정없으니까 안들어감
+else if(isset($_GET["mode"])&&$_GET["mode"]=="ripple_update"){
   $num = $_POST["num"];
   $content = trim($_POST["content"]);
   if(empty($content) || empty($subject)){

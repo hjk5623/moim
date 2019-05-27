@@ -10,7 +10,7 @@ if(isset($_GET["mode"]) && $_GET["mode"]== "delete") {
 
   mysqli_close($conn);
 
-  echo "<script> alert('삭제 되었습니다.'); window.close();
+  echo "<script> window.close(); alert('삭제 되었습니다.'); 
   window.opener.location.reload(true);
   </script>";
 }else if(isset($_GET["mode"]) && $_GET["mode"]== "send"){

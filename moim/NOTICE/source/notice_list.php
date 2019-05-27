@@ -161,9 +161,9 @@ if(!isset($_SESSION['userid'])){
       <a href="notice_list.php?page=<?=$page?>">목록</a>
 
       <?php
-        // if(!empty($_SESSION['userid'])&&$_SESSION['userid']=='admin') {
+        if(!empty($_SESSION['userid'])&&$_SESSION['userid']=='admin') {
           echo '<a href="notice_write.php">'."글쓰기".'</a>';
-        // }
+        }
         ?>
     </div><!-- end of button -->
   </body>
