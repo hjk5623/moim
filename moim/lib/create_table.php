@@ -119,6 +119,7 @@
           $sql = "CREATE TABLE `ripple` (
           `ripple_num` int(11) NOT NULL AUTO_INCREMENT,
           `ripple_id` varchar(10) NOT NULL,
+          `ripple_parent` varchar(10) NOT NULL,
           `ripple_gno` int(11) NOT NULL,
           `ripple_depth` int(11) NOT NULL,
           `ripple_ord` int(11) NOT NULL,
