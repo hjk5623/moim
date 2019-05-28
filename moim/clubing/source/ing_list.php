@@ -93,6 +93,15 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
             }
         }
     </script>
+    <script>
+    function call_clubing(){
+      location.replace("./ing_list.php#top_list_div");
+    }
+
+    function call_clublist(){
+      location.replace("../../club_list/source/list.php#top_list_div");
+    }
+    </script>
   </head>
   <body>
     <nav class="top_nav">
@@ -128,15 +137,6 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
         <a href="ing_list.php?mode=calendar" id=cal_click>달력</a>
       </div>
     </div> <!--end of sub_menu-->
-
-    <section class="bmt-section" id="startdiv">
-      <div class="pt1">
-      <p class="title_large">모든 모임 보기</p>
-      </div>
-      <div class="pt2 btm20">
-      <p class="p2_desc_text">진행 중인 모든 모임을 보여줍니다.</p>
-      </div>
-    </section>
 
     <script type="text/javascript">
     $(document).ready(function(){ //달력- 일정 가져오기
@@ -253,11 +253,18 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
 <?php } //end of if ?>
 </div>
 
-      <div class="img-table about-box-two"> <!--여기서부터 목록-->
-        <div class="about-area-two">
-          <h2></h2>
-        <ul id="ullist" class="place-list-two">
-        <!-- <ul class="place-list-two"> -->
+<div id="top_list_div">
+<div class="top_list" id="startdiv">
+  <div class="top_list_btn">
+  <a href="#" onclick="call_clublist()" class="btn club_list_btn">모집중인 모임</a>
+  <a href="#" onclick="call_clubing()" class="btn clubing_btn">진행중인 모임</a>
+  </div>
+  <div class="gallery_h2">
+  </div>
+</div>
+</div>
+
+<section class="gallery" id="gallery_id">
           <?php
           $today= substr(date("Y-m-d"),2); //오늘날짜를 19-05-27 형태로 만든다.
           if(!empty($mode)&&isset($mode)){
@@ -283,23 +290,16 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
                 $club_intro = substr($club_intro, 0 , $row_length).'<br>.....';
               }
           ?>
-          <li class="btm2_item noshow">
-            <div class="container_list">
-              <a href="./ing_view.php?club_num=<?=$club_num?>" id="">
-                <img class="top-place-two" src="../../admin/data/<?=$club_image_copied?>">
-                <h3><?=$club_name?></h3>
-                <p class="txt-two"><?=$club_intro?></p>
-                <span class="view-two">더보기</span>
-              </a>
-            </div>
-          </li>
+          <figure class="gallery_item noshow btm2_item">
+                <a href="./ing_view.php?club_num=<?=$club_num?>" id="">
+                  <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
+                  <h3><?=$club_name?></h3>
+                  <figcaption class="gallery_image_caprion"><?=$club_intro?></figcaption>
+                </a>
+          </figure>
           <?php
               }
           ?>
-        </ul>
-      </div><!--end of about-area-two-->
-    </div><!--end of about-box-two-->
     </section>
-  </div>
   </body>
 </html>

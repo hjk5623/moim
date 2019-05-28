@@ -1,12 +1,12 @@
-<?php
-include $_SERVER['DOCUMENT_ROOT']."/moim/lib/session_call.php";
-include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
-?>
+<?php include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php"; ?>
 <!DOCTYPE html>
 <html lang="ko" dir="ltr">
   <head>
     <meta charset="utf-8">
     <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/user_modal.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
@@ -17,56 +17,8 @@ include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
     <link href="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.css" rel="stylesheet"/><!--날짜다중선택 -->
     <script src="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.js"></script><!--날짜다중선택 -->
 
-    <style>
-      /*datepicer 버튼 롤오버 시 손가락 모양 표시*/
-      .ui-datepicker-trigger{cursor: pointer;}
 
-      /*datepicer input 롤오버 시 손가락 모양 표시*/
-      .hasDatepicker{cursor: pointer;}
-
-      a{color:#000;}
-
-.modal {
- display: none; /* Hidden by default */
- position: fixed; /* Stay in place */
- z-index: 10; /* Sit on top */
- left: 0;
- top: 0;
- width: 100%; /* Full width */
- height: 100%; /* Full height */
- overflow: auto; /* Enable scroll if needed */
- background-color: rgb(0,0,0); /* Fallback color */
- background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content/Box */
-.modal-content {
-
- background-color: #fefefe;
- margin: 15% auto; /* 15% from the top and centered */
- padding: 20px;
- border: 1px solid #888;
- width: 50%; /* Could be more or less, depending on screen size */
-}
-/* The Close Button */
-.close {
- color: #aaa;
- float: right;
- font-size: 28px;
- font-weight: bold;
-}
-.close:hover,
-.close:focus {
- color: black;
- text-decoration: none;
- cursor: pointer;
-}
-
-
-
-    </style>
     <script type="text/javascript">
-
     $(function() {
       $('#datepicker3').multiDatesPicker({
         minDate: 0, //오늘부터 선택
@@ -98,6 +50,18 @@ include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
           closeText: '닫기'
         });
       });
+
+      function agit(){
+        var mode = document.getElementById('mode').value;
+        if (mode=="선택") {
+          alert("아지트를 선택해주세요.");
+        }else{
+          var popupX = (window.screen.width/2)-(600/2);
+          var popupY = (window.screen.height/2)-(400/2);
+          window.open('./user_agit_popup.php?mode='+mode,'','left='+popupX+',top='+popupY+', width=1000, height=700, status=no, scrollbars=no');
+        }
+      }
+
 
       $(document).ready(function() {
 
@@ -205,6 +169,7 @@ include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
     </script>
   </head>
   <body>
+
     <div id="myModal" class="modal">
      <div class="modal-content">
        <span class="close">&times;</span>
@@ -212,19 +177,79 @@ include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
 
        <h3>장소 : <span id="modal_address"></span></h3>
 
-       <img src="" id="modal_img1">
+       <!-- <img src="" id="modal_img1">
        <img src="" id="modal_img2">
        <img src="" id="modal_img3">
-       <img src="" id="modal_img4">
+       <img src="" id="modal_img4"> -->
+       <div class="swiper-container">
+         <div class="swiper-wrapper">
+           <div class="swiper-slide">
+             <div class="imgBx">
+               <img src="" id="modal_img1">
+             </div>
+             <div class="details">
+               <h3>agit<br><span>AGIT IMAGE</span></h3>
+             </div>
+           </div>
+           <div class="swiper-slide">
+             <div class="imgBx">
+               <img src="" id="modal_img2">
+             </div>
+             <div class="details">
+               <h3>agit<br><span>AGIT IMAGE</span></h3>
+             </div>
+           </div>
+           <div class="swiper-slide">
+             <div class="imgBx">
+               <img src="" id="modal_img3">
+             </div>
+             <div class="details">
+               <h3>agit<br><span>AGIT IMAGE</span></h3>
+             </div>
+           </div>
+           <div class="swiper-slide">
+             <div class="imgBx">
+               <img src="" id="modal_img4">
+             </div>
+             <div class="details">
+               <h3>agit<br><span>AGIT IMAGE</span></h3>
+             </div>
+           </div>
+         </div>
+         <!-- Add Pagination -->
+         <div class="swiper-pagination"></div>
+       </div>
 
-       <h3>내용 :<span id="modal_content"></span></h3>
+       <h3>내용<span id="modal_content"></span></h3>
 
      <div class="agit_btn">
        <a href="#" id="modal_a">자세히 보기</a>
      </div>
    </div>
+   <script type="text/javascript" src="../js/swiper.min.js"></script>
+   <script>
+   $(document).ready(function() {
+     var swiper = new Swiper('.swiper-container', {
+       observer: true,
+       // observerParents: false,
+       effect: 'coverflow',
+       grabCursor: true,
+       centeredSlides: true,
+       slidesPerView: 'auto',
+       coverflowEffect: {
+         rotate: 0,
+         stretch: 0,
+         depth: 100,
+         modifier: 5,
+         slideShadows : true
+       },
+       pagination: {
+         el: '.swiper-pagination',
+       },
+     });
+   });
+   </script>
 </div>
-
 
     <?php
     include $_SERVER['DOCUMENT_ROOT']."/moim/mypage/lib/user_menu.php";
@@ -309,9 +334,8 @@ include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
               for($i=0;$i<$count;$i++){
                 $row= mysqli_fetch_array($result);
                 $agit_name=$row['agit_name'];
-                $agit_address=$row['agit_address'];
                 ?>
-                <option value="<?=$agit_address?>"><?=$agit_name?></option>
+                <option value="<?=$agit_name?>"><?=$agit_name?></option>
                 <?php
               }
                  ?>
@@ -350,6 +374,7 @@ include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
       </table>
     </form>
     </div>
+
   </body>
 </html>
 <script type="text/javascript">
@@ -364,7 +389,7 @@ $(".agit_btn").click(function() {
       url: 'user_query.php?mode=agit_modal',
       type: 'POST',
       data: {
-        agit_address : $("#select_value").val()
+        agit_name : $("#select_value").val()
       }
     })
     .done(function(result) {
@@ -381,10 +406,10 @@ $(".agit_btn").click(function() {
       $("#modal_img3").prop('src', '../../admin/data/'+json_obj[0].agit_image_copied2);
       $("#modal_img4").prop('src', '../../admin/data/'+json_obj[0].agit_image_copied3);
 
-      $("#modal_img1").prop('width', '600');
-      $("#modal_img2").prop('width', '600');
-      $("#modal_img3").prop('width', '600');
-      $("#modal_img4").prop('width', '600');
+      // $("#modal_img1").prop('width', '600');
+      // $("#modal_img2").prop('width', '600');
+      // $("#modal_img3").prop('width', '600');
+      // $("#modal_img4").prop('width', '600');
       modal.style.display="block";
 
     })

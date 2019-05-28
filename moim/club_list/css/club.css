@@ -115,7 +115,7 @@ nav ul li a:hover:before {
 }
 
 .fixed{
-  position: fixed;
+  position: sticky;
   top: 0px;
   z-index: 3;
 }
@@ -150,59 +150,93 @@ nav ul li a:hover:before {
   display: none;
 }
 
-.about-area-two .place-list-two li{
-  /* width: 30%; */
+.top_list{
+  width: 1200px;
   text-align: center;
-  position: relative;
-  display: inline-block;
-  margin-left: 0;
-  margin: 1%;
-  padding: 0;
-}
-
-.about-area-two .place-list-two li i{
-  position: absolute;
-  color: black;
-  margin-left: 85%;
+  margin: 0 auto;
   margin-top: 5%;
 }
 
-.about-area-two .place-list-two li a{
+.top_list .top_list_btn{
+  margin-bottom: 3%;
+}
+
+.top_list .top_list_btn a{
   text-decoration: none;
-}
-
-.about-area-two .place-list-two li:hover{
-  box-shadow: 0 30px 30px rgba(0, 0, 0, 0.5);
-}
-
-.about-area-two .place-list-two li .top-place-two{
-  width: 370px;
-  height: 380px;
-}
-
-
-.about-area-two .place-list-two li h3{
+  color: black;
+  padding: 15px;
+  margin: 3%;
   font-weight: bold;
-  font-size: 18px;
-  padding-top: 25px;
-  color: #000;
+  background-color: #ff6b6b;
 }
 
-.about-area-two .place-list-two li p.txt-two{
+
+.gallery{
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  margin: auto;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.gallery a{
+  text-decoration: none;
+  color: black;
+  text-align: center;
+}
+
+.gallery_item{
   box-sizing: border-box;
-  padding: 10px 30px 0;
-  width: 370px;
+  width: 100%;
+  padding: 1rem;
+  margin: 1rem;
+  box-shadow: 1px 2px 40px 2px rgba(160, 160, 160, 0.5);
+  position: relative;
   overflow: hidden;
-  word-break: keep-all;
-  line-height: 1.8;
-  color: #666;
 }
 
-.about-area-two .place-list-two li .view-two{
-  display: inline-block;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  padding-top: 5px;
-  border-top: 2px solid #333;
-  color: #666;
+.gallery_image_caprion{
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.gallery_image{
+  width: 100%;
+  display: block;
+
+}
+
+.gallery_h2{
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.pop{
+  background: #e17055;
+  color: #fff;
+  transform: rotate(45deg);
+  padding: 10px 40px;
+  position: absolute;
+  top: 10px;
+  right: -35px;
+}
+
+@media only screen and (min-width:540px) {
+  .gallery_item{
+    flex-basis: calc(50% - 2rem);
+  }
+}
+
+@media only screen and (min-width:768px) {
+  .gallery_item{
+    flex-basis: calc((100% / 3) - 2rem);
+  }
+}
+
+@media only screen and (min-width:960px) {
+  .gallery_item{
+    flex-basis: calc((100% / 4) - 2rem);
+  }
 }
