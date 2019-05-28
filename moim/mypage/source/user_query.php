@@ -208,15 +208,16 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "insert"){
   echo "<script> location.href = './user_cart.php'</script>";
 }else if(isset($_GET["mode"]) && $_GET["mode"] == "agit_modal"){
 
- if (isset($_POST['agit_name'])) {
-    $agit_name =$_POST["agit_name"];
+ if (isset($_POST['agit_address'])) {
+    $agit_address =$_POST["agit_address"];
   }
 
-  $sql= "select * from agit where agit_name = '$agit_name'";
+  $sql= "select * from agit where agit_address = '$agit_address'";
   $result = mysqli_query($conn, $sql);
   $row = mysqli_fetch_array($result);
 
   $agit_num=$row['agit_num'];
+  $agit_name=$row['agit_name'];
   $agit_address=$row['agit_address'];
   $agit_content=$row['agit_content'];
   $agit_content=htmlspecialchars_decode($agit_content);
@@ -225,9 +226,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "insert"){
   $agit_image_copied2=$row['agit_image_copied2'];
   $agit_image_copied3=$row['agit_image_copied3'];
   $agit_code=$row['agit_code'];
-
   $agit_content=preg_replace("/\s+/","***",$agit_content);
-
   echo '[{"agit_name":"'.$agit_name.'","agit_address":"'.$agit_address.'","agit_image_copied0":"'.$agit_image_copied0.'","agit_image_copied1":"'.$agit_image_copied1.'","agit_image_copied2":"'.$agit_image_copied2.'","agit_image_copied3":"'.$agit_image_copied3.'","agit_content":"'.$agit_content.'","agit_code":"'.$agit_code.'"}]';
 
 }

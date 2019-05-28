@@ -364,7 +364,7 @@ $(".agit_btn").click(function() {
       url: 'user_query.php?mode=agit_modal',
       type: 'POST',
       data: {
-        agit_name : $("#select_value").val()
+        agit_address : $("#select_value").val()
       }
     })
     .done(function(result) {
