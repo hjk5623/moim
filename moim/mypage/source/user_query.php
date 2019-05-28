@@ -1,5 +1,5 @@
 <?php
-session_start();
+include $_SERVER['DOCUMENT_ROOT']."/moim/lib/session_call.php";
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 
 $userid=$_SESSION['userid'];
@@ -34,7 +34,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "insert"){
 
     //8. 파일의 실제명과 저장명을 각각 저장한다
 
-    $sql= "INSERT INTO `user_club` VALUES (null, '$q_user_name', '$q_userid', '$user_content', '$q_user_category', '$q_user_to', '$q_user_rent_info', '$q_user_start', '$q_user_end', '$q_user_schedule', '$q_user_price', 'no','$user_image_name','$copied_image_name', '$user_file_name', '$copied_file_name', '$file_type[0]', '$q_user_intro');";
+    $sql= "INSERT INTO `user_club` VALUES (null, '$userid', '$q_user_name', '$user_content', '$q_user_category', '$q_user_to', '$q_user_rent_info', '$q_user_start', '$q_user_end', '$q_user_schedule', '$q_user_price', 'no','$user_image_name','$copied_image_name', '$user_file_name', '$copied_file_name', '$file_type[0]', '$q_user_intro');";
 
     $result = mysqli_query($conn,$sql);
 

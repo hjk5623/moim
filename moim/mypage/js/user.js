@@ -386,7 +386,7 @@ function user_request_check(){
   var datepicker2 = document.getElementById("datepicker2");
   var user_to = document.getElementById("user_to");
   var user_category = document.getElementById("user_category");
-  var user_rent_info = document.getElementById("user_rent_info");
+  var select_value = document.getElementById("select_value");
   var user_price = document.getElementById("user_price");
   var user_image = document.getElementById("user_image");
   var user_file = document.getElementById("user_file");
@@ -399,7 +399,7 @@ function user_request_check(){
   if(select_span.length == 0){alert("모임일정을 추가하세요"); return;}
   if(user_to.value == ""){alert("모집인원을 입력하세요"); return;}
   if(user_category.value == "선택"){alert("분야를 선택하세요"); return;}
-  if(user_rent_info.value == "선택"){alert("아지트를 선택하세요"); return;}
+  if(select_value.value == "선택"){alert("아지트를 선택하세요"); return;}
   if(user_price.value == ""){alert("가격을 입력하세요"); return;}
   if(user_image.value == ""){alert("이미지를 선택하세요"); return;}
   if(user_file.value == ""){alert("파일을 선택하세요"); return;}

@@ -1,4 +1,5 @@
 <?php
+include $_SERVER['DOCUMENT_ROOT']."/moim/lib/session_call.php";
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 
 if(isset($_GET["mode"]) && $_GET["mode"] == "download"){

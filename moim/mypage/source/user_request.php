@@ -1,4 +1,7 @@
-<?php include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php"; ?>
+<?php
+include $_SERVER['DOCUMENT_ROOT']."/moim/lib/session_call.php";
+include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
+?>
 <!DOCTYPE html>
 <html lang="ko" dir="ltr">
   <head>
@@ -95,18 +98,6 @@
           closeText: '닫기'
         });
       });
-
-      function agit(){
-        var mode = document.getElementById('mode').value;
-        if (mode=="선택") {
-          alert("아지트를 선택해주세요.");
-        }else{
-          var popupX = (window.screen.width/2)-(600/2);
-          var popupY = (window.screen.height/2)-(400/2);
-          window.open('./user_agit_popup.php?mode='+mode,'','left='+popupX+',top='+popupY+', width=1000, height=700, status=no, scrollbars=no');
-        }
-      }
-
 
       $(document).ready(function() {
 
@@ -318,8 +309,9 @@
               for($i=0;$i<$count;$i++){
                 $row= mysqli_fetch_array($result);
                 $agit_name=$row['agit_name'];
+                $agit_address=$row['agit_address'];
                 ?>
-                <option value="<?=$agit_name?>"><?=$agit_name?></option>
+                <option value="<?=$agit_address?>"><?=$agit_name?></option>
                 <?php
               }
                  ?>
