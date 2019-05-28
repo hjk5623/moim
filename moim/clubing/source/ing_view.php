@@ -5,11 +5,8 @@ session_start();
 create_table($conn, 'club');
 create_table($conn, 'club_ripple');
 
- if(isset($_GET["club_num"])){
-   $club_num= $_GET["club_num"];
- }else{
-   $club_num= "";
- }
+$userid= (isset($_SESSION['userid'])) ? $_SESSION['userid'] : "";
+$club_num= (isset($_GET["club_num"])) ? $_GET["club_num"] : "";
 
   if(!empty($club_num) && isset($club_num)){
     $sql = "select * from club where club_num='$club_num'";
@@ -47,6 +44,7 @@ create_table($conn, 'club_ripple');
     <title>clubing list- 보미</title>
     <link rel="stylesheet" href="../css/club.css">
     <link rel="stylesheet" href="../css/clubing_view.css">
+
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script>
@@ -105,8 +103,7 @@ create_table($conn, 'club_ripple');
         <div class="club_info">
           <div class="club_img">
             <div class="club_view_name"><b><?=$club_name?></b></div>
-            <img src="../img/clubing01.jpg" width="500px" height="400px"><!--테스트 후 아래것으로 교체하기-->
-            <!-- <img src="../../admin/data/<?=$club_image_copied?>" width="500px" height="400px"> -->
+            <img src="../../admin/data/<?=$club_image_copied?>" width="500px" height="400px">
           </div>
           <div class="club_div">
              <div class="club_view_price"><b>가격:<?=$club_price?>원</b></div>
@@ -117,7 +114,7 @@ create_table($conn, 'club_ripple');
              <div class="club_view_intro"><b><?=$club_intro?></b></div>
              <?php
              //관리자만 수정/삭제 버튼이 보임
-             if(!empty($_SESSION['userid']) && $_SESSION['userid']==="admin"){ ?>
+             if(!empty($userid) && $userid==="admin"){ ?>
                <!-- <button type="button" name="button">수정</button> -->
                <button type="button" name="button" onclick="location.href='ing_query.php?mode=c_delete&club_num=<?=$club_num?>'">삭제</button>
                <button type="button" name="button" onclick="location.href='../../admin/source/admin_club_create2.php?mode=update&club_num=<?=$club_num?>'">수정</button>
@@ -130,7 +127,7 @@ create_table($conn, 'club_ripple');
         <div class="club_view_copied"><b>세부사항:
         <?php
           //1. 해당된 가입자이고, 파일이 있으면 파일명,사이즈,실제위치 정보확인
-          if(!empty($_SESSION['userid'])&&!empty($club_file_copied)){
+          if(!empty($userid)&&!empty($club_file_copied)){
             $mode="download";
             $file_path= "../../admin/data/$club_file_copied";
             $file_size= filesize($file_path);
@@ -206,47 +203,26 @@ create_table($conn, 'club_ripple');
       <hr class="divider">
     <div class="ripple"> <!--임시 클래스명임. 바꿀겁니다-->
       <p class="ss_title">후기</p>
-      <!-- 후기 입력폼 -->
-      <form name="ripple_form" action="ing_query.php?mode=c_insert_ripple&club_num=<?=$club_num?>" method="post">
-      <!-- <form name="ripple_form" method="post"> -->
         <div id="ripple_insert">
           <div id="ripple_textarea">
             <textarea name="c_ripple_content" id="c_ripple_content" placeholder="후기를 작성해주세요."></textarea>
-            <button type="submit" name="button" id="ripple_btn">후기 등록</button>
+            <button type="button" name="button" id="ripple_btn">후기 등록</button>
+            <p id="test_p"></p>
           </div>
         </div><!--end of ripple_insert  -->
-      </form>
         <div> <!-- 작성된 후기를 보여주는 부분 -->
           <ul>
             <!-- <li class="col-md-6 col-md-offset-3 results"></li> -->
             <li class="results"></li>
-            <!-- 후기작성자만 (자기글)삭제버튼이 보임 & 관리자는 모든 후기 삭제가능 -->
-
           </ul>
           <div>
             <button type="button" class="btn btn-default" id="loadmorebtn" name="button">더 보기</button>
           </div>
-        </div>
+        </div><!--end of div 후기 리스트-->
         <input type="hidden" id="hidden_num" value="<?=$club_num?>">
+        <input type="hidden" id="hidden_id" value="<?=$userid?>">
 
-        <script type="text/javascript"> //후기
-          var hidden_num = $("#hidden_num").val();
-          var mypage= 1;
-          mycontent(mypage);
-          $('#loadmorebtn').click(function(event) { //후기 '더보기' 버튼 클릭시
-            mypage++;
-            mycontent(mypage);
-          });
-          function mycontent(mypage){ // 후기 더보기
-            $.post('loadmore.php?club_num='+hidden_num, {page: mypage}, function(data) {
-              if(data.trim().length==0){
-                $('#loadmorebtn').text("더보기").hide()
-              }
-              $('.results').append(data)
-              // $("html, body").animate({scrollTop: $('#loadmorebtn').offset().tap}, 800)
-            })
-          }//end of mycontent
-        </script>
+        <script type="text/javascript" src="../js/ing_ripple.js"></script> <!--후기-->
 
     </div> <!-- end of ripple -->
   </section>

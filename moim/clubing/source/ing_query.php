@@ -54,45 +54,43 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "c_delete"){ // club_open= yes인 �
     echo "<script>alert('내용입력요망!');history.go(-1);</script>";
     exit;
   }
-  //로그인한 사람만 덧글 달기를 할 수 있음
+  //해당 페이지의 모임을 구매한 사람만 덧글 달기를 할 수 있음
   $q_userid = mysqli_real_escape_string($conn, $userid);
-  $sql="select * from buy where buy_club_num='$club_num' and buy_id='$userid'";
+  $sql="SELECT * FROM buy WHERE buy_club_num='$club_num' AND buy_id='$userid'";
   $result = mysqli_query($conn,$sql);
   if (!$result) {
     die('Error: ' . mysqli_error($conn));
   }
     $row= mysqli_fetch_array($result);
-    $id= $row['buy_id'];
+    $buy_id= $row['buy_id'];
     $rowcount = mysqli_num_rows($result);
 
-
     if(!$rowcount){
-      echo "<script>alert('강의를 구매자만 후기작성이 가능합니다.');history.go(-1);</script>";
+      echo "<script>alert('모임를 구매자만 후기작성이 가능합니다.');history.go(-1);</script>";
       exit;
     }else{
-      $sql= "SELECT name FROM membership where id='$id'";
+      $sql= "SELECT name FROM membership WHERE id='$buy_id'";
       $result = mysqli_query($conn,$sql);
       $row= mysqli_fetch_array($result);
-      $name= $row['name'];
+      $name= $row['name']; //모임 구매자의 이름
 
-      $c_parent_num= test_input($club_num);
+      $c_parent_num= test_input($club_num); //후기를 남기려는 모임의 club_num
       $c_ripple_id= test_input($_SESSION["userid"]);
-      $c_ripple_name= test_input($name);
+      $c_ripple_name= test_input($name); //모임 구매자의 이름을 $c_ripple_name에 넣어줌
       $c_ripple_content= test_input($_POST["c_ripple_content"]);
       $q_c_ripple_content= mysqli_real_escape_string($conn, $c_ripple_content);
       $c_ripple_date= date("Y-m-d (H:i)");
 
+      //후기를 등록한다.
       $sql="INSERT INTO `club_ripple` VALUES (null,'$c_parent_num','$c_ripple_id','$c_ripple_name','$q_c_ripple_content','$c_ripple_date')";
       $result = mysqli_query($conn,$sql);
       if (!$result) {
         die('Error: ' . mysqli_error($conn));
       }
       mysqli_close($conn);
-      echo "<script>location.href='ing_view.php?club_num=$club_num';</script>";
 
     }//end of if rowcount
 }else if(isset($_GET["mode"]) && $_GET["mode"] == "c_delete_ripple"){ //후기 지우기
-  $name = test_input($_GET["name"]);
   $c_ripple_num = test_input($_GET["c_ripple_num"]);
 
   $sql = "DELETE FROM `club_ripple` WHERE c_ripple_num='$c_ripple_num'";
@@ -100,6 +98,5 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "c_delete"){ // club_open= yes인 �
   if (!$result) {
     die('Error: ' . mysqli_error($conn));
   }
-  echo "<script>location.href='ing_view.php?club_num=$club_num';</script>";
 }
  ?>
