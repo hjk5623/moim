@@ -333,9 +333,10 @@
               $count=mysqli_num_rows($result);
               for($i=0;$i<$count;$i++){
                 $row= mysqli_fetch_array($result);
+                $agit_address=$row['agit_address'];
                 $agit_name=$row['agit_name'];
                 ?>
-                <option value="<?=$agit_name?>"><?=$agit_name?></option>
+                <option value="<?=$agit_address?>"><?=$agit_name?></option>
                 <?php
               }
                  ?>
@@ -389,11 +390,11 @@ $(".agit_btn").click(function() {
       url: 'user_query.php?mode=agit_modal',
       type: 'POST',
       data: {
-        agit_name : $("#select_value").val()
+        agit_address : $("#select_value").val()
       }
     })
     .done(function(result) {
-      console.log("success");
+      console.log("success");console.log(result);
       var json_obj=$.parseJSON(result);
       $("#modal_name").html(json_obj[0].agit_name);
       $("#modal_address").html(json_obj[0].agit_address);
