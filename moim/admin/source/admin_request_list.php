@@ -13,7 +13,7 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
   $total_record = mysqli_num_rows($result); //전체 레코드 수
 
   // 페이지 당 글수, 블럭당 페이지 수
-  $rows_scale=3;
+  $rows_scale=5;
   $pages_scale=5;
   // 전체 페이지 수 ($total_page) 계산
   $total_pages= ceil($total_record/$rows_scale);
@@ -39,22 +39,22 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
      console.log(num);
      var result1=confirm("해당 신청모임의 등록을 취소하시겠습니까?");
      if(result1){
-     $.ajax({
-       url: './admin_query.php?mode=request_disapprove',
-       type: 'POST',
-       data: {
-         user_num: num
-       }
-     }) .done(function(result) {
-       console.log(result);
-
-     })
-     .fail(function() {
-       console.log("error");
-     })
-     .always(function() {
-       console.log("complete");
-     });
+       $.ajax({
+         url: '../../PHPmailer/email.php?mode=request_disapprove',
+         type: 'POST',
+         data: {
+           user_num: num
+         }
+       }) .done(function(result) {
+         console.log(result);
+         window.location.href='./admin_query.php?mode=request_disapprove&user_num='+num;
+       })
+       .fail(function() {
+         console.log("error");
+       })
+       .always(function() {
+         console.log("complete");
+       });
      }
    }
  </script>
@@ -82,8 +82,6 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
          </tr>
         </thead>
       <?php
-
-
       for($i=$start_row; ($i<$start_row+$rows_scale) && ($i< $total_record); $i++){
         //가져올 레코드 위치 이동
         mysqli_data_seek($result, $i);

@@ -102,52 +102,9 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
   <script src="//cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script><!--위지윅에디터 -->
   <link rel="stylesheet" type="text/css" href="../css/admin_club_create.css">
+  <script type="text/javascript" src="../js/admin_agit_create.js"></script>
   <link href="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.css" rel="stylesheet"/><!--날짜다중선택 -->
   <script src="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.js"></script><!--날짜다중선택 -->
-  <script type="text/javascript">
-    //주소 API
-    function execDaumPostcode() {
-      /* 폼은 다음 주소찾기 빌리면서 입력값은 여기서 받고 처리하네?  */
-      new daum.Postcode({
-        oncomplete: function(data) {
-          // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-          // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-          // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-          var fullAddr = ''; // 최종 주소 변수
-          var extraAddr = ''; // 조합형 주소 변수
-
-          // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-          if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-            fullAddr = data.roadAddress;
-
-          } else { // 사용자가 지번 주소를 선택했을 경우(J)
-            fullAddr = data.jibunAddress;
-          }
-          // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
-          if (data.userSelectedType === 'R') {
-            //법정동명이 있을 경우 추가한다.
-            if (data.bname !== '') {
-              extraAddr += data.bname;
-            }
-            // 건물명이 있을 경우 추가한다.
-            if (data.buildingName !== '') {
-              extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-            }
-            // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
-            fullAddr += (extraAddr !== '' ? ' (' + extraAddr + ')' : '');
-          }
-          // 우편번호와 주소 정보를 해당 필드에 넣는다.
-          // document.getElementById('address2').value = data.zonecode; //5자리 새우편번호 사용
-          document.getElementById('address1').value = fullAddr;
-
-          // 커서를 상세주소 필드로 이동한다.
-          document.getElementById('address2').value = "";
-          document.getElementById('address2').focus();
-        }
-      }).open();
-    }
-  </script>
-
   <title></title>
 </head>
 
@@ -174,7 +131,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
           <table class="club_create2_table">
             <tr>
               <td>아지트이름</td>
-              <td colspan="2"><input type="text" name="agit_name" value="<?=$agit_name?>"></td>
+              <td colspan="2"><input type="text" name="agit_name" value="<?=$agit_name?>" id="agit_name" onkeyup="write_agit();"></td>
             </tr>
             <tr>
               <td>아지트코드</td>
@@ -183,16 +140,22 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
             <tr>
               <td id="write_td">아지트주소</td>
               <td><input id="address1" type="text" name="agit_rent_info1" value="<?=$agit_rent_info[0]?>" onclick="execDaumPostcode()" size="45" placeholder="주소"></td>
-              <td><input id="address2" type="text" name="agit_rent_info2" value="<?=$agit_rent_info[1]?>" placeholder="상세주소"></td>
+              <td><input id="address2" type="text" name="agit_rent_info2" value="<?=$agit_rent_info[1]?>" readonly></td>
             </tr>
 
             <tr>
               <td>사진 [gif,jpeg,png파일]</td>
               <td colspan="2"><br>
-                <input type="file" name="upfile[]" value="" accept="image/gif,image/jpeg,image/png"><br><br>
-                <input type="file" name="upfile[]" value="" accept="image/gif,image/jpeg,image/png"><br><br>
-                <input type="file" name="upfile[]" value="" accept="image/gif,image/jpeg,image/png"><br><br>
-                <input type="file" name="upfile[]" value="" accept="image/gif,image/jpeg,image/png"><br><br>
+                <div class="img_wrap">
+                  <img id="img1" >
+                  <img id="img2" >
+                  <img id="img3" >
+                  <img id="img4" >
+                </div>
+                <input type="file" name="upfile[]" value="" accept="image/gif,image/jpeg,image/png"  onchange="handleImgFileSelect(event,'img1')">
+                <input type="file" name="upfile[]" value="" accept="image/gif,image/jpeg,image/png"  onchange="handleImgFileSelect(event,'img2')"><br><br>
+                <input type="file" name="upfile[]" value="" accept="image/gif,image/jpeg,image/png"  onchange="handleImgFileSelect(event,'img3')">
+                <input type="file" name="upfile[]" value="" accept="image/gif,image/jpeg,image/png"  onchange="handleImgFileSelect(event,'img4')">
               </td>
             </tr>
               <td colspan="3">아지트소개</td>

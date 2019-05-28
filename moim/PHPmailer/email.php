@@ -82,10 +82,61 @@ if(isset($_GET["mode"]) && $_GET["mode"]=="find_passwd"){
     $bcc_mail=""; /* 메일 보내기*/
     $sendmail->send_mail($to, $from, $subject, $body,$cc_mail,$bcc_mail);
 
+  // 이용자의 신청모임을 등록할 경우 이메일 보내기
   }
 
+}else if(isset($_GET["mode"]) && $_GET["mode"]=="request_approve"){
 
+    include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
+    $user_num=$_POST['user_num'];
+    //신청자개설모임을 신청한 사람의 이메일을 가져온다.
+    $sql="SELECT * FROM membership inner join user_club on membership.id = user_club.user_id where user_num=$user_num";
+    $result = mysqli_query($conn,$sql);
+    if (!$result) {
+      die('Error: ' . mysqli_error($conn));
+    }
+    include './Sendmail.php';
 
+    $row = mysqli_fetch_array($result);
+    $user_name=$row['user_name']; //신청자모임의 모임이름
+    $user_num=$row['user_num'];
+    $email=$row['email'];
+    var_dump($email);
 
-}
+    $to=$email;
+    $from="관리자";
+    $subject="Mo,im 신청모임등록완료";
+    $body="Mo,im 고객님이 신청하신 모임 [모임명:$user_name]이 등록되었습니다. \n 홈페이지에서 확인하세요.";
+    $cc_mail="";
+    $bcc_mail=""; /* 메일 보내기*/
+    $sendmail->send_mail($to, $from, $subject, $body,$cc_mail,$bcc_mail);
+
+  }else if(isset($_GET["mode"]) && $_GET["mode"]=="request_disapprove"){
+    //신청자모임 취소시 신청자이메일로 취소내용 보내기
+    include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
+    $user_num=$_POST['user_num'];
+    //신청자개설모임을 신청한 사람의 이메일을 가져온다.
+    $sql="SELECT * FROM membership inner join user_club on membership.id = user_club.user_id where user_num=$user_num";
+    $result = mysqli_query($conn,$sql);
+    if (!$result) {
+      die('Error: ' . mysqli_error($conn));
+    }
+    include './Sendmail.php';
+
+    $row = mysqli_fetch_array($result);
+    $user_name=$row['user_name']; //신청자모임의 모임이름
+    $user_num=$row['user_num'];
+    $email=$row['email'];
+    var_dump($email);
+
+    $to=$email;
+    $from="관리자";
+    $subject="Mo,im 신청모임취소";
+    $body="Mo,im 고객님이 신청하신 모임 [모임명:$user_name]이 등록여건에 맞지 않아 취소되었습니다. \n 홈페이지에서 확인하세요.";
+    $cc_mail="";
+    $bcc_mail=""; /* 메일 보내기*/
+    $sendmail->send_mail($to, $from, $subject, $body,$cc_mail,$bcc_mail);
+
+  }
+
 ?>

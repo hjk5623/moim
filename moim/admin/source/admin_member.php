@@ -151,7 +151,7 @@ $number=$start_row+1;
            if($dest_page == $page){
                 echo( "&nbsp;<b id='present_page'>$dest_page</b>&nbsp" );
             }else{
-                echo "<a id='move_page' href='admin_member.php?mode=$mode&page=$dest_page'>$dest_page</a>";
+                echo "<a id='move_page' href='admin_member.php?mode=$mode&page=$dest_page'>$dest_page</a>&nbsp";
             }
          }
          #----------------이전페이지 존재시 링크------------------#

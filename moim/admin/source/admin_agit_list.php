@@ -232,9 +232,9 @@ $number = $total_record - $start_row;
       #--------------바로이동하는 페이지를 나열---------------#
       for($dest_page=$start_page;$dest_page <= $end_page;$dest_page++){
              if($dest_page == $page){
-                  echo( "&nbsp;<b id='present_page'>$dest_page</b>&nbsp" );
+                  echo( "&nbsp;<b id='present_page'>$dest_page&nbsp&nbsp</b>&nbsp" );
               }else{
-                  echo "<a id='move_page' href='admin_agit_list.php?mode=$mode&page=$dest_page'>$dest_page</a>";
+                  echo "<a id='move_page' href='admin_agit_list.php?mode=$mode&page=$dest_page'>$dest_page&nbsp&nbsp</a>";
               }
            }
       #----------------다음페이지 존재시 링크------------------#

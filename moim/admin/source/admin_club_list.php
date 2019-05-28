@@ -39,6 +39,7 @@ $number = $total_record - $start_row;
   <meta charset="utf-8">
   <title></title>
   <link rel="stylesheet" href="../css/admin_club_list.css">
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
   <style media="screen">
     #accept_table{
       text-align: center;
@@ -50,10 +51,6 @@ $number = $total_record - $start_row;
       margin-top:100px;
     }
   </style>
-  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
-  <script type="text/javascript">
-
-  </script>
 </head>
 <body>
   <?php
@@ -122,9 +119,9 @@ $number = $total_record - $start_row;
       #--------------바로이동하는 페이지를 나열---------------#
       for($dest_page=$start_page;$dest_page <= $end_page;$dest_page++){
              if($dest_page == $page){
-                  echo( "&nbsp;<b id='present_page'>$dest_page</b>&nbsp" );
+                  echo( "&nbsp;<b id='present_page'>$dest_page&nbsp&nbsp</b>&nbsp" );
               }else{
-                  echo "<a id='move_page' href='admin_club_list.php?mode=$mode&page=$dest_page'>$dest_page</a>";
+                  echo "<a id='move_page' href='admin_club_list.php?mode=$mode&page=$dest_page'>$dest_page&nbsp&nbsp</a>";
               }
            }
       #----------------다음페이지 존재시 링크------------------#

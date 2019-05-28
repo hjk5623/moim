@@ -226,11 +226,11 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
       var data = google.visualization.arrayToDataTable([
         ['Task', 'Hours per Day'],
         <?php
-       for($i=0;$i<$count_c;$i++){
+       for($i=0; $i<$count_c ; $i++){
          if($i != $count_c-1){
            echo "['".$category[$i]."',".$cat[$i]."],";
          }else{
-             echo "['".$category[$i]."',".$cat[$i]."]";
+            echo "['".$category[$i]."',".$cat[$i]."]";
          }
        }
        ?>

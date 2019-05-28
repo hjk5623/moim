@@ -87,17 +87,19 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
         <table class="create_view_table">
           <tr>
           <td>모임이름</td>
-            <td colspan="2"><input type="text" name="club_name" value="<?=$club_name?>" readonly> </td>
+            <td colspan="2">
+              <?=$club_name?>
+             </td>
           </tr>
           <tr>
             <td id="write_td">카테고리</td>
             <td colspan="2">
-              <input type="text" name="club_category" value="<?=$club_category?>" readonly>
+              <?=$club_category?>
             </td>
           </tr>
           <tr>
             <td id="write_td">모임장소</td>
-            <td><input id="address1" type="text" name="club_rent_info1" value="<?=$club_rent_info?>" size="45" readonly></td>
+            <td><?=$club_rent_info?></td>
           </tr>
           <tr>
             <td id="write_td">모집정원</td>
@@ -105,19 +107,27 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
           </tr>
           <tr>
             <td>모집시작일</td>
-            <td colspan="2"><input type="text" name="club_start" value="<?=$club_start?>" id="datepicker1" readonly></td>
+            <td colspan="2">
+              <?=$club_start?>
+            </td>
           </tr>
           <tr>
             <td>모집종료일</td>
-            <td colspan="2"><input type="text" name="club_end" value="<?=$club_end?>" id="datepicker2" readonly></td>
+            <td colspan="2">
+              <?=$club_end?>
+            </td>
           </tr>
           <tr>
             <td>가격</td>
-            <td colspan="2"><input type="text" name="club_price" value="<?=$club_price?>" readonly></td>
+            <td colspan="2">
+              <?=$club_price?> 원
+            </td>
           </tr>
           <tr>
             <td>모임일정</td>
-            <td colspan="2"><input type="text" name="club_schedule" size="45" value="<?=$club_schedule?>" readonly></td>
+            <td colspan="2">
+              <?=$club_schedule?>
+            </td>
           </tr>
           <tr>
             <td>모임대표이미지</td>

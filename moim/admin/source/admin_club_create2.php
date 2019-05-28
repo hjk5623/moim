@@ -33,6 +33,12 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   $club_schedule= $row['club_schedule'];
   $club_intro= $row['club_intro'];
 
+  $schedule = explode("," ,$club_schedule);
+  // var_dump($schedule);
+
+  $schedule_count = count($schedule);
+
+
   //사진
   $club_image_name = $row['club_image_name'];
   $club_image_copied= $row['club_image_copied'];
@@ -89,8 +95,6 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   $image_height = $image_info[1];
   $image_type = $image_info[2];
   if($image_width>600) $image_width=600;
-
-
 }
 
 
@@ -216,6 +220,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
     });
     $("#select_month").change(function(event) {
      var lastDay = ( new Date( $("#select_year").val(), $("#select_month").val(), 0) ).getDate();
+
      $("#select_day").html("<option value='일'>일</option>");
      for(i=1;i<=lastDay;i++){
        $("#select_day").append("<option value='"+i+"'>"+i+"</option>");
@@ -300,36 +305,44 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
     }
     $("#club_schedule").val(club_schedule);
 
-  });
+    });
+
+    var schedule= new Array();
+    var mode ="<?=$mode?>";
+    var count=<?=$schedule_count?>;
+
+    schedule=<?php echo json_encode($schedule)?>;
+
+    if(mode =="update"){
+      for(i=0;i<count;i++){
+        $("#date_td").append("<br><span class='select_span' name='select_span'>"+schedule[i]+"<span>");
+      }
+
+    }
 
   }); // end of document.ready()
 
 
-
-
-
-
-    function request_send_email(num){
-      console.log(num);
-      $.ajax({
-        url: '../../PHPmailer/email.php?mode=request_approve',  //이용자가 신청한 모임을 등록하면 해당 이용자에게 메일을 전송
-        type: 'POST',
-        data: {
-          user_num: num
-        }
-      }) .done(function(result) {
-        console.log(result);
-        console.log("sdfsdlkfjsdlkfjsldkfjsldkfjlsdkjfl");
-        document.tx_editor_form.submit();
-        // window.location.href='./admin_query.php?mode=request_create&user_num='+num;
-      })
-      .fail(function() {
-        console.log("error");
-      })
-      .always(function() {
-        console.log("complete");
-      });
-    }
+  function request_send_email(num){
+    console.log(num);
+    $.ajax({
+      url: '../../PHPmailer/email.php?mode=request_approve',  //이용자가 신청한 모임을 등록하면 해당 이용자에게 메일을 전송
+      type: 'POST',
+      data: {
+        user_num: num
+      }
+    }) .done(function(result) {
+      console.log(result);
+      document.tx_editor_form.submit();
+      // window.location.href='./admin_query.php?mode=request_create&user_num='+num;
+    })
+    .fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      console.log("complete");
+    });
+  }
 
 
   </script>
@@ -561,7 +574,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
                 <?php
                   if(isset($_GET['mode']) && $_GET['mode'] == "request_create"){
                 ?>
-                <input type="button" name="" value="button" onclick="request_send_email(<?=$user_num?>);"></td>
+                <input type="button" name="" value="submit" onclick="request_send_email(<?=$user_num?>);"></td>
 
                 <?php
                   }else{

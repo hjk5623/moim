@@ -257,7 +257,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "update"){
 
 }
 
-//환불관련  ----- 주의>>> 실제환불처리조건 아직 안만들어졌음.
+//환불관련  ----- 
 if(isset($_GET["mode"]) && $_GET["mode"] == "refund_update"){
   $buy_id = $_POST['buy_id'];
   $buy_club_num = $_POST['buy_club_num'];
@@ -277,7 +277,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "request_create"){
     // $user_num = $_GET["user_num"];
 
     if(empty($_POST["club_name"])){
-     // echo "<script>alert('모임이름을 입력해주세요.'); history.go(-1);</script>";
+     echo "<script>alert('모임이름을 입력해주세요.'); history.go(-1);</script>";
      return;
    }else if(empty($_POST["club_to"]) || $_POST["club_to"] <0 ){
       echo "<script>alert('모임정원을 올바르게 입력해주세요.'); history.go(-1);</script>";
@@ -408,13 +408,14 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "request_create"){
 //신청모임 승인 거절//****************************************************************************************************/
 
 if(isset($_GET["mode"]) && $_GET["mode"] == "request_disapprove"){
-  $user_num=$_POST['user_num'];
+  $user_num=$_GET['user_num'];
 
   $sql="UPDATE `user_club` SET  `user_check`='yes' WHERE `user_num` ='$user_num';";
   $result = mysqli_query($conn,$sql);
   if (!$result) {
     alert_back('4Error: ' . mysqli_error($conn));
   }
+  echo "<script> location.href='./admin_request_list.php'; </script>";
 
 }
 
