@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/session_call.php";
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 
@@ -34,7 +34,11 @@ if(isset($_GET["user_num"]) && !empty($_GET["user_num"])){
 
     if(isset($user_image_copied)){
       if($user_check=="yes"){
-        $image_info = getimagesize("../../admin/data/".$user_image_copied);
+        if(file_exists("../../admin/data/".$user_image_copied)){
+          $image_info = getimagesize("../../admin/data/".$user_image_copied);
+        }else{
+          $image_info = getimagesize("../data/".$user_image_copied);
+        }
       }else{
         $image_info = getimagesize("../data/".$user_image_copied);
       }
@@ -65,7 +69,11 @@ if(isset($_GET["user_num"]) && !empty($_GET["user_num"])){
                <td align="center" >첨부파일</td>
                <?php
                 if($user_check=="yes"){
-                  $file_path = "../../admin/data/".$user_file_copied;
+                  if(file_exists("../../admin/data/".$user_file_copied)){
+                    $file_path = "../../admin/data/".$user_file_copied;
+                  }else{
+                    $file_path = "../data/".$user_file_copied;
+                  }
                 }else{
                   $file_path = "../data/".$user_file_copied;
                 }
@@ -80,16 +88,21 @@ if(isset($_GET["user_num"]) && !empty($_GET["user_num"])){
                <td colspan="2">
                  <?php
                   if($user_check=="yes"){
-                ?>
-                    <img src="../../admin/data/<?=$user_image_copied?>" width="<?=$image_width?>">
+                    if(file_exists("../../admin/data/".$user_image_copied)){
+                  ?>
+                      <img src="../../admin/data/<?=$user_image_copied?>" width="<?=$image_width?>">
                 <?php
+                    }else{
+                  ?>
+                      <img src="../data/<?=$user_image_copied?>" width="<?=$image_width?>">
+                  <?php
+                    }
                   }else{
                 ?>
                     <img src="../data/<?=$user_image_copied?>" width="<?=$image_width?>">
                 <?php
                   }
                   ?>
-
                </td>
              </tr>
              <tr>
