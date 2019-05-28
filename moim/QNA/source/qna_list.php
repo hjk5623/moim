@@ -6,9 +6,9 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
 create_table($conn, 'qna');
 create_table($conn, 'ripple');
-if(!isset($_SESSION['userid'])){
+if(!isset($_SESSION['userid'])){  //로그인페이지로 보내기
   echo "<script>alert('권한이 없습니다');
-  window.close();
+  window.location.href = '../../login/source/login.php';
   </script>";
   exit;
 }
@@ -32,7 +32,7 @@ if(!isset($_SESSION['userid'])){
                  history.go(-1)
                  </script>");
                  exit;
-               }//검색 아직 안됨
+               }
                $sql="SELECT * from `qna` where $find like '%$q_search%';";
              }else{
                $sql="SELECT * from `qna` order by qna_num desc";
@@ -163,9 +163,7 @@ if(!isset($_SESSION['userid'])){
             <a href="qna_list.php?page=<?=$page?>">목록</a>
 
             <?php
-              // if(!empty($_SESSION['userid'])&&$_SESSION['userid']=='admin') {
                 echo '<a href="qna_write.php">'."글쓰기".'</a>';
-              // }
               ?>
           </div><!-- end of button -->
        </div>

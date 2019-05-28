@@ -4,12 +4,6 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
 create_table($conn, 'notice');
-if(!isset($_SESSION['userid'])){
-  echo "<script>alert('권한이 없습니다');
-  window.close();
-  </script>";
-  exit;
-}
 ?>
 
  <!DOCTYPE html>
@@ -21,7 +15,6 @@ if(!isset($_SESSION['userid'])){
      <title></title>
      <?php
      if(isset($_GET["mode"])&&($_GET["mode"]=="search")){
-       //제목, 내용, 아이
        $mode = $_GET['mode'];
        $find = $_POST["find"];
        $search = $_POST["search"];
@@ -76,7 +69,6 @@ if(!isset($_SESSION['userid'])){
          <td><select name="find">
            <option value="notice_subject">제목</option>
            <option value="notice_content">내용</option>
-           <option value="notice_id">아이디</option>
          </select></td>
          <td><input type="text" name="search"></td>
          <td><input type="submit" value="검색"></td>
@@ -106,10 +98,6 @@ if(!isset($_SESSION['userid'])){
       $notice_file_name=$row['notice_file_name'];
       $notice_file_copied=$row['notice_file_copied'];
       $notice_file_type=$row['notice_file_type'];
-      // $subject = str_replace("\n", "<br>", $subject);
-      // $subject = str_replace(" ", "&nbsp;", $subject);
-      // $content = str_replace("\n", "<br>", $content);
-      // $content = str_replace(" ", "&nbsp;", $content);
       ?>
 
        <tr>

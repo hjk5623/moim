@@ -9,7 +9,6 @@ if(!isset($_SESSION['userid'])){
   echo "<script>alert('권한이 없습니다1');history.go(-1);</script>";
   exit;
 }
-// $id=$_SESSION['userid'];
 $checked="";
 $faq_num=$faq_question=$faq_answer=$faq_cetegory="";
 $mode="insert";
@@ -29,11 +28,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] =='update'){
       $faq_question=htmlspecialchars($row['faq_question']);//스크립트 공격을 방어하기 위해서
       $faq_answer= htmlspecialchars($row['faq_answer']);
       $faq_cetegory=$row['faq_cetegory'];
-      // $subject=str_replace("\n", "<br>",$subject);
-      // $subject=str_replace(" ", "&nbsp;",$subject);
-      // $content=str_replace("\n", "<br>",$content);
-      // $content=str_replace(" ", "&nbsp;",$content);
-      // $qna_date=$row['qna_date'];
+
       mysqli_close($conn);
 }
 ?>
@@ -49,12 +44,12 @@ if(isset($_GET["mode"]) && $_GET["mode"] =='update'){
   <table border="1">
     <tr>
       <td><?=$faq_num?></td>
-      <td><input type="text" name="faq_cetegory" placeholder="카테고리" autocomplete="off"></td>
-      <td><input type="text" name="faq_question" placeholder="질문입력" autocomplete="off"></td>
+      <td><input type="text" name="faq_cetegory" placeholder="카테고리" value="<?=$faq_cetegory?>" autocomplete="off"></td>
+      <td><input type="text" name="faq_question" placeholder="질문입력" value="<?=$faq_question?>" autocomplete="off"></td>
     </tr>
 
     <tr>
-      <td colspan="3"><input type="text" name="faq_answer" placeholder="답변입력" autocomplete="off"></td>
+      <td colspan="3"><input type="text" name="faq_answer" placeholder="답변입력" value="<?=$faq_answer?>" autocomplete="off"></td>
     </tr>
 
     <tr>

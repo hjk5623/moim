@@ -5,12 +5,8 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
 $qna_subject = $qna_content = $qna_id = $qna_date = "";
 $mode="insert";
-// $userid=$_SESSION['userid'];
-//   if(empty($userid)&&$userid!='admin'){
-//     echo "<script>alert('로그인해주세요');history.go(-1);</script>";
-//     exit;
-//   }
-    if (isset($_GET["mode"]) && $_GET["mode"]== "insert") {
+
+    if (isset($_GET["mode"]) && $_GET["mode"]== "insert") { //qna 일반 질문쓰기
       $qna_content=trim($_POST["qna_content"]);
       $qna_subject=trim($_POST["qna_subject"]);
       if(empty($qna_content) || empty($qna_subject)){
@@ -18,7 +14,7 @@ $mode="insert";
       exit;
       }
 
-    if(false){//!$_SESSION['userid']=="admin"
+    if(false){//앞에서 막았기 때문에
       echo "<script>alert('권한이 없습니다');history.go(-1);</script>";
       exit;
     }else{
@@ -47,7 +43,7 @@ $mode="insert";
     var_export($qna_num);
     mysqli_close($conn);
     echo "<script>location.href='./qna_view.php?qna_num=$qna_num';</script>";
-  }else if (isset($_GET["mode"]) && $_GET["mode"]== "delete") {
+  }else if (isset($_GET["mode"]) && $_GET["mode"]== "delete") { //qna 일반 질문 삭제하기
     $qna_num = test_input($_GET["qna_num"]);
     $q_num = mysqli_real_escape_string($conn,$qna_num);
 
@@ -59,7 +55,7 @@ $mode="insert";
     }
         mysqli_close($conn);
     echo "<script>location.href='./qna_list.php?page=1';</script>";
-  }else if(isset($_GET["mode"]) && $_GET["mode"] == "update"){
+  }else if(isset($_GET["mode"]) && $_GET["mode"] == "update"){ //qna 일반 실문 수정하기
   $qna_content=trim($_POST["qna_content"]);
   $qna_subject=trim($_POST["qna_subject"]);
   if(empty($qna_content) || empty($qna_subject)){
@@ -77,9 +73,7 @@ $mode="insert";
   $q_num = mysqli_real_escape_string($conn, $qna_num);
   $qna_date = date("Y-m-d (H:i)");
 
-
   $sql="UPDATE `qna` SET `qna_subject` = '$q_subject', `qna_content` = '$q_content', `qna_date` = '$qna_date' WHERE `qna_num` = '$q_num';";
-
 
   $result = mysqli_query($conn,$sql);
   if (!$result) {
@@ -89,7 +83,7 @@ $mode="insert";
   echo "<script> location.href = './qna_view.php?qna_num=$qna_num'; </script>";
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-else if(isset($_GET["mode"])&&$_GET["mode"]=="ripple_insert"){
+else if(isset($_GET["mode"])&&$_GET["mode"]=="ripple_insert"){ //qna 일반 질문에 달린 댓글 쓰기
     $ripple_content = trim($_POST["ripple_content"]);
     if(empty($ripple_content)){
       echo "<script>alert('내용입력요망!');history.go(-1);</script>";
@@ -131,7 +125,7 @@ else if(isset($_GET["mode"])&&$_GET["mode"]=="ripple_insert"){
       mysqli_close($conn);
       echo "<script>location.href='./qna_view.php?qna_num=$qna_num';</script>";
 
-}else if(isset($_GET["mode"])&&$_GET["mode"]=="ripple_delete"){
+}else if(isset($_GET["mode"])&&$_GET["mode"]=="ripple_delete"){ // qna 일반 질문에 달린 댓글 삭제 + 밑에 대댓글 있으면 같이 삭제됨
 
     $ripple_num = test_input($_GET["ripple_num"]);
     $ripple_parent = test_input($_GET["ripple_parent"]);
@@ -165,7 +159,7 @@ else if(isset($_GET["mode"])&&$_GET["mode"]=="ripple_insert"){
     echo "<script>location.href='./qna_view.php?qna_num=$ripple_parent';</script>";
 }
 //////////////////////////////////////////////////////////////수정없으니까 안들어감
-else if(isset($_GET["mode"])&&$_GET["mode"]=="ripple_update"){
+else if(isset($_GET["mode"])&&$_GET["mode"]=="ripple_update"){ //qna 일반댓글에 달린 댓글 내용수정이지만 안씀
   $num = $_POST["num"];
   $content = trim($_POST["content"]);
   if(empty($content) || empty($subject)){
@@ -190,7 +184,7 @@ else if(isset($_GET["mode"])&&$_GET["mode"]=="ripple_update"){
     mysqli_close($conn);
     echo "<script>location.href='./view.php?num=$num&hit=$hit';</script>";
 }/////////////////////////////////////////////////////////////////////////////
-else if(isset($_GET["mode"])&&$_GET["mode"]=="ripple_response"){
+else if(isset($_GET["mode"])&&$_GET["mode"]=="ripple_response"){ //qna 일반 질문에 달린 댓글에 대댓글 쓰기
   $ripple_content = trim($_POST["ripple_content"]);
   if(empty($ripple_content)){
     echo "<script>alert('내용입력요망!');history.go(-1);</script>";

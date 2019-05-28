@@ -3,12 +3,6 @@ session_start();
 header("Cache-Control: no-store, no-cache, must-revalidate");
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/create_table.php";
-if(!isset($_SESSION['userid'])){
-  echo "<script>alert('권한이 없습니다3');
-  history.go(-1);
-  </script>";
-  exit;
-}
 ?>
 
  <!DOCTYPE html>
@@ -19,23 +13,21 @@ if(!isset($_SESSION['userid'])){
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
      <script type="text/javascript">
       $(document).ready(function() {
-          $(".faq_answer").hide();
-          $('.faq_question').click(function(){
-            var n = $('.faq_question').index(this);
-            if($(".faq_answer:eq("+n+")").css('display')=="none"){
-              $(".faq_answer").hide();
-              $(".faq_answer:eq("+n+")").show();
+          $(".faq_answer").hide();//맨처음 답변탭은 다 숨겨놓는다
+          $('.faq_question').click(function(){//답질문을 클릭하면
+            var n = $('.faq_question').index(this);//클릭한 질문의 탭을 n에 저장
+            if($(".faq_answer:eq("+n+")").css('display')=="none"){//만약 그 질문의 탭이 숨겨져 있지 않다면
+              $(".faq_answer").hide();//나머지 질문들은 다 숨기고
+              $(".faq_answer:eq("+n+")").show();//클릭한 질문과 같은 n값을 가진 답변은 보여준다
             }else{
-              $(".faq_answer:eq("+n+")").hide();
+              $(".faq_answer:eq("+n+")").hide();//else 그 질문의 탭이 숨겨져 있지 않다면 숨긴다
             }
         	});
         });
      </script>
      <?php
-     if(isset($_GET["mode"])&&($_GET["mode"]=="search")){
-       //제목, 내용, 아이
+     if(isset($_GET["mode"])&&($_GET["mode"]=="search")){ //검색기능
        $mode = $_GET['mode'];
-       $find = $_POST["find"];
        $search = $_POST["search"];
        $q_search = mysqli_real_escape_string($conn, $search);
        if(empty($search)){
@@ -44,11 +36,11 @@ if(!isset($_SESSION['userid'])){
                  history.go(-1)
                  </script>");
                  exit;
-       }//검색 아직 안됨
-       $sql="SELECT * from `faq` where $find like '%$q_search%';";
-     }else{
-       $sql="SELECT * from `faq` order by faq_num desc";
-     }
+               }
+               $sql="SELECT * from `faq` where faq_question like '%$q_search%';";
+             }else{
+               $sql="SELECT * from `faq` order by faq_num desc";
+             }
              $result = mysqli_query($conn,$sql);
              $total_record = mysqli_num_rows($result);   //총 레코드 수
 
@@ -71,7 +63,6 @@ if(!isset($_SESSION['userid'])){
              $start_page= (ceil($page / $pages_scale ) -1 ) * $pages_scale +1 ;
              // 현재 블럭 마지막 페이지
              $end_page= ($total_pages >= ($start_page + $pages_scale)) ? $start_page + $pages_scale-1 : $total_pages;
-
              //리스트에 보여줄 번호
              $number=$total_record- $start_row;
              ?>
@@ -81,26 +72,23 @@ if(!isset($_SESSION['userid'])){
        <?php include "../lib/menu.php"; ?>
      </nav>
      <div>
-       <!-- <table>
+       <table>
          <tr>
            <form name="faq" action="faq_list.php?mode=search" method="post">
              <td>▷ 총 <?=$total_record?>개의 게시물이 있습니다.</td>
 
-             <td><input type="text" name="search"></td>
+             <td><input type="text" name="search" placeholder="질문검색"></td>
              <td><input type="submit" value="검색"></td>
            </form>
          </tr>
-       </table> -->
+       </table>
        <table border="1">
-
-
 
          <tr>
            <th>번호 &nbsp;</th>
            <th>카테고리 &nbsp;</th>
            <th colspan="2">제목 &nbsp;</th>
          </tr>
-
 
      <?php
      for($i=$start_row; ($i<$start_row+$rows_scale) && ($i< $total_record); $i++){
@@ -118,7 +106,7 @@ if(!isset($_SESSION['userid'])){
            <td><?=$faq_question?></td>
            <td>
              <?php
-            if($_SESSION['userid']=='admin'){
+            if(!empty($_SESSION['userid'])&&$_SESSION['userid']=='admin'){
                ?>
              <a href="./faq_write.php?mode=update&faq_num=<?=$faq_num?>">수정</a>
              <a href="./faq_query.php?mode=delete&faq_num=<?=$faq_num?>">삭제</a>

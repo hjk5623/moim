@@ -1,11 +1,6 @@
 <?php
 session_start();
-if(!isset($_SESSION['userid'])){
-  echo "<script>alert('권한이 없습니다');
-  window.close();
-  </script>";
-  exit;
-}
+
 header("Cache-Control: no-store, no-cache, must-revalidate");
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 
@@ -120,16 +115,12 @@ if(isset($_GET["notice_num"])&&!empty($_GET["notice_num"])){
            <div id="write_button">
              <a href="./notice_list.php?page=<?=$page?>"> 목록 </a>
              <?php
-             //관리자이거나 작성자일경우 수정과 삭제가 가능하도록 설정
-                // if($_SESSION['userid']=="admin" || $_SESSION['userid']==$notice_id){
 
-                // }아직 세션이 없음
-
-                //로그인한 유저에게 글쓰기 기능을 부여함
-                // if (!empty($_SESSION['userid'])&&$_SESSION['userid']=='admin') {
+                //세션아이디가 비어있지 않고 세션아이디가 admin인 사람만 수정과 삭제가 가능함
+                if (!empty($_SESSION['userid'])&&$_SESSION['userid']=='admin') {
                 echo "<a href='notice_write.php?mode=update&notice_num=$notice_num'>수정</a>&nbsp";
                 echo "<a href='notice_query.php?mode=delete&notice_num=$notice_num'>삭제</a>";
-                // }
+                }
               ?>
            </div><!--end of write_button  -->
   </body>
