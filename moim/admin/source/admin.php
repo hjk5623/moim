@@ -20,7 +20,6 @@ session_start();
       </div>
       <div class="menubar">
         <ul>
-          <li><a href="../../mainpage.php">HOME</a></li>
           <?php
             // if(!isset($_SESSION['userid'])){
             //   echo ('<li><a href="../../login/source/login.php">LOG IN</a></li>');
@@ -46,6 +45,7 @@ session_start();
             </ul>
           </li>
           <li><a href="admin_refund.php">환불관리</a></li>
+          <li><a href="#" onclick="message_form();">문의</a></li>
 
       </div>
     </nav>

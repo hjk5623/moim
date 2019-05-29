@@ -36,13 +36,16 @@ include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
         <!-- <h1 class="head_logo"><a href="./mainpage.php">Mo,im</a></h1> -->
         <div id="mySlidenav" class="sidenav">
           <a href="#" class="closeside" onclick="closeNav()">&times;</a>
-          <a href=""><?=$_SESSION['username']?>님 안녕하세요</a>
+          <?php
+            if(isset($_SESSION['username'])){
+              echo "<a >".$_SESSION['username']."님 안녕하세요</a>";
+            }
+           ?>
           <br>
           <a href="mainpage.php">HOME</a>
           <a href="./mypage/source/user_modify.php">MY PAGE</a>
           <a href="./club_list/source/list.php">CLUB LIST</a>
-          <a href="./clubing/source/ing_list.php">CLUBING LIST</a>
-          <a href="#">VIEW PLACE</a>
+          <!-- <a href="#">VIEW PLACE</a> -->
           <a href="./faq/source/faq_list.php">BOARD</a>
         </div>
         <nav>
@@ -57,8 +60,20 @@ include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
           <div class="menu">
             <ul>
               <li><a href="#" class="openNav" onclick="openNav()">MENU</a></li>
-              <li><a href="./member/source/flagcheck.php">SIGN UP</a></li>
-              <li><a href="#" onclick="message_form();">MESSAGE</a></li>
+              <?php
+              if(!isset($_SESSION['userid'])){
+                echo ('<li><a href="./member/source/flagcheck.php">SIGN UP</a></li>');
+              }
+
+               ?>
+              <?php
+              if(!isset($_SESSION['userid'])){
+
+              }else{
+                echo ('<li><a href="#" onclick="message_form();">MESSAGE</a></li>');
+              }
+               ?>
+
               <?php
               if(!isset($_SESSION['userid'])){
                 echo ('<li><a href="./login/source/login.php">LOG IN</a></li>');
@@ -69,6 +84,9 @@ include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
               if(isset($_SESSION['userid']) && $_SESSION['userid']=="admin"){
                 echo ('<li><a href="./admin/source/admin.php">ADMIN</a></li>');
               }
+
+
+
              ?>
             </ul>
           </div>

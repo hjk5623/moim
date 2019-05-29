@@ -111,13 +111,11 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
         </a>
       </div>
       <ul>
-        <li><a href="../../mainpage.php">HOME</a></li>
-        <li><a href="#">LOG OUT</a></li>
-        <li><a href="#">CLUB LIST</a></li>
-        <li><a href="#">INTRO</a></li>
+        <li><a href="./list.php">CLUB LIST</a></li>
+        <li><a href="./faq/source/faq_list.php">BOARD</a></li>
+        <li><a href="#" onclick="message_form();">MESSAGE</a></li>
         <li><a href="#">MY PAGE</a></li>
-        <li><a href="#">HOME</a></li>
-        <li><a href="#">HOME</a></li>
+        <li><a href="#">LOG OUT</a></li>
       </ul>
     </nav>
 

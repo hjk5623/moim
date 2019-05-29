@@ -76,13 +76,11 @@ $row_length= 150;   //club_intro 150바이트범위 외 ... 으로 생략
         </a>
       </div>
       <ul>
-        <li><a href="../../mainpage.php">HOME</a></li>
-        <li><a href="#">LOG OUT</a></li>
         <li><a href="./list.php">CLUB LIST</a></li>
-        <li><a href="#">INTRO</a></li>
+        <li><a href="./faq/source/faq_list.php">BOARD</a></li>
+        <li><a href="#" onclick="message_form();">MESSAGE</a></li>
         <li><a href="#">MY PAGE</a></li>
-        <li><a href="#">HOME</a></li>
-        <li><a href="#">HOME</a></li>
+        <li><a href="#">LOG OUT</a></li>
       </ul>
     </nav>
     <section class="sec1"></section>

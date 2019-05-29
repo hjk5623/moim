@@ -17,25 +17,25 @@ if(!isset($_SESSION)){
       </div>
       <div class="menubar">
         <ul>
-          <li><a href="../../mainpage.php">HOME</a></li>
+          <li><a href="./user_modify.php">정보수정</a></li>
+          <li><a href="./user_request.php">모임만들기</a></li>
+          <li><a href="./user_apply.php">모임</a></li>
+          <!-- <li><a href="./user_open.php">CLUBING</a></li> -->
+          <li><a href="./user_cart.php">위시리스트</a></li>
+          <!-- <li><a href="./user_apply_list.php">개설신청내역</a></li> -->
+          <li><a href="./user_refund.php">환불내역</a></li>
+          <li><a href="#" onclick="message_form();">문의</a></li>
           <?php
             if(isset($_SESSION["userid"])){
             ?>
-            <li><a href="../../login/source/logout.php">LOG OUT</a></li>
+            <li><a href="../../login/source/logout.php">로그아웃</a></li>
           <?php
             }else{
             ?>
-            <li><a href="../../login/source/login.php">LOGIN</a></li>
+            <li><a href="../../login/source/login.php">로그인</a></li>
           <?php
             }
            ?>
-          <li><a href="./user_modify.php">MODIFY</a></li>
-          <li><a href="./user_request.php">CREATE_CLUB</a></li>
-          <li><a href="./user_apply.php">CLUB_LIST</a></li>
-          <li><a href="./user_open.php">CLUBING</a></li>
-          <li><a href="./user_cart.php">CART</a></li>
-          <li><a href="./user_apply_list.php">USER_CLUB</a></li>
-          <li><a href="./user_refund.php">REFUND</a></li>
 
       </div>
     </nav>
