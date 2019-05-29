@@ -62,7 +62,7 @@ $number=$total_record- $start_row;
        <thead>
         <tr>
          <td class="check_td">
-          전체선택<input type="checkbox" name="all_check" class="all_check" id="all_check">
+          <input type="checkbox" name="all_check" class="all_check" id="all_check">
          </td>
          <td>순서</td>
          <td>모임명</td>

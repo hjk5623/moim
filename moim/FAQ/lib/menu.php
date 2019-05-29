@@ -34,5 +34,11 @@ session_start();
 
       </div>
     </nav>
+    <slider>
+      <slide><p>BOARD PAGE</p></slide>
+      <slide><p>FAQ</p></slide>
+      <slide><p>QNA</p></slide>
+      <slide><p>NOTICE</p></slide>
+    </slider>
   </body>
 </html>

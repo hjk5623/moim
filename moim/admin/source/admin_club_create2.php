@@ -306,20 +306,6 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
     $("#club_schedule").val(club_schedule);
 
     });
-
-    var schedule= new Array();
-    var mode ="<?=$mode?>";
-    var count=<?=$schedule_count?>;
-
-    schedule=<?php echo json_encode($schedule)?>;
-
-    if(mode =="update"){
-      for(i=0;i<count;i++){
-        $("#date_td").append("<br><span class='select_span' name='select_span'>"+schedule[i]+"<span>");
-      }
-
-    }
-
   }); // end of document.ready()
 
 
@@ -375,7 +361,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
               <td>모임이름</td>
               <td colspan="2">
                 <input type="text" name="club_name" id="club_name" value="<?=$club_name?>" placeholder="모임이름">
-                <span id="span_club_name"></span><br><br>
+                <span id="span_club_name"></span>
               </td>
             </tr>
             <tr>
@@ -428,29 +414,29 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
             <tr>
               <td id="write_td">모집정원</td>
               <td colspan="2">
-                <input type="number" name="club_to" id="club_to" value="<?=$club_to?>"  placeholder="모집정원"><br>
-                <span id="span_club_to"></span><br><br>
+                <input type="number" name="club_to" id="club_to" value="<?=$club_to?>"  placeholder="모집정원">
+                <span id="span_club_to"></span>
               </td>
             </tr>
             <tr>
               <td>모집시작일</td>
               <td colspan="2">
-                <input type="text" name="club_start" value="<?=$club_start?>" id="datepicker1" placeholder="모집시작일"><br>
-                <span id="span_club_start"></span><br><br>
+                <input type="text" name="club_start" value="<?=$club_start?>" id="datepicker1" placeholder="모집시작일">
+                <span id="span_club_start"></span>
               </td>
             </tr>
             <tr>
               <td>모집마감일</td>
               <td colspan="2">
-                <input type="text" name="club_end" value="<?=$club_end?>" id="datepicker2" placeholder="모집마감일"><br>
-                <span id="span_club_end"></span><br><br>
+                <input type="text" name="club_end" value="<?=$club_end?>" id="datepicker2" placeholder="모집마감일">
+                <span id="span_club_end"></span>
               </td>
             </tr>
             <tr>
               <td>가격</td>
               <td colspan="2">
-                <input type="number" name="club_price" id="club_price" value="<?=$club_price?>"  placeholder="가격"><br>
-                <span id="span_club_price"></span><br><br>
+                <input type="number" name="club_price" id="club_price" value="<?=$club_price?>"  placeholder="가격">
+                <span id="span_club_price"></span>
               </td>
             </tr>
 

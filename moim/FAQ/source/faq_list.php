@@ -10,6 +10,7 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/create_table.php";
    <head>
      <meta charset="utf-8">
      <title></title>
+     <link rel="stylesheet" href="../css/faq_list.css">
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
      <script type="text/javascript">
       $(document).ready(function() {
@@ -68,26 +69,23 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/create_table.php";
              ?>
    </head>
    <body>
-     <nav>
        <?php include "../lib/menu.php"; ?>
-     </nav>
-     <div>
-       <table>
-         <tr>
-           <form name="faq" action="faq_list.php?mode=search" method="post">
-             <td>▷ 총 <?=$total_record?>개의 게시물이 있습니다.</td>
+     <div class="faq_list">
+       <div class="search">
+         <form name="faq" action="faq_list.php?mode=search" method="post">
+           ▷ 총 <?=$total_record?>개의 게시물이 있습니다.
+           <input type="text" name="search" placeholder="질문검색">
+           <input type="submit" value="검색">
+         </form>
+       </div>
+       <hr>
 
-             <td><input type="text" name="search" placeholder="질문검색"></td>
-             <td><input type="submit" value="검색"></td>
-           </form>
-         </tr>
-       </table>
        <table border="1">
-
-         <tr>
-           <th>번호 &nbsp;</th>
-           <th>카테고리 &nbsp;</th>
-           <th colspan="2">제목 &nbsp;</th>
+        <tr>
+           <th>번호</th>
+           <th>카테고리</th>
+           <th>제목</th>
+           <th>비고</th>
          </tr>
 
      <?php

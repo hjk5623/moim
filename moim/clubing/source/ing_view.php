@@ -40,12 +40,11 @@ $club_num= (isset($_GET["club_num"])) ? $_GET["club_num"] : "";
 <html lang="ko" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>clubing list- 보미</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="../css/club.css">
     <link rel="stylesheet" href="../css/clubing_view.css">
-
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR" rel="stylesheet">
+    <title></title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script>
       var startHeightMin=788; //트리거 시작 스크롤 위치
@@ -62,7 +61,7 @@ $club_num= (isset($_GET["club_num"])) ? $_GET["club_num"] : "";
       function cehcksc(){
       //#startdiv 는 해당 객채를 지나가면 작동을 한다 알맞게 변경 (트리거)
           if (jQuery(window).scrollTop() >= ((jQuery(document).height() - jQuery(window).height()) - jQuery('#startdiv').innerHeight())-100) {
-                //console.log(jQuery(window).scrollTop()); // startHeightMin 찾기
+                // console.log(jQuery(window).scrollTop()); // startHeightMin 찾기
               var docHeight=jQuery(window).scrollTop() - startHeightMin;
               var itemLength=Math.floor(docHeight/itemHeight); // 스크롤 위치에서 시작 스크롤 위치를 -,출력할 아이템수를 설정
               if(itemMax<itemLength){ // 수가 낮아 졌을때는 표시 안함
@@ -96,10 +95,9 @@ $club_num= (isset($_GET["club_num"])) ? $_GET["club_num"] : "";
         <li><a href="#">HOME</a></li>
       </ul>
     </nav>
-
     <section class="sec1"></section>
     <section class="club_view_sec">
-      <div class="club_view"> <!---->
+      <div class="club_view">
         <div class="club_info">
           <div class="club_img">
             <div class="club_view_name"><b><?=$club_name?></b></div>
@@ -226,23 +224,9 @@ $club_num= (isset($_GET["club_num"])) ? $_GET["club_num"] : "";
 
     </div> <!-- end of ripple -->
   </section>
-  <hr class="divider">
+  <hr class="divider" id="startdiv">
 
-       <section class="bmt-section" id="sec4">
-         <div class="pt1">
-         <p class="title_large">모든 모임 보기</p>
-         </div>
-         <div class="pt2 btm20">
-         <p class="p2_desc_text">진행 중인 모든 모임을 보여줍니다.</p>
-         </div>
-       </section>
-
-       <section class="scroll-sec promotion-section-two">
-         <div class="img-table about-box-two"> <!--여기서부터 목록-->
-           <div class="about-area-two">
-             <h2></h2>
-           <!-- <ul id="ullist" class="place-list-two"> -->
-           <ul class="place-list-two">
+        <section class="gallery" id="gallery_id">
              <?php
              if(!empty($mode)&&isset($mode)){
                $sql = "SELECT * FROM club WHERE club_category='$mode' and club_open='yes' ORDER BY club_hit desc";
@@ -264,21 +248,16 @@ $club_num= (isset($_GET["club_num"])) ? $_GET["club_num"] : "";
                    $club_intro = substr($club_intro, 0 , $row_length).'<br>.....';
                  }
              ?>
-             <li>
+             <figure class="gallery_item noshow btm2_item">
                <a href="./ing_view.php?club_num=<?=$club_num?>" id="">
-                 <img class="top-place-two" src="../../admin/data/<?=$club_image_copied?>">
+                 <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
                  <h3><?=$club_name?></h3>
-                 <p class="txt-two"><?=$club_intro?></p>
-                 <span class="view-two">더보기</span>
+                 <figcaption class="gallery_image_caprion"><?=$club_intro?></figcaption>
                </a>
-             </li>
+               </figure>
              <?php
            }//end of for
              ?>
-           </ul>
-         </div><!--end of about-area-two-->
-       </div><!--end of about-box-two-->
-        </div><!--end of club_view-->
        </section><!--end of scroll-sec-->
      </div><!--end of club_view-->
   </body>

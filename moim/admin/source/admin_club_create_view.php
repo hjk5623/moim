@@ -60,13 +60,13 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
   <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
   <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
   <link rel="stylesheet" href="../css/admin_club_create_view.css">
-  <style media="screen">
+  <!-- <style media="screen">
       table {
         margin: 0 auto;
         width: 800px;
       }
 
-  </style>
+  </style> -->
   <script type="text/javascript">
 
   </script>
@@ -86,51 +86,51 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
           <!--모임이름, 모집정원, 모집시작일 ,모집종료일, 가격  -->
         <table class="create_view_table">
           <tr>
-          <td>모임이름</td>
+          <td class="td_first">모임이름</td>
             <td colspan="2">
               <?=$club_name?>
              </td>
           </tr>
           <tr>
-            <td id="write_td">카테고리</td>
+            <td class="td_first">카테고리</td>
             <td colspan="2">
               <?=$club_category?>
             </td>
           </tr>
           <tr>
-            <td id="write_td">모임장소</td>
+            <td class="td_first">모임장소</td>
             <td><?=$club_rent_info?></td>
           </tr>
           <tr>
-            <td id="write_td">모집정원</td>
+            <td class="td_first">모집정원</td>
             <td colspan="2"><input type="number" name="club_to" value="<?=$club_to?>" readonly></td>
           </tr>
           <tr>
-            <td>모집시작일</td>
+            <td class="td_first">모집시작일</td>
             <td colspan="2">
               <?=$club_start?>
             </td>
           </tr>
           <tr>
-            <td>모집종료일</td>
+            <td class="td_first">모집종료일</td>
             <td colspan="2">
               <?=$club_end?>
             </td>
           </tr>
           <tr>
-            <td>가격</td>
+            <td class="td_first">가격</td>
             <td colspan="2">
               <?=$club_price?> 원
             </td>
           </tr>
           <tr>
-            <td>모임일정</td>
+            <td class="td_first">모임일정</td>
             <td colspan="2">
               <?=$club_schedule?>
             </td>
           </tr>
           <tr>
-            <td>모임대표이미지</td>
+            <td class="td_first">모임대표이미지</td>
             <td colspan="2">
              <?php
               echo "<img src='../data/$club_image_copied' width='$image_width'>";
@@ -139,7 +139,7 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
           </tr>
           <tr>
 
-            <td align="center" >모임세부사항</td>
+            <td  class="td_first">모임세부사항</td>
             <?php
              $file_path = "../data/".$club_file_copied;
              $file_size = filesize($file_path);
@@ -150,7 +150,7 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
             </td>
           </tr>
             <tr>
-              <td>간단소개</td>
+              <td class="td_first">간단소개</td>
               <td colspan="2">
                   <?=$club_intro?>
               </td>

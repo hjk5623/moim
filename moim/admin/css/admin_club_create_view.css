@@ -13,12 +13,14 @@
   margin-bottom: 5%;
 }
 
+.create_view_table tr{
+  border-bottom: 1px solid #dddddd;
+}
 .create_view_table td{
   padding: 15px;
 }
-
-.create_view_table tr{
-  border-bottom: 1px solid #dddddd;
+.create_view_table tr .td_first{
+  width: 200px;
 }
 
 .create_view_table input[type="text"]{
