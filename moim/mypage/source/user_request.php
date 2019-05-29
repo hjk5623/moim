@@ -1,4 +1,4 @@
-<?php include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php"; ?>
+﻿<?php include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php"; ?>
 <!DOCTYPE html>
 <html lang="ko" dir="ltr">
   <head>
@@ -50,18 +50,6 @@
           closeText: '닫기'
         });
       });
-
-      function agit(){
-        var mode = document.getElementById('mode').value;
-        if (mode=="선택") {
-          alert("아지트를 선택해주세요.");
-        }else{
-          var popupX = (window.screen.width/2)-(600/2);
-          var popupY = (window.screen.height/2)-(400/2);
-          window.open('./user_agit_popup.php?mode='+mode,'','left='+popupX+',top='+popupY+', width=1000, height=700, status=no, scrollbars=no');
-        }
-      }
-
 
       $(document).ready(function() {
 
@@ -313,7 +301,7 @@
             <select class="user_category" name="user_category" id="user_category">
               <option value="선택">선택</option>
               <option value="글쓰기">글쓰기</option>
-              <option value="놀이">놀이</option>
+              <option value="요리">요리</option>
               <option value="영화">영화</option>
               <option value="미술">미술</option>
               <option value="사진">사진</option>
