@@ -1,7 +1,7 @@
 <?php
   session_start();
-  include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php"; //club_DB 생성
   include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
+  include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php"; //club_DB 생성
 
   if(isset($_SESSION['userid'])){
     $userid=$_SESSION['userid'];
@@ -9,13 +9,13 @@
     $userid="";
   }
 
-  if(isset($_GET['mode'])){
+  if(isset($_GET['mode'])){   // mode 카테고리
     $mode=$_GET['mode'];
   }else{
     $mode="";
   }
 
-$row_length= 150;
+$row_length= 150;   //club_intro 150바이트범위 외 ... 으로 생략
 
  ?>
 <!DOCTYPE html>
@@ -114,12 +114,14 @@ $row_length= 150;
 
     <section class="gallery" id="gallery_id">
             <?php
-            $today = date("Y-m-d", time());
-            if (!(empty($_GET['mode']))&&(isset($_GET['mode']))){
+            $today = date("Y-m-d", time());    //현재 날짜 (ex:2019-01-01)
+            if (!(empty($_GET['mode']))&&(isset($_GET['mode']))){   //카테고리 별 모집모임
+              // club 테이블의 club_num 와 cart 테이블의 cart_num가 같은 것 중에서 해당 카테고리와 club_open가 no이고 club_end가 오늘날짜보다 클 때 히트 순으로 검색한다.
               $sql = "SELECT * FROM club LEFT OUTER JOIN cart on cart.cart_club_num=club.club_num where club_category='$mode' and club_open = 'no' and club_end >= '$today' order by club_hit desc;";
               $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
               $count=mysqli_num_rows($result);
-            }else{
+            }else{                                                    // 전체 모집모임
+              // club 테이블의 club_num 와 cart 테이블의 cart_num가 같은 것 중에서 club_open가 no이고 club_end가 오늘날짜보다 클 때 히트 순으로 검색한다.
               $sql = "SELECT * FROM club LEFT OUTER JOIN cart on cart.cart_club_num=club.club_num where club_open = 'no' and club_end >= '$today' order by club_hit desc;";
               $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
               $count=mysqli_num_rows($result);
@@ -129,24 +131,36 @@ $row_length= 150;
               $cart_id= $row['cart_id'];
               $club_num= $row['club_num'];
               $club_name=$row['club_name'];
+              $club_end=$row['club_end'];
               $club_image_copied=$row['club_image_copied'];
               $club_intro=$row['club_intro'];
 
-              if (strlen($club_intro) > $row_length) {
+              if (strlen($club_intro) > $row_length) {     //club_intro 150바이트범위 외 ... 으로 생략
                 $club_intro = substr($club_intro, 0 , $row_length).'<br>.....';
               }
               ?>
             <figure class="gallery_item noshow btm2_item">
               <a href="./view.php?club_num=<?=$club_num?>" id="">
                 <?php
-                  if($cart_id!=$userid){
+                  if($cart_id!==$userid){    //해당된 모임에 찜클릭을 하지 않았을 경우
                  ?>
-                 <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
+                  <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
                  <?php
-                  }else{
+               }else if($cart_id!=$userid&&$today>=$club_end-5){   //해당된 모임에 찜클릭을 하지 않고 마감일이 다가 올 경우
                  ?>
                  <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
+                 <div class="">마감임박</div>
+                 <?php
+               }else if($cart_id==$userid&&$today>=$club_end-5){   //해당된 모임에 찜클릭을 했고 마감일이 다가 올 경우
+                  ?>
+                  <div class="pop">Like It!</div>
+                  <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
+                  <div class="">마감임박</div>
+                  <?php
+               }else{         //해당된 모임에 찜클릭만 했을 경우
+                 ?>
                  <div class="pop">Like It!</div>
+                 <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
                  <?php
                   }
                   ?>

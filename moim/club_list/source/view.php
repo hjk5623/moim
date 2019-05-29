@@ -2,8 +2,8 @@
 session_start();
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php"; //club_DB 생성
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
-
-$mode="";
+create_table($conn, 'cart');
+$mode="";   //mode query.php에 쓰일 cart,delete,download
 
 if(isset($_GET['club_num'])){
   $club_num=$_GET['club_num'];
@@ -43,10 +43,12 @@ $club_file_copied=$row['club_file_copied'];
 $club_intro=$row['club_intro'];
 
 //클릭한 상품의 조회수 업데이트
+//club 테이블에 해당된 club_num일 경우 hit를 업데이트 한다.
 $sql= "update club set club_hit=$hit where club_num=$club_num";
 mysqli_query($conn, $sql) or die(mysqli_error($conn));
 
 //중복 결제를 막기위한 구매테이블과 클럽테이블의 이너조인
+// buy 테이블의 buy_num 와 club 테이블의 club_num 이 같은 것 중에서 해당된 club_name과 해당된 buy_id 일 경우를 검색한다.
 $sql= "select * from buy Inner join club on buy.buy_club_num = club.club_num where club_name='$club_name' and buy_id = '$userid'";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_array($result);
@@ -55,6 +57,7 @@ $buy_club_num = $row['buy_club_num'];
 $buy_id = $row['buy_id'];
 
 //카트에 중복담기 x
+// cart 테이블의 cart_club_num 와 club 테이블의 club_num 이 같은 것 중에서 해당된 club_name과 해당된 cart_id 일 경우를 검색한다.
 $sql= "select * from cart Inner join club on cart.cart_club_num = club.club_num where club_name='$club_name' and cart_id = '$userid'";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_array($result);
@@ -72,49 +75,9 @@ $cart_id=$row['cart_id'];
      <link rel="stylesheet" href="../css/club_view.css">
      <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Noto+Sans+KR&display=swap" rel="stylesheet">
      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-     <title></title>
-     <script type="text/javascript">
-       function buy_page(){
-         var id = document.getElementById('userid').value;
-         var club_num = document.getElementById('club_num').value;
-         var buy_id = document.getElementById('buy_id').value;
-         var buy_club_num = document.getElementById('buy_club_num').value;
-         var club_to = document.getElementById('club_to').value;
-         var club_apply = document.getElementById('club_apply').value;
-
-
-         if (id=="") {  // 비 로그인 시
-           alert("로그인이 필요합니다.");
-         }else if((buy_club_num==club_num)&&(id==buy_id)){  //중복 결제할 경우
-           alert("결제된 모임입니다. 다시 확인하여 주십시오.");
-         }else if(club_to<=club_apply){ //신청인원이 다 찼을 경우
-           alert("마감되었습니다.");
-         }else{
-         location.href="./payment.php?club_num=<?=$club_num?>&club_name=<?=$club_name?>&club_price=<?=$club_price?>&id=<?=$userid?>";
-        }
-       }
-       function cart_page(){
-         var id = document.getElementById('userid').value;
-         var club_num = document.getElementById('club_num').value;
-         var cart_club_num = document.getElementById('cart_club_num').value;
-         var cart_id = document.getElementById('cart_id').value;
-         <?php
-         create_table($conn,'cart');
-          ?>
-         if ((cart_id==id)&&(cart_club_num==club_num)) {
-           alert("이미 등록하셨습니다.");
-         }else{
-           alert("찜 등록되었습니다.");
-           location.href="./query.php?mode=<?=$mode="cart"?>&id=<?=$userid?>&club_num=<?=$club_num?>";
-         }
-       }
-       function del_check(){
-         var result=confirm("삭제하시겠습니까?");
-         if(result){
-           window.location.href='./query.php?mode=<?=$mode="delete"?>&club_num=<?=$club_num?>';
-         }
-       }
-     </script>
+     <title><?=$club_name?></title>
+     <!-- 구매하기 카트담기 삭제 부분 스크립트 -->
+     <script type="text/javascript" src="../js/club.js"></script>
    </head>
    <body>
      <nav>
@@ -157,6 +120,8 @@ $cart_id=$row['cart_id'];
              <input type="hidden" id="cart_id" value="<?=$cart_id?>">
              <input type="hidden" id="club_to" value="<?=$club_to?>">
              <input type="hidden" id="club_apply" value="<?=$club_apply?>">
+             <input type="hidden" id="club_name" value="<?=$club_name?>">
+             <input type="hidden" id="club_price" value="<?=$club_price?>">
            <div class="club_view_btn"><button type="button" name="button1" onclick="buy_page()" class="buy_btn">구매하기</button>&nbsp;&nbsp;&nbsp;<button type="button"  name="button2" onclick="cart_page()" class="cart_btn">카트담기</button></div>
          </div><!--club_info-->
 
@@ -185,6 +150,7 @@ $cart_id=$row['cart_id'];
          ?>
          <hr class="divider">
          <div class="club_view_map">
+           <input type="hidden" id="address" value="<?=$address?>">
            <div class="place">
              <p>장소</p>
            </div>
@@ -197,50 +163,13 @@ $cart_id=$row['cart_id'];
             <!-- </p> -->
            <div id="map"></div>
            <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a321e1b83ba2a8b469c05bab1c41988&libraries=services"></script>
-           <script>
-           var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-           mapOption = {
-             center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-             level: 3 // 지도의 확대 레벨
-           };
-
-           // 지도를 생성합니다
-           var map = new daum.maps.Map(mapContainer, mapOption);
-
-           // 주소-좌표 변환 객체를 생성합니다
-           var geocoder = new daum.maps.services.Geocoder();
-
-           // 주소로 좌표를 검색합니다
-           geocoder.addressSearch('<?=$address?>', function(result, status) {
-
-             // 정상적으로 검색이 완료됐으면
-             if (status === daum.maps.services.Status.OK) {
-
-               var coords = new daum.maps.LatLng(result[0].y, result[0].x);
-
-               // 결과값으로 받은 위치를 마커로 표시합니다
-               var marker = new daum.maps.Marker({
-                 map: map,
-                 position: coords
-               });
-
-               // 인포윈도우로 장소에 대한 설명을 표시합니다
-               var infowindow = new daum.maps.InfoWindow({
-                 content: '<div style="width:150px;text-align:center;padding:6px 0;">모임장소</div>'
-               });
-               infowindow.open(map, marker);
-
-               // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-               map.setCenter(coords);
-             }
-           });
-         </script>
+           <script src="../../js/map.js"></script>
        </div><!--club_view_map-->
 
          <div class="club_view_bar">
            <a href="./list.php">목록</a>
            <?php
-            if ($_SESSION['userid']=="admin") {
+            if ($userid=="admin") {   // 관리자일 경우 수정 삭제 버튼생성
               echo ('<a href="../../admin/source/admin_club_create2.php?mode=update&club_num='.$club_num.'">수정</a>&nbsp;');
               echo ('<a href="#" onclick="del_check()">삭제</a>&nbsp;');
             }
