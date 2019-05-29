@@ -60,13 +60,13 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
   <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
   <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
   <link rel="stylesheet" href="../css/admin_club_create_view.css">
-  <!-- <style media="screen">
+  <style media="screen">
       table {
         margin: 0 auto;
         width: 800px;
       }
 
-  </style> -->
+  </style>
   <script type="text/javascript">
 
   </script>
@@ -92,17 +92,17 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
              </td>
           </tr>
           <tr>
-            <td class="td_first">카테고리</td>
+            <td class="td_first" id="write_td" >카테고리</td>
             <td colspan="2">
               <?=$club_category?>
             </td>
           </tr>
           <tr>
-            <td class="td_first">모임장소</td>
+            <td class="td_first" id="write_td">모임장소</td>
             <td><?=$club_rent_info?></td>
           </tr>
           <tr>
-            <td class="td_first">모집정원</td>
+            <td class="td_first" id="write_td">모집정원</td>
             <td colspan="2"><input type="number" name="club_to" value="<?=$club_to?>" readonly></td>
           </tr>
           <tr>
@@ -139,7 +139,7 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
           </tr>
           <tr>
 
-            <td  class="td_first">모임세부사항</td>
+            <td class="td_first">모임세부사항</td>
             <?php
              $file_path = "../data/".$club_file_copied;
              $file_size = filesize($file_path);
@@ -166,7 +166,7 @@ if(isset($_GET["club_num"]) && !empty($_GET["club_num"])){
           <tr>
             <td colspan="3" style="text-align:right">
                 <a href="./admin_club_list.php"><button type="button" name="button">list</button></a>
-                <a href="./admin_club_create2.php?mode=update&club_num=<?=$club_num?>"><button type="button" name="button">edit</button></a>
+                <a href="./admin_club_create.php?mode=update&club_num=<?=$club_num?>"><button type="button" name="button">edit</button></a>
             </td>
           </tr>
           </table>

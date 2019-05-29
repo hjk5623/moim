@@ -2,7 +2,6 @@
 // include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 
 if(!empty($_FILES['upimage']['name'])){
-
   // 사진첨부 업로드과정;
   //1. $_FILES['upimage']로부터 5가지 배열명을 가져온다.
   //한개의 파일 업로드 정보가(5가지 정보) 배열로 들어있다.
@@ -30,10 +29,10 @@ if(!empty($_FILES['upimage']['name'])){
     $new_image_name = $new_image_name."_"."0";
     $copied_image_name = $new_image_name.".".$image_file_extension;
     $uploaded_image = $upload_dir.$copied_image_name;
-    // $new_file_name= "2019_04_22_15_09_30";
-    // $new_file_name="2019_04_22_15_09_30_0";
-    // $copied_file_name="2019_04_22_15_09_30_0.jpg";
-    // $upload_file="./data/2019_04_22_15_09_30_0.jpg";
+    // $new_image_name= "2019_04_22_15_09_30";
+    // $new_image_name="2019_04_22_15_09_30_0";
+    // $copied_image_name="2019_04_22_15_09_30_0.jpg";
+    // $uploaded_image="./data/2019_04_22_15_09_30_0.jpg";
   }
   //5. 업로드된 파일사이즈(500kb)를  체크해서 크기가 넘어버리면 돌려보낸다.
   if($upimage_size>2000000){
@@ -43,20 +42,16 @@ if(!empty($_FILES['upimage']['name'])){
   //5.업로드된 파일 확장자 체크한다.
   $type=explode("/",$upimage_type);
 
-  // switch ($type[1]){
-  //   case 'gif':   case 'jpg':  case 'png':
-  //     case 'jpeg':  case 'pjpeg': break;
-  //     // default: alert_back('3.gif,jpg,png 이미지 파일만 업로드 가능합니다.');
-  //     break;
-  //   }
-    //7. 임시저장소에 있는 파일을 서버에 지정한 위치로 이동시킨다.
-    if(!move_uploaded_file($upimage_tmp_name ,$uploaded_image)){
-      // echo "<script>alert('이미지_서버전송오류');</script>";
-    }
 
-}else{ // 새로 첨부하는 이미지가 없는경우
+  //7. 임시저장소에 있는 파일을 서버에 지정한 위치로 이동시킨다.
+  if(!move_uploaded_file($upimage_tmp_name ,$uploaded_image)){
+    // echo "<script>alert('이미지_서버전송오류');</script>";
+  }
+
+
+}else if(empty($_FILES['upimage']['name']) &&  $_GET['mode'] =="request_create"){ // 새로 첨부하는 이미지가 없는경우
   $user_num = $_POST['user_num'];
-  var_export($user_num);
+  // var_export($user_num);
 
   $sql="SELECT * from `user_club` where user_num='$user_num';";
   $result = mysqli_query($conn,$sql);
@@ -66,8 +61,6 @@ if(!empty($_FILES['upimage']['name'])){
   $row=mysqli_fetch_array($result);
   $user_image_copied = $row['user_image_copied'];
   $user_image_name = $row['user_image_name'];
-  // var_export($user_image_copied);
-  // var_export($user_image_name);
 
   $oldfile = "../../mypage/data/".$user_image_copied; // 원본파일 --mypage 의 data폴더에 있는 파일
   $newfile = "../data/".$user_image_copied; // 복사파일 -- admin의 data 폴더에
@@ -81,7 +74,19 @@ if(!empty($_FILES['upimage']['name'])){
   $upimage_name=$user_image_name;
   $copied_image_name = $user_image_copied;
 
+}else{
+
+  $sql="SELECT * from `club` where club_num='$club_num';";
+  $result = mysqli_query($conn,$sql);
+  if (!$result) {
+    alert_back('Error: ' . mysqli_error($conn));
+  }
+  $row=mysqli_fetch_array($result);
+  $upimage_name = $row['club_image_name'];
+  $copied_image_name = $row['club_image_copied'];
 }
+
+
 
 /////////////////////////////////////////////////////////////////
 //첨부파일 업로드과정
@@ -130,10 +135,8 @@ if(!empty($_FILES['upfile']['name'])){
     // echo "<script>alert('파일_서버전송오류');</script>";
   }
 
-
-
 ////////////////////////////////
-}else if( empty($_FILES['upfile']['name']) ){ // 새로운 첨부파일 없는경우
+}else if(empty($_FILES['upfile']['name']) && $_GET['mode'] =="request_create" ){ // 새로운 첨부파일 없는경우
 
   $user_num = $_POST['user_num'];
   $sql="SELECT * from `user_club` where user_num='$user_num';";
@@ -157,6 +160,17 @@ if(!empty($_FILES['upfile']['name'])){
   $copied_file_name=$user_file_copied;
   $file_extension=$user_file_type;
 
+}else{
+
+  $sql="SELECT * from `club` where club_num='$club_num';";
+  $result = mysqli_query($conn,$sql);
+  if (!$result) {
+    alert_back('Error: ' . mysqli_error($conn));
+  }
+  $row=mysqli_fetch_array($result);
+  $upfile_name = $row['club_file_name'];
+  $copied_file_name = $row['club_file_copied'];
+  $file_extension = $row['club_file_type'];
 }
 
 

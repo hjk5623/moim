@@ -138,7 +138,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "memberdel"){
 //모임수정
 
 if(isset($_GET["mode"]) && $_GET["mode"] == "update"){
-  include $_SERVER['DOCUMENT_ROOT']."/moim/admin/lib/file_upload.php";
+
     if(empty($_POST["club_name"])){
      echo "<script>alert('모임이름을 입력해주세요.'); history.go(-1);</script>";
      return;
@@ -165,12 +165,13 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "update"){
      return;
    }
      $club_num = $_POST["club_num"];
-     // var_dump($club_num);
+
      $club_name = test_input($_POST["club_name"]);                   //모임명
      $content = test_input($_POST["content"]);                       //모임내용
      $club_category = test_input($_POST["club_category"]);          //모임카테고리
      $club_price = test_input($_POST["club_price"]);               //모임 가격
      $club_to= test_input($_POST["club_to"]);                    //모집정원
+     $club_intro= test_input($_POST["club_intro"]);                    //모집정원
 
      $club_rent_info1= test_input($_POST["club_rent_info1"]);      //모임장소(대관관련)
      $club_rent_info2= test_input($_POST["club_rent_info2"]);      //모임장소(대관관련)
@@ -182,7 +183,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "update"){
      $club_schedule= test_input($_POST["club_schedule"]); // 모임일정
 
      /////////////////////파일 이미지 수정 처리 ////////////////////////////////////
-     // include $_SERVER['DOCUMENT_ROOT']."/moim/admin/lib/file_upload.php";
+     include $_SERVER['DOCUMENT_ROOT']."/moim/admin/lib/file_upload.php";
 
      //기존의 이미지를 삭제하는 경우
      if(isset($_POST['del_img']) && $_POST['del_img']=='1'){
@@ -246,7 +247,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "update"){
            `club_category`='$club_category',`club_price` = '$club_price',
             `club_to`='$club_to',`club_rent_info` = '$club_rent_info',
              `club_start`='$club_start',`club_end` = '$club_end',
-             `club_schedule` = '$club_schedule'
+             `club_schedule` = '$club_schedule',`club_intro`='$club_intro'
             WHERE `club_num` =$club_num;";
   $result = mysqli_query($conn,$sql);
       if (!$result) {
@@ -257,7 +258,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "update"){
 
 }
 
-//환불관련  ----- 
+//환불관련  -----
 if(isset($_GET["mode"]) && $_GET["mode"] == "refund_update"){
   $buy_id = $_POST['buy_id'];
   $buy_club_num = $_POST['buy_club_num'];
@@ -451,7 +452,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "agit_create"){
        $upfile_error[$i] = $files["error"][$i];//에러 발생확인
 
 
-       var_dump($upfile_name[$i]);
+       // var_dump($upfile_name[$i]);
 
 
 
@@ -555,13 +556,9 @@ $agit_image_copied3= $row['agit_image_copied3'];
 
 echo '[{"agit_name":"'.$agit_name.'"},{"agit_content":"'.$agit_content.'"},{"agit_address":"'.$agit_address.'"},{"agit_image_copied0":"'.$agit_image_copied0.'"},{"agit_image_copied1":"'.$agit_image_copied1.'"},{"agit_image_copied2":"'.$agit_image_copied2.'"},{"agit_image_copied3":"'.$agit_image_copied3.'"}]';
 
-
 }
 
-
-
-
-// mysqli_close($conn);
+mysqli_close($conn);
 
 
 

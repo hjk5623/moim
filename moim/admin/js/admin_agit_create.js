@@ -46,7 +46,7 @@ function handleImgFileSelect(e,img_box){
     if(!f.type.match("image.*")){
       alert("확장자는 이미지 확장자만 가능합니다.");
       return;
-  }
+  }f
   sel_file = f;
   var reader = new FileReader();
 
@@ -55,7 +55,7 @@ function handleImgFileSelect(e,img_box){
     $("#"+img_box).attr("style","width:150px; height:150px; margin-right:20px;");
   }
   reader.readAsDataURL(f);
-});
+  });
 }
 
 //아지트이름 등록시 저절로 상세주소란에 아지트이름이 등록되게끔

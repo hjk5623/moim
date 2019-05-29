@@ -4,9 +4,22 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 
 $mode="";
 $present_day=date("Y-m-d");
+$kind="";
+if(isset($_GET['mode']) && $_GET['mode']=="search"){
+  $search_value = $_POST['search_value'];
+  $kind = $_POST['kind'];
+}
 
-//모임 전체 리스트
-$sql="SELECT * from `club` order by club_num desc";
+if(empty($search_value)){
+  //모임 전체 리스트
+  $sql="SELECT * from `club` order by club_num desc";
+
+}else if($kind=="club_name_search"){  //모임명으로 검색
+  $sql="SELECT * from `club` where `club_name` like '%$search_value%' order by club_num desc";
+}else if($kind=="club_category_search"){
+  $sql="SELECT * from `club` where `club_category` like '%$search_value%' order by club_num desc";
+}
+
 $result = mysqli_query($conn,$sql);
 if (!mysqli_num_rows($result)){
   $total_record = 0;
@@ -57,8 +70,21 @@ $number = $total_record - $start_row;
   include $_SERVER['DOCUMENT_ROOT']."/moim/admin/source/admin.php";
   ?>
   <div class="admin_club_list">
-  <h2 id="h2"><big><strong>CLUB LIST</strong></big></h2>
+  <div id="head">
+    <h2 id="h2"><big><strong>CLUB LIST</strong></big></h2>
+      <div class="search">
+        <form action="./admin_club_list.php?mode=search" method="post" id="form1">
+          <select name="kind" class="kind_sel">
+            <option value="club_name_search">모임명</option>
+            <option value="club_category_search">카테고리</option>
+          </select>
+          <input type="text" name="search_value">
+          <input type="submit" value="search" id="form1">
+        </form>
+      </div>
+    </div>
   <hr class="memberlist_hr">
+
   <table id="accept_table">
     <thead>
       <tr>

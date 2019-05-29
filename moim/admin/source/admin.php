@@ -31,10 +31,10 @@ session_start();
           <li><a href="admin_member.php">회원관리</a></li>
           <li><a href="admin_sales.php">통계</a>
           </li>
-          <li><a href="admin_club_create2.php">모임등록</a>
+          <li><a href="admin_club_create.php">모임등록</a>
             <ul>
               <li><a href="admin_club_list.php">모임목록</a></li>
-              <li><a href="admin_club_create2.php">모임등록양식</a></li>
+              <li><a href="admin_club_create.php">모임등록양식</a></li>
             </ul>
           </li>
           <li><a href="admin_club_accept.php">모임개설승인</a></li>

@@ -7,7 +7,8 @@ $checked="";
 $club_num=$club_name= $club_content= $club_category= $club_price= $club_to= $club_rent_info= $club_start=$club_end=$club_schedule="";
 $club_rent_info[0]=$club_rent_info[1]=$club_intro="";
 $user_num="";
-
+$schedule_count=0;
+$schedule="";
 
 if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   $mode="update";
@@ -77,8 +78,15 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
 
   $club_start = $row['user_start'];
   $club_end = $row['user_end'];
-  $club_schedule= $row['club_schedule'];
+  $club_schedule= $row['user_schedule'];
   $club_intro= $row['user_intro'];
+
+
+    $schedule = explode("," ,$club_schedule);
+    // var_dump($schedule);
+
+    $schedule_count = count($schedule);
+
 
 
   //사진
@@ -208,7 +216,26 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
 
   // 모임일정등록_ select box 에서 선택하면 추가되는 방식으로
   $(document).ready(function() {
+    var mode ="<?=$mode?>";
+    var count=<?=$schedule_count?>;
+    var category="<?=$club_category?>";
+
     var club_schedule = new Array();
+
+    if(mode =="update" ||mode == "request_create"){
+      var schedule= new Array();
+      if(schedule != undefined){
+        schedule=<?php echo json_encode($schedule)?>;
+        // alert(schedule[0]);
+        for(i=0;i<count;i++){
+          $("#date_td").append("<br><span class='select_span' name='select_span'>"+schedule[i]+"<span>");
+          club_schedule[i]=schedule[i];
+        }
+        $("#club_schedule").val(club_schedule);
+      }
+      $("#club_category").val(category).attr("selected","selected");
+    }
+
 
     $("#datepicker2").change(function(event) {
     var start_date = $("#datepicker1").val().replace(/-/gi,"");
@@ -306,7 +333,14 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
     $("#club_schedule").val(club_schedule);
 
     });
+
+
+
+
+
   }); // end of document.ready()
+
+
 
 
   function request_send_email(num){
@@ -320,7 +354,6 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
     }) .done(function(result) {
       console.log(result);
       document.tx_editor_form.submit();
-      // window.location.href='./admin_query.php?mode=request_create&user_num='+num;
     })
     .fail(function() {
       console.log("error");
@@ -378,7 +411,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
                   <option value="디자인">경제/경영</option>
                   <option value="취미생활/기타">취미생활/기타</option>
                 </select>
-                <span id="span_club_category"></span><br><br>
+                <span id="span_club_category"></span>
               </td>
             </tr>
             <tr>
@@ -444,7 +477,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
             <!-- <tr>
               <td>모임일정</td>
               <td colspan="2">
-                <input type="text" id="club_schedule_cal" name="club_schedule" size="60 "  value="<?=$club_schedule?>" placeholder="모임일정">
+                <input type="text" id="club_schedule_cal" name="club_schedule" size="60 "  value="" placeholder="모임일정">
               </td>
             </tr> -->
             <!--▲▲▲▲▲▲▲ multiDatespicker 사용  -->
@@ -478,7 +511,13 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
                 <select class="select_day" id="select_day" name="">
                   <option value="">일</option>
                 </select>
-                <button type="button" name="button" id="schedule_btn">추가</button>
+                <button type="button" name="button" id="schedule_btn">추가</button><br><br>
+                <?php
+                  if($mode=="update"){
+                    echo '<input type="text" name="club_schedule2" id="club_schedule2">';
+
+                  }
+                 ?>
               </td>
             </tr>
 
@@ -533,11 +572,11 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
 
             <tr>
               <td>모임간단소개</td>
-              <td colspan="2">
-                <textarea name="club_intro" rows="8" cols="80" autofocus id="club_intro">
+              <td colspan="3">
+                <textarea name="club_intro" rows="8" cols="80" id="club_intro"  placeholder="간단한 소개를 작성해주세요(100자 내외)">
                   <?=$club_intro?>
-                </textarea><br>
-                <span id="span_club_intro"></span><br><br>
+                </textarea>
+                <span id="span_club_intro"></span>
               </td>
             </tr>
             <tr>

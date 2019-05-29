@@ -224,7 +224,7 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
 
     function drawChart1() {
       var data = google.visualization.arrayToDataTable([
-        ['Task', 'Hours per Day'],
+        ['category', 'category'],
         <?php
        for($i=0; $i<$count_c ; $i++){
          if($i != $count_c-1){

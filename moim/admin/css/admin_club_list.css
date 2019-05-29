@@ -45,3 +45,38 @@
   cursor: pointer;
   border-radius: 4px;
 }
+
+#h2{
+  display: inline;
+}
+
+.memberlist_hr{
+  margin-top: 3%;
+  margin-bottom: 3%;
+}
+/*검색부분css 추가*/
+.search{
+  display: inline-block;
+  margin-top: 10px;
+  float: right;
+}
+
+.search .kind_sel {
+    padding: 5px;
+    height: 35px;
+    border: 1px solid #ccc;
+}
+.search input[type="text"] {
+    width: 200px;
+    line-height: 35px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+}
+.search input[type="submit"] {
+    border: none;
+    background-color: #384d75;
+    color: white;
+    display: inline-block;
+    cursor: pointer;
+    padding: 10px 15px 10px 15px;
+}

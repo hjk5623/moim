@@ -115,7 +115,7 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
             <a href="./admin_request_view.php?user_num=<?=$user_num?>&page=<?=$page?>"><button type="button" name="button" id="view">내용</button></a>
             <!--1. 등록 버튼은 submit으로 하고 등록화면에서 받아서 값 셋팅-->
             <!--2. 등록화면에서 진짜 등록했을때 user_club에서 user_check를 yes로 업데이트할 것-->
-            <a href="./admin_club_create2.php?mode=request_create&user_num=<?=$user_num?>"><button type="button" name="button" id="view">등록</button></a>
+            <a href="./admin_club_create.php?mode=request_create&user_num=<?=$user_num?>"><button type="button" name="button" id="view">등록</button></a>
             <!--1. 취소 버튼을 누르면 user_club에서 user_check를 yes로 업데이트-->
             <!--  처리했느냐 여부.. -->
             <!--파일,이미지 삭제는 마이페이지에서 삭제시킬것-->
