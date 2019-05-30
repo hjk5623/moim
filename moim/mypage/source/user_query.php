@@ -229,4 +229,19 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "insert"){
   $agit_content=preg_replace("/\s+/","***",$agit_content);
   echo '[{"agit_name":"'.$agit_name.'","agit_address":"'.$agit_address.'","agit_image_copied0":"'.$agit_image_copied0.'","agit_image_copied1":"'.$agit_image_copied1.'","agit_image_copied2":"'.$agit_image_copied2.'","agit_image_copied3":"'.$agit_image_copied3.'","agit_content":"'.$agit_content.'","agit_code":"'.$agit_code.'"}]';
 
+}else if(isset($_GET["mode"]) && $_GET["mode"] == "check"){
+  $id = $_POST['id'];
+  $passwd = $_POST['passwd'];
+
+  $sql= "select * from membership where id = '$id' and passwd ='$passwd'";
+  $result = mysqli_query($conn, $sql);
+  $row = mysqli_fetch_array($result);
+
+  if($row){
+    $s = '[{"id":"성공"}]';
+  }else{
+    $s = '[{"id":"실패"}]';
+  }
+  echo $s;
+
 }

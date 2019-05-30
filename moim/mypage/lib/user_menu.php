@@ -17,7 +17,7 @@ if(!isset($_SESSION)){
       </div>
       <div class="menubar">
         <ul>
-          <li><a href="./user_modify.php">정보수정</a></li>
+          <li><a href="./user_check.php">정보수정</a></li>
           <li><a href="./user_request.php">모임만들기</a>
             <ul>
               <li><a href="./user_request.php">모임신청</a></li>

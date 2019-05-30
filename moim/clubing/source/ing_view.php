@@ -230,6 +230,6 @@ $club_num= (isset($_GET["club_num"])) ? $_GET["club_num"] : "";
        ?>
        </section><!--end of scroll-sec-->
      </div><!--end of club_view-->
-   <!-- </section> <!--end of club_view_sec--> -->
+   <!-- </section> end of club_view_sec-->
  </body>
 </html>

@@ -1,5 +1,34 @@
 $(document).ready(function() {
 
+  $("#modify_btn").click(function(event) {
+    var id = document.getElementById("id");
+    var passwd = document.getElementById("passwd");
+    if (passwd.value.length === 0) {
+      alert("패스워드를 입력하세요");
+      return false;
+    }
+    $.ajax({
+      url: './user_query.php?mode=check',
+      type: 'POST',
+      data: {id: $("#id").val(), passwd:$("#passwd").val()}
+    })
+    .done(function(result) {
+      console.log(result);
+      var json_obj = $.parseJSON(result);
+      if(json_obj[0].id=="성공"){
+        location.href="./user_modify.php";
+      }else{
+        alert("패스워드가 맞지 않습니다.");
+      }
+    })
+    .fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      console.log("complete");
+    });
+  });
+
   $(".apply_cancle").click(function(event) {
     var apply_confirm = confirm("신청을 취소 하시겠습니까?");
     if(apply_confirm){
