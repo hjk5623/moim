@@ -5,51 +5,7 @@ session_start();
 
 create_table($conn, 'club');
 
- if(isset($_GET["mode"])){
-   $mode= $_GET["mode"];
- }else{
-   $mode= "";
- }
-
-//---- 오늘 날짜
-$thisyear = date('Y'); // 4자리 연도
-$thismonth = date('n'); // 0을 포함하지 않는 월
-$today = date('j'); // 0을 포함하지 않는 일
-
-//------ $year, $month 값이 없으면 현재 날짜
-$year = isset($_GET['year']) ? $_GET['year'] : $thisyear;
-$month = isset($_GET['month']) ? $_GET['month'] : $thismonth;
-$day = isset($_GET['day']) ? $_GET['day'] : $today;
-
-$prev_month = $month - 1;
-$next_month = $month + 1;
-$prev_year = $next_year = $year;
-if ($month == 1) {
-    $prev_month = 12;
-    $prev_year = $year - 1;
-} else if ($month == 12) {
-    $next_month = 1;
-    $next_year = $year + 1;
-}
-$preyear = $year - 1;
-$nextyear = $year + 1;
-
-//mktime= 괄호안에 넣은 날짜의 요일을 알려준다.
-$predate = date("Y-m-d", mktime(0, 0, 0, $month - 1, 1, $year));
-$nextdate = date("Y-m-d", mktime(0, 0, 0, $month + 1, 1, $year));
-
-// 1. 총일수 구하기
-$max_day = date('t', mktime(0, 0, 0, $month, 1, $year)); // 해당월의 마지막 날짜
-//echo '총요일수'.$max_day.'<br />';
-
-// 2. 시작요일 구하기
-$start_week = date("w", mktime(0, 0, 0, $month, 1, $year)); // 일요일 0, 토요일 6
-
-// 3. 총 몇 주인지 구하기
-$total_week = ceil(($max_day + $start_week) / 7);
-
-// 4. 마지막 요일 구하기
-$last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
+$mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
 ?>
 
 <!DOCTYPE html>
@@ -142,168 +98,58 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
       </div>
     </div> <!--end of sub_menu-->
 
-    <script type="text/javascript">
-    $(document).ready(function(){ //달력- 일정 가져오기
-      $.ajax({
-        url: './ing_schedule.php',
-        type: 'POST',
-        data: {
-          year: <?=$year?>,
-          month: <?=$month?>
-        }
-      })
-      .done(function(result) {
-        result=result.replace("\n","");
-        result=result.replace("\r","");
-        var value= result.split(",");
-        console.log(value);
-        for(i=0; i<value.length-1; i++){
-          value_day = value[i].split("/"); // $club_schedule[2] =일)/ $club_name / $club_num
-          $("#schedule"+value_day[0]).append("<a href='./ing_view.php?club_num="+value_day[2]+"'>"+value_day[1]+"<br></a>");
-          $("#schedule"+value_day[0]).css("color","blue");
-        }//end of for
-      })
-      .fail(function() {
-        console.log("error");
-      })
-      .always(function() {
-        console.log("complete");
-      });
-    });
-    </script>
-    <section class="scroll-sec">
-   <!--if mode=="calendar" 캘린더 보여주기-------------------------------------------------------------->
-   <?php
-     if(!empty($mode) && $mode==="calendar"){ ?>
+    <?php
+    if(isset($mode) && $mode==="calendar"){
+      include $_SERVER['DOCUMENT_ROOT']."/moim/clubing/source/ing_calendar.php";
+    }
+    ?>
 
-   <div class="container_cal">
-     <table class="table table-bordered table-responsive">
-       <tr class="table_top">
-         <td>
-           <!-- 현재 보고있는 달의 작년 -->
-           <a href=<?php echo 'ing_list.php?mode=calendar&year='.$preyear.'&month='.$month . '&day=1';?> id=$pre_year>PRE YEAR</a>
-         </td>
-         <td>
-           <!-- 이전달 -->
-           <a href=<?php echo 'ing_list.php?mode=calendar&year='.$prev_year.'&month='.$prev_month . '&day=1'; ?>>◀</a>
-         </td>
-         <td colspan="3">
-           <!-- 현재달력으로 돌아옴 -->
-           <a href=<?php echo 'ing_list.php?mode=calendar&year=' . $thisyear . '&month=' . $thismonth . '&day=1'; ?>>
-           <?php echo "&nbsp;&nbsp;" . $year . '년 ' . $month . '월 ' . "&nbsp;&nbsp;"; ?></a>
-         </td>
-         <td>
-           <!-- 다음달 -->
-           <a href=<?php echo 'ing_list.php?mode=calendar&year='.$next_year.'&month='.$next_month.'&day=1'; ?>>▶</a>
-         </td>
-         <td>
-           <!-- 현재 보고있는 달의 내년 -->
-           <a href=<?php echo 'ing_list.php?mode=calendar&year='.$nextyear.'&month='.$month.'&day=1'; ?>>NEXT YEAR</a>
-         </td>
-       </tr>
+    <div id="top_list_div">
+      <div class="top_list" id="startdiv">
+        <div class="top_list_btn">
+          <a href="#" onclick="call_clublist()" class="btn club_list_btn">모집중인 모임</a>
+          <a href="#" onclick="call_clubing()" class="btn clubing_btn">진행중인 모임</a>
+        </div>
+        <div class="gallery_h2"></div>
+      </div>
+    </div>
 
-       <tr class="table_day">
-         <th>일</th>
-         <th>월</th>
-         <th>화</th>
-         <th>수</th>
-         <th>목</th>
-         <th>금</th>
-         <th>토</th>
-       </tr>
- <?php
-   // 5. 화면에 표시할 화면의 초기값을 1로 설정
-   $day=1;
+    <section class="gallery" id="gallery_id">
+      <?php
+      $today= substr(date("Y-m-d"),2); //오늘날짜를 19-05-27 형태로 만든다.
+      if(!empty($mode)&&isset($mode)){
+        //카테고리를 선택한 경우
+        $sql = "SELECT * FROM club WHERE club_category='$mode' and club_open='yes' and SUBSTRING(`club_schedule`,-8,8) > '$today' ORDER BY club_hit desc";
+      }else{
+        //전체보기
+        $sql = "SELECT * FROM club WHERE club_open='yes' and SUBSTRING(`club_schedule`,-8,8) > '$today' ORDER BY club_hit desc";
+      }
+      $result= mysqli_query($conn, $sql) or die(mysqli_error($conn));
+      $row_count= mysqli_num_rows($result);
+      for($i=1; $i<=$row_count; $i++){
+        $row= mysqli_fetch_array($result);
+        $club_num= $row['club_num'];
+        $club_name= $row['club_name'];
+        $club_category= $row['club_category'];
+        $club_image_copied=$row['club_image_copied'];
+        $club_intro=$row['club_intro'];
 
-   // 6. 총 주 수에 맞춰서 세로줄 만들기
-   for($i=1; $i <= $total_week; $i++){?>
-   <tr>
-   <?php
-   // 7. 총 가로칸 만들기
-   for ($j = 0; $j < 7; $j++) {
-       // 8. 첫번째 주이고 시작요일보다 $j가 작거나 마지막주이고 $j가 마지막 요일보다 크면 표시하지 않음
-       echo '<td class="cal_day">';
-       if (!(($i == 1 && $j < $start_week) || ($i == $total_week && $j > $last_week))) {
-           if ($j == 0) {
-               // 9. $j가 0이면 일요일이므로 빨간색
-               $style = "holy";
-           } else if ($j == 6) {
-               // 10. $j가 0이면 토요일이므로 파란색
-               $style = "blue";
-           } else {
-               // 11. 그외는 평일이므로 검정색
-               $style = "black";
-           }
+        $row_length= 150;
 
-           // 12. 오늘 날짜면 굵은 글씨
-           if ($year == $thisyear && $month == $thismonth && $day == date("j")) {
-               // 13. 날짜 출력
-               echo $day." ";
-               echo " 오늘";
-               echo "<div id='schedule".$day."'></div>";
-           } else {
-               echo $day;
-               echo "<div id='schedule".$day."'></div>";
-           }
-           // 14. 날짜 증가
-           $day++;
-       }
-       echo '</td>';
-     }
-?>
- </tr>
-<?php } //end of for ?>
-</table>
-<?php } //end of if ?>
-</div>
-
-<div id="top_list_div">
-<div class="top_list" id="startdiv">
-  <div class="top_list_btn">
-  <a href="#" onclick="call_clublist()" class="btn club_list_btn">모집중인 모임</a>
-  <a href="#" onclick="call_clubing()" class="btn clubing_btn">진행중인 모임</a>
-  </div>
-  <div class="gallery_h2">
-  </div>
-</div>
-</div>
-
-<section class="gallery" id="gallery_id">
-          <?php
-          $today= substr(date("Y-m-d"),2); //오늘날짜를 19-05-27 형태로 만든다.
-          if(!empty($mode)&&isset($mode)){
-            //카테고리를 선택한 경우
-            $sql = "SELECT * FROM club WHERE club_category='$mode' and club_open='yes' and SUBSTRING(`club_schedule`,-8,8) > '$today' ORDER BY club_hit desc";
-          }else{
-            //전체보기
-            $sql = "SELECT * FROM club WHERE club_open='yes' and SUBSTRING(`club_schedule`,-8,8) > '$today' ORDER BY club_hit desc";
-          }
-            $result= mysqli_query($conn, $sql) or die(mysqli_error($conn));
-            $row_count= mysqli_num_rows($result);
-            for($i=1; $i<=$row_count; $i++){
-              $row= mysqli_fetch_array($result);
-              $club_num= $row['club_num'];
-              $club_name= $row['club_name'];
-              // $club_image_name= $row['club_image_name'];
-              $club_image_copied=$row['club_image_copied'];
-              $club_intro=$row['club_intro'];
-
-              $row_length= 150;
-
-              if (strlen($club_intro) > $row_length) {
-                $club_intro = substr($club_intro, 0 , $row_length).'<br>.....';
-              }
-          ?>
-          <figure class="gallery_item noshow btm2_item">
-                <a href="./ing_view.php?club_num=<?=$club_num?>" id="">
-                  <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
-                  <h3><?=$club_name?></h3>
-                  <figcaption class="gallery_image_caprion"><?=$club_intro?></figcaption>
-                </a>
-          </figure>
-          <?php
-              }
-          ?>
-    </section>
+        if (strlen($club_intro) > $row_length) {
+          $club_intro = substr($club_intro, 0 , $row_length).'<br>.....';
+      }
+      ?>
+      <figure class="gallery_item noshow btm2_item">
+        <a href="./ing_view.php?club_num=<?=$club_num?>&mode=<?=$club_category?>" id="">
+          <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
+          <h3><?=$club_name?></h3>
+          <figcaption class="gallery_image_caprion"><?=$club_intro?></figcaption>
+        </a>
+      </figure>
+      <?php
+    } //end of for
+      ?>
+    </section><!--end of gallery-->
   </body>
 </html>

@@ -41,6 +41,7 @@
         mycontent(mypage);
       })
     }else{
+      alert("후기를 입력해주세요");
       console.log("textarea가 비었음");
     }
 

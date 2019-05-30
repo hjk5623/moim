@@ -1,31 +1,20 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
-?>
 
-<?php
-$schedule = array();
-$year = $_POST["year"];
-$year = substr($year,2); // ex) 2019를 19로 자름
-$month = $_POST["month"];
-if($month<=9){
-  $month="0".$month;
+$data= array();
+$sql = "SELECT * FROM club WHERE club_open='yes'";
+$statement= $conn->prepare($sql);
+$statement-> execute();
+$result= $statement->get_result();
+foreach($result as $row){
+  $club_schedule= $row["club_schedule"];
+  // $schedule= $club_schedule.substr(0,8);
+  $schedule= substr($club_schedule,0,8);
+  $data[]= array(
+    'title' =>$row['club_name'],
+    'url'   =>'http://localhost/moim_13/clubing/source/ing_view.php?club_num='.$row["club_num"],
+    'start' =>"20$schedule"
+  );
 }
-$sql = "SELECT * FROM club WHERE club_open='yes' and club_schedule like '$year-$month%'";
-$result = mysqli_query($conn, $sql) or die("실패원인12 " . mysqli_error($conn));
-$row_count= mysqli_num_rows($result);
-   for($i=0; $i<$row_count; $i++){
-      $row = mysqli_fetch_array($result);
-      $club_num = $row['club_num'];
-      $club_name= $row['club_name'];
-      $club_schedule= $row['club_schedule']; //ex) 19-05-12, 19-05-19, 19-05-26
-
-      $club_schedule= substr($club_schedule,0,8); // ex) 19-05-12 => 모임 시작일만 자름
-      $club_schedule= explode("-",$club_schedule); // -를 기준으로 나눈다
-      if($club_schedule[2]<=9){
-        $club_schedule[2]= substr($club_schedule[2],1);
-      }
-      $schedule[$i]= $club_schedule[2]."/".$club_name."/".$club_num;  //$club_schedule[2]= 일
-      echo $schedule[$i].",";
-   }
-
+echo json_encode($data);
 ?>

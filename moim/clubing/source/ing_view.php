@@ -7,6 +7,7 @@ create_table($conn, 'club_ripple');
 
 $userid= (isset($_SESSION['userid'])) ? $_SESSION['userid'] : "";
 $club_num= (isset($_GET["club_num"])) ? $_GET["club_num"] : "";
+$mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
 
  if(!empty($club_num) && isset($club_num)){
    $sql = "select * from club where club_num='$club_num'";
@@ -77,6 +78,24 @@ $club_num= (isset($_GET["club_num"])) ? $_GET["club_num"] : "";
            }
          }
    </script>
+   <style media="screen">
+     #way li{
+       list-style: none;
+       display: inline-block;
+       text-align: right;
+       font-size: 13px;
+       color: gray;
+     }
+     ul#way{
+       padding: 0;
+       margin-block-end: 5px;
+     }
+     #way li a{
+       color: gray;
+       text-decoration:none;
+     }
+
+   </style>
  </head>
  <body>
    <nav>
@@ -104,22 +123,27 @@ $club_num= (isset($_GET["club_num"])) ? $_GET["club_num"] : "";
      <div class="club_view">
        <div class="club_info">
          <div class="club_img">
+           <ul id=way>
+             <li><a href="./ing_list.php">진행중 모임</a> > </li>
+             <li><a href="./ing_list.php?mode=<?=$mode?>"><?=$mode?></a></li>
+           </ul>
            <div class="club_view_name"><b><?=$club_name?></b></div>
+
            <img src="../../admin/data/<?=$club_image_copied?>" width="500px" height="400px">
          </div>
          <div class="club_div">
-            <div class="club_view_price"><b>가격:<?=$club_price?>원</b></div>
-            <div class="club_view_apply"><b>신청인원:<?=$club_apply?>/<?=$club_to?>명</b></div>
-            <div class=""><b>신청기간:<?=$club_start?>~<?=$club_end?></b></div>
-            <div class=""><b>모임날짜:<?=$club_schedule?></b></div>
-            <div class=""><b>장소:<?=$club_rent_info?></b></div>
+            <div class="club_view_price"><b>가격:&nbsp;&nbsp;&nbsp;<?=$club_price?>원</b></div>
+            <div class="club_view_apply"><b>신청인원: <?=$club_apply?>/<?=$club_to?>명</b></div>
+            <div class=""><b>신청기간: <?=$club_start?>~<?=$club_end?></b></div>
+            <div class=""><b>모임날짜: <?=$club_schedule?></b></div>
+            <div class=""><b>장소: <?=$club_rent_info?></b></div>
             <div class="club_view_intro"><b><?=$club_intro?></b></div>
             <?php
             //관리자만 수정/삭제 버튼이 보임
             if(!empty($userid) && $userid==="admin"){ ?>
               <!-- <button type="button" name="button">수정</button> -->
               <button type="button" name="button" onclick="location.href='ing_query.php?mode=c_delete&club_num=<?=$club_num?>'">삭제</button>
-              <button type="button" name="button" onclick="location.href='../../admin/source/admin_club_create2.php?mode=update&club_num=<?=$club_num?>'">수정</button>
+              <button type="button" name="button" onclick="location.href='../../admin/source/admin_club_create.php?mode=update&club_num=<?=$club_num?>'">수정</button>
             <?php } ?>
           </div>
        </div><!--club_info-->
@@ -165,7 +189,8 @@ $club_num= (isset($_GET["club_num"])) ? $_GET["club_num"] : "";
          <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a321e1b83ba2a8b469c05bab1c41988&libraries=services"></script>
          <script src="../../js/map.js"></script>
        </div><!--club_view_map-->
-       </section> <!--end of club_view_sec-->
+      </div><!--club_view-->
+    </section> <!--end of club_view_sec-->
 
        <section class="ripple_section"> <!--후기-->
          <hr class="divider">
@@ -183,7 +208,7 @@ $club_num= (isset($_GET["club_num"])) ? $_GET["club_num"] : "";
                <li class="col-md-6 col-md-offset-3 results"></li>
              </ul>
              <div>
-               <button type="button" class="btn btn-default" id="loadmorebtn" name="button">더 보기</button>
+               <button type="button" class="btn btn-default" id="loadmorebtn" name="button">이전 댓글보기</button>
              </div>
            </div><!--end of div 후기 리스트-->
            <input type="hidden" id="hidden_num" value="<?=$club_num?>">
@@ -196,40 +221,38 @@ $club_num= (isset($_GET["club_num"])) ? $_GET["club_num"] : "";
 
        <hr class="divider" id="startdiv">
 
-       <section class="gallery" id="gallery_id"><!--ing_list-->
-       <?php
-         if(!empty($mode)&&isset($mode)){
-           $sql = "SELECT * FROM club WHERE club_category='$mode' and club_open='yes' ORDER BY club_hit desc";
-         }else{
-           $sql = "SELECT * FROM club WHERE club_open='yes' ORDER BY club_hit desc";
+       <section class="gallery" id="gallery_id">
+        <?php
+        $today= substr(date("Y-m-d"),2); //오늘날짜를 19-05-27 형태로 만든다.
+
+        //전체보기
+        $sql = "SELECT * FROM club WHERE club_open='yes' and SUBSTRING(`club_schedule`,-8,8) > '$today' ORDER BY club_hit desc";
+        $result= mysqli_query($conn, $sql) or die(mysqli_error($conn));
+        $row_count= mysqli_num_rows($result);
+        for($i=1; $i<=$row_count; $i++){
+          $row= mysqli_fetch_array($result);
+          $club_num= $row['club_num'];
+          $club_name= $row['club_name'];
+          $club_category= $row['club_category'];
+          $club_image_copied=$row['club_image_copied'];
+          $club_intro=$row['club_intro'];
+
+          $row_length= 150;
+
+          if (strlen($club_intro) > $row_length) {
+            $club_intro = substr($club_intro, 0 , $row_length).'<br>.....';
          }
-         $result= mysqli_query($conn, $sql) or die(mysqli_error($conn));
-         $row_count= mysqli_num_rows($result);
-         for($i=1; $i<=$row_count; $i++){
-           $row= mysqli_fetch_array($result);
-           $club_num= $row['club_num'];
-           $club_name= $row['club_name'];
-           $club_image_copied=$row['club_image_copied'];
-           $club_intro=$row['club_intro'];
-
-           $row_length= 150;
-
-           if (strlen($club_intro) > $row_length) {
-             $club_intro = substr($club_intro, 0 , $row_length).'<br>.....';
-           }
-       ?>
+         ?>
          <figure class="gallery_item noshow btm2_item">
-           <a href="./ing_view.php?club_num=<?=$club_num?>" id="">
+           <a href="./ing_view.php?club_num=<?=$club_num?>&mode=<?=$club_category?>" id="">
              <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
              <h3><?=$club_name?></h3>
              <figcaption class="gallery_image_caprion"><?=$club_intro?></figcaption>
            </a>
          </figure>
-       <?php
-         }//end of for
-       ?>
-       </section><!--end of scroll-sec-->
-     </div><!--end of club_view-->
-   <!-- </section> end of club_view_sec-->
+         <?php
+       } //end of for
+         ?>
+      </section><!--end of gallery-->
  </body>
 </html>
