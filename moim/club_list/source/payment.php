@@ -1,7 +1,7 @@
 <?php
 session_start();
-include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php"; //club_DB 생성
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
+include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php"; //club_DB 생성
 
 create_table($conn, 'buy');
 $mode="";

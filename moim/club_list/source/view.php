@@ -1,7 +1,7 @@
 <?php
 session_start();
-include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php"; //club_DB 생성
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
+include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php"; //club_DB 생성
 create_table($conn, 'cart');
 $mode="";   //mode query.php에 쓰일 cart,delete,download
 
@@ -174,7 +174,7 @@ $cart_id=$row['cart_id'];
            <a href="./list.php">목록</a>
            <?php
             if ($userid=="admin") {   // 관리자일 경우 수정 삭제 버튼생성
-              echo ('<a href="../../admin/source/admin_club_create2.php?mode=update&club_num='.$club_num.'">수정</a>&nbsp;');
+              echo ('<a href="../../admin/source/admin_club_create.php?mode=update&club_num='.$club_num.'">수정</a>&nbsp;');
               echo ('<a href="#" onclick="del_check()">삭제</a>&nbsp;');
             }
             ?>
