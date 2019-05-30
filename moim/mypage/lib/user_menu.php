@@ -13,16 +13,24 @@ if(!isset($_SESSION)){
   <body>
     <nav>
       <div class="brand">
-        <h2>Mo,im</h2>
+        <a href="../../mainpage.php"><h2>Mo,im</h2></a>
       </div>
       <div class="menubar">
         <ul>
           <li><a href="./user_modify.php">정보수정</a></li>
-          <li><a href="./user_request.php">모임만들기</a></li>
-          <li><a href="./user_apply.php">모임</a></li>
-          <!-- <li><a href="./user_open.php">CLUBING</a></li> -->
+          <li><a href="./user_request.php">모임만들기</a>
+            <ul>
+              <li><a href="./user_request.php">모임신청</a></li>
+              <li><a href="./user_apply_list.php">신청내역</a></li>
+            </ul>
+          </li>
+          <li><a href="./user_apply.php">모임</a>
+            <ul>
+              <li><a href="./user_apply.php">모집중모임</a></li>
+              <li><a href="./user_open.php">진행중모임</a></li>
+            </ul>
+          </li>
           <li><a href="./user_cart.php">위시리스트</a></li>
-          <!-- <li><a href="./user_apply_list.php">개설신청내역</a></li> -->
           <li><a href="./user_refund.php">환불내역</a></li>
           <li><a href="#" onclick="message_form();">문의</a></li>
           <?php

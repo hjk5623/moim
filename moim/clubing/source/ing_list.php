@@ -111,11 +111,17 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
         </a>
       </div>
       <ul>
-        <li><a href="./list.php">CLUB LIST</a></li>
-        <li><a href="./faq/source/faq_list.php">BOARD</a></li>
+        <li><a href="../../club_list/source/list.php">CLUB LIST</a></li>
+        <li><a href="../../faq/source/faq_list.php">BOARD</a></li>
         <li><a href="#" onclick="message_form();">MESSAGE</a></li>
-        <li><a href="#">MY PAGE</a></li>
-        <li><a href="#">LOG OUT</a></li>
+        <li><a href="../../mypage/source/user_modify.php">MY PAGE</a></li>
+        <?php
+        if(!isset($_SESSION['userid'])){
+          echo ('<li><a href="../../login/source/login.php">LOG IN</a></li>');
+        }else{
+          echo ('<li><a href="../../login/source/logout.php">LOG OUT</a></li>');
+        }
+        ?>
       </ul>
     </nav>
 

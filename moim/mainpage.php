@@ -1,7 +1,11 @@
 <?php
 session_start();
-
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
+
+$sql = "SELECT * FROM club where club_open='no' order by club_hit desc LIMIT 3;";
+$result = mysqli_query($conn, $sql) or die("실패원인12 " . mysqli_error($conn));
+$row_count= mysqli_num_rows($result);
+
 ?>
 <!DOCTYPE html>
 <html lang="ko" dir="ltr">
@@ -10,7 +14,9 @@ include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/calender.js"></script>
     <title>TEAM PROJECT</title>
+    <link rel="stylesheet" href="./css/calender.css">
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/header.css">
     <link rel="stylesheet" href="./css/slider.css">
@@ -28,6 +34,12 @@ include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
      var popupY = (window.screen.height/2)-(400/2);
      window.open('./message/source/msg.php','','left='+popupX+',top='+popupY+', width=500, height=400, status=no, scrollbars=no');
    }
+   window.onclick = function(event) {
+     var modal = document.getElementById('myModal');
+       if (event.target == modal) {
+           modal.style.display = "none";
+       }
+   };
    </script>
   </head>
   <body>
@@ -47,6 +59,7 @@ include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
           <a href="./club_list/source/list.php">CLUB LIST</a>
           <!-- <a href="#">VIEW PLACE</a> -->
           <a href="./faq/source/faq_list.php">BOARD</a>
+          <a href="#" onclick="calendar_choice()">CALENDER</a>
         </div>
         <nav>
           <div class="menu_icon">
@@ -101,6 +114,7 @@ include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
       <!-- <article class="slider">
         <img src="./img/main03.jpg" alt="">
       </article> -->
+
       <section class="content">
         <section class="display-section">
           <div class="container">
@@ -110,6 +124,11 @@ include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
             </p>
           </div>
         </section>
+        <div id="myModal" class="modal">
+          <div class="modal-content" id="modal-content">
+
+           </div>
+         </div>
         <br>
         <br>
         <br>
@@ -117,26 +136,20 @@ include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
           <div class="about_area">
             <h1>Popular Mo,im TOP3</h1>
             <div class="about_box">
-              <div class="about_box_img">
-                <h3>잠시, 벗어나기</h3>
-                <a href="#" class="img_link">
-                  <img class="top_place" src="./img/club01.jpg" alt="">
-                  <p>sns와 인터넷에서 벗어나 이야기와 취미생활을 이끌어 주는 모임</p>
-                </a>
-              </div>
-              <div class="about_box_img">
-                <h3>새로운 생각, 새로운 상상</h3>
-                <a href="#" class="img_link">
-                  <img class="top_place" src="./img/club02.jpg" alt="">
-                  <p>또다른 나의 잠재력을 이끌어 줄 수 있는 두뇌 모임</p>
-                </a>
-              </div>
-              <div class="about_box_img">
-                <h3>길었던 하루, 행복한 사람</h3>
-                <a href="#" class="img_link">
-                  <img class="top_place" src="./img/club05.jpg" alt="">
-                  <p>지루했던 일상에서 벗어나 대화와 추억을 공유할 수 있는 사람들의 모임</p>
-                </a>
+            <?php
+              while ($row = mysqli_fetch_array($result)) {
+
+             ?>
+             <div class="about_box_img">
+               <h3><?=$row['club_name']?></h3>
+               <a href="./club_list/source/view.php?club_num=<?=$row['club_num']?>" class="img_link">
+                 <img class="top_place" src="./admin/data/<?=$row['club_image_copied']?>" alt="">
+                 <p><?=$row['club_intro']?></p>
+               </a>
+             </div>
+             <?php
+              }
+              ?>
               </div>
             </div>
           </div>

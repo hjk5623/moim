@@ -306,6 +306,7 @@
               <option value="미술">미술</option>
               <option value="사진">사진</option>
               <option value="디자인">디자인</option>
+              <option value="경제/경영">경제/경영</option>
               <option value="취미생활/기타">취미생활/기타</option>
             </select>
           </td>

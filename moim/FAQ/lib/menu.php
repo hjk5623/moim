@@ -32,7 +32,7 @@ session_start();
                 echo ('<li><a href="../../login/source/logout.php">LOG OUT</a></li>');
               }
              ?>
-
+        </ul>
       </div>
     </nav>
     <slider>

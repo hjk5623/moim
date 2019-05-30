@@ -77,10 +77,16 @@ $row_length= 150;   //club_intro 150바이트범위 외 ... 으로 생략
       </div>
       <ul>
         <li><a href="./list.php">CLUB LIST</a></li>
-        <li><a href="./faq/source/faq_list.php">BOARD</a></li>
+        <li><a href="../../faq/source/faq_list.php">BOARD</a></li>
         <li><a href="#" onclick="message_form();">MESSAGE</a></li>
-        <li><a href="#">MY PAGE</a></li>
-        <li><a href="#">LOG OUT</a></li>
+        <li><a href="../../mypage/source/user_modify.php">MY PAGE</a></li>
+        <?php
+        if(!isset($_SESSION['userid'])){
+          echo ('<li><a href="../../login/source/login.php">LOG IN</a></li>');
+        }else{
+          echo ('<li><a href="../../login/source/logout.php">LOG OUT</a></li>');
+        }
+        ?>
       </ul>
     </nav>
     <section class="sec1"></section>
@@ -112,7 +118,7 @@ $row_length= 150;   //club_intro 150바이트범위 외 ... 으로 생략
 
     <section class="gallery" id="gallery_id">
             <?php
-            $today = date("Y-m-d", time());    //현재 날짜 (ex:2019-01-01)
+            $today = date("Y-m-d");    //현재 날짜 (ex:2019-01-01)
             if (!(empty($_GET['mode']))&&(isset($_GET['mode']))){   //카테고리 별 모집모임
               // club 테이블의 club_num 와 cart 테이블의 cart_num가 같은 것 중에서 해당 카테고리와 club_open가 no이고 club_end가 오늘날짜보다 클 때 히트 순으로 검색한다.
               $sql = "SELECT * FROM club LEFT OUTER JOIN cart on cart.cart_club_num=club.club_num where club_category='$mode' and club_open = 'no' and club_end >= '$today' order by club_hit desc;";
@@ -140,27 +146,37 @@ $row_length= 150;   //club_intro 150바이트범위 외 ... 으로 생략
             <figure class="gallery_item noshow btm2_item">
               <a href="./view.php?club_num=<?=$club_num?>" id="">
                 <?php
-                  if($cart_id!==$userid){    //해당된 모임에 찜클릭을 하지 않았을 경우
+                $diff= ((strtotime($club_end)-strtotime($today))/86400);    //(모집 마감 - 현재 시간) / 86400 = 남은 일수
+                  if(!isset($userid)){    //로그인 안했을 경우
                  ?>
                   <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
                  <?php
-               }else if($cart_id!=$userid&&$today>=$club_end-5){   //해당된 모임에 찜클릭을 하지 않고 마감일이 다가 올 경우
+               }else if(!isset($userid)&&$diff<=5){   //로그인을 하지 않고 마감일이 다가 올 경우
                  ?>
                  <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
                  <div class="">마감임박</div>
                  <?php
-               }else if($cart_id==$userid&&$today>=$club_end-5){   //해당된 모임에 찜클릭을 했고 마감일이 다가 올 경우
+               }else if(isset($userid)&&$cart_id!==$userid&&$diff>5){   //로그인 하고 해당된 모임에 찜클릭을 하지않았을 경우
+                  ?>
+                  <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
+                  <?php
+               }else if(isset($userid)&&$cart_id!==$userid&&$diff<=5){   //로그인 하고 해당된 모임에 찜클릭을 하지않고 마감일이 다가올 경우
+                  ?>
+                  <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
+                  <div class="">마감임박</div>
+                  <?php
+               }else if(isset($userid)&&$cart_id===$userid&&$diff>5){   //로그인 하고 해당된 모임에 찜클릭을 했을 경우
+                  ?>
+                  <div class="pop">Like It!</div>
+                  <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
+                  <?php
+               }else if(isset($userid)&&$cart_id===$userid&&$diff<=5){   //로그인 하고 해당된 모임에 찜클릭을 하고 마감일이 다가올 경우
                   ?>
                   <div class="pop">Like It!</div>
                   <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
                   <div class="">마감임박</div>
                   <?php
-               }else{         //해당된 모임에 찜클릭만 했을 경우
-                 ?>
-                 <div class="pop">Like It!</div>
-                 <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
-                 <?php
-                  }
+               }
                   ?>
                 <h3><?=$club_name?></h3>
                 <figcaption class="gallery_image_caprion"><?=$club_intro?></figcaption>

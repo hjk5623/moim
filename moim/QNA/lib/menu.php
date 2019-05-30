@@ -20,18 +20,19 @@ session_start();
       </div>
       <div class="menubar">
         <ul>
-          <li><a href="../../mainpage.php">HOME</a></li>
-          <?php
-            if(!isset($_SESSION['userid'])){
-              echo ('<li><a href="../../login/source/login.php">LOG IN</a></li>');
-            }else{
-              echo ('<li><a href="../../login/source/logout.php">LOG OUT</a></li>');
-            }
-           ?>
+
           <li><a href="../../faq/source/faq_list.php">FAQ</a></li>
           <li><a href="../../qna/source/qna_list.php">QNA</a></li>
           <li><a href="../../notice/source/notice_list.php">NOTICE</a>
-
+          <li><a href="#" onclick="message_form();">MESSAGE</a></li>
+            <?php
+              if(!isset($_SESSION['userid'])){
+                echo ('<li><a href="../../login/source/login.php">LOG IN</a></li>');
+              }else{
+                echo ('<li><a href="../../login/source/logout.php">LOG OUT</a></li>');
+              }
+             ?>
+        </ul>
       </div>
     </nav>
   </body>
