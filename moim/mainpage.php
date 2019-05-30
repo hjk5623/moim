@@ -138,7 +138,6 @@ $row_count= mysqli_num_rows($result);
             <div class="about_box">
             <?php
               while ($row = mysqli_fetch_array($result)) {
-
              ?>
              <div class="about_box_img">
                <h3><?=$row['club_name']?></h3>

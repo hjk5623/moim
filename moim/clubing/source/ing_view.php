@@ -28,7 +28,7 @@ $club_num= (isset($_GET["club_num"])) ? $_GET["club_num"] : "";
  $club_schedule= $row['club_schedule'];
  $club_hit= $row['club_hit']+1;
  $club_open= $row['club_open'];
- $club_image_name= $row['club_image_name'];
+ $club_image_copied= $row['club_image_copied'];
  $club_file_name= $row['club_file_name'];
  $club_intro= $row['club_intro'];
 
@@ -123,7 +123,6 @@ $club_num= (isset($_GET["club_num"])) ? $_GET["club_num"] : "";
             <?php } ?>
           </div>
        </div><!--club_info-->
-     </div><!--club_view-->
        <hr class="divider">
 
        <div class="club_view_content"><b><?=$club_content?></b></div>
@@ -151,6 +150,7 @@ $club_num= (isset($_GET["club_num"])) ? $_GET["club_num"] : "";
        ?>
        <hr class="divider">
        <div class="club_view_map">
+         <input type="hidden" id="address" value="<?=$address?>">
          <div class="place">
            <p>장소</p>
          </div>
@@ -165,6 +165,7 @@ $club_num= (isset($_GET["club_num"])) ? $_GET["club_num"] : "";
          <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a321e1b83ba2a8b469c05bab1c41988&libraries=services"></script>
          <script src="../../js/map.js"></script>
        </div><!--club_view_map-->
+       </section> <!--end of club_view_sec-->
 
        <section class="ripple_section"> <!--후기-->
          <hr class="divider">
@@ -229,6 +230,6 @@ $club_num= (isset($_GET["club_num"])) ? $_GET["club_num"] : "";
        ?>
        </section><!--end of scroll-sec-->
      </div><!--end of club_view-->
-   </section> <!--end of club_view_sec-->
+   <!-- </section> <!--end of club_view_sec--> -->
  </body>
 </html>
