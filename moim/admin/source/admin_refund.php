@@ -1,7 +1,7 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 
-$sql="SELECT * from buy inner join club on buy_club_num=club_num where buy_cancle='yes' and buy_refund='no' ;"; //환불신청 yes, 아직 환불처리 no 리스트
+$sql="SELECT * from buy inner join club on buy_club_num = club_num where buy_cancle='yes' and buy_refund='no' ;"; //환불신청 yes, 아직 환불처리 no 리스트
 $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
 $total_record= mysqli_num_rows($result);
 $row=mysqli_fetch_array($result);

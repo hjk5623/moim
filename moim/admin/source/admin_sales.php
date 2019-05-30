@@ -303,7 +303,7 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
         </thead>
         <tbody class="uptbody">
           <tr>
-            <td rowspan="6">상반기</td>
+            <td rowspan="6" style="text-align:center;">상반기</td>
             <td>1월</td>
             <td><?=$jan_price?>원</td>
           </tr>
@@ -330,7 +330,7 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
           </tbody>
           <tbody class="downtbody">
           <tr>
-            <td rowspan="6">하반기</td>
+            <td rowspan="6"  style="text-align:center;">하반기</td>
             <td>7월</td>
             <td><?=$jul_price?>원</td>
           </tr>
@@ -356,7 +356,7 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
           </tr>
           </tbody>
             <tr class="lasttbody">
-              <td colspan="2"><?=$find?>년도 매출총액 </td>
+              <td colspan="2">&nbsp&nbsp&nbsp<?=$find?>년도 매출총액 </td>
               <td><?=$total_sales?>원</td>
             </tr>
         </table>
@@ -425,6 +425,80 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
           <td colspan="2"  style="border: 1px solid black; text-align: center;"><?=$total?>원</td>
         </tr>
       </table>
+      <br><br>
+      <!--  월별매출액테이블-->
+      <div class="table_div">
+        <table class="salestable" style="visibility: hidden;border-collapse: collapse; font-family: " Trebuchet MS", Helvetica, sans-serif;" >
+        <thead>
+          <tr>
+            <td style="border: 1px solid black; text-align: center;">구분</td>
+            <td style="border: 1px solid black; text-align: center;">기간</td>
+            <td style="border: 1px solid black; text-align: center;">매출액</td>
+          </tr>
+        </thead>
+        <tbody class="uptbody">
+          <tr>
+            <td rowspan="6" style="border: 1px solid black; text-align: center;">상반기</td>
+            <td style="border: 1px solid black; text-align: center;">1월</td>
+            <td style="border: 1px solid black; text-align: center;"><?=$jan_price?>원</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; text-align: center;">2월</td>
+            <td style="border: 1px solid black; text-align: center;"><?=$feb_price?>원</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; text-align: center;">3월</td>
+            <td style="border: 1px solid black; text-align: center;"><?=$mar_price?>원</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; text-align: center;">4월</td>
+            <td style="border: 1px solid black; text-align: center;"><?=$apr_price?>원</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; text-align: center;">5월</td>
+            <td style="border: 1px solid black; text-align: center;"><?=$may_price?>원</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; text-align: center;">6월</td>
+            <td style="border: 1px solid black; text-align: center;"><?=$jun_price?>원</td>
+          </tr>
+          </tbody>
+          <tbody class="downtbody">
+          <tr>
+            <td rowspan="6">하반기</td>
+            <td style="border: 1px solid black; text-align: center;">7월</td>
+            <td style="border: 1px solid black; text-align: center;"><?=$jul_price?>원</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; text-align: center;">8월</td>
+            <td style="border: 1px solid black; text-align: center;"><?=$aug_price?>원</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; text-align: center;">9월</td>
+            <td style="border: 1px solid black; text-align: center;"><?=$sep_price?>원</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; text-align: center;">10월</td>
+            <td style="border: 1px solid black; text-align: center;"><?=$oct_price?>원</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; text-align: center;">11월</td>
+            <td style="border: 1px solid black; text-align: center;"><?=$nov_price?>원</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; text-align: center;">12월</td>
+            <td style="border: 1px solid black; text-align: center;"><?=$dec_price?>원</td>
+          </tr>
+          </tbody>
+            <tr class="lasttbody">
+              <td colspan="2" style="border: 1px solid black; text-align: center;"><?=$find?>년도 매출총액 </td>
+              <td style="border: 1px solid black; text-align: center;"><?=$total_sales?>원</td>
+            </tr>
+        </table>
+      </div>
+
+
+
     </div>
   </div>
 </body>

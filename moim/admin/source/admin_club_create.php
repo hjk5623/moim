@@ -116,22 +116,9 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
   <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
   <script src="//cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script><!--위지윅에디터 -->
-  <link href="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.css" rel="stylesheet"/><!--날짜다중선택 -->
-  <script src="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.js"></script><!--날짜다중선택 -->
   <script type="text/javascript" src="../js/admin_club_create_form.js"></script>
   <link rel="stylesheet" type="text/css" href="../css/admin_club_create.css">
   <script type="text/javascript">
-    //multiDatesPicker
-    $(function() {
-      $('#club_schedule_cal').multiDatesPicker({
-        minDate: 0, //오늘부터 선택
-        dateFormat :'y-mm-dd',
-        showButtonPanel:true,
-        closeText: '닫기',
-        club_schedule_cal: '#club_schedule_cal'
-      });
-    })
-
     //datepocler의 옵션을 설정
     $.datepicker.setDefaults({
       dateFormat: 'yy-mm-dd',
@@ -200,8 +187,9 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
       if(agit_addr=="아지트선택"){
         $('#address1').prop('type','text');
         $('#address1_1').prop('type','hidden');
-        $('#address1').val("");
+
         $('#address2').val("");
+        $('#address2').attr('readOnly',false);
       }else{
         $('#address1').prop('type','hidden');
         $('#address1_1').prop('type','text');
@@ -234,6 +222,8 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
         $("#club_schedule").val(club_schedule);
       }
       $("#club_category").val(category).attr("selected","selected");
+      $("#flag_club_name").val("true");
+
     }
 
 
@@ -334,13 +324,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
 
     });
 
-
-
-
-
   }); // end of document.ready()
-
-
 
 
   function request_send_email(num){
@@ -384,6 +368,20 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
        ?>
       <form name="tx_editor_form" id="tx_editor_form" action="./admin_query.php?mode=<?=$mode?>" method="post" enctype="multipart/form-data" accept-charset="utf-8">
         <div id="write_form">
+          <input type="hidden" id="flag_club_name" value="false">
+          <input type="hidden" id="flag_club_category" value="false">
+          <input type="hidden" id="flag_agit_category" value="false">
+          <input type="hidden" id="flag_address1" value="false">
+          <input type="hidden" id="flag_address2" value="false">
+          <input type="hidden" id="flag_club_to" value="false">
+          <input type="hidden" id="flag_club_start" value="false">
+          <input type="hidden" id="flag_club_end" value="false">
+          <input type="hidden" id="flag_club_price" value="false">
+          <input type="hidden" id="flag_club_schedule" value="false">
+          <input type="hidden" id="flag_club_intro" value="false">
+          <input type="hidden" id="flag_club_content" value="false">
+
+
           <!--수정시에 club_num 전송, 신청모임등록시에 user_num 전송-->
           <input type="hidden" name="club_num" value="<?=$club_num?>">
           <input type="hidden" name="user_num" value="<?=$user_num?>">
@@ -473,22 +471,11 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
               </td>
             </tr>
 
-            <!--▼▼▼▼ 모임일정 multiDatespicker 사용  -->
-            <!-- <tr>
-              <td>모임일정</td>
-              <td colspan="2">
-                <input type="text" id="club_schedule_cal" name="club_schedule" size="60 "  value="" placeholder="모임일정">
-              </td>
-            </tr> -->
-            <!--▲▲▲▲▲▲▲ multiDatespicker 사용  -->
-
-
-
             <!--▼▼▼▼ 모임일정 selectbox사용  -->
             <tr>
               <td>모임 일정</td>
               <td id="date_td" colspan="2">
-                <select class="select_year" id="select_year" name="">
+                <select class="select_year" id="select_year" name="" style="height:40px;">
                   <option value="">년도</option>
                   <?php
                   for($i=2019;$i<=2030;$i++){
@@ -498,7 +485,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
                   }
                   ?>
                 </select>
-                <select class="select_month" id="select_month" name="">
+                <select class="select_month" id="select_month" name=""  style="height:40px;">
                   <option value="">월</option>
                   <?php
                   for($i=1;$i<=12;$i++){
@@ -508,7 +495,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
                   }
                   ?>
                 </select>
-                <select class="select_day" id="select_day" name="">
+                <select class="select_day" id="select_day" name=""  style="height:40px;">
                   <option value="">일</option>
                 </select>
                 <button type="button" name="button" id="schedule_btn">추가</button><br><br>
@@ -588,6 +575,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
                 <textarea name="content" id="content" rows="10" cols="80">
                   <?php echo "$club_content" ?>
                 </textarea>
+                <span id="span_club_content"></span>
                 <script type="text/javascript">
                   CKEDITOR.replace('content');
                 </script>
@@ -599,13 +587,16 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
                 <?php
                   if(isset($_GET['mode']) && $_GET['mode'] == "request_create"){
                 ?>
-                <input type="button" name="" value="submit" onclick="request_send_email(<?=$user_num?>);"></td>
+                <input type="button" id="" value="submit" onclick="request_send_email(<?=$user_num?>);"></td>
 
                 <?php
+                }else if(isset($_GET['mode']) && $_GET['mode'] == "update"){
+                    echo "<input type='submit' id='' name='' value='submit'></td>";
                   }else{
-                    echo "<input type='submit' name='' value='submit'></td>";
+                    echo "<input type='button' id='submit_btn' name='' value='submit'></td>";
                   }
                  ?>
+
             </tr>
           </table>
       </form>

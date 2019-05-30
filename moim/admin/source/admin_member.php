@@ -49,7 +49,6 @@ $number=$start_row+1;
   <link rel="stylesheet" type="text/css" href="../css/admin_member.css">
   <script type="text/javascript">
     function check_delete(id, name) {
-      // console.log(id);
       var result1 = confirm("✔" + name + " 회원을 삭제하시겠습니까?\n 정말 삭제하시겠습니까?");
       if (result1) {
         $.ajax({
@@ -60,7 +59,8 @@ $number=$start_row+1;
             }
           }).done(function(result) {
             console.log(result);
-            location.href = 'admin_member.php';
+            // location.href = 'admin_member.php';
+            $("#"+id).remove();
           })
           .fail(function() {
             console.log("error");
@@ -119,7 +119,7 @@ $number=$start_row+1;
 
   ?>
       <tbody>
-        <tr class="memberlist_tr2" style="text-align:center;">
+        <tr class="memberlist_tr2" style="text-align:center;" id="<?=$item_id?>">
           <input type="hidden" name="id" class="hidden_id" value="<?=$item_id?>">
           <td><?=$item_id?></td>
           <td><?=$item_name?></td>

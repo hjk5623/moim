@@ -137,6 +137,32 @@ if(isset($_GET["mode"]) && $_GET["mode"]=="find_passwd"){
     $bcc_mail=""; /* 메일 보내기*/
     $sendmail->send_mail($to, $from, $subject, $body,$cc_mail,$bcc_mail);
 
-  }
+  }else if(isset($_GET["mode"]) && $_GET["mode"]=="club_del"){  //모집정원이 충족되지않아 모임이 삭제되는 경우 이메일 전송
+    include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
+    $club_num=$_POST['club_num'];
 
+    var_dump($club_num);
+    $sql="SELECT * FROM membership inner join buy on membership.id = buy.buy_id where buy_club_num=$club_num";  // 해당 모임을 구매한 사람의 id
+    $result = mysqli_query($conn,$sql);
+    if (!$result) {
+      die('Error: ' . mysqli_error($conn));
+    }
+    $count=mysqli_num_rows($result);
+    include './Sendmail.php';
+
+    for($i=0;$i<$count;$i++){
+      $row = mysqli_fetch_array($result);
+      $email=$row['email'];
+
+      var_dump($email);
+      $to=$email;
+      $from="관리자";
+      $subject="Mo,im 모임이 개설여건에 맞지않아 취소되었습니다.";
+      $body="Mo,im 고객님께서 신청하신 모임이 개설여건에 맞지 않아 취소되었습니다. 죄송합니다. \n 자세한 내용은 홈페이지에서 확인하세요.";
+      $cc_mail="";
+      $bcc_mail=""; /* 메일 보내기*/
+      $sendmail->send_mail($to, $from, $subject, $body,$cc_mail,$bcc_mail);
+
+  }
+}
 ?>

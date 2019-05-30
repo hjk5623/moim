@@ -74,7 +74,6 @@ $number2=$total_record2 - $start_row2;
       var club_apply=apply;
       if(club_to/2 > apply){
         alert("신청인원이 부족합니다. 모집정원의 1/2 의 신청이 있어야만 개설이 가능합니다.");
-
       }else{
         var result=confirm("모임명 : "+club_name+" \n개설하시겠습니까?");
         if(result){
@@ -97,11 +96,29 @@ $number2=$total_record2 - $start_row2;
         }
       }
     }
-    function check_delete(club_end,num,club_name) {
+    function check_delete(club_end, num, club_name) {
       var result=confirm("모임명 : "+club_name+" \n삭제 하시겠습니까?");
       if(result){
-        window.location.href='./admin_query.php?mode=clubdelete&club_num='+num;
+        $.ajax({
+          url: '../../PHPmailer/email.php?mode=club_del',
+          type: 'POST',
+          data: {
+            club_num: num
+          }
+        })
+        .done(function(result) {
+          console.log(result);
+          window.location.href='./admin_query.php?mode=clubdelete&club_num='+num;
+        })
+        .fail(function() {
+          console.log("error");
+        })
+        .always(function() {
+          console.log("complete");
+        });
+
       }
+
     }
   </script>
 </head>

@@ -32,6 +32,12 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "clubinsert"){
  }else if(empty($_POST["club_rent_info1"]) || empty($_POST["club_rent_info2"]) ){
    echo "<script>alert('장소를 입력해주세요. 상세주소까지 입력해주세요.'); history.go(-1);</script>";
    return;
+ }else if(empty($_POST["club_intro"])){
+   echo "<script>alert('모임의 간단한 소개를 입력해주세요.'); history.go(-1);</script>";
+   return;
+ }else if(empty($_POST["content"])){
+   echo "<script>alert('모임내용을 입력해주세요.'); history.go(-1);</script>";
+   return;
  }
  $club_name= test_input($_POST["club_name"]);                   //모임명
  $content=test_input($_POST["content"]);                       //모임내용
@@ -114,11 +120,21 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "clubdelete"){
     unlink("../data/".$club_file_copied);
   }
 
+  //buy 테이블에서 구매한 고객의 buy_cancle 를 yes로 바꿔준다.
+  $sql="UPDATE `buy` set `buy_cancle`='yes' where `buy_club_num`='$q_club_num';";
+  $result = mysqli_query($conn,$sql);
+  if (!$result) {
+    alert_back('Error: ' . mysqli_error($conn));
+  }
+
+
   $sql="DELETE from `club` where club_num='$q_club_num'";
   $result=mysqli_query($conn, $sql);
   if (!$result) {
     die('Error: ' . mysqli_error($conn));
   }
+
+  echo "<script> location.href='./admin_club_accept.php'; </script>";
 
 
 }
@@ -126,12 +142,13 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "clubdelete"){
 //회원삭제
 if(isset($_GET["mode"]) && $_GET["mode"] == "memberdel"){
   $id=test_input($_POST['user_id']);
-  // var_export($id);
+
   $sql="DELETE from `membership` where id='$id' ";
   $result=mysqli_query($conn, $sql);
   if (!$result) {
     alert_back('Error: ' . mysqli_error($conn));
   }
+
 
 }
 

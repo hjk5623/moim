@@ -3,6 +3,7 @@ $(document).ready(function() {
 
   //모임이름검사
   $("#club_name").focusout(function(event) {
+    document.getElementById("flag_club_name").value="false";
     var club_name = document.getElementById("club_name");
     var span_club_name = document.getElementById("span_club_name");
     if (club_name.value.length === 0) {
@@ -12,10 +13,14 @@ $(document).ready(function() {
       return false;
     }else{
       span_club_name.innerHTML="";
+      document.getElementById("flag_club_name").value="true";
+
     }
   });
+
   //카테고리검사
   $("#club_category").focusout(function(event) {
+    document.getElementById("flag_club_category").value="false";
     var club_category = document.getElementById("club_category");
     var span_club_category = document.getElementById("span_club_category");
     if (club_category.value === "선택") {
@@ -25,23 +30,26 @@ $(document).ready(function() {
       return false;
     }else{
       span_club_category.innerHTML="";
+      document.getElementById("flag_club_category").value="true";
+
     }
   });
   //주소검사
-  $("#address1").focusout(function(event) {
-     var address1 = document.getElementById("address1");
-     var address2 = document.getElementById("address2");
-   var agit_category = document.getElementById("agit_category");
-     if (address1.value.length === 0 || address2.value.length === 0) {
-       $("#span_address").css('color', 'red');
-       span_address.innerHTML="주소를 입력해주세요";
-       return false;
-     }else{
-       span_address.innerHTML="";
-     }
-  });
+  // $("#address1").focusout(function(event) {
+  //    var address1 = document.getElementById("address1");
+  //    var address2 = document.getElementById("address2");
+  //  var agit_category = document.getElementById("agit_category");
+  //    if (address1.value.length === 0 || address2.value.length === 0) {
+  //      $("#span_address").css('color', 'red');
+  //      span_address.innerHTML="주소를 입력해주세요";
+  //      return false;
+  //    }else{
+  //      span_address.innerHTML="";
+  //    }
+  // });
   //모집정원검사
   $("#club_to").focusout(function(event) {
+    document.getElementById("flag_club_to").value="false";
     var club_to = document.getElementById("club_to");
     var span_club_to = document.getElementById("span_club_to");
     if (club_to.value.length === 0) {
@@ -51,13 +59,14 @@ $(document).ready(function() {
       return false;
     }else{
       span_club_to.innerHTML="";
+      document.getElementById("flag_club_to").value="true";
     }
   });
 
   //모집시작일검사
   $("#datepicker1").change(function(event) {
+    document.getElementById("flag_club_start").value="false";
     var datepicker1 = document.getElementById("datepicker1");
-    // alert(datepicker1.value);
     var span_club_start = document.getElementById("span_club_start");
     if (datepicker1.value.length === 0) {
       $("#span_club_start").css('color', 'red');
@@ -66,23 +75,28 @@ $(document).ready(function() {
       return false;
     }else{
       span_club_start.innerHTML="";
+      document.getElementById("flag_club_start").value="true";
+
     }
   });
   //모집종료일검사
   $("#datepicker2").change(function(event) {
+    document.getElementById("flag_club_end").value="false";
     var datepicker2 = document.getElementById("datepicker2");
     var span_club_end = document.getElementById("span_club_end");
     if (datepicker2.value.length === 0) {
       $("#span_club_end").css('color', 'red');
-      span_club_end.innerHTML="모집시작일을 입력해주세요";
+      span_club_end.innerHTML="모집마감일을 입력해주세요";
       datepicker2.value = "";
       return false;
     }else{
       span_club_end.innerHTML="";
+      document.getElementById("flag_club_end").value="true";
     }
   });
   //가격검사
   $("#club_price").focusout(function(event) {
+    document.getElementById("flag_club_price").value="false";
     var club_price = document.getElementById("club_price");
     var span_club_price = document.getElementById("span_club_price");
     if (club_price.value.length === 0) {
@@ -92,11 +106,14 @@ $(document).ready(function() {
       return false;
     }else{
       span_club_price.innerHTML="";
+      document.getElementById("flag_club_price").value="true";
     }
   });
 
+
   //간단소개검사
   $("#club_intro").focusout(function(event) {
+    document.getElementById("flag_club_intro").value="false";
     var club_intro = document.getElementById("club_intro");
     var span_club_intro = document.getElementById("span_club_intro");
     if (club_intro.value.length === 0) {
@@ -106,8 +123,27 @@ $(document).ready(function() {
       return false;
     }else{
       span_club_intro.innerHTML="";
+      document.getElementById("flag_club_intro").value="true";
+
     }
   });
+
+    //내용검사
+    $("#content").focusout(function(event) {
+      document.getElementById("flag_club_content").value="false";
+      var content = document.getElementById("content");
+      var span_club_content = document.getElementById("span_club_content");
+      if (content.value.length === 0) {
+        $("#span_club_content").css('color', 'red');
+        span_club_content.innerHTML="모임내용을 입력해주세요.";
+        content.value = "";
+        return false;
+      }else{
+        span_club_content.innerHTML="";
+        document.getElementById("flag_club_content").value="true";
+
+      }
+    });
 
 
   //포커스 인
@@ -118,11 +154,6 @@ $(document).ready(function() {
   $("#club_category").focusin(function(event) {
     document.getElementById("span_club_category").innerHTML="";
   });
-
-  $("#address1").focusin(function(event) {
-    document.getElementById("span_address").innerHTML="";
-  });
-
 
   $("#club_to").focusin(function(event) {
     document.getElementById("span_club_to").innerHTML="";
@@ -140,52 +171,49 @@ $(document).ready(function() {
     document.getElementById("span_club_price").innerHTML="";
   });
 
-  // $("#phone3").focusin(function(event) {
-  //   document.getElementById("span_phone").innerHTML="";
-  // });
-  // $("#address1").focusin(function(event) {
-  //   document.getElementById("span_address").innerHTML="";
-  // });
-  // $("#address3").focusin(function(event) {
-  //   document.getElementById("span_address").innerHTML="";
-  // });
-  // $("#email1").focusin(function(event) {
-  //   document.getElementById("span_email").innerHTML="";
-  // });
-  // $("#email2").focusin(function(event) {
-  //   document.getElementById("span_email").innerHTML="";
-  // });
+  $("#club_intro").focusin(function(event) {
+    document.getElementById("span_club_intro").innerHTML="";
+  });
 
-  //가입하기버튼
-  // $("#button2").click(function(event) {
-  //   if(document.getElementById("flag_id").value!="true"){
-  //     alert("아이디를 확인해주세요");
-  //     return;
-  //   }else if(document.getElementById("flag_name").value!="true"){
-  //     alert("이름을 확인해주세요");
-  //     return;
-  //   }else if(document.getElementById("flag_passwd").value!="true"){
-  //     alert("비밀번호를 확인해주세요");
-  //     return;
-  //   }else if(document.getElementById("flag_passwd_check").value!="true"){
-  //     alert("비밀번호를 확인해주세요");
-  //     return;
-  //   }else if(document.getElementById("flag_phone2").value!="true"){
-  //     alert("전화번호를 확인해주세요");
-  //     return;
-  //   }else if(document.getElementById("flag_phone3").value!="true"){
-  //     alert("전화번호를 확인해주세요");
-  //     return;
-  //   }else if(document.getElementById("flag_address").value!="true"){
-  //     alert("주소를 확인해주세요");
-  //     return;
-  //   }else if(document.getElementById("flag_email").value!="true"){
-  //     alert("이메일 인증을 해주세요");
-  //     return;
-  //   }
-  //   document.getElementById("email2").disabled=false;
-  //   document.member_form.submit();
-  // });
+  $("#content").focusin(function(event) {
+    document.getElementById("span_club_content").innerHTML="";
+  });
+
+
+
+  // submit 버튼
+  $("#submit_btn").click(function(event) {
+    if(document.getElementById("flag_club_name").value!="true"){
+      alert("모임이름을 확인해주세요");
+      return;
+    }else if(document.getElementById("flag_club_category").value!="true"){
+      alert("카테고리를 확인해주세요");
+      return;
+    }else if(document.getElementById("flag_club_to").value!="true"){
+      alert("모집정원을 확인해주세요");
+      return;
+    }else if(document.getElementById("flag_club_start").value!="true"){
+      alert("모집시작일을 확인해주세요");
+      return;
+    }else if(document.getElementById("flag_club_end").value!="true"){
+      alert("모집마감일을 확인해주세요");
+      return;
+    }else if(document.getElementById("flag_club_price").value!="true"){
+      alert("가격을 확인해주세요");
+      return;
+    }else if(document.getElementById("flag_club_schedule").value!="true"){
+      // alert("모임일정을 확인해주세요");
+      // return;
+    }else if(document.getElementById("flag_club_intro").value!="true"){
+      alert("모임간단소개를 확인 해주세요");
+      return;
+    }else if(document.getElementById("flag_club_content").value!="true"){
+      alert("모임 내용을 확인 해주세요");
+      return;
+    }
+    // document.getElementById("email2").disabled=false;
+    document.tx_editor_form.submit();
+  });
 
   // $("#check1").click(function(event) {
   //   var check1 = document.getElementById("check1");
