@@ -16,4 +16,5 @@ html{
   border-radius: 20px;
   cursor: pointer;
   display: none;
+  z-index: 99;
 }
