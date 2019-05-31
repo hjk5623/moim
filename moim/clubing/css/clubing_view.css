@@ -45,22 +45,6 @@
   color:
 }
 
-.club_div .club_div_btn{
-  width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  margin-top: 3%;
-}
-
-.club_div .club_div_btn button[type="button"]{
-  border: none;
-  outline: none;
-  padding: 10px 20px;
-  background-color: #192a56;
-  color: #fff;
-  cursor: pointer;
-}
-
 .club_view_map{
   width: 100%;
 }
@@ -98,22 +82,11 @@
 .ripple #ripple_textarea textarea{
   width: 90%;
   height: 100px;
-  outline-color: #fab1a0;
 }
 
-.ripple #ripple_textarea button[type="button"]{
+.ripple #ripple_textarea button[type="submit"]{
   float: right;
   height: 105px;
-  border: none;
-  outline: none;
-  color: #fff;
-  background-color: #ff6b6b;
-  cursor: pointer;
-  border-radius: 3px;
-}
-
-.ripple .ss_title{
-  color: #eb4d4b;
 }
 
 .ripple_section ul{
@@ -123,19 +96,6 @@
 
 .ripple_section .ripple_div{
   width: 100%;
-}
-
-.ripple_section .ripple .ripple_back_btn .btn{
-  border: none;
-  outline: none;
-  background-color: #fff;
-  cursor: pointer;
-  font-size: 17px;
-  color: gray;
-}
-
-.ripple_section .ripple .ripple_back_btn .btn:hover{
-  color: #2d3436;
 }
 
 .club_view_bar{

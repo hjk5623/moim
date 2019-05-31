@@ -79,7 +79,11 @@ $row_length= 150;   //club_intro 150바이트범위 외 ... 으로 생략
         <li><a href="./list.php">CLUB LIST</a></li>
         <li><a href="../../faq/source/faq_list.php">BOARD</a></li>
         <li><a href="#" onclick="message_form();">MESSAGE</a></li>
-        <li><a href="../../mypage/source/user_modify.php">MY PAGE</a></li>
+        <?php
+        if(isset($_SESSION['userid'])){
+          echo "<li><a href='../../mypage/source/user_check.php'>MY PAGE</a></li>";
+        }
+         ?>
         <?php
         if(!isset($_SESSION['userid'])){
           echo ('<li><a href="../../login/source/login.php">LOG IN</a></li>');
@@ -108,7 +112,7 @@ $row_length= 150;   //club_intro 150바이트범위 외 ... 으로 생략
     <div id="top_list_div">
     <div class="top_list" id="startdiv">
       <div class="top_list_btn">
-      <a href="#" onclick="call_clublist()" class="btn club_list_btn"><i class="fas fa-check"></i>모집중인 모임</a>
+      <a href="#" onclick="call_clublist()" class="btn club_list_btn">모집중인 모임</a>
       <a href="#" onclick="call_clubing()" class="btn clubing_btn">진행중인 모임</a>
       </div>
       <div class="gallery_h2">
@@ -119,6 +123,7 @@ $row_length= 150;   //club_intro 150바이트범위 외 ... 으로 생략
     <section class="gallery" id="gallery_id">
             <?php
             $today = date("Y-m-d");    //현재 날짜 (ex:2019-01-01)
+            // cart 테이블을 검색한다.
             $sql = "SELECT * FROM cart;";
             $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
             $row= mysqli_fetch_array($result);
@@ -126,12 +131,12 @@ $row_length= 150;   //club_intro 150바이트범위 외 ... 으로 생략
             $cart_club_num= $row['cart_club_num'];
 
           if (!(empty($_GET['mode']))&&(isset($_GET['mode']))){     //카테고리 별 모집모임
-            // club 테이블의 club_num 와 cart 테이블의 cart_num가 같은 것 중에서 해당 카테고리와 club_open가 no이고 club_end가 오늘날짜보다 클 때 히트 순으로 검색한다.
+            // club 테이블의 해당 카테고리와 club_open가 no이고 club_end가 오늘날짜보다 클 때 히트 순으로 검색한다.
             $sql = "SELECT * FROM club where club_category='$mode' and club_open = 'no' and club_end >= '$today' order by club_hit desc;";
             $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
             $count=mysqli_num_rows($result);
           }else{                                                    // 전체 모집모임
-            // club 테이블의 club_num 와 cart 테이블의 cart_num가 같은 것 중에서 club_open가 no이고 club_end가 오늘날짜보다 클 때 히트 순으로 검색한다.
+            // club 테이블의 club_open가 no이고 club_end가 오늘날짜보다 클 때 히트 순으로 검색한다.
             $sql = "SELECT * FROM club  where club_open = 'no' and club_end >= '$today' order by club_hit desc;";
 
             $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
@@ -160,7 +165,7 @@ $row_length= 150;   //club_intro 150바이트범위 외 ... 으로 생략
                }else if(!isset($userid)&&$diff<=5){   //로그인을 하지 않고 마감일이 다가 올 경우
                  ?>
                  <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
-                 <div class="deadline"><h2>마감<br>임박</h2></div>
+                 <div class="">마감임박</div>
                  <?php
                }else if(isset($userid)&&$diff>5){   //로그인 하고 해당된 모임에 찜클릭을 하지않았을 경우
                  if ($cart_club_num!==$club_num) {
@@ -177,13 +182,13 @@ $row_length= 150;   //club_intro 150바이트범위 외 ... 으로 생략
                  if ($cart_club_num!==$club_num) {
                   ?>
                   <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
-                  <div class="deadline"><h2>마감<br>임박</h2></div>
+                  <div class="">마감임박</div>
                   <?php
                 }else{
                   ?>
                   <div class="pop">Like It!</div>
                   <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
-                  <div class="deadline"><h2>마감<br>임박</h2></div>
+                  <div class="">마감임박</div>
                   <?php
                 }
               }

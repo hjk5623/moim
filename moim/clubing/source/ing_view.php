@@ -44,8 +44,11 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
    <link rel="stylesheet" href="../css/club.css">
    <link rel="stylesheet" href="../css/clubing_view.css">
-   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../css/modal_alert.css">
+  <script type="text/javascript" src="../../js/modal_alert.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
    <title></title>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
    <script>
@@ -99,6 +102,11 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
    </style>
  </head>
  <body>
+   <div id="myModal" class="modal">
+  <div class="modal-content" id="modal-content">
+
+   </div>
+ </div>
    <nav>
      <div class="brand">
        <a href="../../mainpage.php">
@@ -109,7 +117,11 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
        <li><a href="../../club_list/source/list.php">CLUB LIST</a></li>
        <li><a href="../../faq/source/faq_list.php">BOARD</a></li>
        <li><a href="#" onclick="message_form();">MESSAGE</a></li>
-       <li><a href="../../mypage/source/user_modify.php">MY PAGE</a></li>
+       <?php
+       if(isset($_SESSION['userid'])){
+         echo "<li><a href='../../mypage/source/user_check.php'>MY PAGE</a></li>";
+       }
+        ?>
        <?php
        if(!isset($_SESSION['userid'])){
          echo ('<li><a href="../../login/source/login.php">LOG IN</a></li>');
@@ -143,10 +155,8 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
             //관리자만 수정/삭제 버튼이 보임
             if(!empty($userid) && $userid==="admin"){ ?>
               <!-- <button type="button" name="button">수정</button> -->
-              <div class="club_div_btn">
-                <button type="button" name="button" onclick="location.href='ing_query.php?mode=c_delete&club_num=<?=$club_num?>'">삭제</button>
-                <button type="button" name="button" onclick="location.href='../../admin/source/admin_club_create.php?mode=update&club_num=<?=$club_num?>'">수정</button>
-              </div>
+              <button type="button" name="button" onclick="location.href='ing_query.php?mode=c_delete&club_num=<?=$club_num?>'">삭제</button>
+              <button type="button" name="button" onclick="location.href='../../admin/source/admin_club_create.php?mode=update&club_num=<?=$club_num?>'">수정</button>
             <?php } ?>
           </div>
        </div><!--club_info-->
@@ -198,7 +208,7 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
        <section class="ripple_section"> <!--후기-->
          <hr class="divider">
          <div class="ripple"> <!--임시 클래스명임. 바꿀겁니다-->
-           <h3 class="ss_title">후기</h3>
+           <p class="ss_title">후기</p>
            <div id="ripple_insert">
              <div id="ripple_textarea">
                <textarea name="c_ripple_content" id="c_ripple_content" placeholder="후기를 작성해주세요."></textarea>
@@ -210,8 +220,8 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
              <ul>
                <li class="col-md-6 col-md-offset-3 results"></li>
              </ul>
-             <div class="ripple_back_btn">
-               <button type="button" class="btn btn-default" id="loadmorebtn" name="button"><i class="far fa-arrow-alt-circle-down"></i>&nbsp;&nbsp;이전 댓글보기</button>
+             <div>
+               <button type="button" class="btn btn-default" id="loadmorebtn" name="button">이전 댓글보기</button>
              </div>
            </div><!--end of div 후기 리스트-->
            <input type="hidden" id="hidden_num" value="<?=$club_num?>">

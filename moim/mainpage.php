@@ -22,12 +22,12 @@ $row_count= mysqli_num_rows($result);
     <link rel="stylesheet" href="./css/slider.css">
     <link rel="stylesheet" href="./css/promotion.css">
     <link rel="stylesheet" href="./css/promotion_two.css">
+    <link rel="stylesheet" href="./css/upbutton.css">
     <link rel="stylesheet" href="./css/container_test.css">
     <link rel="stylesheet" href="./css/service.css">
     <link rel="stylesheet" href="./css/footer.css">
-    <link rel="stylesheet" href="./css/upbutton.css">
-    <script type="text/javascript" src="./js/upbtn.js"></script>
     <script type="text/javascript" src="./js/slide_menu.js"></script>
+    <script type="text/javascript" src="./js/upbtn.js"></script>
     <script type="text/javascript" src="./js/main_menu.js"></script><script type="text/javascript">
     function message_form(){
      var popupX = (window.screen.width/2)-(600/2);
@@ -55,7 +55,11 @@ $row_count= mysqli_num_rows($result);
            ?>
           <br>
           <a href="mainpage.php">HOME</a>
-          <a href="./mypage/source/user_modify.php">MY PAGE</a>
+          <?php
+          if(isset($_SESSION['userid'])){
+            echo "<a href='./mypage/source/user_check.php'>MY PAGE</a>";
+          }
+           ?>
           <a href="./club_list/source/list.php">CLUB LIST</a>
           <!-- <a href="#">VIEW PLACE</a> -->
           <a href="./faq/source/faq_list.php">BOARD</a>
@@ -151,8 +155,8 @@ $row_count= mysqli_num_rows($result);
               ?>
               </div>
             </div>
+          </div>
         </section>
-      </div>
 
         <hr class="divider">
         <section class="promotion_section_two">
@@ -301,6 +305,7 @@ $row_count= mysqli_num_rows($result);
           <div class="footer_section contact_form">
             <h2>Contact Us</h2>
             <br>
+
           </div>
         </div>
         <div class="footer_bottom">

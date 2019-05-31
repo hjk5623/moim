@@ -10,13 +10,13 @@ function buy_page(){
 
 
   if (id=="") {  // 비 로그인 시
-    alert("로그인이 필요합니다.");
+    modal_alert("알림","로그인이 필요합니다.");
   }else if((buy_club_num==club_num)&&(id==buy_id)){  //중복 결제할 경우
-    alert("결제된 모임입니다. 다시 확인하여 주십시오.");
+    modal_alert("알림","결제된 모임입니다. <br> 다시 확인하여 주십시오.");
   }else if(club_to<=club_apply){ //신청인원이 다 찼을 경우
-    alert("마감되었습니다.");
+    modal_alert("알림","마감되었습니다");
   }else{
-  window.location.href="./payment.php?club_num="+club_num+"&club_name="+club_name+"&club_price="+club_price+"&id="+id;
+    modal_alert_cancle("알림","결제하시겠습니까?","./payment.php?club_num="+club_num+"&club_name="+club_name+"&club_price="+club_price+"&id="+id);
  }
 }
 
@@ -27,18 +27,13 @@ function cart_page(){
   var cart_id = document.getElementById('cart_id').value;
 
   if ((cart_id==id)&&(cart_club_num==club_num)) {   //중복으로 카트담기 할 경우
-    alert("이미 등록하셨습니다.");
+    modal_alert("알림","이미 등록하셨습니다.");
   }else if(!id){   //비 로그인 시
-    alert("로그인이 필요합니다.");
+    modal_alert("알림","로그인이 필요합니다.");
   }else{
-    alert("찜 등록되었습니다.");
-    window.location.href="./query.php?mode=cart&id="+id+"&club_num="+club_num;
+    modal_alert("알림","찜 등록되었습니다.","./query.php?mode=cart&id="+id+"&club_num="+club_num);
   }
 }
-
 function del_check(){   //모임을 삭제 하는 경우
-  var result=confirm("삭제하시겠습니까?");
-  if(result){
-    window.location.href='./query.php?mode=<?=$mode="delete"?>&club_num=<?=$club_num?>';
-  }
+  modal_alert_cancle("알림","삭제하시겠습니까?","./query.php?mode=delete&club_num="+club_num);
 }

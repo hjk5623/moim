@@ -15,7 +15,6 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>clubing list- 보미</title>
     <link rel="stylesheet" href="../css/club.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script type="text/javascript" src="../js/menu.js"></script>
@@ -71,7 +70,11 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
         <li><a href="../../club_list/source/list.php">CLUB LIST</a></li>
         <li><a href="../../faq/source/faq_list.php">BOARD</a></li>
         <li><a href="#" onclick="message_form();">MESSAGE</a></li>
-        <li><a href="../../mypage/source/user_modify.php">MY PAGE</a></li>
+        <?php
+        if(isset($_SESSION['userid'])){
+          echo "<li><a href='../../mypage/source/user_check.php'>MY PAGE</a></li>";
+        }
+         ?>
         <?php
         if(!isset($_SESSION['userid'])){
           echo ('<li><a href="../../login/source/login.php">LOG IN</a></li>');
@@ -109,7 +112,7 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
       <div class="top_list" id="startdiv">
         <div class="top_list_btn">
           <a href="#" onclick="call_clublist()" class="btn club_list_btn">모집중인 모임</a>
-          <a href="#" onclick="call_clubing()" class="btn clubing_btn"><i class="fas fa-check"></i>진행중인 모임</a>
+          <a href="#" onclick="call_clubing()" class="btn clubing_btn">진행중인 모임</a>
         </div>
         <div class="gallery_h2"></div>
       </div>

@@ -18,7 +18,6 @@ if(!isset($_SESSION['userid'])){  //로그인페이지로 보내기
  <html lang="ko" dir="ltr">
    <head>
      <meta charset="utf-8">
-     <link rel="stylesheet" href="../css/qna_list.css">
      <title></title>
      <?php
      if(isset($_GET["mode"])&&($_GET["mode"]=="search")){
@@ -66,31 +65,31 @@ if(!isset($_SESSION['userid'])){  //로그인페이지로 보내기
              ?>
    </head>
    <body>
-        <?php include "../lib/menu.php"; ?>
-        <div class="qna_list">
-          <h1 class="qna_list_h1">QnA</h1>
-          <div class="search">
-            <form name="qna" action="qna_list.php?mode=search" method="post">
-             <!-- ▷ 총 <?=$total_record?>개의 게시물이 있습니다. -->
-             <select name="find">
-               <option value="qna_subject">제목</option>
-               <option value="qna_content">내용</option>
-               <option value="qna_id">아이디</option>
-             </select>
-             <input type="text" name="search">
-             <input type="submit" value="검색">
-           </form>
-         </div>
+     <div>
+       <nav>
+         <?php include "../lib/menu.php"; ?>
+       </nav>
+        <table border="1">
+         <tr>
+           <form name="qna" action="qna_list.php?mode=search" method="post">
+           <td>▷ 총 <?=$total_record?>개의 게시물이 있습니다.</td>
+           <td><select name="find">
+             <option value="qna_subject">제목</option>
+             <option value="qna_content">내용</option>
+             <option value="qna_id">아이디</option>
+           </select></td>
+           <td><input type="text" name="search"></td>
+           <td><input type="submit" value="검색"></td>
+         </form>
+         </tr>
 
-      <table class="qna_list_table">
-        <thead>
-          <tr>
-             <td id="list_title1" >번호 &nbsp;</td>
-             <td id="list_title2" >제목 &nbsp;</td>
-             <td id="list_title3" >글쓴이 &nbsp;</td>
-             <td id="list_title4" >등록일 &nbsp;</td>
-          </tr>
-        </thead>
+
+         <tr>
+           <td id="list_title1" >번호 &nbsp;</td>
+           <td id="list_title2" >제목 &nbsp;</td>
+           <td id="list_title3" >글쓴이 &nbsp;</td>
+           <td id="list_title4" >등록일 &nbsp;</td>
+         </tr>
 
 
      <?php
@@ -103,8 +102,8 @@ if(!isset($_SESSION['userid'])){  //로그인페이지로 보내기
        $qna_content=$row['qna_content'];
        $qna_date=substr($row['qna_date'], 0,10);
        ?>
-        <tbody>
-        <tr>
+
+         <tr>
            <td id="list_item1"><?=$number?></td>
              <td id="list_item2">
                <?php
@@ -122,20 +121,12 @@ if(!isset($_SESSION['userid'])){  //로그인페이지로 보내기
            <td id="list_item3"><?=$qna_id?></td>
            <td id="list_item4"><?=$qna_date?></td>
          </tr><!-- end of list_item -->
-         </tbody>
 
          <?php
         $number--;
         }//end of for
           ?>
         </table>
-        <div id="button">
-          <a href="qna_list.php?page=<?=$page?>">목록</a>
-
-          <?php
-              echo '<a href="qna_write.php">'."글쓰기".'</a>';
-            ?>
-        </div><!-- end of button -->
 
             <div class="page_box"><!-- 페이지 표시하는곳 -->
               <!-- 페이지 표시하는 곳 표기 -->
@@ -168,6 +159,13 @@ if(!isset($_SESSION['userid'])){  //로그인페이지로 보내기
                  }
                ?>
             </div>
+          <div id="button">
+            <a href="qna_list.php?page=<?=$page?>">목록</a>
+
+            <?php
+                echo '<a href="qna_write.php">'."글쓰기".'</a>';
+              ?>
+          </div><!-- end of button -->
        </div>
    </body>
  </html>
