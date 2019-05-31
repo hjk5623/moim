@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
@@ -48,6 +48,9 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR" rel="stylesheet">
    <title></title>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../css/modal_alert.css">
+  <script type="text/javascript" src="../../js/modal_alert.js"></script>
+  
    <script>
      var startHeightMin=788; //트리거 시작 스크롤 위치
      var itemHeight=100; // 아이템별 높이
@@ -99,6 +102,11 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
    </style>
  </head>
  <body>
+<div id="myModal" class="modal">
+  <div class="modal-content" id="modal-content">
+
+   </div>
+ </div>
    <nav>
      <div class="brand">
        <a href="../../mainpage.php">

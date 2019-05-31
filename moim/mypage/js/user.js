@@ -4,7 +4,7 @@ $(document).ready(function() {
     var id = document.getElementById("id");
     var passwd = document.getElementById("passwd");
     if (passwd.value.length === 0) {
-      alert("패스워드를 입력하세요");
+      modal_alert("알림","패스워드를 입력하세요");
       return false;
     }
     $.ajax({
@@ -18,7 +18,7 @@ $(document).ready(function() {
       if(json_obj[0].id=="성공"){
         location.href="./user_modify.php";
       }else{
-        alert("패스워드가 맞지 않습니다.");
+        modal_alert("알림","패스워드가 맞지 않습니다.");
       }
     })
     .fail(function() {
@@ -30,24 +30,7 @@ $(document).ready(function() {
   });
 
   $(".apply_cancle").click(function(event) {
-    var apply_confirm = confirm("신청을 취소 하시겠습니까?");
-    if(apply_confirm){
-      $.ajax({
-        url: '../source/user_query.php?mode=apply_cancle',
-        type: 'POST',
-        data: {buy_num: $(this).val()}
-      })
-      .done(function(result) {
-        console.log("success");
-        location.href="../source/user_apply.php";
-      })
-      .fail(function() {
-        console.log("error");
-      })
-      .always(function() {
-        console.log("complete");
-      });
-    }
+    modal_alert_cancle("알림","신청을 취소 하시겠습니까?","cancle",$(this).val());
   });
 
   //이름 검사
@@ -170,25 +153,25 @@ $(document).ready(function() {
 
   $("#button2").click(function(event) {
     if(document.getElementById("flag_name").value!="true"){
-      alert("이름을 확인해주세요");
+      modal_alert("알림","이름을 확인해주세요");
       return;
     }else if(document.getElementById("flag_passwd").value!="true"){
-      alert("비밀번호를 확인해주세요");
+      modal_alert("알림","비밀번호를 확인해주세요");
       return;
     }else if(document.getElementById("flag_passwd_check").value!="true"){
-      alert("비밀번호를 확인해주세요");
+      modal_alert("알림","비밀번호를 확인해주세요");
       return;
     }else if(document.getElementById("flag_phone2").value!="true"){
-      alert("전화번호를 확인해주세요");
+      modal_alert("알림","전화번호를 확인해주세요");
       return;
     }else if(document.getElementById("flag_phone3").value!="true"){
-      alert("전화번호를 확인해주세요");
+      modal_alert("알림","전화번호를 확인해주세요");
       return;
     }else if(document.getElementById("flag_address").value!="true"){
-      alert("주소를 확인해주세요");
+      modal_alert("알림","주소를 확인해주세요");
       return;
     }else if(document.getElementById("flag_email").value!="true"){
-      alert("이메일 인증을 해주세요");
+      modal_alert("알림","이메일 인증을 해주세요");
       return;
     }
     document.getElementById("email2").disabled=false;
@@ -239,7 +222,7 @@ $(document).ready(function() {
       document.getElementById("flag_email").value="true";
       clearTimeout(myVar);
     }else{
-      alert("인증 실패");
+      modal_alert("알림","인증 실패");
     }
   });
 
@@ -306,6 +289,23 @@ $(document).ready(function() {
 
 });
 
+function user_club_refund(buy_num){
+  $.ajax({
+      url: '../source/user_query.php?mode=apply_cancle',
+      type: 'POST',
+      data: {buy_num: buy_num}
+  })
+  .done(function(result) {
+    console.log("success");
+    location.href="../source/user_apply.php";
+  })
+  .fail(function() {
+    console.log("error");
+  })
+  .always(function() {
+    console.log("complete");
+  });
+}
 
 //이메일 시간계산
 function myFunction() {
@@ -383,31 +383,29 @@ $(document).ready(function() {
   });
 
   $(".del_btn").click(function(event) {
-    var result = confirm("삭제하시겠습니까?");
-    if(result){
-      location.href="./user_query.php?mode=del_btn&cart_num="+$(this).val();
-    }
+    modal_alert_cancle("알림","삭제하시겠습니까?","./user_query.php?mode=del_btn&cart_num="+$(this).val());
   });
 
   $("#choice_btn").click(function(event) {
-    var result = confirm("삭제하시겠습니까?");
-    if(result){
-      var check_val= $("input:checkbox[name=choice_check]:checked").length;
-      var cart_num = [];
-      if(check_val){
-        for(i=0;i<check_val;i++){
-          var leng = $("input:checkbox[name=choice_check]:checked")[i].value;
-          cart_num[i]=leng;
-        }
-      }else{
-        alert("삭제할 항목을 선택하세요");
-        return;
-      }
-      location.href="./user_query.php?mode=choice_del&cart_num="+cart_num;
-    }
+    modal_alert_cancle("알림","선택 항목을 삭제하시겠습니까?","choice");
   });
 
 });
+
+function check_choice(){
+  var check_val= $("input:checkbox[name=choice_check]:checked").length;
+  var cart_num = [];
+  if(check_val){
+    for(i=0;i<check_val;i++){
+      var leng = $("input:checkbox[name=choice_check]:checked")[i].value;
+      cart_num[i]=leng;
+    }
+  }else{
+    modal_alert("알림","삭제할 항목을 선택하세요");
+    return;
+  }
+  location.href="./user_query.php?mode=choice_del&cart_num="+cart_num;
+}
 
 function user_request_check(){
   var user_name = document.getElementById("user_name");
@@ -421,21 +419,21 @@ function user_request_check(){
   var user_file = document.getElementById("user_file");
   var user_intro = document.getElementById("user_intro");
   var user_content = document.getElementById("user_content");
-  if(user_name.value == ""){alert("모임명을 입력하세요"); return;}
-  if(datepicker1.value == ""){alert("모집시작일을 선택하세요"); return;}
-  if(datepicker2.value == ""){alert("모집마감일을 선택하세요"); return;}
+  if(user_name.value == ""){modal_alert("알림","모임명을 입력하세요"); return;}
+  if(datepicker1.value == ""){modal_alert("알림","모집시작일을 선택하세요"); return;}
+  if(datepicker2.value == ""){modal_alert("알림","모집마감일을 선택하세요"); return;}
   var select_span = document.getElementsByName("select_span");
-  if(select_span.length == 0){alert("모임일정을 추가하세요"); return;}
-  if(user_to.value == ""){alert("모집인원을 입력하세요"); return;}
-  if(user_category.value == "선택"){alert("분야를 선택하세요"); return;}
-  if(select_value.value == "선택"){alert("아지트를 선택하세요"); return;}
-  if(user_price.value == ""){alert("가격을 입력하세요"); return;}
-  if(user_image.value == ""){alert("이미지를 선택하세요"); return;}
-  if(user_file.value == ""){alert("파일을 선택하세요"); return;}
-  if(user_intro.value == ""){alert("간단소개를 입력하세요"); return;}
+  if(select_span.length == 0){modal_alert("알림","모임일정을 추가하세요"); return;}
+  if(user_to.value == ""){modal_alert("알림","모집인원을 입력하세요"); return;}
+  if(user_category.value == "선택"){modal_alert("알림","분야를 선택하세요"); return;}
+  if(select_value.value == "선택"){modal_alert("알림","아지트를 선택하세요"); return;}
+  if(user_price.value == ""){modal_alert("알림","가격을 입력하세요"); return;}
+  if(user_image.value == ""){modal_alert("알림","이미지를 선택하세요"); return;}
+  if(user_file.value == ""){modal_alert("알림","파일을 선택하세요");  return;}
+  if(user_intro.value == ""){modal_alert("알림","간단소개를 입력하세요"); return;}
   text = $.trim(CKEDITOR.instances.user_content.getData().replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, ""));
   text = text.replace(/&nbsp;/gi,"");
-  if(text == ""){alert("모임소개를 입력하세요"); return;}
+  if(text == ""){modal_alert("알림","모임소개를 입력하세요"); return;}
 
   document.user_form.submit();
 }

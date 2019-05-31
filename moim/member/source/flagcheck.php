@@ -7,6 +7,10 @@
     <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
     <script type="text/javascript" src="./member_form.js"></script>
     <link rel="stylesheet" href="../css/flagcheck.css">
+
+    <link rel="stylesheet" href="../../css/modal_alert.css">
+    <script type="text/javascript" src="../../js/modal_alert.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   </head>
   <?php
     $kakao_id="";
@@ -19,6 +23,11 @@
     }
    ?>
   <body>
+    <div id="myModal" class="modal">
+      <div class="modal-content" id="modal-content">
+
+       </div>
+     </div>
     <form name="flagcheck_form" action="./member_form.php" method="post">
       <input type="hidden" name="kakao_id" value="<?=$kakao_id?>">
       <input type="hidden" name="google_id" value="<?=$google_id?>">

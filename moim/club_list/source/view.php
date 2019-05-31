@@ -73,6 +73,9 @@ $cart_id=$row['cart_id'];
      <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
      <link rel="stylesheet" href="../css/club.css">
      <link rel="stylesheet" href="../css/club_view.css">
+     <link rel="stylesheet" href="../../css/modal_alert.css">
+     <script type="text/javascript" src="../../js/modal_alert.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
      <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Noto+Sans+KR&display=swap" rel="stylesheet">
      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
      <title><?=$club_name?></title>
@@ -80,6 +83,11 @@ $cart_id=$row['cart_id'];
      <script type="text/javascript" src="../js/club.js"></script>
    </head>
    <body>
+     <div id="myModal" class="modal">
+       <div class="modal-content" id="modal-content">
+
+        </div>
+      </div>
      <nav>
        <div class="brand">
          <a href="../../mainpage.php">
@@ -90,7 +98,11 @@ $cart_id=$row['cart_id'];
          <li><a href="./list.php">CLUB LIST</a></li>
          <li><a href="../../faq/source/faq_list.php">BOARD</a></li>
          <li><a href="#" onclick="message_form();">MESSAGE</a></li>
-         <li><a href="../../mypage/source/user_modify.php">MY PAGE</a></li>
+         <?php
+         if(isset($_SESSION['userid'])){
+           echo "<li><a href='../../mypage/source/user_check.php'>MY PAGE</a></li>";
+         }
+          ?>
          <?php
          if(!isset($_SESSION['userid'])){
            echo ('<li><a href="../../login/source/login.php">LOG IN</a></li>');

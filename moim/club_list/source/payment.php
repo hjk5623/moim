@@ -31,7 +31,10 @@ if(isset($_GET['club_price'])){
  <head>
  <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
  <!-- <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-x.y.z.js"></script> -->
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
  	<script  src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <link rel="stylesheet" href="../../css/modal_alert.css">
+  <script type="text/javascript" src="../../js/modal_alert.js"></script>
  <script type="text/javascript">
  function payment(){
  	var IMP = window.IMP; // 생략가능
@@ -68,9 +71,10 @@ if(isset($_GET['club_price'])){
  	    			msg += '\n결제 금액 : ' + rsp.paid_amount;
  	    			msg += '카드 승인번호 : ' + rsp.apply_num;
 
- 	    			alert(msg);
+            modal_alert("알림",msg,"./query.php?mode=<?=$mode='pay'?>&id=<?=$userid?>&club_num=<?=$club_num?>");
 
-            location.href="./query.php?mode=<?=$mode="pay"?>&id=<?=$userid?>&club_num=<?=$club_num?>";
+
+            // location.href=
 
  	    		} else {
  	    			//[3] 아직 제대로 결제가 되지 않았습니다.
@@ -78,15 +82,17 @@ if(isset($_GET['club_price'])){
  	    		}
 
  	    	});
-         alert('구매되었습니다.'); //결제 성공시 알림창 띄워준다
-         location.href="./query.php?mode=<?=$mode="pay"?>&id=<?=$userid?>&club_num=<?=$club_num?>";
+         modal_alert("알림","구매되었습니다.","./query.php?mode=<?=$mode='pay'?>&id=<?=$userid?>&club_num=<?=$club_num?>");
+         // alert('구매되었습니다.'); //결제 성공시 알림창 띄워준다
+         // location.href=
 
  	    }else{
-         var msg = '결제에 실패하였습니다.';
+         var msg = '결제에 실패하였습니다.<br>';
          msg += '에러내용 : ' + rsp.error_msg;
-         alert(msg);
-         alert('결제가 실패되었습니다.');
-    		  location.href="./view.php?club_num=<?=$club_num?>";
+         modal_alert("알림",msg,"./view.php?club_num=<?=$club_num?>");
+         // alert(msg);
+         // alert('결제가 실패되었습니다.');
+    		  // location.href=;
  	    }//end of else
 
  	});
@@ -95,4 +101,11 @@ if(isset($_GET['club_price'])){
 
  </script>
  </head>
+ <body>
+   <div id="myModal" class="modal">
+     <div class="modal-content" id="modal-content">
+
+      </div>
+    </div>
+ </body>
  </html>

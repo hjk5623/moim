@@ -225,7 +225,7 @@ $(document).ready(function() {
       document.getElementById("flag_email").value="true";
       clearTimeout(myVar);
     }else{
-      alert("인증 실패");
+      modal_alert("알림","인증 실패");
     }
   });
 
@@ -264,28 +264,28 @@ $(document).ready(function() {
   //가입하기버튼
   $("#button2").click(function(event) {
     if(document.getElementById("flag_id").value!="true"){
-      alert("아이디를 확인해주세요");
+      modal_alert("알림","아이디를 확인해주세요");
       return;
     }else if(document.getElementById("flag_name").value!="true"){
-      alert("이름을 확인해주세요");
+      modal_alert("알림","이름을 확인해주세요");
       return;
     }else if(document.getElementById("flag_passwd").value!="true"){
-      alert("비밀번호를 확인해주세요");
+      modal_alert("알림","비밀번호를 확인해주세요");
       return;
     }else if(document.getElementById("flag_passwd_check").value!="true"){
-      alert("비밀번호를 확인해주세요");
+      modal_alert("알림","비밀번호를 확인해주세요");
       return;
     }else if(document.getElementById("flag_phone2").value!="true"){
-      alert("전화번호를 확인해주세요");
+      modal_alert("알림","전화번호를 확인해주세요");
       return;
     }else if(document.getElementById("flag_phone3").value!="true"){
-      alert("전화번호를 확인해주세요");
+      modal_alert("알림","전화번호를 확인해주세요");
       return;
     }else if(document.getElementById("flag_address").value!="true"){
-      alert("주소를 확인해주세요");
+      modal_alert("알림","주소를 확인해주세요");
       return;
     }else if(document.getElementById("flag_email").value!="true"){
-      alert("이메일 인증을 해주세요");
+      modal_alert("알림","이메일 인증을 해주세요");
       return;
     }
     document.getElementById("email2").disabled=false;
@@ -322,7 +322,7 @@ $(document).ready(function() {
     var flag_checkbox1 = document.getElementById("flag_checkbox1");
     var flag_checkbox2 = document.getElementById("flag_checkbox2");
     if(flag_checkbox1.value=="false" || flag_checkbox2.value=="false"){
-      alert("모든약관에 동의주세요");
+      modal_alert("알림","모든약관에 동의주세요");
       document.getElementById("check3").checked=false;
     }else{
       document.flagcheck_form.submit();
