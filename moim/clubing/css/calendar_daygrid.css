@@ -99,8 +99,9 @@ hr.fc-divider {
   font-size: 1em;
   /* normalize cross-browser */ }
 
-.fc th {
-  text-align: center; }
+.fc th { /*여기가 요일부분 th*/
+  text-align: center;
+   }
 
 .fc th,
 .fc td {
