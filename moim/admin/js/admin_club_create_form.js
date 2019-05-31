@@ -215,41 +215,5 @@ $(document).ready(function() {
     document.tx_editor_form.submit();
   });
 
-  // $("#check1").click(function(event) {
-  //   var check1 = document.getElementById("check1");
-  //   var span1 = document.getElementById("span1");
-  //   document.getElementById("flag_checkbox1").value="false";
-  //   if (check1.checked==true){
-  //     $("#span1").css('color', 'white');
-  //     $("#span1").html("위 사항에 준수합니다.");
-  //     document.getElementById("flag_checkbox1").value="true";
-  //   }else{
-  //     $("#span1").css('color', 'red');
-  //     $("#span1").html("위 사항에 준수합니다.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;약관에 동의하세요");
-  //   }
-  // });
-  // $("#check2").click(function(event) {
-  //   var check2 = document.getElementById("check2");
-  //   var span2 = document.getElementById("span2");
-  //   document.getElementById("flag_checkbox2").value="false";
-  //   if (check2.checked==true){
-  //     $("#span2").css('color', 'white');
-  //     $("#span2").html("위 사항에 준수합니다.");
-  //     document.getElementById("flag_checkbox2").value="true";
-  //   }else{
-  //     $("#span2").css('color', 'red');
-  //     $("#span2").html("위 사항에 준수합니다.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;약관에 동의하세요");
-  //   }
-  // });
-  // $("#check3").click(function(event) {
-  //   var flag_checkbox1 = document.getElementById("flag_checkbox1");
-  //   var flag_checkbox2 = document.getElementById("flag_checkbox2");
-  //   if(flag_checkbox1.value=="false" || flag_checkbox2.value=="false"){
-  //     alert("모든약관에 동의주세요");
-  //     document.getElementById("check3").checked=false;
-  //   }else{
-  //     document.flagcheck_form.submit();
-  //   }
-  // });
 
 });//ready

@@ -115,7 +115,8 @@ $number = $total_record - $start_row;
             }
           }).done(function(result) {
             console.log(result);
-            location.href = 'admin_agit_list.php';
+            $("#"+agit_name).remove();
+            // location.href = 'admin_agit_list.php';
           })
           .fail(function() {
             console.log("error");
@@ -199,7 +200,7 @@ $number = $total_record - $start_row;
         $agit_name = $row['agit_name'];
         $agit_address = $row['agit_address'];
      ?>
-     <tr>
+     <tr id="<?=$agit_name?>">
        <td> <?=$number?> </td>
        <td> <?=$agit_name?> </td>
        <td> <?=$agit_address?> </td>

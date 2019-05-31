@@ -274,22 +274,22 @@ $number2=$total_record2 - $start_row2;
       }
       #--------------바로이동하는 페이지를 나열---------------#
       for($dest_page2=$start_page2;$dest_page2 <= $end_page2;$dest_page2++){
-             if($dest_page2 == $page2){
-                  echo( "&nbsp;<b id='present_page'>$dest_page2</b>&nbsp" );
-              }else{
-                  echo "<a id='move_page' href='admin_club_accept.php?mode=$mode&page2=$dest_page2'>$dest_page2</a>";
-              }
-           }
+         if($dest_page2 == $page2){
+              echo( "&nbsp;<b id='present_page'>$dest_page2</b>&nbsp" );
+          }else{
+              echo "<a id='move_page' href='admin_club_accept.php?mode=$mode&page2=$dest_page2'>$dest_page2</a>";
+          }
+       }
       #----------------다음페이지 존재시 링크------------------#
       if($next_page2){
-          echo "<a id='next_page'  href='admin_club_accept.php?mode=$mode&page2=$next_page2'> > </a>";
+        echo "<a id='next_page'  href='admin_club_accept.php?mode=$mode&page2=$next_page2'> > </a>";
       }
       #---------------다음페이지를 링크------------------#
       if($total_pages2 >= $start_page2+ $pages_scale){
           $go_page2= $start_page2+ $pages_scale;
           echo "<a id='next_block' href='#'> >> </a>";
       }
-   ?>
+    ?>
   </div>
 </div><!--admin_club_accept-->
 </body>

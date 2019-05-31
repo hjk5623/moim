@@ -35,7 +35,6 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   $club_intro= $row['club_intro'];
 
   $schedule = explode("," ,$club_schedule);
-  // var_dump($schedule);
 
   $schedule_count = count($schedule);
 
@@ -187,11 +186,11 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
 
     function select_box(){
       var agit =$('#agit_category option:selected').val();
-      var agit_addr=agit.split("/");
-      if(agit_addr=="아지트선택"){
+      var agit_addr = agit.split("/");
+      if(agit=="아지트선택"){
+        $('#address1_1').attr('name','club_rent_info1_1');
         $('#address1').prop('type','text');
         $('#address1_1').prop('type','hidden');
-
         $('#address2').val("");
         $('#address2').attr('readOnly',false);
       }else{
@@ -199,6 +198,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
         $('#address1_1').prop('type','text');
         $('#address1_1').val(agit_addr[0]);
         $('#address1_1').attr('readOnly',true);
+        $('#address1_1').attr('name','club_rent_info1');
         $('#address2').val(agit_addr[1]);
         $('#address2').attr('readOnly',true);
         $("#span_address").html("");
@@ -352,6 +352,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   }
 
 
+
   </script>
   <title></title>
 </head>
@@ -436,7 +437,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
                     for($i=0;$i<$count;$i++){
                       $row1=mysqli_fetch_array($result1);
                     ?>
-                    <option value="<?=$row1['agit_address']?> "> <?=$row1['agit_name']?></option>;
+                    <option value="<?=$row1['agit_address']?>"> <?=$row1['agit_name']?></option>;
                     <?php
                     }
                    ?>
@@ -444,7 +445,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
               </td>
               <td>
                   <input id="address1" type="text" name="club_rent_info1" value="<?=$club_rent_info[0]?>" onclick="execDaumPostcode()" size="55" placeholder="주소" autocomplete="off">
-                  <input id="address1_1" type="hidden" name="club_rent_info1" value="<?=$club_rent_info[0]?>" size="55" placeholder="주소" autocomplete="off">
+                  <input id="address1_1" type="hidden" name="club_rent_info1_1" value="<?=$club_rent_info[0]?>" size="55" placeholder="주소" autocomplete="off">
                   <input id="address2" type="text" name="club_rent_info2" value="<?=$club_rent_info[1]?>" placeholder="상세주소" autocomplete="off"><br>
                   <span id="span_address"></span>
               </td>
@@ -569,9 +570,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
             <tr>
               <td>모임간단소개</td>
               <td colspan="3">
-                <textarea name="club_intro" rows="8" cols="80" id="club_intro"  placeholder="간단한 소개를 작성해주세요(100자 내외)">
-                  <?=$club_intro?>
-                </textarea>
+                <textarea name="club_intro" rows="8" cols="80" id="club_intro"  placeholder="간단한 소개를 작성해주세요(100자 내외)"><?=$club_intro?></textarea>
                 <span id="span_club_intro"></span>
               </td>
             </tr>

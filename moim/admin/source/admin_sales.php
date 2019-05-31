@@ -109,7 +109,7 @@ if(!$dec_price){
   $dec_price =0;
 }
 
-$sql_total="SELECT sum(club_price * club_apply) AS '매출' from club where club_end like '$find%';";
+$sql_total="SELECT sum(club_price * club_apply) AS '매출' from club where club_end like '$find%' and club_open='yes';";
 $result_total = mysqli_query($conn,$sql_total) or die("실패원인1: ".mysqli_error($conn));
 $row = mysqli_fetch_array($result_total);
 $total_sales = $row['0'];
@@ -118,13 +118,14 @@ if(!$total_sales){ $total_sales =0;}
 
 
 //모임의 카테고리의 개수 출력
-$sql_c="SELECT distinct `club_category` from club;";
+$year=substr($find, 2,2); //19,18 이런식으로 검색되게끔 substr
+
+$sql_c="SELECT distinct `club_category` from club where `club_schedule` like '$year%';";
 $result_c = mysqli_query($conn,$sql_c);
 $count_c = mysqli_num_rows($result_c);  // 중복제거 카테고리의 개수 출력
 if (!$result_c) {
   alert_back('Error: ' . mysqli_error($conn));
 }
-$year=substr($find, 2,2);
 
 
 //for 문
@@ -296,9 +297,9 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
         <table class="salestable">
         <thead>
           <tr>
-            <td>구분</td>
-            <td>기간</td>
-            <td>매출액</td>
+            <td style="text-align:center">구분</td>
+            <td style="text-align:center">기간</td>
+            <td style="text-align:center">매출액</td>
           </tr>
         </thead>
         <tbody class="uptbody">
@@ -426,7 +427,6 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
         </tr>
       </table>
       <br><br>
-
       <!--  월별매출액테이블-->
       <div class="table_div">
         <table class="salestable" style="visibility: hidden;border-collapse: collapse; font-family: " Trebuchet MS", Helvetica, sans-serif;" >
@@ -466,7 +466,7 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
           </tbody>
           <tbody class="downtbody">
           <tr>
-            <td rowspan="6">하반기</td>
+            <td rowspan="6" style="border: 1px solid black; text-align: center;">하반기</td>
             <td style="border: 1px solid black; text-align: center;">7월</td>
             <td style="border: 1px solid black; text-align: center;"><?=$jul_price?>원</td>
           </tr>
@@ -497,8 +497,28 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
             </tr>
         </table>
       </div>
+      <br><br>
+      <!--  월별매출액테이블-->
+      <div class="category_div">
+        <table>
+          <tr>
+            <td style="border: 1px solid black; text-align: center;">카테고리</td>
+            <td style="border: 1px solid black; text-align: center;">모임수</td>
+          </tr>
 
+          <?php
+            for($i=0;$i<$count_c;$i++){
+           ?>
+            <tr>
+              <td style="border: 1px solid black; text-align: center;"><?=$category[$i]?></td>
+              <td style="border: 1px solid black; text-align: center;"><?=$cat[$i]?></td>
+            </tr>
 
+          <?php
+            }
+          ?>
+        </table>
+      </div>
 
     </div>
   </div>
