@@ -8,7 +8,6 @@
   }else{
     $userid="";
   }
-
   if(isset($_GET['mode'])){   // mode 카테고리
     $mode=$_GET['mode'];
   }else{
@@ -26,6 +25,7 @@ $row_length= 150;   //club_intro 150바이트범위 외 ... 으로 생략
     <link rel="stylesheet" href="../css/club.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script  src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="../js/menu.js"></script>
     <script>
       var startHeightMin=0; //트리거 시작 스크롤 위치
@@ -69,6 +69,7 @@ $row_length= 150;   //club_intro 150바이트범위 외 ... 으로 생략
     </script>
   </head>
   <body>
+
     <nav class="top_nav">
       <div class="brand">
         <a href="../../mainpage.php">
@@ -119,24 +120,21 @@ $row_length= 150;   //club_intro 150바이트범위 외 ... 으로 생략
     <section class="gallery" id="gallery_id">
             <?php
             $today = date("Y-m-d");    //현재 날짜 (ex:2019-01-01)
-            $sql = "SELECT * FROM cart;";
-            $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
-            $row= mysqli_fetch_array($result);
-            $cart_id= $row['cart_id'];
-            $cart_club_num= $row['cart_club_num'];
+
 
           if (!(empty($_GET['mode']))&&(isset($_GET['mode']))){     //카테고리 별 모집모임
-            // club 테이블의 club_num 와 cart 테이블의 cart_num가 같은 것 중에서 해당 카테고리와 club_open가 no이고 club_end가 오늘날짜보다 클 때 히트 순으로 검색한다.
+            // club 테이블의 해당 카테고리와 club_open가 no이고 club_end가 오늘날짜보다 클 때 히트 순으로 검색한다.
             $sql = "SELECT * FROM club where club_category='$mode' and club_open = 'no' and club_end >= '$today' order by club_hit desc;";
             $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
             $count=mysqli_num_rows($result);
           }else{                                                    // 전체 모집모임
-            // club 테이블의 club_num 와 cart 테이블의 cart_num가 같은 것 중에서 club_open가 no이고 club_end가 오늘날짜보다 클 때 히트 순으로 검색한다.
-            $sql = "SELECT * FROM club  where club_open = 'no' and club_end >= '$today' order by club_hit desc;";
+            // club 테이블의 club_open가 no이고 club_end가 오늘날짜보다 클 때 히트 순으로 검색한다.
+            $sql = "SELECT * FROM club where club_open = 'no' and club_end >= '$today' order by club_hit desc;";
 
             $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
             $count=mysqli_num_rows($result);
           }
+
             for($i=0;$i<$count;$i++){
               $row= mysqli_fetch_array($result);
               $club_num= $row['club_num'];
@@ -144,6 +142,7 @@ $row_length= 150;   //club_intro 150바이트범위 외 ... 으로 생략
               $club_end=$row['club_end'];
               $club_image_copied=$row['club_image_copied'];
               $club_intro=$row['club_intro'];
+
 
               if (strlen($club_intro) > $row_length) {     //club_intro 150바이트범위 외 ... 으로 생략
                 $club_intro = substr($club_intro, 0 , $row_length).'<br>.....';
@@ -153,7 +152,7 @@ $row_length= 150;   //club_intro 150바이트범위 외 ... 으로 생략
               <a href="./view.php?club_num=<?=$club_num?>" id="">
                 <?php
                 $diff= ((strtotime($club_end)-strtotime($today))/86400);    //(모집 마감 - 현재 시간) / 86400 = 남은 일수
-                  if(!isset($userid)){    //로그인 안했을 경우
+                  if(!isset($userid)){    //로그인 하지 않은 경우
                  ?>
                   <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
                  <?php
@@ -162,39 +161,57 @@ $row_length= 150;   //club_intro 150바이트범위 외 ... 으로 생략
                  <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
                  <div class="deadline"><h2>마감<br>임박</h2></div>
                  <?php
-               }else if(isset($userid)&&$diff>5){   //로그인 하고 해당된 모임에 찜클릭을 하지않았을 경우
-                 if ($cart_club_num!==$club_num) {
+               }else if(isset($userid)&&$diff>5){     //로그인을 하고 마감일이 다가오지 않을 경우
+                   ?>
+                   <div class="" id="img<?=$club_num?>"></div>
+                   <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
+                   <?php
+              }else if(isset($userid)&&$diff<=5){    //로그인을 하고 마감일이 다가 올 경우
                   ?>
-                  <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
-                  <?php
-                }else{
-                  ?>
-                  <div class="pop">Like It!</div>
-                  <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
-                  <?php
-                }
-               }else if(isset($userid)&&$diff<=5){   //로그인 하고 해당된 모임에 찜클릭을 하지않고 마감일이 다가올 경우
-                 if ($cart_club_num!==$club_num) {
-                  ?>
+                  <div class="" id="img<?=$club_num?>"></div>
                   <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
                   <div class="deadline"><h2>마감<br>임박</h2></div>
                   <?php
-                }else{
-                  ?>
-                  <div class="pop">Like It!</div>
-                  <img src="../../admin/data/<?=$club_image_copied?>" alt="" class="gallery_image">
-                  <div class="deadline"><h2>마감<br>임박</h2></div>
-                  <?php
-                }
-              }
-                  ?>
+             }
+                ?>
                 <h3><?=$club_name?></h3>
                 <figcaption class="gallery_image_caprion"><?=$club_intro?></figcaption>
-              </a>
             </figure>
+          </a>
               <?php
             }
             ?>
         </section>
+
   </body>
 </html>
+<script type="text/javascript">
+$(document).ready(function() {
+  var session_id = "<?=$userid?>";
+  var id_array = new Array();
+  $.ajax({
+    url: './query.php?mode=jjim',
+    type: 'POST',
+    data: {
+
+    }
+  })
+  .done(function(result) {    // cart_id/club_num, 의 형식으로 배열로 가져옴
+    var total_value = result.split(",");    //result 배열을 "," 분리
+    for (var i = 0; i < total_value.length; i++) {
+      id_array[i]=total_value[i].split("/");    //total_value 배열을 "/" 분리
+    if (session_id==id_array[i][0]) {   //로그인 한 아이디가 카트 담은 아이디가 같을 경우 div클래스를 부여
+      $("#img"+id_array[i][1]).addClass('pop');
+      $("#img"+id_array[i][1]).text('Like It');
+    }
+  }
+  })
+  .fail(function() {
+    console.log("error");
+  })
+  .always(function() {
+    console.log("complete");
+  });
+
+});
+</script>

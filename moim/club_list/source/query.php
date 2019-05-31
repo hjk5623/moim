@@ -113,6 +113,29 @@ if(isset($_GET['mode'])&&$_GET['mode']=="delete"){ //모임 삭제 했을 경우
     }else{
       alert_back('서버에 실제파일이 존재 하지 않습니다!');
     }
+  }else if(isset($_GET["mode"]) && $_GET["mode"]=="jjim"){
+    $s="";
+    if(isset($_POST['club_num'])){
+      $club_num=$_POST['club_num'];
+    }
+    if(isset($_POST['userid'])){
+      $userid=$_POST['userid'];
+    }
+    $sql = "SELECT * FROM cart ;";
+    $result2 = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+    $count2=mysqli_num_rows($result2);
+
+      for($i=0;$i<$count2;$i++){
+      $row= mysqli_fetch_array($result2);
+      $cart_id = $row['cart_id'];
+      $cart_club_num=$row['cart_club_num'];
+      if($i==$count2-1){
+        $s .= $cart_id.'/'.$cart_club_num;
+      }else{
+        $s .= $cart_id.'/'.$cart_club_num.',';
+      }
+    }
+      echo $s;
   }
 
  ?>
