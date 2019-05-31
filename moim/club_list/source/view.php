@@ -98,7 +98,11 @@ $cart_id=$row['cart_id'];
          <li><a href="./list.php">CLUB LIST</a></li>
          <li><a href="../../faq/source/faq_list.php">BOARD</a></li>
          <li><a href="#" onclick="message_form();">MESSAGE</a></li>
-         <li><a href="../../mypage/source/user_modify.php">MY PAGE</a></li>
+         <?php
+         if(isset($_SESSION['userid'])){
+           echo "<li><a href='../../mypage/source/user_check.php'>MY PAGE</a></li>";
+         }
+          ?>
          <?php
          if(!isset($_SESSION['userid'])){
            echo ('<li><a href="../../login/source/login.php">LOG IN</a></li>');

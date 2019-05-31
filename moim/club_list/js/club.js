@@ -31,7 +31,7 @@ function cart_page(){
   }else if(!id){   //비 로그인 시
     modal_alert("알림","로그인이 필요합니다.");
   }else{
-    modal_alert_cancle("알림","찜 등록되었습니다.","./query.php?mode=cart&id="+id+"&club_num="+club_num);
+    modal_alert("알림","찜 등록되었습니다.","./query.php?mode=cart&id="+id+"&club_num="+club_num);
   }
 }
 function del_check(){   //모임을 삭제 하는 경우

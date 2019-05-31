@@ -384,12 +384,12 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
       $i=0;
       $total=0;
 
-      $sql0="SELECT sum(club_price) from buy inner join club on buy_club_num=club_num where buy_cancle='no';";
+      $sql0="SELECT sum(club_price) from buy inner join club on buy_club_num=club_num where buy_cancle='no' and buy_process_date like '$find%' ;";
       $result0=mysqli_query($conn, $sql0) or die("실패원인 : " . mysqli_error($conn));
       $row0=mysqli_fetch_array($result0);
       $total=$row0[0];
 
-      $sql ="SELECT * from buy inner join club on buy_club_num = club_num where buy_cancle='no';";
+      $sql ="SELECT * from buy inner join club on buy_club_num = club_num where buy_cancle='no' and buy_process_date like '$find%';";
       $result = mysqli_query($conn, $sql) or die("실패원인 : " . mysqli_error($conn));
       ?>
         <tr>
@@ -426,6 +426,7 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
         </tr>
       </table>
       <br><br>
+
       <!--  월별매출액테이블-->
       <div class="table_div">
         <table class="salestable" style="visibility: hidden;border-collapse: collapse; font-family: " Trebuchet MS", Helvetica, sans-serif;" >

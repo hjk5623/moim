@@ -79,7 +79,11 @@ $row_length= 150;   //club_intro 150바이트범위 외 ... 으로 생략
         <li><a href="./list.php">CLUB LIST</a></li>
         <li><a href="../../faq/source/faq_list.php">BOARD</a></li>
         <li><a href="#" onclick="message_form();">MESSAGE</a></li>
-        <li><a href="../../mypage/source/user_modify.php">MY PAGE</a></li>
+        <?php
+        if(isset($_SESSION['userid'])){
+          echo "<li><a href='../../mypage/source/user_check.php'>MY PAGE</a></li>";
+        }
+         ?>
         <?php
         if(!isset($_SESSION['userid'])){
           echo ('<li><a href="../../login/source/login.php">LOG IN</a></li>');

@@ -55,7 +55,11 @@ $row_count= mysqli_num_rows($result);
            ?>
           <br>
           <a href="mainpage.php">HOME</a>
-          <a href="./mypage/source/user_modify.php">MY PAGE</a>
+          <?php
+          if(isset($_SESSION['userid'])){
+            echo "<a href='./mypage/source/user_check.php'>MY PAGE</a>";
+          }
+           ?>
           <a href="./club_list/source/list.php">CLUB LIST</a>
           <!-- <a href="#">VIEW PLACE</a> -->
           <a href="./faq/source/faq_list.php">BOARD</a>

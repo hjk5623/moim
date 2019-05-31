@@ -387,24 +387,25 @@ $(document).ready(function() {
   });
 
   $("#choice_btn").click(function(event) {
-    var result = confirm("삭제하시겠습니까?");
-    if(result){
-      var check_val= $("input:checkbox[name=choice_check]:checked").length;
-      var cart_num = [];
-      if(check_val){
-        for(i=0;i<check_val;i++){
-          var leng = $("input:checkbox[name=choice_check]:checked")[i].value;
-          cart_num[i]=leng;
-        }
-      }else{
-        modal_alert("알림","삭제할 항목을 선택하세요");
-        return;
-      }
-      location.href="./user_query.php?mode=choice_del&cart_num="+cart_num;
-    }
+    modal_alert_cancle("알림","선택 항목을 삭제하시겠습니까?","choice");
   });
 
 });
+
+function check_choice(){
+  var check_val= $("input:checkbox[name=choice_check]:checked").length;
+  var cart_num = [];
+  if(check_val){
+    for(i=0;i<check_val;i++){
+      var leng = $("input:checkbox[name=choice_check]:checked")[i].value;
+      cart_num[i]=leng;
+    }
+  }else{
+    modal_alert("알림","삭제할 항목을 선택하세요");
+    return;
+  }
+  location.href="./user_query.php?mode=choice_del&cart_num="+cart_num;
+}
 
 function user_request_check(){
   var user_name = document.getElementById("user_name");
