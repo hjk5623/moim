@@ -166,8 +166,8 @@
 
        </div>
      </div>
-    <div id="myModal" class="modal">
-     <div class="modal-content">
+    <div id="myModal2" class="modal2">
+     <div class="modal-content2">
        <span class="close">&times;</span>
        <h1 id="modal_name"></h1>
 
@@ -376,7 +376,7 @@
   </body>
 </html>
 <script type="text/javascript">
-var modal = document.getElementById('myModal');
+var modal = document.getElementById('myModal2');
 
 $(".agit_btn").click(function() {
   var select_value = document.getElementById('select_value').value;

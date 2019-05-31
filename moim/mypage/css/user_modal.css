@@ -6,7 +6,7 @@
 
 a{color:#000;}
 
-.modal {
+.modal2 {
  display:none;
  position: fixed; /* Stay in place */
  z-index: 10;
@@ -20,7 +20,7 @@ a{color:#000;}
 }
 
 /* Modal Content/Box */
-.modal-content {
+.modal-content2 {
  background-color: #fefefe;
  margin: 15% auto; /* 15% from the top and centered */
  padding: 20px;
