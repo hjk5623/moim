@@ -47,10 +47,14 @@ $number=$start_row+1;
   <title></title>
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
   <link rel="stylesheet" type="text/css" href="../css/admin_member.css">
+  <link rel="stylesheet" href="../../css/modal_alert.css">
+  <script type="text/javascript" src="../../js/modal_alert.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <script type="text/javascript">
+    function check_delete_alert(id,name){
+      modal_alert_cancle("알림",name + " 회원을 삭제합니다<br> 정말 삭제하시겠습니까?","ajax",id,name);
+    }
     function check_delete(id, name) {
-      var result1 = confirm("✔" + name + " 회원을 삭제하시겠습니까?\n 정말 삭제하시겠습니까?");
-      if (result1) {
         $.ajax({
             url: './admin_query.php?mode=memberdel',
             type: 'POST',
@@ -68,12 +72,16 @@ $number=$start_row+1;
           .always(function() {
             console.log("complete");
           });
-      }
     }
   </script>
 </head>
 
 <body>
+  <div id="myModal" class="modal">
+  <div class="modal-content" id="modal-content">
+
+   </div>
+ </div>
   <?php
     include $_SERVER['DOCUMENT_ROOT']."/moim/admin/source/admin.php";
     ?>
@@ -126,7 +134,7 @@ $number=$start_row+1;
           <td><?=$item_phone?></td>
           <td><?=$address?></td>
           <td><?=$item_email?></td>
-          <td>&nbsp;&nbsp;<button type="button" class="button" onclick="check_delete('<?=$item_id?>','<?=$item_name?>');">삭제</button></td>
+          <td>&nbsp;&nbsp;<button type="button" class="button" onclick="check_delete_alert('<?=$item_id?>','<?=$item_name?>');">삭제</button></td>
         </tr>
       </tbody>
       <?php

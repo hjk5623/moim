@@ -66,7 +66,7 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "c_delete"){ // club_open= yes인 �
     $rowcount = mysqli_num_rows($result);
 
     if(!$rowcount){
-      echo "<script>alert('모임를 구매자만 후기작성이 가능합니다.');history.go(-1);</script>";
+      echo "<script>modal_alert('알림','모임 구매자만 후기작성이 가능합니다.','history');</script>";
       exit;
     }else{
       $sql= "SELECT name FROM membership WHERE id='$buy_id'";

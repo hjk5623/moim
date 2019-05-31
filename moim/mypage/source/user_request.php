@@ -17,6 +17,10 @@
     <link href="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.css" rel="stylesheet"/><!--날짜다중선택 -->
     <script src="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.js"></script><!--날짜다중선택 -->
 
+    <link rel="stylesheet" href="../../css/modal_alert.css">
+    <script type="text/javascript" src="../../js/modal_alert.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
 
     <script type="text/javascript">
     $(function() {
@@ -59,7 +63,7 @@
           var start_date = $("#datepicker1").val().replace(/-/gi,"");
           var end_date = $("#datepicker2").val().replace(/-/gi,"");
           if(start_date>=end_date){
-            alert("마감일 선택이 잘못 되었습니다.");
+            modal_alert("알림","마감일 선택이 잘못 되었습니다.");
             var end_date = $("#datepicker2").val("");
           }
         });
@@ -79,11 +83,11 @@
           var select_day="";
           var end_date = $("#datepicker2").val().replace(/-/gi,"");
           if($("#datepicker1").val()=="" || $("#datepicker2").val()==""){
-            alert("모집시작일 및 종료일을 선택하세요");
+            modal_alert("알림","모집시작일 및 종료일을 선택하세요");
             return;
           }
           if($("#select_year").val()=="" || $("#select_month").val()=="" || $("#select_day").val()=="일"){
-            alert("날짜를 선택해주세요");
+            modal_alert("알림","날짜를 선택해주세요");
             return;
           }
           select_year = $("#select_year").val();
@@ -98,7 +102,7 @@
 
           var select_date= select_year+select_month+select_day;
           if(select_date<=end_date){
-            alert("모집 마감일보다 빠를 수 없습니다.");
+            modal_alert("알림","모집 마감일보다 빠를 수 없습니다.");
             return;
           }
           select_year = $("#select_year").val().substr(2);
@@ -106,7 +110,7 @@
 
           for(i=0; i<$("span[name=select_span]").length; i++){
             if($.trim($("span[name=select_span]:eq("+i+")").text()) == select_date){
-              alert("같은 날짜를 추가할 수 없습니다.");
+              modal_alert("알림","같은 날짜를 추가할 수 없습니다.");
               return;
             }
           }
@@ -157,7 +161,11 @@
     </script>
   </head>
   <body>
+    <div id="myModal" class="modal">
+      <div class="modal-content" id="modal-content">
 
+       </div>
+     </div>
     <div id="myModal" class="modal">
      <div class="modal-content">
        <span class="close">&times;</span>
@@ -373,7 +381,7 @@ var modal = document.getElementById('myModal');
 $(".agit_btn").click(function() {
   var select_value = document.getElementById('select_value').value;
   if(select_value=="선택") {
-    alert("아지트를 선택하세요.");
+    modal_alert("알림","아지트를 선택하세요.");
   }else{
     $.ajax({
       url: 'user_query.php?mode=agit_modal',

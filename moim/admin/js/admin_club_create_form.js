@@ -184,31 +184,31 @@ $(document).ready(function() {
   // submit 버튼
   $("#submit_btn").click(function(event) {
     if(document.getElementById("flag_club_name").value!="true"){
-      alert("모임이름을 확인해주세요");
+      modal_alert("알림","모임이름을 확인해주세요");
       return;
     }else if(document.getElementById("flag_club_category").value!="true"){
-      alert("카테고리를 확인해주세요");
+      modal_alert("알림","카테고리를 확인해주세요");
       return;
     }else if(document.getElementById("flag_club_to").value!="true"){
-      alert("모집정원을 확인해주세요");
+      modal_alert("알림","모집정원을 확인해주세요");
       return;
     }else if(document.getElementById("flag_club_start").value!="true"){
-      alert("모집시작일을 확인해주세요");
+      modal_alert("알림","모집시작일을 확인해주세요");
       return;
     }else if(document.getElementById("flag_club_end").value!="true"){
-      alert("모집마감일을 확인해주세요");
+      modal_alert("알림","모집마감일을 확인해주세요");
       return;
     }else if(document.getElementById("flag_club_price").value!="true"){
-      alert("가격을 확인해주세요");
+      modal_alert("알림","가격을 확인해주세요");
       return;
     }else if(document.getElementById("flag_club_schedule").value!="true"){
       // alert("모임일정을 확인해주세요");
       // return;
     }else if(document.getElementById("flag_club_intro").value!="true"){
-      alert("모임간단소개를 확인 해주세요");
+      modal_alert("알림","모임간단소개를 확인 해주세요");
       return;
     }else if(document.getElementById("flag_club_content").value!="true"){
-      alert("모임 내용을 확인 해주세요");
+      modal_alert("알림","모임 내용을 확인 해주세요");
       return;
     }
     // document.getElementById("email2").disabled=false;

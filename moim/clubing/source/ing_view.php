@@ -45,6 +45,10 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
    <link rel="stylesheet" href="../css/club.css">
    <link rel="stylesheet" href="../css/clubing_view.css">
    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../css/modal_alert.css">
+  <script type="text/javascript" src="../../js/modal_alert.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
    <title></title>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
    <script>
@@ -98,6 +102,11 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
    </style>
  </head>
  <body>
+   <div id="myModal" class="modal">
+  <div class="modal-content" id="modal-content">
+
+   </div>
+ </div>
    <nav>
      <div class="brand">
        <a href="../../mainpage.php">
