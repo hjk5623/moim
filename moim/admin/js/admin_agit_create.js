@@ -46,7 +46,7 @@ function handleImgFileSelect(e,img_box){
     if(!f.type.match("image.*")){
       alert("확장자는 이미지 확장자만 가능합니다.");
       return;
-  }
+  }f
   sel_file = f;
   var reader = new FileReader();
 

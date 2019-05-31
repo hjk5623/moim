@@ -74,7 +74,7 @@
           $sql = "CREATE TABLE `faq` (
           `faq_num` int(11) NOT NULL AUTO_INCREMENT,
           `faq_question` varchar(300) NOT NULL,
-          `faq_answer` varchar(300) NOT NULL,
+          `faq_answer` TEXT NOT NULL,
           `faq_cetegory` varchar(10) NOT NULL,
           PRIMARY KEY (`faq_num`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";

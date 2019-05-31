@@ -118,7 +118,7 @@ nav ul li a:hover:before {
 .fixed{
   position: sticky;
   top: 0px;
-  z-index: 3;
+  z-index: 99;
 }
 /*********************************************************************************************/
 /* 아래부터 따로 추가한 css - 작성: 박보미 */
@@ -189,12 +189,14 @@ nav ul li a:hover:before {
   padding: 15px;
   margin: 3%;
   font-weight: bold;
-  border: 1px solid black;
+}
+
+.top_list .top_list_btn .clubing_btn i{
+  margin-right: 3%;
 }
 
 .top_list .top_list_btn .clubing_btn{
-  background-color: #40739e;
-  color: #fff;
+  border: 1px solid black;
 }
 
 .gallery{

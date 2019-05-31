@@ -68,100 +68,102 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/create_table.php";
              $number=$total_record- $start_row;
              ?>
    </head>
-   <body>
-       <?php include "../lib/menu.php"; ?>
-     <div class="faq_list">
-       <div class="search">
-         <form name="faq" action="faq_list.php?mode=search" method="post">
-           ▷ 총 <?=$total_record?>개의 게시물이 있습니다.
-           <input type="text" name="search" placeholder="질문검색">
-           <input type="submit" value="검색">
-         </form>
-       </div>
-       <hr>
+   <?php
+    include "../lib/menu.php";
+   ?>
+   <div class="faq_list">
+     <h1 class="faq_list_h1">FaQ</h1>
+     <div class="search">
+       <form name="faq" action="faq_list.php?mode=search" method="post">
+         <!-- ▷ 총 <?=$total_record?>개의 게시물이 있습니다. -->
+         <input type="text" name="search" placeholder="질문검색">
+         <input type="submit" value="search">
+       </form>
+     </div>
+     <p><i class="fas fa-check fa-fw"></i>원하시는 질문 제목을 클릭하시면 답변이 나옵니다.</p>
+     <!-- <hr class="faq_list_hr"> -->
 
-       <table border="1">
-        <tr>
-           <th>번호</th>
-           <th>카테고리</th>
-           <th>제목</th>
-           <th>비고</th>
-         </tr>
+     <table class="faq_list_table">
+      <tr>
+         <th class="faq_number">번호</th>
+         <th class="faq_cate">카테고리</th>
+         <th>제목</th>
+         <th class="faq_edit_del">비고</th>
+       </tr>
 
-     <?php
-     for($i=$start_row; ($i<$start_row+$rows_scale) && ($i< $total_record); $i++){
-       mysqli_data_seek($result,$i);
-       $row = mysqli_fetch_array($result);
-       $faq_num=$row['faq_num'];
-       $faq_question=$row['faq_question'];
-       $faq_answer=$row['faq_answer'];
-       $faq_cetegory=$row['faq_cetegory'];
-       ?>
+   <?php
+   for($i=$start_row; ($i<$start_row+$rows_scale) && ($i< $total_record); $i++){
+     mysqli_data_seek($result,$i);
+     $row = mysqli_fetch_array($result);
+     $faq_num=$row['faq_num'];
+     $faq_question=$row['faq_question'];
+     $faq_answer=$row['faq_answer'];
+     $faq_cetegory=$row['faq_cetegory'];
+     ?>
 
-         <tr class="faq_question">
-           <td><?=$number?></td>
-           <td><?=$faq_cetegory?></td>
-           <td><?=$faq_question?></td>
-           <td>
-             <?php
-            if(!empty($_SESSION['userid'])&&$_SESSION['userid']=='admin'){
-               ?>
-             <a href="./faq_write.php?mode=update&faq_num=<?=$faq_num?>">수정</a>
-             <a href="./faq_query.php?mode=delete&faq_num=<?=$faq_num?>">삭제</a>
-             <?php
-            }
+       <tr class="faq_question">
+         <td><?=$number?></td>
+         <td><?=$faq_cetegory?></td>
+         <td><?=$faq_question?></td>
+         <td>
+           <?php
+          if(!empty($_SESSION['userid'])&&$_SESSION['userid']=='admin'){
              ?>
-           </td>
-         </tr>
-         <tr>
-           <td colspan="4" class="faq_answer"><?=$faq_answer?></td>
-         </tr>
+           <a href="./faq_write.php?mode=update&faq_num=<?=$faq_num?>">수정</a>
+           <a href="./faq_query.php?mode=delete&faq_num=<?=$faq_num?>">삭제</a>
+           <?php
+          }
+           ?>
+         </td>
+       </tr>
+       <tr>
+         <td colspan="4" class="faq_answer">답변 : <?=$faq_answer?></td>
+       </tr>
 
-         <?php
-        $number--;
-        }//end of for
-          ?>
-        </table>
-
-            <div class="page_box"><!-- 페이지 표시하는곳 -->
-              <!-- 페이지 표시하는 곳 표기 -->
-              <?PHP
-                #----------------이전블럭 존재시 링크------------------#
-                if($start_page > $pages_scale){
-                   $go_page= $start_page - $pages_scale;
-                   echo "<a id='before_block' href='faq_list.php?page=$go_page'> ◀◀ </a>";
-                }
-                #----------------이전페이지 존재시 링크------------------#
-                if($pre_page){
-                    echo "<a id='before_page' href='faq_list.php?page=$pre_page'> ◁ </a>";
-                }
-                 #--------------바로이동하는 페이지를 나열---------------#
-                for($dest_page=$start_page;$dest_page <= $end_page;$dest_page++){
-                   if($dest_page == $page){
-                        echo( "&nbsp;<b id='present_page'>$dest_page</b>&nbsp" );
-                    }else{
-                        echo "<a id='move_page' href='faq_list.php?page=$dest_page'>$dest_page</a>";
-                    }
-                 }
-                 #----------------이전페이지 존재시 링크------------------#
-                 if($next_page){
-                     echo "<a id='next_page' href='faq_list.php?page=$next_page'> ▷ </a>";
-                 }
-                 #---------------다음페이지를 링크------------------#
-                if($total_pages >= $start_page+ $pages_scale){
-                  $go_page= $start_page+ $pages_scale;
-                  echo "<a id='next_block' href='faq_list.php?page=$go_page'> ▶▶ </a>";
-                 }
-               ?>
-            </div>
-          <div id="button">
-            <!-- <a href="faq_list.php?page=?=$page?>">목록</a> -->
-            <?php
-              if(!empty($_SESSION['userid'])&&$_SESSION['userid']=='admin') {
-                echo '<a href="faq_write.php">'."글쓰기".'</a>';
+       <?php
+      $number--;
+      }//end of for
+        ?>
+      </table>
+      <div id="button">
+        <!-- <a href="faq_list.php?page=?=$page?>">목록</a> -->
+        <?php
+        if(!empty($_SESSION['userid'])&&$_SESSION['userid']=='admin') {
+          echo '<a href="faq_write.php">'."글쓰기".'</a>';
+        }
+        ?>
+      </div><!-- end of button -->
+          <div class="page_box"><!-- 페이지 표시하는곳 -->
+            <!-- 페이지 표시하는 곳 표기 -->
+            <?PHP
+              #----------------이전블럭 존재시 링크------------------#
+              if($start_page > $pages_scale){
+                 $go_page= $start_page - $pages_scale;
+                 echo "<a id='before_block' href='faq_list.php?page=$go_page'> ◀◀ </a>";
               }
-              ?>
-          </div><!-- end of button -->
-       </div>
-   </body>
+              #----------------이전페이지 존재시 링크------------------#
+              if($pre_page){
+                  echo "<a id='before_page' href='faq_list.php?page=$pre_page'> ◁ </a>";
+              }
+               #--------------바로이동하는 페이지를 나열---------------#
+              for($dest_page=$start_page;$dest_page <= $end_page;$dest_page++){
+                 if($dest_page == $page){
+                      echo( "&nbsp;<b id='present_page'>$dest_page</b>&nbsp" );
+                  }else{
+                      echo "<a id='move_page' href='faq_list.php?page=$dest_page'>$dest_page</a>";
+                  }
+               }
+               #----------------이전페이지 존재시 링크------------------#
+               if($next_page){
+                   echo "<a id='next_page' href='faq_list.php?page=$next_page'> ▷ </a>";
+               }
+               #---------------다음페이지를 링크------------------#
+              if($total_pages >= $start_page+ $pages_scale){
+                $go_page= $start_page+ $pages_scale;
+                echo "<a id='next_block' href='faq_list.php?page=$go_page'> ▶▶ </a>";
+               }
+             ?>
+          </div>
+     </div>
+ </body>
  </html>

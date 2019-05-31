@@ -66,20 +66,17 @@ $number2=$total_record2 - $start_row2;
   <link rel="stylesheet" href="../css/admin_club_accept.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
-  <link rel="stylesheet" href="../../css/modal_alert.css">
-  <script type="text/javascript" src="../../js/modal_alert.js"></script>
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 
   <script type="text/javascript">
-    function check_club_accept(to,apply,club_num,club_name){
-      modal_alert_cancle("알림","모임명 : "+club_name+" <br>개설하시겠습니까?","open",to,apply,club_num,club_name);
-    }
     function club_accept(to,apply,club_num,club_name){
+
       var club_to=to;
       var club_apply=apply;
       if(club_to/2 > apply){
-        modal_alert("알림","신청인원이 부족합니다. <br>모집정원의 1/2 의 신청이 있어야만 개설이 가능합니다.");
+        alert("신청인원이 부족합니다. 모집정원의 1/2 의 신청이 있어야만 개설이 가능합니다.");
       }else{
+        var result=confirm("모임명 : "+club_name+" \n개설하시겠습니까?");
+        if(result){
           $.ajax({
             url: '../../PHPmailer/email.php?mode=open',
             type: 'POST',
@@ -97,13 +94,11 @@ $number2=$total_record2 - $start_row2;
             console.log("complete");
           });
         }
+      }
     }
-
-    function check_club_delete(club_end, num, club_name){
-      modal_alert_cancle("알림","모임명 : "+club_name+" <br>삭제 하시겠습니까?","delete",club_end,num);
-    }
-
     function check_delete(club_end, num, club_name) {
+      var result=confirm("모임명 : "+club_name+" \n삭제 하시겠습니까?");
+      if(result){
         $.ajax({
           url: '../../PHPmailer/email.php?mode=club_del',
           type: 'POST',
@@ -121,23 +116,20 @@ $number2=$total_record2 - $start_row2;
         .always(function() {
           console.log("complete");
         });
+
+      }
+
     }
   </script>
 </head>
 <body>
-  <div id="myModal" class="modal">
-  <div class="modal-content" id="modal-content">
-
-   </div>
- </div>
-
   <?php
   include $_SERVER['DOCUMENT_ROOT']."/moim/admin/source/admin.php";
   ?>
   <div class="admin_club_accept">
     <div class="condition_club" >
-      <p><i class="fas fa-check fa-fw" style="font-size:20px"></i>모임개설조건 - 모집정원의 1/2 이상의 인원이 신청된 경우 </p>
-      <p><i class="fas fa-check fa-fw" style="font-size:20px"></i>모임삭제조건 - 모집종료일이 지나고, 모집정원이 모임개설 조건에 충족하지 못할 경우</p>
+      <p><i class="fas fa-check fa-fw"></i>모임개설조건 - 모집정원의 1/2 이상의 인원이 신청된 경우 </p>
+      <p><i class="fas fa-check fa-fw"></i>모임삭제조건 - 모집종료일이 지나고, 모집정원이 모임개설 조건에 충족하지 못할 경우</p>
     </div>
   <h2><big><strong>모집이 마감된 모임</strong></big></h2>
   <hr class="memberlist_hr">
@@ -175,8 +167,8 @@ $number2=$total_record2 - $start_row2;
          <td> <?=$club_apply?> </td>
          <td>
            <input type="hidden" name="present_day" id="present_day" value="<?=$present_day?>">
-           <input type="button" name="" onclick="check_club_accept(<?=$club_to?>,<?=$club_apply?>,<?=$club_num?>,'<?=$club_name?>');" value="개설">
-           <input type="button" name="" onclick="check_club_delete('<?=$club_end?>',<?=$club_num?>,'<?=$club_name?>');" value="삭제">
+           <input type="button" name="" onclick="club_accept(<?=$club_to?>,<?=$club_apply?>,<?=$club_num?>,'<?=$club_name?>');" value="개설">
+           <input type="button" name="" onclick="check_delete('<?=$club_end?>',<?=$club_num?>,'<?=$club_name?>');" value="삭제">
          </td>
        </tr>
      </tbody>

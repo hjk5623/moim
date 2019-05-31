@@ -40,11 +40,9 @@
         $('.results').html(data)
         mycontent(mypage);
       })
-    }else if(hidden_id == ""){
-      modal_alert("알림","로그인 후 작성가능합니다.");
-      console.log("textarea가 비었음");
     }else{
-      modal_alert("알림","후기를 작성하세요");
+      alert("후기를 입력해주세요");
+      console.log("textarea가 비었음");
     }
 
     $('#c_ripple_content').val(""); // 후기를 등록하면 textarea 비움

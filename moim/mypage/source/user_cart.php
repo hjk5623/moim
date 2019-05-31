@@ -9,9 +9,6 @@ $userid=$_SESSION['userid'];
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="../js/user.js"></script>
 <link rel="stylesheet" type="text/css" href="../css/user_cart.css">
-<link rel="stylesheet" href="../../css/modal_alert.css">
-<script type="text/javascript" src="../../js/modal_alert.js"></script>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 <meta charset="UTF-8">
 <?php
 
@@ -55,11 +52,6 @@ $number=$total_record- $start_row;
 </head>
 
 <body>
-  <div id="myModal" class="modal">
-    <div class="modal-content" id="modal-content">
-
-     </div>
-   </div>
   <?php
   include $_SERVER['DOCUMENT_ROOT']."/moim/mypage/lib/user_menu.php";
   ?>

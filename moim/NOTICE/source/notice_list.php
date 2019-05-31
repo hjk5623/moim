@@ -12,6 +12,7 @@ create_table($conn, 'notice');
      <meta charset="utf-8">
      <meta http-equiv="Cache-Control" content="no-cache">
      <meta http-equiv="Pragma" content="no-cache">
+     <link rel="stylesheet" href="../css/notice_list.css">
      <title></title>
      <?php
      if(isset($_GET["mode"])&&($_GET["mode"]=="search")){
@@ -58,31 +59,31 @@ create_table($conn, 'notice');
              ?>
    </head>
    <body>
-     <nav>
-       <?php include "../lib/menu.php"; ?>
-     </nav>
-      <table border="1">
-       <tr>
-         <form name="notice" action="notice_list.php?mode=search" method="post">
-         <td>▷ 총 <?=$total_record?>개의 게시물이 있습니다.</td>
-         <td>찾기</td>
-         <td><select name="find">
-           <option value="notice_subject">제목</option>
-           <option value="notice_content">내용</option>
-         </select></td>
-         <td><input type="text" name="search"></td>
-         <td><input type="submit" value="검색"></td>
-       </form>
-       </tr>
+      <?php include "../lib/menu.php"; ?>
+      <div class="notice_list">
+        <h1 class="notice_list_h1">Notice</h1>
+        <div class="search">
+          <form name="notice" action="notice_list.php?mode=search" method="post">
+           <!-- ▷ 총 <?=$total_record?>개의 게시물이 있습니다. -->
+           <select name="find">
+             <option value="notice_subject">제목</option>
+             <option value="notice_content">내용</option>
+           </select>
+           <input type="text" name="search">
+           <input type="submit" value="검색">
+         </form>
+       </div>
 
-
-       <tr>
-         <td id="list_title1" >번호 &nbsp;</td>
-         <td id="list_title2" >제목 &nbsp;</td>
-         <td id="list_title3" >글쓴이 &nbsp;</td>
-         <td id="list_title4" >등록일 &nbsp;</td>
-         <td id="list_title5" >조회 &nbsp;</td>
-       </tr>
+       <table class="notice_list_table">
+         <thead>
+          <tr>
+             <td id="list_title1" >번호 &nbsp;</td>
+             <td id="list_title2" >제목 &nbsp;</td>
+             <td id="list_title3" >글쓴이 &nbsp;</td>
+             <td id="list_title4" >등록일 &nbsp;</td>
+             <td id="list_title5" >조회 &nbsp;</td>
+           </tr>
+         </thead>
 
 
       <?php
@@ -99,20 +100,30 @@ create_table($conn, 'notice');
       $notice_file_copied=$row['notice_file_copied'];
       $notice_file_type=$row['notice_file_type'];
       ?>
-
-       <tr>
-         <td id="list_item1"><?=$number?></td>
-         <td id="list_item2"><a href="./notice_view.php?notice_num=<?=$notice_num?>&page=<?=$page?>&notice_hit=<?=$notice_hit+1?>"><?=$notice_subject?></a></td>
-         <td id="list_item3"><?=$notice_id?></td>
-         <td id="list_item4"><?=$notice_date?></td>
-         <td id="list_item5"><?=$notice_hit?></td>
-       </tr><!-- end of list_item -->
+      <tbody>
+        <tr>
+           <td id="list_item1"><?=$number?></td>
+           <td id="list_item2"><a href="./notice_view.php?notice_num=<?=$notice_num?>&page=<?=$page?>&notice_hit=<?=$notice_hit+1?>"><?=$notice_subject?></a></td>
+           <td id="list_item3"><?=$notice_id?></td>
+           <td id="list_item4"><?=$notice_date?></td>
+           <td id="list_item5"><?=$notice_hit?></td>
+        </tr><!-- end of list_item -->
+      </tbody>
 
        <?php
       $number--;
       }//end of for
         ?>
       </table>
+      <div id="button">
+        <a href="notice_list.php?page=<?=$page?>">목록</a>
+
+        <?php
+          if(!empty($_SESSION['userid'])&&$_SESSION['userid']=='admin') {
+            echo '<a href="notice_write.php">'."글쓰기".'</a>';
+          }
+          ?>
+      </div><!-- end of button -->
 
       <div class="page_box"><!-- 페이지 표시하는곳 -->
         <!-- 페이지 표시하는 곳 표기 -->
@@ -145,14 +156,7 @@ create_table($conn, 'notice');
            }
          ?>
       </div>
-    <div id="button">
-      <a href="notice_list.php?page=<?=$page?>">목록</a>
 
-      <?php
-        if(!empty($_SESSION['userid'])&&$_SESSION['userid']=='admin') {
-          echo '<a href="notice_write.php">'."글쓰기".'</a>';
-        }
-        ?>
-    </div><!-- end of button -->
+    </div>
   </body>
 </html>
