@@ -37,6 +37,10 @@
   font-size: 15px;
 }
 
+.table_request #date_td select{
+    margin-bottom: 2%;
+}
+
 .table_request .user_rent_info{
   margin-bottom: 3%;
 }

@@ -45,23 +45,34 @@ a{color:#000;}
   box-sizing:border-box;
   overflow:hidden;
   border-radius: 10px;
-}
-.button-8, .button-7{
-  font-family:arial;
-  font-size:16px;
-  color: black;
-  text-decoration:none;
-  transition:all .5s ease;
-  z-index:2;
-  position:relative;
+  border: none;
+  outline: none;
+  transition:all .7s ease;
+  font-size: 16px;
+  background-color: #0a3d62;
+  color: #fff;
 }
 
 .button-8:hover, .button-7:hover {
-  background-color: grey;
+  background-color: #3c6382;
 }
 
-
+#notice_div .button-8, .button-7{
+  margin-bottom: 2%;
+}
 
 #table1{
-  width: 1000px;
+  width: 100%;
+}
+
+#faq_div #table1 #tr2 td input{
+  width: 100%;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #1e3799;
+  font-size: 20px;
+}
+
+#notice_div #table1 #tr11 td,#tr22 td,#tr33 td,#tr44 td,#tr55 td{
+  border-bottom: 1px solid gray;
 }

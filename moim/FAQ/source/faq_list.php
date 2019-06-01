@@ -24,16 +24,13 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/create_table.php";
          $("#faq_div").append("<form name='faq_form' id='faq_form' action='faq_query.php?mode=insert' method='post'>");
          $("#faq_form").append("<table id='table1'>");
          $("#table1").append("<tr id='tr1'>");
-         $("#tr1").append("<td class='faq_td'>카테고리</td>");
-         $("#tr1").append("<td><input type='text' id='faq_cetegory' name='faq_cetegory' placeholder='카테고리' autocomplete='off'></td>");
+         $("#tr1").append("<td colspan='2'><input type='text' id='faq_cetegory' name='faq_cetegory' placeholder='카테고리' autocomplete='off'></td>");
          $("#table1").append("</tr>");
          $("#table1").append("<tr id='tr2'>");
-         $("#tr2").append("<td class='faq_td'>질문</td>");
-         $("#tr2").append("<td><textarea name='faq_question' rows='2' placeholder='질문입력' cols='140'></textarea></td>");
+         $("#tr2").append("<td colspan='2'><input type='text' name='faq_question' placeholder='제목입력' autocomplete='off'></td>");
          $("#table1").append("</tr>");
          $("#table1").append("<tr id='tr3'>");
-         $("#tr3").append("<td class='faq_td'>답변</td>");
-         $("#tr3").append("<td><textarea name='faq_answer' rows='15' placeholder='답변입력' cols='140'></textarea></td>");
+         $("#tr3").append("<td colspan='2'><p>아래 내용을 입력해주세요.</p><textarea name='faq_answer' rows='15' placeholder='답변입력'></textarea></td>");
          $("#table1").append("</tr>");
          $("#faq_form").append("<hr>");
          $("#faq_form").append("</table>");
@@ -41,9 +38,9 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/create_table.php";
          $("#faq_div").append("</form>");
          $(".modal-content2").append("</div>");
 
-         $(".faq_td").css("width","100");
-         $("#faq_cetegory").css("width","900");
-         $("#faq_cetegory").css("height","30");
+         // $(".faq_td").css("width","100");
+         // $("#faq_cetegory").css("width","900");
+         // $("#faq_cetegory").css("height","30");
 
          CKEDITOR.replace('faq_answer');
 
@@ -64,15 +61,13 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/create_table.php";
          $("#faq_form").append("<input type='hidden' name='faq_num' value=\""+faq_hidden_num+"\" >");
          $("#faq_form").append("<table id='table1'>");
          $("#table1").append("<tr id='tr1'>");
-         $("#tr1").append("<td class='faq_td'>카테고리</td>");
-         $("#tr1").append("<td><input type='text' id='faq_cetegory' name='faq_cetegory' placeholder='카테고리' value=\""+faq_hidden_cetegory+"\" autocomplete='off'></td>");
+         $("#tr1").append("<td colspan='2'><input type='text' id='faq_cetegory' name='faq_cetegory' placeholder='카테고리' value=\""+faq_hidden_cetegory+"\" autocomplete='off'></td>");
          $("#table1").append("</tr>");
          $("#table1").append("<tr id='tr2'>");
-         $("#tr2").append("<td class='faq_td'>질문</td>");
-         $("#tr2").append("<td><textarea name='faq_question' rows='2' placeholder='질문입력' cols='140'>"+faq_hidden_question+"</textarea></td>");
+         // $("#tr2").append("<td colspan='2'><textarea name='faq_question' rows='2' placeholder='질문입력' cols='140'>"+faq_hidden_question+"</textarea></td>");
+         $("#tr2").append("<td colspan='2'><input type='text' name='faq_question' placeholder='제목입력' autocomplete='off' value=\""+faq_hidden_question+"\"></td>");
          $("#table1").append("</tr>");
          $("#table1").append("<tr id='tr3'>");
-         $("#tr3").append("<td class='faq_td'>답변</td>");
          $("#tr3").append("<td><textarea name='faq_answer' rows='15' placeholder='답변입력' cols='140'>"+faq_hidden_answer+"</textarea></td>");
          $("#table1").append("</tr>");
          $("#faq_form").append("<hr>");
@@ -81,9 +76,9 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/create_table.php";
          $("#faq_div").append("</form>");
          $(".modal-content2").append("</div>");
 
-         $(".faq_td").css("width","100");
-         $("#faq_cetegory").css("width","900");
-         $("#faq_cetegory").css("height","30");
+         // $(".faq_td").css("width","100");
+         // $("#faq_cetegory").css("width","900");
+         // $("#faq_cetegory").css("height","30");
 
          CKEDITOR.replace('faq_answer');
 

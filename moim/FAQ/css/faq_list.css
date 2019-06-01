@@ -83,6 +83,10 @@
   border-radius: 4px;
 }
 
+.faq_list_table .faq_question .modal_modify{
+  cursor: pointer;
+}
+
 .faq_list_table .faq_question a:hover{
   background-color: #fff;
   color: #3c6382;

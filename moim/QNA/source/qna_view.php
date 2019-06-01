@@ -29,10 +29,8 @@ $number=$total_record-$start;
 //***************************************
 if(isset($_GET["qna_num"])&&!empty($_GET["qna_num"])){
       $qna_num = test_input($_GET["qna_num"]);
-      // $hit = test_input($_GET["hit"]);
       $q_num = mysqli_real_escape_string($conn, $qna_num);
 
-      // $sql="UPDATE `concert_board`SET `hit` = $hit WHERE `num`=$q_num;";
       $result = mysqli_query($conn,$sql);
       if (!$result) {
         die('Error: ' . mysqli_error($conn));
@@ -48,10 +46,6 @@ if(isset($_GET["qna_num"])&&!empty($_GET["qna_num"])){
       $qna_id=$row['qna_id'];
       $qna_subject=htmlspecialchars($row['qna_subject']);//스크립트 오류를 방어하기 위해서
       $qna_content= htmlspecialchars($row['qna_content']);
-      // $subject=str_replace("\n", "<br>",$subject);
-      // $subject=str_replace(" ", "&nbsp;",$subject);
-      // $content=str_replace("\n", "<br>",$content);
-      // $content=str_replace(" ", "&nbsp;",$content);
 
       $qna_date=$row['qna_date'];
 
@@ -113,32 +107,14 @@ if(isset($_GET["qna_num"])&&!empty($_GET["qna_num"])){
              <a href="./qna_list.php?page=<?=$page?>"> 목록 </a>
 
              <?php
-             //관리자이거나 작성자일경우 수정과 삭제가 가능하도록 설정
-                // if($_SESSION['userid']=="admin" || $_SESSION['userid']==$id){
                   echo '<a href="./qna_write.php?mode=update&qna_num='.$qna_num.'">수정&nbsp;</a>';
                   echo '<a href="./qna_query.php?mode=delete&qna_num='.$qna_num.'">삭제&nbsp;</a>';
-                // }아직 세션이 없음
 
-                //로그인한 유저에게 글쓰기 기능을 부여함
-                // if (!empty($_SESSION['userid'])&&$_SESSION['userid']=='admin') {
-                // echo "<a href='qna_write.php?mode=update&qna_num=$qna_num'>수정</a>";
-                // }
+
               ?>
            </div><!--end of write_button  -->
 
 
-           <!-- 댓글 텍스트필드 -->
-           <!-- <table id="memo_text" style="border:1">
-             <form name="memo_form" action="qna_query.php?mode=memo" method="post">
-               <tr id="memo_writer">
-                 <td>▷ ?=$_SESSION['userid']?> </td>
-               </tr>
-               <tr>
-                 <td><textarea name="ripple_content" rows="6" cols="95"></textarea></td>
-                 <td><input type="submit" name="" value="등록"> </td>
-               </tr>
-               </form>
-           </table> -->
 <!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
             <table action="qna_query.php?mode=memo" method="post">
               <form class="" action="qna_query.php?mode=ripple_insert&qna_num=<?=$qna_num?>" method="post">
@@ -158,11 +134,6 @@ if(isset($_GET["qna_num"])&&!empty($_GET["qna_num"])){
              ?>
              <table border="1"><!-- 테이블 칸맞추기 -->
                <tr>
-                 <!-- <form name="ripple_form" action="qna_query.php?mode=ripple_insert" method="post">
-                    <input type="hidden" name="gno" value="?=$qna_num?>">
-                    <input type="hidden" name="page" value="?=$page?>">
-                    <td><textarea name="ripple_content" rows="3" cols="80"></textarea></td>
-                    <td><input type="submit" name="" value="등록"></td> -->
                  </form>
                </tr>
                <?php

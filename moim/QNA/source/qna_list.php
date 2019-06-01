@@ -19,6 +19,565 @@ if(!isset($_SESSION['userid'])){  //로그인페이지로 보내기
    <head>
      <meta charset="utf-8">
      <link rel="stylesheet" href="../css/qna_list.css">
+     <link rel="stylesheet" href="../css/write.css">
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+     <script src="//cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
+     <script type="text/javascript">
+      $(document).ready(function() {
+
+        });
+     </script>
+     <script type="text/javascript">
+     var qna_hidden_num = "";
+     var qna_hidden_id = "";
+     var qna_hidden_subject = "";
+     var qna_hidden_content = "";
+     var qna_hidden_date = "";
+     $(document).ready(function() {
+
+       var modal = document.getElementById('myModal2');
+       $("#modal_write").click(function() {
+         $(".modal-content2").html("<h2>QNA 작성</h2>");
+         $(".modal-content2").append("<hr>");
+         $(".modal-content2").append(" <div id='qna_div'>");
+         $("#qna_div").append("<form name='qna_form' id='qna_form' action='qna_query.php?mode=insert' method='post'>");
+         $("#qna_form").append("<table id='table1'>");
+         $("#table1").append("<tr id='tr1'>");
+         $("#tr1").append("<td colspan='2' class='qna_td'>작성자 : "+'<?=$id?>'+"</td>");
+         $("#table1").append("</tr>");
+         $("#table1").append("<tr id='tr2'>");
+         $("#tr2").append("<td colspan='2' class='qna_td'><input type='text' name='qna_subject' id='qna_subjec' placeholder='제목을 입력하세요.'></td>");
+         $("#table1").append("</tr>");
+         $("#table1").append("<tr id='tr3'>");
+         $("#tr3").append("<td colspan='2' class='qna_td'><textarea name='qna_content' rows='15' cols='79'></textarea></td>");
+         $("#table1").append("</tr>");
+         $("#qna_form").append("<hr>");
+         $("#qna_form").append("</table>");
+         $("#qna_form").append("<input type='submit' class='button-8' value='Submit'>&nbsp;");
+         $("#qna_form").append("<button type='button' class='button-8' name'button'>Close</button>");
+
+         $("#qna_div").append("</form>");
+         $(".modal-content2").append("</div>");
+         // $("#qna_subjec").css("width","938");
+
+
+         CKEDITOR.replace('qna_content');
+
+         modal.style.display="block";
+       });
+
+       $(document).on('click', '#modal_modify', function() {
+         $.ajax({
+           url: 'qna_query.php?mode=select_modify',
+           type: 'POST',
+           data: {qna_num: qna_hidden_num}
+         })
+         .done(function(result) {
+           console.log("success");
+           var json_obj = $.parseJSON(result);
+           $(".modal-content2").html("<h2>QNA 작성</h2>");
+           $(".modal-content2").append("<hr>");
+           $(".modal-content2").append(" <div id='qna_div'>");
+           $("#qna_div").append("<form name='qna_form' id='qna_form' action='qna_query.php?mode=update' method='post'>");
+           $("#qna_form").append("<input type='hidden' name='qna_num' value='"+qna_hidden_num+"'>");
+           $("#qna_form").append("<table id='table1'>");
+           $("#table1").append("<tr id='tr1'>");
+           $("#tr1").append("<td class='qna_td'>작성자</td>");
+           $("#tr1").append("<td>"+json_obj[0].qna_id+"</td>");
+           $("#table1").append("</tr>");
+           $("#table1").append("<tr id='tr2'>");
+           $("#tr2").append("<td class='qna_td'>제목</td>");
+           $("#tr2").append("<td colspan='3'><input type='text' name='qna_subject' value='"+json_obj[1].qna_subject+"' id='qna_subjec'></td>");
+           $("#table1").append("</tr>");
+           $("#table1").append("<tr id='tr3'>");
+           $("#tr3").append("<td class='qna_td'>내용</td>");
+           $("#tr3").append("<td colspan='3'><textarea name='qna_content' rows='15' cols='79'>"+json_obj[2].qna_content+"</textarea></td>");
+           $("#table1").append("</tr>");
+           $("#qna_form").append("<hr>");
+           $("#qna_form").append("</table>");
+           $("#qna_form").append("<input type='submit' class='button-8' value='Submit'>&nbsp;");
+           $("#qna_form").append("<button type='button' class='button-8' name'button'>Close</button>");
+
+           $("#qna_div").append("</form>");
+           $(".modal-content2").append("</div>");
+           $("#qna_subjec").css("width","938");
+
+
+           CKEDITOR.replace('qna_content');
+
+           modal.style.display="block";
+         })
+         .fail(function() {
+           console.log("error");
+         })
+         .always(function() {
+           console.log("complete");
+         });
+
+       });
+
+       $(".modal_view").click(function() {
+         var ripple_array = new Array();
+         var ripple_value = new Array();
+         var n = $('.modal_view').index(this);
+
+         qna_hidden_num = $(".qna_hidden_num:eq("+n+")").val();
+         qna_hidden_id = $(".qna_hidden_id:eq("+n+")").val();
+         qna_hidden_subject = $(".qna_hidden_subject:eq("+n+")").val();
+         qna_hidden_content = $(".qna_hidden_content:eq("+n+")").val();
+         qna_hidden_date = $(".qna_hidden_date:eq("+n+")").val();
+
+         $.ajax({
+           url: './qna_query.php?mode=select_qna',
+           type: 'POST',
+           data: {qna_hidden_num: qna_hidden_num}
+         })
+         .done(function(result) {
+           console.log("success");
+            if(result!=""){
+              ripple_array = result.split(",");
+              result_length=ripple_array.length;
+            }else{
+              result_length=0;
+            }
+
+            $(".modal-content2").html("<h2>QNA</h2>");
+            $(".modal-content2").append("<hr>");
+            $(".modal-content2").append(" <div id='notice_div'>");
+            $("#notice_div").append("<table id='table1' >");
+            $("#table1").append("<tr id='tr1'>");
+            $("#tr1").append("<td class='notice_td'>작성자</td>");
+            $("#tr1").append("<td>"+qna_hidden_id+"</td>");
+            $("#table1").append("</tr>");
+            $("#table1").append("<tr id='tr2'>");
+            $("#tr2").append("<td class='notice_td'>작성일</td>");
+            $("#tr2").append("<td>"+qna_hidden_date+"</td>");
+            $("#table1").append("</tr>");
+            $("#table1").append("<tr id='tr3'>");
+            $("#tr3").append("<td class='notice_td'>제목</td>");
+            $("#tr3").append("<td>"+qna_hidden_subject+"</td>");
+            $("#table1").append("</tr>");
+            $("#table1").append("<tr id='tr4'>");
+            $("#tr4").append("<td>내용</td>");
+            $("#tr4").append("<td>"+qna_hidden_content+"</td>");
+            $("#table1").append("</tr>");
+            $("#notice_div").append("</table>");
+
+            $("#notice_div").append("<h3>RIPPLE</h3>");
+            $("#notice_div").append("<textarea id='ripple_content' rows='6' cols='140'></textarea>");
+            $("#notice_div").append("<input type='button' id='ripple_insert' value='글쓰기'>");
+            for(i=0;i<result_length;i++){
+              ripple_value = ripple_array[i].split("/");
+              var space="";
+              for(j=0;j<ripple_value[1];j++){
+                  space+="[re]";
+              }
+
+              $("#notice_div").append("<table class='ripple_table' id='table1"+i+"'>");
+
+              $("#table1"+i+"").append("<tr id='tr1_"+i+"'>");
+              $("#tr1_"+i+"").append("<td class='qna_first_td'>"+space+"작성자 : "+ripple_value[0]+"&nbsp&nbsp&nbsp&nbsp"+ripple_value[2]+"</td>");
+              $("#tr1_"+i+"").append("<td >작성일 : "+ripple_value[4]+"</td>");
+              $("#tr1_"+i+"").append("<td ><a href='#' class='reply'>답글 |</a><a href='#' onclick='ripple_delete("+ripple_value[1]+","+ripple_value[3]+","+ripple_value[5]+","+ripple_value[6]+");'>삭제</a></td>");
+              $("#table1"+i+"").append("</tr>");
+
+              $("#table1"+i+"").append("<tr id='tr2_"+i+"'>");
+              $("#tr2_"+i+"").append("<input type='hidden' class='hidden_ripple_num' value='"+ripple_value[3]+"'>");
+              $("#tr2_"+i+"").append("<input type='hidden' class='hidden_ripple_parent' value='"+ripple_value[5]+"'>");
+              $("#tr2_"+i+"").append("<td colspan='2'><input type='text' name='ripple_content' class='answer' placeholder='댓글'></td>");
+              $("#tr2_"+i+"").append("<td><input type='submit' class='answer1' value='글쓰기'></td>");
+              $("#table1"+i+"").append("</tr>");
+              $("#notice_div").append("</table>");
+
+            }
+
+
+            if ("<?=$id?>"=="admin" || "<?=$id?>"== qna_hidden_id){
+              $("#notice_div").append("<button type='button' class='button-7' id='modal_modify'>수정</button>");
+              $("#notice_div").append("<a href='./qna_query.php?mode=delete&qna_num="+qna_hidden_num+"'><button type='button' class='button-8' name'button'>삭제</button></a>");
+            }
+            $("#notice_div").append("<button type='button' class='button-8' name'button'>닫기</button>");
+            $(".modal-content2").append("</div>");
+
+            $("#table1 tr").css("height","60px");
+            $("#table1 tr td").css("border-bottom","1px solid black");
+            $(".notice_td").css("width","100px");
+            $("#notice_div .button-8, .button-7").css("margin-bottom","3%");
+
+            $(".answer").hide();
+            $(".answer1").hide();
+            $('.reply').click(function(){
+              var n = $('.reply').index(this);
+              $(".answer:eq("+n+")").val("");
+              if($(".answer:eq("+n+")").css('display')=="none"){
+                $(".answer").hide();
+                 $(".answer1").hide();
+                $(".answer:eq("+n+")").show();
+                 $(".answer1:eq("+n+")").show();
+              }else{
+                $(".answer:eq("+n+")").hide();
+                $(".answer1:eq("+n+")").hide();
+              }
+            });
+            modal.style.display="block";
+         })
+         .fail(function() {
+           console.log("error");
+         })
+         .always(function() {
+           console.log("complete");
+         });
+
+       });
+
+       $(document).on('click', '#ripple_insert', function() {
+         var ripple_content = $("#ripple_content").val();
+
+         $.ajax({
+           url: './qna_query.php?mode=ripple_insert&qna_num='+qna_hidden_num,
+           type: 'POST',
+           data: {
+             ripple_content: ripple_content
+           }
+         })
+         .done(function(result) {
+           console.log("success");
+
+           if(result!=""){
+             ripple_array = result.split(",");
+             result_length=ripple_array.length;
+           }else{
+             result_length=0;
+           }
+
+           $(".modal-content2").html("<h2>QNA</h2>");
+           $(".modal-content2").append("<hr>");
+           $(".modal-content2").append(" <div id='notice_div'>");
+           $("#notice_div").append("<table id='table1' >");
+           $("#table1").append("<tr id='tr1'>");
+           $("#tr1").append("<td class='notice_td'>작성자</td>");
+           $("#tr1").append("<td>"+qna_hidden_id+"</td>");
+           $("#table1").append("</tr>");
+           $("#table1").append("<tr id='tr2'>");
+           $("#tr2").append("<td class='notice_td'>작성일</td>");
+           $("#tr2").append("<td>"+qna_hidden_date+"</td>");
+           $("#table1").append("</tr>");
+           $("#table1").append("<tr id='tr3'>");
+           $("#tr3").append("<td class='notice_td'>제목</td>");
+           $("#tr3").append("<td>"+qna_hidden_subject+"</td>");
+           $("#table1").append("</tr>");
+           $("#table1").append("<tr id='tr4'>");
+           $("#tr4").append("<td>내용</td>");
+           $("#tr4").append("<td>"+qna_hidden_content+"</td>");
+           $("#table1").append("</tr>");
+           $("#notice_div").append("<hr>");
+           $("#notice_div").append("</table>");
+
+           $("#notice_div").append("<h3>RIPPLE</h3>");
+           $("#notice_div").append("<textarea id='ripple_content' rows='6' cols='140'></textarea>");
+           $("#notice_div").append("<input type='button' id='ripple_insert' value='글쓰기'>");
+           for(i=0;i<result_length;i++){
+             ripple_value = ripple_array[i].split("/");
+             var space="";
+             for(j=0;j<ripple_value[1];j++){
+                 space+="[re]";
+             }
+
+             $("#notice_div").append("<table class='ripple_table' id='table1"+i+"'>");
+
+             $("#table1"+i+"").append("<tr id='tr1_"+i+"'>");
+             $("#tr1_"+i+"").append("<td class='qna_first_td'>"+space+"작성자 : "+ripple_value[0]+"&nbsp&nbsp&nbsp&nbsp"+ripple_value[2]+"</td>");
+             $("#tr1_"+i+"").append("<td >작성일 : "+ripple_value[4]+"</td>");
+             $("#tr1_"+i+"").append("<td ><a href='#' class='reply'>답글 |</a><a href='#' onclick='ripple_delete("+ripple_value[1]+","+ripple_value[3]+","+ripple_value[5]+","+ripple_value[6]+");'>삭제</a></td>");
+             $("#table1"+i+"").append("</tr>");
+
+             $("#table1"+i+"").append("<tr id='tr2_"+i+"'>");
+             $("#tr2_"+i+"").append("<input type='hidden' class='hidden_ripple_num' value='"+ripple_value[3]+"'>");
+             $("#tr2_"+i+"").append("<input type='hidden' class='hidden_ripple_parent' value='"+ripple_value[5]+"'>");
+             $("#tr2_"+i+"").append("<td colspan='2'><input type='text' name='ripple_content' class='answer' placeholder='댓글'></td>");
+             $("#tr2_"+i+"").append("<td><input type='submit' class='answer1' value='글쓰기'></td>");
+             $("#table1"+i+"").append("</tr>");
+             $("#table1"+i+"").append("</tr>");
+             $("#notice_div").append("</table>");
+
+           }
+
+
+           if ("<?=$id?>"=="admin" || "<?=$id?>"== qna_hidden_id){
+             $("#notice_div").append("<button type='button' class='button-7' id='modal_modify'>수정</button>");
+             $("#notice_div").append("<a href='./qna_query.php?mode=delete&qna_num="+qna_hidden_num+"'><button type='button' class='button-8' name'button'>삭제</button></a>");
+           }
+           $("#notice_div").append("<button type='button' class='button-8' name'button'>닫기</button>");
+           $(".modal-content2").append("</div>");
+
+           $("#table1 tr").css("height","60px");
+           $(".notice_td").css("width","100px");
+
+           $(".answer").hide();
+           $(".answer1").hide();
+           $('.reply').click(function(){
+             var n = $('.reply').index(this);
+             $(".answer:eq("+n+")").val("");
+             if($(".answer:eq("+n+")").css('display')=="none"){
+               $(".answer").hide();
+                $(".answer1").hide();
+               $(".answer:eq("+n+")").show();
+                $(".answer1:eq("+n+")").show();
+             }else{
+               $(".answer:eq("+n+")").hide();
+               $(".answer1:eq("+n+")").hide();
+             }
+           });
+         })
+         .fail(function() {
+           console.log("error");
+         })
+         .always(function() {
+           console.log("complete");
+         });
+       });
+
+
+
+       // Get the <span> element that closes the modal
+
+       $(document).on('click', '.button-8', function(){
+         modal.style.display = "none";
+       });
+
+
+       // When the user clicks anywhere outside of the modal, close it
+       window.onclick = function(event) {
+         if (event.target == modal) {
+           modal.style.display = "none";
+         }
+       }
+     });
+
+     function ripple_delete(depth,num,parent,gno){
+
+       $.ajax({
+         url: './qna_query.php?mode=ripple_delete',
+         type: 'POST',
+         data: {
+           ripple_num: num,
+           ripple_parent:parent,
+           ripple_depth:depth,
+           ripple_gno:gno
+         }
+       })
+       .done(function(result) {
+         console.log("success");
+         if(result!=""){
+           ripple_array = result.split(",");
+           result_length=ripple_array.length;
+         }else{
+           result_length=0;
+         }
+
+         $(".modal-content2").html("<h2>QNA</h2>");
+         $(".modal-content2").append("<hr>");
+         $(".modal-content2").append(" <div id='notice_div'>");
+         $("#notice_div").append("<table id='table1' >");
+         $("#table1").append("<tr id='tr1'>");
+         $("#tr1").append("<td class='notice_td'>작성자</td>");
+         $("#tr1").append("<td>"+qna_hidden_id+"</td>");
+         $("#table1").append("</tr>");
+         $("#table1").append("<tr id='tr2'>");
+         $("#tr2").append("<td class='notice_td'>작성일</td>");
+         $("#tr2").append("<td>"+qna_hidden_date+"</td>");
+         $("#table1").append("</tr>");
+         $("#table1").append("<tr id='tr3'>");
+         $("#tr3").append("<td class='notice_td'>제목</td>");
+         $("#tr3").append("<td>"+qna_hidden_subject+"</td>");
+         $("#table1").append("</tr>");
+         $("#table1").append("<tr id='tr4'>");
+         $("#tr4").append("<td>내용</td>");
+         $("#tr4").append("<td>"+qna_hidden_content+"</td>");
+         $("#table1").append("</tr>");
+         $("#notice_div").append("<hr>");
+         $("#notice_div").append("</table>");
+
+         $("#notice_div").append("<h3>RIPPLE</h3>");
+         $("#notice_div").append("<textarea id='ripple_content' rows='6' cols='140'></textarea>");
+         $("#notice_div").append("<input type='button' id='ripple_insert' value='글쓰기'>");
+         for(i=0;i<result_length;i++){
+           ripple_value = ripple_array[i].split("/");
+           var space="";
+           for(j=0;j<ripple_value[1];j++){
+               space+="[re]";
+           }
+
+           $("#notice_div").append("<table class='ripple_table' id='table1"+i+"'>");
+
+           $("#table1"+i+"").append("<tr id='tr1_"+i+"'>");
+           $("#tr1_"+i+"").append("<td class='qna_first_td'>"+space+"작성자 : "+ripple_value[0]+"&nbsp&nbsp&nbsp&nbsp"+ripple_value[2]+"</td>");
+           $("#tr1_"+i+"").append("<td >작성일 : "+ripple_value[4]+"</td>");
+           $("#tr1_"+i+"").append("<td ><a href='#' class='reply'>답글 |</a><a href='#' onclick='ripple_delete("+ripple_value[1]+","+ripple_value[3]+","+ripple_value[5]+","+ripple_value[6]+");'>삭제</a></td>");
+           $("#table1"+i+"").append("</tr>");
+
+           $("#table1"+i+"").append("<tr id='tr2_"+i+"'>");
+           $("#tr2_"+i+"").append("<input type='hidden' class='hidden_ripple_num' value='"+ripple_value[3]+"'>");
+           $("#tr2_"+i+"").append("<input type='hidden' class='hidden_ripple_parent' value='"+ripple_value[5]+"'>");
+           $("#tr2_"+i+"").append("<td colspan='2'><input type='text' name='ripplye_content' class='answer' placeholder='댓글'></td>");
+           $("#tr2_"+i+"").append("<td><input type='submit' class='answer1' value='글쓰기'></td>");
+           $("#table1"+i+"").append("</tr>");
+
+           $("#notice_div").append("</table>");
+
+         }
+
+         if ("<?=$id?>"=="admin" || "<?=$id?>"== qna_hidden_id){
+           $("#notice_div").append("<button type='button' class='button-7' id='modal_modify'>수정</button>");
+           $("#notice_div").append("<a href='./qna_query.php?mode=delete&qna_num="+qna_hidden_num+"'><button type='button' class='button-8' name'button'>삭제</button></a>");
+         }
+         $("#notice_div").append("<button type='button' class='button-8' name'button'>닫기</button>");
+         $(".modal-content2").append("</div>");
+
+         $("#table1 tr").css("height","60px");
+         $(".notice_td").css("width","100px");
+
+         $(".answer").hide();
+         $(".answer1").hide();
+         $('.reply').click(function(){
+           var n = $('.reply').index(this);
+           $(".answer:eq("+n+")").val("");
+           if($(".answer:eq("+n+")").css('display')=="none"){
+             $(".answer").hide();
+             $(".answer1").hide();
+             $(".answer:eq("+n+")").show();
+             $(".answer1:eq("+n+")").show();
+           }else{
+             $(".answer:eq("+n+")").hide();
+             $(".answer1:eq("+n+")").hide();
+           }
+         });
+
+       })
+       .fail(function() {
+         console.log("error");
+       })
+       .always(function() {
+         console.log("complete");
+       });
+
+     }
+
+     $(document).on('click', '.answer1', function() {
+       var n = $('.answer1').index(this);
+       insert_ripple_num = $(".hidden_ripple_num:eq("+n+")").val();
+       insert_ripple_parent = $(".hidden_ripple_parent:eq("+n+")").val();
+       insert_ripple_content = $(".answer:eq("+n+")").val();
+       insert_qna_id = '<?=$_SESSION['userid']?>';
+
+       $.ajax({
+         url: './qna_query.php?mode=ripple_response',
+         type: 'POST',
+         data: {
+           ripple_content: insert_ripple_content,
+           ripple_num:insert_ripple_num,
+           ripple_parent:insert_ripple_parent,
+           qna_num:qna_hidden_num,
+           qna_id:insert_qna_id
+         }
+       })
+       .done(function(result) {
+         console.log("success");
+         if(result!=""){
+           ripple_array = result.split(",");
+           result_length=ripple_array.length;
+         }else{
+           result_length=0;
+         }
+
+         $(".modal-content2").html("<h2>QNA</h2>");
+         $(".modal-content2").append("<hr>");
+         $(".modal-content2").append(" <div id='notice_div'>");
+         $("#notice_div").append("<table id='table1' >");
+         $("#table1").append("<tr id='tr1'>");
+         $("#tr1").append("<td class='notice_td'>작성자</td>");
+         $("#tr1").append("<td>"+qna_hidden_id+"</td>");
+         $("#table1").append("</tr>");
+         $("#table1").append("<tr id='tr2'>");
+         $("#tr2").append("<td class='notice_td'>작성일</td>");
+         $("#tr2").append("<td>"+qna_hidden_date+"</td>");
+         $("#table1").append("</tr>");
+         $("#table1").append("<tr id='tr3'>");
+         $("#tr3").append("<td class='notice_td'>제목</td>");
+         $("#tr3").append("<td>"+qna_hidden_subject+"</td>");
+         $("#table1").append("</tr>");
+         $("#table1").append("<tr id='tr4'>");
+         $("#tr4").append("<td>내용</td>");
+         $("#tr4").append("<td>"+qna_hidden_content+"</td>");
+         $("#table1").append("</tr>");
+         $("#notice_div").append("<hr>");
+         $("#notice_div").append("</table>");
+
+         $("#notice_div").append("<h3>RIPPLE</h3>");
+         $("#notice_div").append("<textarea id='ripple_content' rows='6' cols='140'></textarea>");
+         $("#notice_div").append("<input type='button' id='ripple_insert' value='글쓰기'>");
+         for(i=0;i<result_length;i++){
+           ripple_value = ripple_array[i].split("/");
+           var space="";
+           for(j=0;j<ripple_value[1];j++){
+               space+="[re]";
+           }
+
+           $("#notice_div").append("<table class='ripple_table' id='table1"+i+"'>");
+
+           $("#table1"+i+"").append("<tr id='tr1_"+i+"'>");
+           $("#tr1_"+i+"").append("<td class='qna_first_td'>"+space+"작성자 : "+ripple_value[0]+"&nbsp&nbsp&nbsp&nbsp"+ripple_value[2]+"</td>");
+           $("#tr1_"+i+"").append("<td >작성일 : "+ripple_value[4]+"</td>");
+           $("#tr1_"+i+"").append("<td ><a href='#' class='reply'>답글 |</a><a href='#' onclick='ripple_delete("+ripple_value[1]+","+ripple_value[3]+","+ripple_value[5]+","+ripple_value[6]+");'>삭제</a></td>");
+           $("#table1"+i+"").append("</tr>");
+
+           $("#table1"+i+"").append("<tr id='tr2_"+i+"'>");
+           $("#tr2_"+i+"").append("<input type='hidden' class='hidden_ripple_num' value='"+ripple_value[3]+"'>");
+           $("#tr2_"+i+"").append("<input type='hidden' class='hidden_ripple_parent' value='"+ripple_value[5]+"'>");
+           $("#tr2_"+i+"").append("<td colspan='2'><input type='text' name='ripplye_content' class='answer' placeholder='댓글'></td>");
+           $("#tr2_"+i+"").append("<td><input type='submit' class='answer1' value='글쓰기'></td>");
+           $("#table1"+i+"").append("</tr>");
+
+           $("#notice_div").append("</table>");
+
+         }
+
+         if ("<?=$id?>"=="admin" || "<?=$id?>"== qna_hidden_id){
+           $("#notice_div").append("<button type='button' class='button-7' id='modal_modify'>수정</button>");
+           $("#notice_div").append("<a href='./qna_query.php?mode=delete&qna_num="+qna_hidden_num+"'><button type='button' class='button-8' name'button'>삭제</button></a>");
+         }
+         $("#notice_div").append("<button type='button' class='button-8' name'button'>닫기</button>");
+         $(".modal-content2").append("</div>");
+
+         $("#table1 tr").css("height","60px");
+         $(".notice_td").css("width","100px");
+
+         $(".answer").hide();
+         $(".answer1").hide();
+         $('.reply').click(function(){
+           var n = $('.reply').index(this);
+           $(".answer:eq("+n+")").val("");
+           if($(".answer:eq("+n+")").css('display')=="none"){
+             $(".answer").hide();
+             $(".answer1").hide();
+             $(".answer:eq("+n+")").show();
+             $(".answer1:eq("+n+")").show();
+           }else{
+             $(".answer:eq("+n+")").hide();
+             $(".answer1:eq("+n+")").hide();
+           }
+         });
+       })
+       .fail(function() {
+         console.log("error");
+       })
+       .always(function() {
+         console.log("complete");
+       });
+
+
+     });
+     </script>
      <title></title>
      <?php
      if(isset($_GET["mode"])&&($_GET["mode"]=="search")){
@@ -66,6 +625,13 @@ if(!isset($_SESSION['userid'])){  //로그인페이지로 보내기
              ?>
    </head>
    <body>
+     <div id="myModal2" class="modal2">
+      <div class="modal-content2">
+        <div class="modal-content3">
+
+        </div>
+      </div>
+    </div>
         <?php include "../lib/menu.php"; ?>
         <div class="qna_list">
           <h1 class="qna_list_h1">QnA</h1>
@@ -103,6 +669,11 @@ if(!isset($_SESSION['userid'])){  //로그인페이지로 보내기
        $qna_content=$row['qna_content'];
        $qna_date=substr($row['qna_date'], 0,10);
        ?>
+       <input type="hidden" class="qna_hidden_num" value="<?=$qna_num?>">
+       <input type="hidden" class="qna_hidden_id" value="<?=$qna_id?>">
+       <input type="hidden" class="qna_hidden_subject" value="<?=$qna_subject?>">
+       <input type="hidden" class="qna_hidden_content" value="<?=$qna_content?>">
+       <input type="hidden" class="qna_hidden_date" value="<?=$qna_date?>">
         <tbody>
         <tr>
            <td id="list_item1"><?=$number?></td>
@@ -110,7 +681,7 @@ if(!isset($_SESSION['userid'])){  //로그인페이지로 보내기
                <?php
                if($_SESSION['userid']==$qna_id||$_SESSION['userid']=='admin') {
                  ?>
-               <a href="./qna_view.php?qna_num=<?=$qna_num?>&page=<?=$page?>"><?=$qna_subject?></a>
+               <a class="modal_view"><?=$qna_subject?></a>
                <?php
              }else{
                ?>
@@ -121,6 +692,7 @@ if(!isset($_SESSION['userid'])){  //로그인페이지로 보내기
              </td>
            <td id="list_item3"><?=$qna_id?></td>
            <td id="list_item4"><?=$qna_date?></td>
+
          </tr><!-- end of list_item -->
          </tbody>
 
@@ -133,7 +705,7 @@ if(!isset($_SESSION['userid'])){  //로그인페이지로 보내기
           <a href="qna_list.php?page=<?=$page?>">목록</a>
 
           <?php
-              echo '<a href="qna_write.php">'."글쓰기".'</a>';
+              echo '<a id="modal_write">'."글쓰기".'</a>';
             ?>
         </div><!-- end of button -->
 
