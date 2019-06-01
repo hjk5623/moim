@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat|PT+Serif');
+﻿@import url('https://fonts.googleapis.com/css?family=Montserrat|PT+Serif');
 body {
   margin: 0;
   padding: 0;
@@ -113,6 +113,11 @@ nav ul li a:hover:before {
   margin-left: 20px;
   transition: color 0.3s;
   text-transform: uppercase;
+}
+
+.sub_menubar a:hover{
+  transition: 0.7s all ease;
+  color: #ff7675;
 }
 
 .fixed{

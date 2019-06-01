@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (!isset($_SESSION)) {
+  session_start();
+}
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
 
 $sql = "SELECT * FROM club where club_open='no' order by club_hit desc LIMIT 3;";
@@ -26,13 +28,16 @@ $row_count= mysqli_num_rows($result);
     <link rel="stylesheet" href="./css/service.css">
     <link rel="stylesheet" href="./css/footer.css">
     <link rel="stylesheet" href="./css/upbutton.css">
+    <link rel="stylesheet" href="./css/message_modal.css">
     <script type="text/javascript" src="./js/upbtn.js"></script>
     <script type="text/javascript" src="./js/slide_menu.js"></script>
-    <script type="text/javascript" src="./js/main_menu.js"></script><script type="text/javascript">
+    <script type="text/javascript" src="./js/main_menu.js"></script>
+    <script type="text/javascript" src="./js/message.js"></script>
+    <script type="text/javascript">
     function message_form(){
      var popupX = (window.screen.width/2)-(600/2);
-     var popupY = (window.screen.height/2)-(400/2);
-     window.open('./message/source/msg.php','','left='+popupX+',top='+popupY+', width=500, height=400, status=no, scrollbars=no');
+     var popupY = (window.screen.height/2)-(600/2);
+     window.open('./message/source/msg.php','','left='+popupX+',top='+popupY+', width=550, height=600, status=no, scrollbars=no');
    }
    window.onclick = function(event) {
      var modal = document.getElementById('myModal');
@@ -41,6 +46,7 @@ $row_count= mysqli_num_rows($result);
        }
    };
    </script>
+
   </head>
   <body>
     <div id="wrap">
@@ -60,7 +66,62 @@ $row_count= mysqli_num_rows($result);
           <!-- <a href="#">VIEW PLACE</a> -->
           <a href="./faq/source/faq_list.php">BOARD</a>
           <a href="#" onclick="calendar_choice()">CALENDER</a>
+          <?php
+            if (!(($_SESSION['username'])=='admin')) {
+              echo '<a href="#" id="message_btn" onclick="open_modal()">MESSAGE</a>';
+            }else {
+              echo "";
+            }
+          ?>
+          <form class="" action="./message/source/msg_query.php?mode=send" method="post">
+            <div class="modal_message">
+              <div class="content_modal">
+                <h1>Send Message</h1>
+                <!-- <input type="text" name="" value="" placeholder="관리자"><br> -->
+                <?php
+                  if($_SESSION['userid']=="admin" || $_SESSION['userid']=="notice_id"){
+                    echo "<input type='text' value='$send_id' name='receive_id' readonly>";
+                  }else{
+                     echo "<input type='text' value='admin' name='receive_id' readonly>";
+                  }
+                ?>
+                <textarea name="msg_content" rows="8" cols="40" placeholder="메세지를 적어주세요."></textarea>
+                <!-- <a href="#">SEND</a> -->
+                <button type="submit" name="button">SEND</button>
+              </div>
+              <div class="hide fas fa-times" onclick="hide_modal()"></div>
+              <div class="fas fa-envelope-open message_form" id="message_form" onclick="message_form()"></div>
+            </div>
+          </form>
         </div>
+
+
+        <!-- <div class="simple_modal" id="modal_id">
+          <div class="modal_content">
+            <span class="closeBtn">&times;</span>
+          </div>
+        </div>
+        <script>
+         var modal = document.getElementById('modal_id');
+         var modalBtn = document.getElementById('message_form');
+         var closeBtn = document.getElementsByClassName('closeBtn')[0];
+
+         modalBtn.addEventListener('click', openmodal);
+         closeBtn.addEventListener('click', closemodal);
+         window.addEventListener('click', clickOutside);
+
+         function openmodal(){
+           modal.style.display='block';
+         }
+         function closemodal(){
+           modal.style.display='none';
+         }
+         function clickOutside(e){
+           if (e.target == modal) {
+             modal.style.display='none';
+           }
+         }
+        </script> -->
         <nav>
           <div class="menu_icon">
             <i class="fas fa-bars fa-2x"></i>
@@ -97,9 +158,6 @@ $row_count= mysqli_num_rows($result);
               if(isset($_SESSION['userid']) && $_SESSION['userid']=="admin"){
                 echo ('<li><a href="./admin/source/admin.php">ADMIN</a></li>');
               }
-
-
-
              ?>
             </ul>
           </div>
@@ -114,6 +172,7 @@ $row_count= mysqli_num_rows($result);
       <!-- <article class="slider">
         <img src="./img/main03.jpg" alt="">
       </article> -->
+
 
       <section class="content">
         <section class="display-section">
@@ -152,7 +211,6 @@ $row_count= mysqli_num_rows($result);
               </div>
             </div>
         </section>
-      </div>
 
         <hr class="divider">
         <section class="promotion_section_two">
@@ -302,12 +360,13 @@ $row_count= mysqli_num_rows($result);
             <h2>Contact Us</h2>
             <br>
           </div>
-        </div>
+        </div><!--footer_content-->
         <div class="footer_bottom">
           &copy;www.moim.com | Designed by WebApp 5 class YoungMinTeam
-        </div>
-      </div>
+        </div><!--footer_bottom-->
+      </div><!--end of footer-->
     </footer>
+    </div>
     <a href="#" class="gotobtn"><i class="fas fa-arrow-up"></i></a>
   </body>
 </html>

@@ -297,7 +297,7 @@ $(document).ready(function() {
     var span1 = document.getElementById("span1");
     document.getElementById("flag_checkbox1").value="false";
     if (check1.checked==true){
-      $("#span1").css('color', 'white');
+      $("#span1").css('color', 'black');
       $("#span1").html("위 사항에 준수합니다.");
       document.getElementById("flag_checkbox1").value="true";
     }else{
@@ -310,7 +310,7 @@ $(document).ready(function() {
     var span2 = document.getElementById("span2");
     document.getElementById("flag_checkbox2").value="false";
     if (check2.checked==true){
-      $("#span2").css('color', 'white');
+      $("#span2").css('color', 'black');
       $("#span2").html("위 사항에 준수합니다.");
       document.getElementById("flag_checkbox2").value="true";
     }else{

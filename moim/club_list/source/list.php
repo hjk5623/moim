@@ -1,4 +1,4 @@
-<?php
+﻿<?php
   session_start();
   include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
   include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php"; //club_DB 생성
@@ -13,6 +13,27 @@
   }else{
     $mode="";
   }
+switch ($mode) {
+    case '': $color1="#ff7675";
+      break;
+    case '글쓰기':$color2="#ff7675";
+      break;
+    case '요리':$color3="#ff7675";
+      break;
+    case '영화':$color4="#ff7675";
+      break;
+    case '미술':$color5="#ff7675";
+      break;
+    case '사진':$color6="#ff7675";
+      break;
+    case '디자인':$color7="#ff7675";
+      break;
+    case '경제/경영':$color8="#ff7675";
+      break;
+    case '취미생활/기타':$color9="#ff7675";
+      break;
+  }
+
 
 $row_length= 150;   //club_intro 150바이트범위 외 ... 으로 생략
 
@@ -92,17 +113,17 @@ $row_length= 150;   //club_intro 150바이트범위 외 ... 으로 생략
     </nav>
     <section class="sec1"></section>
 
-    <div class="sub_menu">
+      <div class="sub_menu">
       <div class="sub_menubar">
-          <a href="./list.php">전체</a>
-          <a href="./list.php?mode=글쓰기">글쓰기</a>
-          <a href="./list.php?mode=요리">요리</a>
-          <a href="./list.php?mode=영화">영화</a>
-          <a href="./list.php?mode=미술">미술</a>
-          <a href="./list.php?mode=사진">사진</a>
-          <a href="./list.php?mode=디자인">디자인</a>
-          <a href="./list.php?mode=경제/경영">경제/경영</a>
-          <a href="./list.php?mode=취미생활/기타">취미생활/기타</a>
+          <a href="./list.php"style="color:<?=$color1?>;">전체</a>
+          <a href="./list.php?mode=글쓰기" style="color:<?=$color2?>;">글쓰기</a>
+          <a href="./list.php?mode=요리" style="color:<?=$color3?>;">요리</a>
+          <a href="./list.php?mode=영화" style="color:<?=$color4?>;">영화</a>
+          <a href="./list.php?mode=미술" style="color:<?=$color5?>;">미술</a>
+          <a href="./list.php?mode=사진" style="color:<?=$color6?>;">사진</a>
+          <a href="./list.php?mode=디자인" style="color:<?=$color7?>;">디자인</a>
+          <a href="./list.php?mode=경제/경영" style="color:<?=$color8?>;">경제/경영</a>
+          <a href="./list.php?mode=취미생활/기타" style="color:<?=$color9?>;">취미생활/기타</a>
       </div>
     </div>
 

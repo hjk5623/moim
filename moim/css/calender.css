@@ -55,9 +55,6 @@
 }
 
 
-
-
-
 .button-8{
   width:100%;
   height:50px;
@@ -112,7 +109,6 @@ background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 
 /* Modal Content/Box */
 .modal-content {
-
 background-color: #fefefe;
 margin: 10% auto; /* 15% from the top and centered */
 padding: 20px;
@@ -120,23 +116,29 @@ border: 1px solid #888;
 width: 50%; /* Could be more or less, depending on screen size */
 }
 
+.modal-content h2{
+  font-size: 30px;
+}
+
+.modal-content .span_td{
+  cursor: pointer;
+}
+
 /* The Close Button */
 .close {
 float: right;
 text-align: right;
-width: 100%;
 color: #aaa;
-font-size: 28px;
+font-size: 15px;
 font-weight: bold;
 }
 .back {
 float: left;
-width: 100%;
 color: #aaa;
-font-size: 28px;
+font-size: 15px;
 font-weight: bold;
 }
-.close:hover, .close:focus, .back {
+.close:hover, .close:focus, .back:hover, .back:focus {
 color: black;
 cursor: pointer;
 }

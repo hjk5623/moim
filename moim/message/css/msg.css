@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat|PT+Serif');
+body{
+  font-family:'Montserrat',DroidSans,AppleSDGothicNeo,Sans-serif,Helvetica;
+  margin: 0;
+  padding: 0;
+}
+
+h2{
+  text-align: center;
+}
+
+.recev_send_div{
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.recev_send_div a{
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+  padding: 5px;
+  background-color: #487eb0;
+  color: #fff;
+  border-radius: 4px;
+}
+
+.recev_send_div a:hover{
+  background-color: #40739e;
+}
+
+#list1{
+  width: 500px;
+  margin: 0 auto;
+  margin-bottom: 5%;
+  margin-top: 5%;
+}
+
+#list1 .not_read_div{
+  width: 100%;
+  border-radius: 5px;
+  border-bottom: 1px solid black;
+}
+
+#list1 .read_div{
+  width: 100%;
+  border-radius: 5px;
+  border-bottom: 1px solid black;
+}
+
+#list1 a{
+  text-decoration: none;
+  color: black;
+}
+
+#list1 a:hover{
+  color:#e84118;
+}
+
+#list1 .list_item4{
+  text-align: right;
+  font-size: 15px;
+}
+
+.page_box{
+  text-align: center;
+}
+
+.page_box a{
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+
+#list1 .send_div{
+  width: 100%;
+  margin: 0 auto;
+  border-bottom: 1px solid black;
+  border-radius: 5px;
+}
+
+.send_div div{
+  text-align: right;
+}
+
+.send_div .list_item5{
+  text-align: left;
+  font-size: 15px;
+}
+/************************view************************/
+.view_div{
+  width: 400px;
+  margin: 0 auto;
+  margin-bottom: 5%;
+  margin-top: 5%;
+}
+
+.view_div hr{
+  border: 0.4px solid black;
+}
+.view_div a{
+  text-decoration: none;
+  color: black;
+}
+
+.view_div .send_id_div{
+  margin-bottom: 5%;
+}
+
+.view_div .send_id_div h3, .send_id_div p{
+  display: inline;
+}
+
+.view_div .send_id_div h3{
+  font-size: 25px;
+}
+
+.view_div .view_textarea textarea{
+  border: 1px solid black;
+  outline: none;
+  width: 99%;
+  margin-top: 5%;
+}
+
+.view_div .msg_send{
+  text-align: right;
+  margin-top: 3%;
+  margin-bottom: 5%;
+}
+
+.view_div .msg_send a{
+  transition: 0.7s all ease;
+  padding: 5px;
+  border-radius: 4px;
+  font-size: 15px;
+}
+
+.view_div .msg_send a:hover{
+  background-color: #40739e;
+  color: #fff;
+}
+
+.view_div .msg_check_btn a{
+  margin: 0 3%;
+  padding: 3px 10px;
+  background-color: #60a3bc;
+  border-radius: 4px;
+  color: #fff;
+  transition: 0.7s all ease;
+}
+
+.view_div .msg_check_btn a:hover{
+  background-color: #3c6382;
+}
+
+/******************msg_form******************************/
+.form_div{
+  width: 400px;
+  margin: 0 auto;
+  margin-top: 10%;
+}
+
+.form_div hr{
+  margin: 3% 0;
+  border: 0.4px solid black;
+}
+
+.form_div .form_send_div textarea{
+  width: 99%;
+  border: 1px solid black;
+  outline: none;
+}
+
+
+.form_div .form_btn button{
+  width: 100%;
+  margin-top: 3%;
+  height: 40px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: #e74c3c;
+  color: #fff;
+  border-radius: 4px;
+  transition: 0.7s all ease;
+}
+
+.form_div .form_btn button:hover{
+  background-color: #eb2f06;
+}

@@ -23,7 +23,8 @@
     }
    ?>
   <body>
-    <div id="myModal" class="modal">
+    <div class="flagcheck_div">
+      <div id="myModal" class="modal">
       <div class="modal-content" id="modal-content">
 
        </div>
@@ -105,6 +106,7 @@
         <td><input type="checkbox" name="check3" id="check3"><label for="check3"><span id="span3">위 사항에 준수합니다.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;약관에 동의하세요.</span></label> </td>
       </tr>
     </table>
+  </div>
   </div>
   </body>
 </html>

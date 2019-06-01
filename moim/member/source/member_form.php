@@ -33,8 +33,9 @@ create_table($conn,'membership');
         $google_id = $_POST["google_id"];
       }
      ?>
-     <div class="inputdiv">
+     <div class="member_form_div">
        <form name="member_form" action="member_query.php?mode=insert" method="post" class="signup_form">
+         <div class="inputdiv">
          <input type="hidden" id="flag_id" value="false">
          <input type="hidden" id="flag_name" value="false">
          <input type="hidden" id="flag_passwd" value="false">
@@ -104,6 +105,7 @@ create_table($conn,'membership');
          <div class="inputbox5">
            <input type="button" name="button2" id="button2" value="가입하기">
          </div>
+       </div>
        </form>
      </div>
   </body>

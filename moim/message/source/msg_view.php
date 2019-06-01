@@ -32,6 +32,7 @@ mysqli_query($conn, $sql);
 		<head>
 			<meta charset="UTF-8">
 			<title>테스트</title>
+      <link rel="stylesheet" href="../css/msg.css">
 			<script type="text/javascript">
 			function receive_message_close(){
 				window.close();
@@ -40,24 +41,24 @@ mysqli_query($conn, $sql);
 		</script>
 	</head>
 	<body>
-  	<div id="head">
-    	Message
-  	</div>
-  	<hr>
-
-		<div>
-			<?=$msg_name."님"?>&nbsp<?="( ".$send_id." ) 이 보낸 메세지 "?> <br> <textarea style="resize: none;" name="message_content" rows="10" cols="57" readonly style="margin-top: 5px;"><?= $message_cont?></textarea>
-		</div>
-		<div>
-      <?php
-       ?>
-			<a href="./msg_form.php?send_id=<?= $send_id?>">[답장 보내기]</a>
-		</div>
-		<br>
-		<div>
-			<a href="#" onclick="receive_message_close()">[확인]</a>
-			<a href="./msg_query.php?mode=delete&msg_num=<?=$num ?>">[삭제]</a>
-		</div>
+    <div class="view_div">
+      <div class="send_id_div">
+        <h3><?="".$send_id.""?></h3>
+        <p>님이 보낸 메세지</p>
+      </div>
+      <hr>
+  		<div class="view_textarea">
+  			<textarea name="message_content" rows="8" cols="50" readonly ><?= $message_cont?></textarea>
+  		</div>
+  		<div class="msg_send">
+  			<a href="./msg_form.php?send_id=<?= $send_id?>">답장 보내기</a>
+  		</div>
+      <hr>
+  		<div class="msg_check_btn">
+  			<a href="#" onclick="receive_message_close()">확인</a>
+  			<a href="./msg_query.php?mode=delete&msg_num=<?=$num ?>">삭제</a>
+  		</div>
+    </div>
 
 		</body>
 		</html>

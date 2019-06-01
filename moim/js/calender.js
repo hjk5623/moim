@@ -67,15 +67,15 @@ var agit_name = "";
       }
 
       $("#modal-content").html("<h2 align='center'>"+agit_name+"</h2>");
-      $("#modal-content").append("<span class='back'>◀</span><span class='close'>&times;</span>");
+      $("#modal-content").append("<span class='back'>뒤로가기</span><span class='close'>닫기</span>");
       $("#modal-content").append("<div class='container_cal'>");
       $(".container_cal").append("<table id='table1' class='table table-bordered table-responsive'>");
       $("#table1").append("<tr class='table_top'>");
-      $(".table_top").append("<td><span onclick='calendar_ajax("+preyear+","+month+")'>PRE YEAR</span></td>");
-      $(".table_top").append("<td><span onclick='calendar_ajax("+prev_year+","+prev_month+")'>◀</span></td>");
+      $(".table_top").append("<td class='span_td'><span onclick='calendar_ajax("+preyear+","+month+")'>PRE YEAR</span></td>");
+      $(".table_top").append("<td class='span_td'><span onclick='calendar_ajax("+prev_year+","+prev_month+")'>◀</span></td>");
       $(".table_top").append("<td colspan='3'><span onclick='calendar_ajax("+thisyear+","+thismonth+")'>"+year+"년"+month+"월</span></td>");
-      $(".table_top").append("<td><span onclick='calendar_ajax("+next_year+","+next_month+")'>▶</span></td>");
-      $(".table_top").append("<td><span onclick='calendar_ajax("+nextyear+","+month+")'>NEXT YEAR</span></td>");
+      $(".table_top").append("<td class='span_td'><span onclick='calendar_ajax("+next_year+","+next_month+")'>▶</span></td>");
+      $(".table_top").append("<td class='span_td'><span onclick='calendar_ajax("+nextyear+","+month+")'>NEXT YEAR</span></td>");
       $("#table1").append("</tr>");
       $("#table1").append("<tr class='table_day'>");
       $(".table_day").append("<th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th>");
@@ -194,7 +194,3 @@ var agit_name = "";
 
       modal.style.display="block";
     }
-
-
-
-  
