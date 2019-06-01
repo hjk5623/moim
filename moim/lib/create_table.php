@@ -125,7 +125,6 @@
           `ripple_ord` int(11) NOT NULL,
           `ripple_content` text NOT NULL,
           `ripple_date` date NOT NULL,
-          `parent_num` int NOT NULL,
           PRIMARY KEY (`ripple_num`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
           break;

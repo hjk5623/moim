@@ -1,0 +1,82 @@
+.admin_club_list{
+  width: 1200px;
+  /* left: 50%; */
+  margin: 0 auto;
+  margin-top: 5%;
+}
+
+#accept_table{
+  margin-top: 3%;
+  width: 100%;
+  border-collapse: collapse;
+  /* border-radius: 5px 5px 0 0; */
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  margin-bottom: 5%;
+}
+
+
+#accept_table thead tr{
+  background-color: #001246;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+#accept_table th, td{
+  padding: 12px 15px;
+  text-align: center;
+}
+
+#accept_table tbody tr{
+  border-bottom: 1px solid #dddddd;
+}
+
+#page_box{
+  text-align: center;
+  margin-bottom: 5%;
+}
+
+#view{
+  padding: 10px;
+  border: none;
+  outline: none;
+  background-color: #7f8fa6;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+#h2{
+  display: inline;
+}
+
+.memberlist_hr{
+  margin-top: 3%;
+  margin-bottom: 3%;
+}
+/*검색부분css 추가*/
+.search{
+  display: inline-block;
+  margin-top: 10px;
+  float: right;
+}
+
+.search .kind_sel {
+    padding: 5px;
+    height: 35px;
+    border: 1px solid #ccc;
+}
+.search input[type="text"] {
+    width: 200px;
+    line-height: 35px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+}
+.search input[type="submit"] {
+    border: none;
+    background-color: #384d75;
+    color: white;
+    display: inline-block;
+    cursor: pointer;
+    padding: 10px 15px 10px 15px;
+}

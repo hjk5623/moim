@@ -1,0 +1,178 @@
+package chapter18.lab810_translation_dictionary;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class TranslationServer {
+
+	public static void main(String[] args) throws IOException {
+		//1.서버소켓 생성
+		ServerSocket server = new ServerSocket();
+		server.bind(new InetSocketAddress("192.168.1.17",5004));
+		
+		try {
+			while(true) {
+				System.out.println("서버가 대기하고 있습니다. ");
+				//2.wait for Client socket
+				Socket clientSocket =server.accept();
+				//4. 객체 만듦 (Thread 상속한 내부클래스) -> clientSocket정보 전달  
+				Translator translator = new Translator(clientSocket);
+				// 6.start()-> run() 실행
+				translator.start();
+			}
+		} finally {
+			server.close();
+		}
+	}//end of main
+	
+	private static class Translator extends Thread{
+		public Socket clientSocket;
+		
+		public Translator(Socket clientSocket) {
+			this.clientSocket = clientSocket;
+		}
+		//5. run() 구현 
+		@Override
+		public void run() {
+			//5.1 BufferedReader, PrintWriter 생성 
+			try {
+				InputStream is = clientSocket.getInputStream();
+				InputStreamReader isr = new InputStreamReader(is);
+				BufferedReader br = new BufferedReader(isr);
+				
+				OutputStream os = clientSocket.getOutputStream();
+				PrintWriter pr = new PrintWriter(os,true);
+
+				//5.2 메세지를 클라이언트에게 한 번 전송
+				pr.print("안녕하세요. 당신의 이름 " + clientSocket.getInetAddress().getHostAddress() + " 입니다.");
+				
+				//5.3 무한루프를 통해 클라이언트와 주고받는다. 
+				while(true) {
+					String receiveMessage = br.readLine(); //메세지를 받을 때까지 대기상태
+					if(receiveMessage == null)break;  		//클라이언트가 주는 메시지가 없을 때 : 끝났을 때 
+					if(receiveMessage.equals("java")) {
+						pr.println("java = 우리의 밥줄..... \n 새로운 단어를 입력해주세요");
+					}else {
+						pr.println(receiveMessage+" 그런 단어 없어요.. \n다시 입력하세요! ");
+					}
+				}
+			} catch (IOException e) {
+				System.out.println("Client Socket closed");
+			} finally {
+				try {
+					clientSocket.close();
+				} catch (IOException e) { }
+			}
+		}//end of run
+	}// end of  class Translator
+
+}//end of class TranslationServer 
+
+
+//=====================
+package chapter18.lab810_translation_dictionary;
+
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+public class TranslationClient extends JFrame implements ActionListener{
+	private static BufferedReader br;
+	private static PrintWriter pw;
+	private static Socket serverSocket;
+	private static JTextField field;
+	private static JTextArea area;
+	public TranslationClient() {
+		//창을 만든다.
+		setTitle("Client");
+		setSize(500, 300);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
+		
+		//글자를 입력할 field 생성 -> Event 핸들러에 등록
+		field = new JTextField(50);
+		field.addActionListener(this);
+		
+		//Text area 만들고 쓸 수 없도록 읽기 전용으로 세팅
+		area = new JTextArea(10,50);
+		area.setEditable(false);
+		
+		//창에다가 배치 (필드를 북쪽에 배치, area ->center)
+		add(field, BorderLayout.NORTH);
+		add(area, BorderLayout.CENTER);
+	}
+	
+	
+	public static void main(String[] args) throws IOException {
+		TranslationClient tc = new TranslationClient();
+		
+		//3. 클라이언트 소켓을 만든다. 접속 요청을 진행 
+		serverSocket = new Socket();
+		try {
+			serverSocket.connect(new InetSocketAddress("192.168.1.17", 5004),5000 );
+			
+			//7.BufferedReader PrintWriter 
+			InputStream is = serverSocket.getInputStream();
+			InputStreamReader isr = new InputStreamReader(is);
+			br = new BufferedReader(isr);
+			
+			OutputStream os = serverSocket.getOutputStream();
+			pw = new PrintWriter(os,true);
+			
+			//8.서버에서 전송한 데이터를 받는다. -> Error check 
+			//area 창에다가 입력 
+			String receiveMessage = br.readLine();
+			area.append(receiveMessage); 
+			
+			if(receiveMessage == null) {
+				throw new IOException();
+			}
+			//9. 창에 입력 
+		} catch (IOException e) {
+			System.out.println("Warning! 서버 접속 요청 불가!");
+		} finally {
+			serverSocket.close();
+		}
+	}
+	
+	//ActionListener의 abstract method   등록된 이벤트가 발생 -> 자동으로 불러주는 Callback 함수 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		//입력한 문자를 가져옴 -> 서버에 전송 
+		String sendMessage = field.getText(); //Sever 57-> String receiveMessage = br.readLine(); //메세지를 받을 때까지 대기상태
+		pw.println(sendMessage);
+		
+		String receiveMessage;
+		try {
+			//대기하고 있다가 서버에서 보내온 메세지를 area에 추가 
+			receiveMessage = br.readLine();
+			if(receiveMessage == null) {
+				throw new IOException();
+			}
+			area.append(receiveMessage);
+		} catch (IOException e1) {
+		
+		}
+		
+		
+	}
+
+}

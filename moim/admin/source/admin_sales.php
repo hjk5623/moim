@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php";
 
@@ -500,7 +500,7 @@ for($i=0;$i<$count_c;$i++){   // 카테고리의 수만큼  for문
       <br><br>
       <!--  월별매출액테이블-->
       <div class="category_div">
-        <table>
+        <table style="visibility: hidden;border-collapse: collapse; font-family: " Trebuchet MS", Helvetica, sans-serif;">
           <tr>
             <td style="border: 1px solid black; text-align: center;">카테고리</td>
             <td style="border: 1px solid black; text-align: center;">모임수</td>

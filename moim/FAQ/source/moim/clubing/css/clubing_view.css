@@ -1,0 +1,157 @@
+/* .club_view_sec{
+  width: 1200px;
+  margin: 0 auto;
+  margin-top: 5%;
+} */
+
+.club_view{
+  width: 500px;
+  top: 0;
+  right: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+
+.club_info{
+  margin-top: 20%;
+}
+
+.club_img{
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 20px;
+  letter-spacing: 4px;
+}
+
+.club_img .club_view_name{
+  font-size: 30px;
+  margin-bottom: 5%;
+}
+
+.club_view_content{
+  margin-top: 20%;
+}
+
+.club_view_content h3{
+  color: #eb4d4b;
+}
+
+.club_div{
+  font-size: 17px;
+}
+
+.club_div .club_view_intro{
+  margin-top: 5%;
+  color:
+}
+
+.club_div .club_div_btn{
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 3%;
+}
+
+.club_div .club_div_btn button[type="button"]{
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  background-color: #192a56;
+  color: #fff;
+  cursor: pointer;
+}
+
+.club_view_map{
+  width: 100%;
+}
+
+.club_view_map p{
+  color: #e17055;
+  /* text-align: center; */
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 20px;
+}
+
+#map{
+  position: relative;
+  left: -50%;
+  right: -50%;
+  top: 0;
+  bottom: 0;
+  margin: 0 auto;
+  width: 1000px;
+  height: 400px;
+  margin-top: 10%;
+}
+
+.ripple_section{
+  width: 1200px;
+  margin: 0 auto;
+  margin-top: 5%;
+}
+
+.ripple{
+  width: 1000px;
+  margin: 0 auto;
+}
+
+.ripple #ripple_textarea textarea{
+  width: 90%;
+  height: 100px;
+  outline-color: #fab1a0;
+}
+
+.ripple #ripple_textarea button[type="button"]{
+  float: right;
+  height: 105px;
+  border: none;
+  outline: none;
+  color: #fff;
+  background-color: #ff6b6b;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.ripple .ss_title{
+  color: #eb4d4b;
+}
+
+.ripple_section ul{
+  list-style: none;
+  padding-left: 0;
+}
+
+.ripple_section .ripple_div{
+  width: 100%;
+}
+
+.ripple_section .ripple .ripple_back_btn .btn{
+  border: none;
+  outline: none;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 17px;
+  color: gray;
+}
+
+.ripple_section .ripple .ripple_back_btn .btn:hover{
+  color: #2d3436;
+}
+
+.club_view_bar{
+  text-align: center;
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+
+.divider{
+width:100%;
+margin:0 auto;
+margin-top:77px;
+background:#eee;
+}
+
+.divider_ripple{
+  margin-top: 3%;
+  border: 0.5px solid black;
+}

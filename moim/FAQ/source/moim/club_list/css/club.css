@@ -1,0 +1,272 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat|PT+Serif');
+body{
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", sans-serif;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background: rgba(0, 0, 0, 0.6);
+  /* padding: 0 100px; */
+}
+
+nav .brand a{
+  text-decoration: none;
+}
+
+
+nav .brand {
+  float: left;
+  height: 100%;
+  line-height: 70px;
+}
+
+nav .brand h2 {
+  margin: 0;
+  padding: 0;
+  padding-left: 100px;
+  color: #fff;
+}
+
+nav ul {
+  float: right;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  list-style: none;
+}
+
+nav ul li a {
+  position: relative;
+  display: block;
+  height: 70px;
+  line-height: 70px;
+  padding: 0 20px;
+  box-sizing: border-box;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: .5s;
+}
+
+nav ul li a:hover {
+  color: #262626;
+}
+
+nav ul li a:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  transform-origin: right;
+  z-index: -1;
+  transform: scaleX(0);
+  transition: transform .5s;
+}
+
+nav ul li a:hover:before {
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
+.sec1 {
+  width: 100%;
+  height: 80vh;
+  box-sizing: border-box;
+  background: url("../img/clublist2.jpg");
+  background-size: cover;
+}
+
+
+/***************************************************************************************************/
+.sub_menu{
+  position: relative;
+  height: 80px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background: #f1f1f1;
+  width: 100%;
+  overflow: hidden;
+}
+
+.sub_menubar{
+  position: absolute;
+  padding-left: 100px;
+}
+
+.sub_menubar a{
+  color: #333;
+  text-decoration: none;
+  font-weight: 700;
+  margin-left: 20px;
+  transition: color 0.3s;
+  text-transform: uppercase;
+}
+
+.fixed{
+  position: sticky;
+  top: 0px;
+  z-index: 3;
+}
+
+/*********************************************************************************************/
+.promotion-section-two{
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* margin: 5%; */
+  /* display: none; */
+}
+
+.about-box-two{
+  text-align: center;
+  /* display: none; */
+}
+
+.about-area-two{
+  z-index: 2;
+}
+
+.about-area-two h2{
+  padding: 55px 0 105px;
+  text-align: center;
+  font-size: 40px;
+  font-weight: normal;
+}
+
+.noshow {
+  display: none;
+}
+
+.top_list{
+  width: 1200px;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 5%;
+}
+
+.top_list .top_list_btn{
+  margin-bottom: 3%;
+}
+
+.top_list .top_list_btn a{
+  text-decoration: none;
+  color: black;
+  padding: 15px;
+  margin: 3%;
+  font-weight: bold;
+}
+
+.top_list .top_list_btn .club_list_btn i{
+  margin-right: 3%;
+}
+
+.top_list .top_list_btn .club_list_btn{
+  border: 1px solid black;
+}
+
+
+.gallery{
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  margin: auto;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.gallery a{
+  text-decoration: none;
+  color: black;
+  text-align: center;
+}
+
+.gallery_item{
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1rem;
+  margin: 1rem;
+  box-shadow: 1px 2px 40px 2px rgba(160, 160, 160, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery_image_caprion{
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.gallery_image{
+  width: 100%;
+  display: block;
+
+}
+
+.gallery_h2{
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.pop{
+  background: #e17055;
+  color: #fff;
+  transform: rotate(45deg);
+  padding: 10px 40px;
+  position: absolute;
+  top: 10px;
+  right: -35px;
+}
+
+.deadline{
+  width: 100%;
+  height: 100%;
+  /* background: rgb(17, 17, 17); */
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: 0.7s ease;
+}
+
+.deadline h2{
+  font-family: 'Noto Sans KR', sans-serif;
+  color: #fff;
+  font-size: 40px;
+  text-shadow: 5px 5px 5px black;
+}
+
+@media only screen and (min-width:540px) {
+  .gallery_item{
+    flex-basis: calc(50% - 2rem);
+  }
+}
+
+@media only screen and (min-width:768px) {
+  .gallery_item{
+    flex-basis: calc((100% / 3) - 2rem);
+  }
+}
+
+@media only screen and (min-width:960px) {
+  .gallery_item{
+    flex-basis: calc((100% / 4) - 2rem);
+  }
+}

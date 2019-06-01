@@ -1,0 +1,64 @@
+.user_apply_div{
+  width: 1300px;
+  margin: 0 auto;
+  margin-top: 5%;
+}
+
+.table_apply{
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.table_apply thead tr{
+  background-color: #001246;
+  color: #ffffff;
+  text-align: center;
+  font-weight: bold;
+  height: 50px;
+  font-weight:normal;
+  text-align: left;
+}
+
+.table_apply thead tr .place, .date{
+  width: 150px;
+}
+
+.table_apply tbody tr{
+  height: 50px;
+  border-bottom: 2px solid #001246;
+}
+
+.table_apply tbody tr .apply_bt{
+  text-align: center;
+}
+
+.table_apply tbody tr .apply_cancle{
+  padding: 5px 10px;
+  border: none;
+  outline: none;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.table_apply tbody tr .apply_cancle:hover{
+  background-color: #34495e;
+  color: #fff;
+  border-radius: 4px;
+}
+
+#page_box{
+  margin-bottom: 5%;
+  margin-top: 3%;
+  text-align: center;
+}
+
+#page_box a{
+  text-decoration: none;
+  padding: 10px;
+  color: black;
+}
