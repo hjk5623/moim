@@ -143,11 +143,7 @@ create_table($conn, 'notice');
 
 
        // When the user clicks anywhere outside of the modal, close it
-       window.onclick = function(event) {
-         if (event.target == modal) {
-           modal.style.display = "none";
-         }
-       }
+      
      });
 
        function modal_modify(notice_num){

@@ -3,7 +3,12 @@ session_start();
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/create_table.php"; //club_DB 생성
 create_table($conn, 'cart');
-$mode="";   //mode query.php에 쓰일 cart,delete,download
+
+if(isset($_GET['mode'])){  //mode query.php에 쓰일 cart,delete,download
+  $mode=$_GET['mode'];
+}else{
+  $mode="";
+}
 
 if(isset($_GET['club_num'])){
   $club_num=$_GET['club_num'];
@@ -72,6 +77,7 @@ $cart_id=$row['cart_id'];
      <meta charset="utf-8">
      <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
      <link rel="stylesheet" href="../css/club.css">
+     <link rel="stylesheet" href="../../css/message_modal.css">
      <link rel="stylesheet" href="../css/club_view.css">
      <link rel="stylesheet" href="../../css/modal_alert.css">
      <script type="text/javascript" src="../../js/modal_alert.js"></script>
@@ -81,8 +87,62 @@ $cart_id=$row['cart_id'];
      <title><?=$club_name?></title>
      <!-- 구매하기 카트담기 삭제 부분 스크립트 -->
      <script type="text/javascript" src="../js/club.js"></script>
+     <script type="text/javascript" src="../../js/message.js"></script>
+
+     <script type="text/javascript">
+     function message_form(){
+      var popupX = (window.screen.width/2)-(600/2);
+      var popupY = (window.screen.height/2)-(600/2);
+      window.open('../../message/source/msg.php','','left='+popupX+',top='+popupY+', width=550, height=600, status=no, scrollbars=no');
+    }
+    window.onclick = function(event) {
+      var modal = document.getElementById('myModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+    </script>
+
+     <style media="screen">
+       #way li{
+         list-style: none;
+         display: inline-block;
+         text-align: right;
+         font-size: 13px;
+         color: gray;
+       }
+       ul#way{
+         padding: 0;
+         margin-block-end: 5px;
+       }
+       #way li a{
+         color: gray;
+         text-decoration:none;
+       }
+
+     </style>
    </head>
    <body>
+     <form class="" action="../../message/source/msg_query.php?mode=send" method="post">
+       <div class="modal_message">
+         <div class="content_modal">
+           <h1>Send Message</h1>
+           <!-- <input type="text" name="" value="" placeholder="관리자"><br> -->
+           <?php
+             if($userid=="admin" || $userid=="notice_id"){
+               echo "<input type='text' value='$send_id' name='receive_id' readonly>";
+             }else{
+                echo "<input type='text' value='admin' name='receive_id' readonly>";
+             }
+           ?>
+           <textarea name="msg_content" rows="8" cols="40" placeholder="메세지를 적어주세요."></textarea>
+           <!-- <a href="#">SEND</a> -->
+           <button type="submit" name="button">SEND</button>
+         </div>
+         <div class="hide fas fa-times" onclick="hide_modal()"></div>
+         <div class="fas fa-envelope-open message_form" id="message_form" onclick="message_form()"></div>
+       </div>
+     </form>
      <div id="myModal" class="modal">
        <div class="modal-content" id="modal-content">
 
@@ -97,7 +157,13 @@ $cart_id=$row['cart_id'];
        <ul>
          <li><a href="./list.php">CLUB LIST</a></li>
          <li><a href="../../faq/source/faq_list.php">BOARD</a></li>
-         <li><a href="#" onclick="message_form();">MESSAGE</a></li>
+         <?php
+         if ($userid!="") {
+           ?>
+           <li><a href="#" onclick="open_modal()">MESSAGE</a></li>
+           <?php
+         }
+          ?>
          <?php
          if(isset($_SESSION['userid'])){
            echo "<li><a href='../../mypage/source/user_check.php'>MY PAGE</a></li>";
@@ -117,6 +183,10 @@ $cart_id=$row['cart_id'];
        <div class="club_view">
          <div class="club_info">
            <div class="club_img">
+             <ul id=way>
+               <li><a href="./list.php">모집중인 모임</a> > </li>
+               <li><a href="./list.php?mode=<?=$mode?>"><?=$mode?></a></li>
+             </ul>
              <div class="club_view_name"><b><?=$club_name?></b></div>
              <img src="../../admin/data/<?=$club_image_copied?>" width="500px" height="400px">
            </div>

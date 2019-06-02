@@ -113,37 +113,37 @@ $number=$total_record- $start_row;
               if($msg_check == "N"){
                   ?>
                   <div class="not_read_div">
-                		<div id="list2"><?="".$send_id."님 에게 받은 메세지 "?></a></div>
-                		<div id="list2"><a id="messageLink" href="#" onclick="chat_view('msg_view.php?msg_num=<?=$msg_num ?>')"><?=$msg_content?></a></div>
-                		<div class="list_item4"><?=$msg_date?> 안읽음</div>
+                      <div id="list2"><?="".$send_id."님 에게 받은 메세지 "?></a></div>
+                      <div id="list2"><a id="messageLink" href="#" onclick="chat_view('msg_view.php?msg_num=<?=$msg_num ?>&mode=<?=$mode?>')"><?=$msg_content?></a></div>
+                      <div class="list_item4"><?=$msg_date?> 안읽음</div>
                   </div>
-          		<?php
-          	    }else{
-          	    ?>
+                <?php
+                 }else{
+                 ?>
                 <div class="read_div">
-                	<div id="list2"><?="".$send_id."님 에게 받은  메세지 "?></a></div>
-              		<div id="list2"><a id="messageLink" href="#" onclick="chat_view('msg_view.php?msg_num=<?=$msg_num ?>')"><?=$msg_content?></a></div>
-              		<div class="list_item4"><?=$msg_date?> 읽음 </div>
+                   <div id="list2"><?="".$send_id."님 에게 받은  메세지 "?></a></div>
+                    <div id="list2"><a id="messageLink" href="#" onclick="chat_view('msg_view.php?msg_num=<?=$msg_num ?>&mode=<?=$mode?>')"><?=$msg_content?></a></div>
+                    <div class="list_item4"><?=$msg_date?> 읽음 </div>
                 </div>
-         		<?php
+               <?php
                }
            }else{
               if($msg_check == "N"){
                   ?>
                   <div class="send_div">
               <div id="list3"><?=$receive_id."님"?>에게 보낸 메세지</a></div>
-          		<div id="list3"><a id="messageLink" href="#" onclick="chat_view('msg_view.php?msg_num=<?=$msg_num ?>')"><?=$msg_content?></a></div>
-          		<div class="list_item5"><?=$msg_date?></div>
+                <div id="list3"><a id="messageLink" href="#" onclick="chat_view('msg_view.php?msg_num=<?=$msg_num ?>&mode=<?=$mode?>')"><?=$msg_content?></a></div>
+                <div class="list_item5"><?=$msg_date?></div>
               </div>
-          		<?php
-          	    }else{
-          	    ?>
+                <?php
+                 }else{
+                 ?>
                 <div class="send_div">
               <div id="list3"><?=$receive_id."님"?>에게 보낸 메세지</a></div>
-          		<div id="list3"><a id="messageLink" href="#" onclick="chat_view('msg_view.php?msg_num=<?=$msg_num ?>')"><?=$msg_content?></a></div>
-          		<div class="list_item5"><?=$msg_date?></div>
+                <div id="list3"><a id="messageLink" href="#" onclick="chat_view('msg_view.php?msg_num=<?=$msg_num ?>&mode=<?=$mode?>')"><?=$msg_content?></a></div>
+                <div class="list_item5"><?=$msg_date?></div>
               </div>
-         		<?php
+               <?php
                }
        }?>
      </div>

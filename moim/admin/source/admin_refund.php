@@ -38,12 +38,15 @@ $number=$total_record- $start_row;
   <meta charset="UTF-8">
   <link rel="stylesheet" href="../css/request_list.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../css/modal_alert.css">
+  <script type="text/javascript" src="../../js/modal_alert.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <script type="text/javascript">
+    function check_delete_alert(num,id){
+      modal_alert_cancle("알림",id+"회원의 환불을 처리하시겠습니까?","ajax_refund",num,id);
+    }
     function refund_submit(num,id){
-      // console.log(num);
-      // console.log(id);
-      var result1=confirm(id+"회원의 환불을 처리하시겠습니까?");
-      if(result1){
+
         $.ajax({
           url: './admin_query.php?mode=refund_update',
           type: 'POST',
@@ -62,11 +65,16 @@ $number=$total_record- $start_row;
           console.log("complete");
         });
 
-      }
+
     }
   </script>
 </head>
 <body>
+  <div id="myModal" class="modal">
+  <div class="modal-content" id="modal-content">
+
+   </div>
+ </div>
   <?php
   include $_SERVER['DOCUMENT_ROOT']."/moim/admin/source/admin.php";
   ?>
@@ -104,7 +112,7 @@ $number=$total_record- $start_row;
           <td><?=$buy_process_date?> </td>
           <td>
             <button type="button" name="button" id="view" onclick="window.open('https://admin.iamport.kr/payments','_blank', 'width=550 height=500');">거래내역조회</button></a>
-            <button type="button" name="button" id="view" onclick="refund_submit(<?=$buy_club_num?>,'<?=$buy_id?>');">환불처리</button></a>
+            <button type="button" name="button" id="view" onclick="check_delete_alert(<?=$buy_club_num?>,'<?=$buy_id?>');">환불처리</button></a>
           </td>
         </tr>
         <?php

@@ -7,6 +7,9 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../css/request_list.css">
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
+<link rel="stylesheet" href="../../css/modal_alert.css">
+<script type="text/javascript" src="../../js/modal_alert.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 <?php
   $sql="SELECT * from user_club where user_check='no' order by user_num desc;";
   $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
@@ -35,10 +38,11 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
   $number=$total_record- $start_row;
 ?>
  <script>
+   function check_delete_alert(num){
+     modal_alert_cancle("알림","해당 신청모임의 등록을 취소하시겠습니까?","ajax_request",num);
+   }
    function request_disapprove(num){
-     console.log(num);
-     var result1=confirm("해당 신청모임의 등록을 취소하시겠습니까?");
-     if(result1){
+
        $.ajax({
          url: '../../PHPmailer/email.php?mode=request_disapprove',
          type: 'POST',
@@ -55,11 +59,16 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
        .always(function() {
          console.log("complete");
        });
-     }
+     
    }
  </script>
 </head>
 <body>
+  <div id="myModal" class="modal">
+  <div class="modal-content" id="modal-content">
+
+   </div>
+ </div>
   <?php
   include $_SERVER['DOCUMENT_ROOT']."/moim/admin/source/admin.php";
   ?>
@@ -111,7 +120,7 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
           <td><?=$user_schedule?></td>
           <td><?=$user_price?></td>
           <td><?=$user_rent_info?></td>
-          <td>
+          <td id="etc">
             <a href="./admin_request_view.php?user_num=<?=$user_num?>&page=<?=$page?>"><button type="button" name="button" id="view">내용</button></a>
             <!--1. 등록 버튼은 submit으로 하고 등록화면에서 받아서 값 셋팅-->
             <!--2. 등록화면에서 진짜 등록했을때 user_club에서 user_check를 yes로 업데이트할 것-->
@@ -119,7 +128,7 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
             <!--1. 취소 버튼을 누르면 user_club에서 user_check를 yes로 업데이트-->
             <!--  처리했느냐 여부.. -->
             <!--파일,이미지 삭제는 마이페이지에서 삭제시킬것-->
-            <button type="button" name="button" id="view" onclick="request_disapprove(<?=$user_num?>);">취소</button>
+            <button type="button" name="button" id="view" onclick="check_delete_alert(<?=$user_num?>);">취소</button>
           </td>
         </tr>
         <?php

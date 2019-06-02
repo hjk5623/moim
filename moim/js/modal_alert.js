@@ -44,6 +44,10 @@ function modal_alert_cancle(msg1,msg2,msg3,msg4,msg5,msg6,msg7){
       user_club_refund(msg4);
     }else if(msg3=="choice"){
       check_choice();
+    }else if(msg3=="ajax_request"){
+      request_disapprove(msg4);
+    }else if(msg3=="ajax_refund"){
+      refund_submit(msg4,msg5);
     }else if(msg3!="undefined"){
       window.location.href=msg3;
     }

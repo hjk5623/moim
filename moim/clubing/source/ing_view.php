@@ -30,6 +30,7 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
  $club_hit= $row['club_hit']+1;
  $club_open= $row['club_open'];
  $club_image_copied= $row['club_image_copied'];
+ $club_file_copied= $row['club_file_copied'];
  $club_file_name= $row['club_file_name'];
  $club_intro= $row['club_intro'];
 
@@ -50,7 +51,7 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <link rel="stylesheet" href="../../css/modal_alert.css">
   <script type="text/javascript" src="../../js/modal_alert.js"></script>
-  
+
    <script>
      var startHeightMin=788; //트리거 시작 스크롤 위치
      var itemHeight=100; // 아이템별 높이
@@ -81,6 +82,10 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
              }
            }
          }
+
+     function check_delete_alert(num){
+       modal_alert_cancle("알림","모임을 삭제하시겠습니까?","ing_query.php?mode=c_delete&club_num="+num);
+     }
    </script>
    <style media="screen">
      #way li{
@@ -117,7 +122,7 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
        <li><a href="../../club_list/source/list.php">CLUB LIST</a></li>
        <li><a href="../../faq/source/faq_list.php">BOARD</a></li>
        <li><a href="#" onclick="message_form();">MESSAGE</a></li>
-       <li><a href="../../mypage/source/user_modify.php">MY PAGE</a></li>
+       <li><a href="../../mypage/source/user_check.php">MY PAGE</a></li>
        <?php
        if(!isset($_SESSION['userid'])){
          echo ('<li><a href="../../login/source/login.php">LOG IN</a></li>');
@@ -152,7 +157,7 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
             if(!empty($userid) && $userid==="admin"){ ?>
               <!-- <button type="button" name="button">수정</button> -->
               <div class="club_div_btn">
-                <button type="button" name="button" onclick="location.href='ing_query.php?mode=c_delete&club_num=<?=$club_num?>'">삭제</button>
+                <button type="button" name="button" onclick="check_delete_alert(<?=$club_num?>)">삭제</button>
                 <button type="button" name="button" onclick="location.href='../../admin/source/admin_club_create.php?mode=update&club_num=<?=$club_num?>'">수정</button>
               </div>
             <?php } ?>

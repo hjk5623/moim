@@ -160,7 +160,7 @@ $(document).ready(function() {
   });
   //이메일 인증
   $("#button1").click(function(event) {
-    count=10;
+    count=60;
     document.getElementById('set_time').style.color="red";
     document.getElementById('set_time').style.fontSize="10px";
     var email1 = document.getElementById("email1");

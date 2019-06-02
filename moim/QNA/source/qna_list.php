@@ -232,7 +232,10 @@ if(!isset($_SESSION['userid'])){  //로그인페이지로 보내기
 
        $(document).on('click', '#ripple_insert', function() {
          var ripple_content = $("#ripple_content").val();
-
+         if($.trim(ripple_content)==""){
+           alert("123");
+           return;
+         }
          $.ajax({
            url: './qna_query.php?mode=ripple_insert&qna_num='+qna_hidden_num,
            type: 'POST',
@@ -347,11 +350,7 @@ if(!isset($_SESSION['userid'])){  //로그인페이지로 보내기
 
 
        // When the user clicks anywhere outside of the modal, close it
-       window.onclick = function(event) {
-         if (event.target == modal) {
-           modal.style.display = "none";
-         }
-       }
+
      });
 
      function ripple_delete(depth,num,parent,gno){
@@ -469,6 +468,10 @@ if(!isset($_SESSION['userid'])){  //로그인페이지로 보내기
        insert_ripple_parent = $(".hidden_ripple_parent:eq("+n+")").val();
        insert_ripple_content = $(".answer:eq("+n+")").val();
        insert_qna_id = '<?=$_SESSION['userid']?>';
+       if($.trim(insert_ripple_content)==""){
+         alert("123");
+         return;
+       }
 
        $.ajax({
          url: './qna_query.php?mode=ripple_response',

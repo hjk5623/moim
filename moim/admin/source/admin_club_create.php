@@ -455,21 +455,21 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
             <tr>
               <td id="write_td">모집정원</td>
               <td colspan="2">
-                <input type="number" name="club_to" id="club_to" value="<?=$club_to?>"  placeholder="모집정원">
+                <input type="number" name="club_to" id="club_to" value="<?=$club_to?>" autocomplete="off"  placeholder="모집정원">
                 <span id="span_club_to"></span>
               </td>
             </tr>
             <tr>
               <td>모집시작일</td>
               <td colspan="2">
-                <input type="text" name="club_start" value="<?=$club_start?>" id="datepicker1" placeholder="모집시작일">
+                <input type="text" name="club_start" value="<?=$club_start?>" id="datepicker1" autocomplete="off" placeholder="모집시작일">
                 <span id="span_club_start"></span>
               </td>
             </tr>
             <tr>
               <td>모집마감일</td>
               <td colspan="2">
-                <input type="text" name="club_end" value="<?=$club_end?>" id="datepicker2" placeholder="모집마감일">
+                <input type="text" name="club_end" value="<?=$club_end?>" id="datepicker2" autocomplete="off" placeholder="모집마감일">
                 <span id="span_club_end"></span>
               </td>
             </tr>

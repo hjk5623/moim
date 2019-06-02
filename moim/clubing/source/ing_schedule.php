@@ -25,7 +25,7 @@ foreach($result as $row){
   $schedule= substr($club_schedule,0,8);
   $data[]= array(
     'title' =>"$club_name",
-    'url'   =>'http://localhost/moim_13/clubing/source/ing_view.php?club_num='."$club_num",
+    'url'   =>'http://localhost/moim/clubing/source/ing_view.php?club_num='."$club_num",
     'start' =>"20$schedule",
     'color' =>"$color"
   );

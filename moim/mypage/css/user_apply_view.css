@@ -1,0 +1,33 @@
+.apply_div{
+  width: 1200px;
+  margin: 0 auto;
+  margin-top: 5%;
+}
+
+.user_apply_table{
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); */
+  margin-bottom: 5%;
+}
+
+
+.user_apply_table tr td{
+  padding: 10px;
+}
+.user_apply_table tr{
+  border-bottom: 1px solid #dddddd;
+}
+
+.user_apply_table button[type="button"]{
+  width: 100px;
+  padding: 10px 0;
+  font-size: 15px;
+  background-color: #001246;
+  border: none;
+  outline: none;
+  color: white;
+  cursor: pointer;
+}

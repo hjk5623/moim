@@ -9,10 +9,6 @@ create_table($conn,'agit');
 //모임등록
 if(isset($_GET["mode"]) && $_GET["mode"] == "clubinsert"){
 
-  var_dump($_POST["club_rent_info1"]);
-  var_dump($_POST["club_rent_info2"]);
-
-
   if(empty($_POST["club_name"])){
    echo "<script>alert('모임이름을 입력해주세요.'); history.go(-1);</script>";
    return;

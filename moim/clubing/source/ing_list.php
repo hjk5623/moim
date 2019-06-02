@@ -23,7 +23,7 @@ switch ($mode) {
     break;
   case '경제/경영':$color8="#ff7675";
     break;
-  case '취미생활':$color9="#ff7675";
+  case '취미생활/기타':$color9="#ff7675";
     break;
   case 'calendar':$color10="#ff7675";
     break;
@@ -93,7 +93,7 @@ switch ($mode) {
         <li><a href="../../club_list/source/list.php">CLUB LIST</a></li>
         <li><a href="../../faq/source/faq_list.php">BOARD</a></li>
         <li><a href="#" onclick="message_form();">MESSAGE</a></li>
-        <li><a href="../../mypage/source/user_modify.php">MY PAGE</a></li>
+        <li><a href="../../mypage/source/user_check.php">MY PAGE</a></li>
         <?php
         if(!isset($_SESSION['userid'])){
           echo ('<li><a href="../../login/source/login.php">LOG IN</a></li>');
@@ -116,7 +116,7 @@ switch ($mode) {
         <a href="ing_list.php?mode=사진" style="color:<?=$color6?>;">사진</a>
         <a href="ing_list.php?mode=디자인" style="color:<?=$color7?>;">디자인</a>
         <a href="ing_list.php?mode=경제/경영" style="color:<?=$color8?>;">경제/경영</a>
-        <a href="ing_list.php?mode=취미생활&기타" style="color:<?=$color9?>;">취미생활&기타</a>
+        <a href="ing_list.php?mode=취미생활/기타" style="color:<?=$color9?>;">취미생활/기타</a>
         <a href="ing_list.php?mode=calendar" id=cal_click style="color:<?=$color10?>;">달력</a>
       </div>
     </div> <!--end of sub_menu-->

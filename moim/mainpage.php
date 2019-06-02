@@ -60,17 +60,24 @@ $row_count= mysqli_num_rows($result);
             }
            ?>
           <br>
-          <a href="mainpage.php">HOME</a>
-          <a href="./mypage/source/user_modify.php">MY PAGE</a>
+          <?php
+            if(isset($_SESSION['username'])){
+              if ($_SESSION['username']!='admin' && !(empty($_SESSION['username']))) {
+                echo '<a href="./mypage/source/user_check.php">MY PAGE</a>';
+              }else {
+                echo "";
+              }
+            }
+          ?>
           <a href="./club_list/source/list.php">CLUB LIST</a>
           <!-- <a href="#">VIEW PLACE</a> -->
           <a href="./faq/source/faq_list.php">BOARD</a>
           <a href="#" onclick="calendar_choice()">CALENDER</a>
           <?php
-            if (!(($_SESSION['username'])=='admin')) {
-              echo '<a href="#" id="message_btn" onclick="open_modal()">MESSAGE</a>';
-            }else {
-              echo "";
+            if(isset($_SESSION['username'])){
+              if (!(($_SESSION['username'])=='admin') && !(empty($_SESSION['username']))) {
+                echo '<a href="#" id="message_btn" onclick="open_modal()">MESSAGE</a>';
+              }
             }
           ?>
           <form class="" action="./message/source/msg_query.php?mode=send" method="post">
