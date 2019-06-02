@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 if(!isset($_SESSION)){
 session_start();
 
@@ -9,7 +9,6 @@ session_start();
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="../css/admin.css">
-    <script type="text/javascript" src="./js/message.js"></script>
 
     <script type="text/javascript">
     function message_form(){
