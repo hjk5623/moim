@@ -3,8 +3,8 @@ if (!isset($_SESSION)) {
   session_start();
 }
 include $_SERVER['DOCUMENT_ROOT']."/moim/lib/db_connector.php";
-
-$sql = "SELECT * FROM club where club_open='no' order by club_hit desc LIMIT 3;";
+$today = date("Y-m-d");
+$sql = "SELECT * FROM club where club_open = 'no' and club_end >= '$today' order by club_hit desc LIMIT 3;";
 $result = mysqli_query($conn, $sql) or die("실패원인12 " . mysqli_error($conn));
 $row_count= mysqli_num_rows($result);
 
@@ -156,7 +156,7 @@ $row_count= mysqli_num_rows($result);
               }
               //관리자로그인시 화면상단에 ADMIN 생성
               if(isset($_SESSION['userid']) && $_SESSION['userid']=="admin"){
-                echo ('<li><a href="./admin/source/admin.php">ADMIN</a></li>');
+                echo ('<li><a href="./admin/source/admin_member.php">ADMIN</a></li>');
               }
              ?>
             </ul>

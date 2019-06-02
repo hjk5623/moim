@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
 
@@ -37,7 +37,7 @@ if(isset($_GET["mode"]) && $_GET["mode"]== "delete") {
   }else{
       //send_id가 내아이디 receive_id가 받는사람아이디
       $sql = "INSERT into `msg` values(null, '$msg_name', '$send_id', '$receive_id', '$msg_content', '$msg_date', '$msg_check')";
-      mysqli_query($conn, $sql) or die(mysqli_error($con));
+      mysqli_query($conn, $sql) or die(mysqli_error($conn));
 
       echo "<script>
               window.close();

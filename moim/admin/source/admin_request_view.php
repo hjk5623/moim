@@ -22,6 +22,7 @@ if(isset($_GET["user_num"]) && !empty($_GET["user_num"])){
 
     $user_name=$row['user_name'];
     $user_content=$row['user_content'];
+    $user_intro=$row['user_intro'];
     $user_content=html_entity_decode($user_content);
     $user_image_name=$row['user_image_name'];
     $user_image_copied=$row['user_image_copied'];
@@ -48,30 +49,41 @@ if(isset($_GET["user_num"]) && !empty($_GET["user_num"])){
    <head>
      <meta charset="utf-8">
      <title></title>
+     <link rel="stylesheet" href="../css/admin_request_view.css">
    </head>
    <body>
      <?php
      include $_SERVER['DOCUMENT_ROOT']."/moim/admin/source/admin.php";
      ?>
-         <h2 id="h2" style="margin-top:100px;"><big><strong>신청모임관리</strong></big></h2>
-       <table border="1">
+     <div class="requst_div">
+      <h2>신청모임관리</h2>
+      <hr class="memberlist_hr">
+       <table class="request_table">
          <tr>
+           <td>모임이름</td>
            <td colspan="2"><?=$user_name?></td>
          </tr>
          <tr>
-           <td align="center" >첨부파일</td>
+           <td>첨부파일</td>
            <?php
             $file_path = "../../mypage/data/".$user_file_copied;
             $file_size = filesize($file_path);
             ?>
             <td>
-             ▷ 첨부파일 : <?=$user_file_name?> (<?=$file_size?> Byte)&nbsp;&nbsp;&nbsp;
+            <img src="../img/attach_file.png" alt="" width="18px" height="15px;">첨부파일 : <?=$user_file_name?> (<?=$file_size?> Byte)&nbsp;&nbsp;&nbsp;
                  <a href='download.php?mode=download&user_num=<?=$user_num?>'>[저장]</a>
            </td>
          </tr>
          <tr>
+           <td>모임대표이미지</td>
            <td colspan="2">
              <img src="../../mypage/data/<?=$user_image_copied?>" width="<?=$image_width?>">
+           </td>
+         </tr>
+         <tr>
+           <td>간단소개</td>
+           <td colspan="2">
+            <?=$user_intro?>
            </td>
          </tr>
          <tr>
@@ -86,12 +98,12 @@ if(isset($_GET["user_num"]) && !empty($_GET["user_num"])){
            </td>
          </tr>
          <tr>
-           <td colspan="2">
+           <td colspan="2" style="text-align:right">
              <a href="./admin_request_list.php?page=<?=$page?>"><button type="button" name="button">list</button></a>
            </td>
          </tr>
         </table>
-       </div><!--content-->
+      </div><!--end of div class="requst_div" -->
       </div><!--wrap -->
    </body>
  </html>

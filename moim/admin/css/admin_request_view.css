@@ -1,3 +1,4 @@
+
 .requst_div{
   width: 1200px;
   margin: 0 auto;
@@ -9,10 +10,24 @@
   border-collapse: collapse;
   border-radius: 5px 5px 0 0;
   overflow: hidden;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); */
   margin-bottom: 5%;
 }
 
 .request_table tr td{
   padding: 10px;
+}
+.request_table tr{
+  border-bottom: 1px solid #dddddd;
+}
+
+.request_table button[type="button"]{
+  width: 100px;
+  padding: 10px 0;
+  font-size: 15px;
+  background-color: #001246;
+  border: none;
+  outline: none;
+  color: white;
+  cursor: pointer;
 }

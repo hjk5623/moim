@@ -84,6 +84,7 @@ $number=$total_record- $start_row;
        </thead>
     <?php
 
+      $today = date("Y-m-d");
 
       for($i=$start_row; ($i<$start_row+$rows_scale) && ($i< $total_record); $i++){
         //가져올 레코드 위치 이동
@@ -125,16 +126,16 @@ $number=$total_record- $start_row;
           <td><?=$club_schedule?></td>
           <td>
             <?php
-              if($club_open=="no"){
-            ?>
-                모집중
-            <?php
-              }else{
-            ?>
-                모집마감
-            <?php
-              }
-             ?>
+                if($club_open=="no"&&$today<=$club_end){
+              ?>
+                  모집중
+              <?php
+            }else if($today>$club_end){
+              ?>
+              모집마감
+              <?php
+            }
+               ?>
           </td>
           <td>
             <button type="button" name="del_btn" class="del_btn" id="del_btn" value="<?=$cart_num?>">삭제</button>
