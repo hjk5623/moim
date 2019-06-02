@@ -9,6 +9,17 @@ session_start();
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="../css/admin.css">
+    <script type="text/javascript" src="./js/message.js"></script>
+
+    <script type="text/javascript">
+    function message_form(){
+     var popupX = (window.screen.width/2)-(600/2);
+     var popupY = (window.screen.height/2)-(600/2);
+     window.open('../../message/source/msg.php','','left='+popupX+',top='+popupY+', width=550, height=600, status=no, scrollbars=no');
+   }
+
+
+   </script>
     <title></title>
   </head>
   <body>
@@ -45,7 +56,7 @@ session_start();
             </ul>
           </li>
           <li><a href="admin_refund.php">환불관리</a></li>
-          <li><a href="#" onclick="message_form();">문의</a></li>
+          <li><a href="#" id="message_form" onclick="message_form()">문의</a></li>
 
       </div>
     </nav>

@@ -291,6 +291,15 @@ if(isset($_GET["mode"]) && $_GET["mode"] == "refund_update"){
       if (!$result) {
         die('Error: ' . mysqli_error($conn));
   }
+
+  $sql = "SELECT * from club where club_num=$buy_club_num";
+  $result = mysqli_query($conn, $sql);
+  $row = mysqli_fetch_array($result);
+  $club_apply =$row['club_apply']-1;
+
+  $sql= "UPDATE `club` set `club_apply` = $club_apply where club_num = $buy_club_num";
+  mysqli_query($conn, $sql) or die(mysqli_error($conn));
+
   echo "<script> location.href='./admin_refund.php'; </script>";
 }
 
