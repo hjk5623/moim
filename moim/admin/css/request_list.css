@@ -1,5 +1,5 @@
 .main{
-  width: 1200px;
+  width: 1500px;
   margin: 0 auto;
   margin-top: 5%;
 }
@@ -12,6 +12,14 @@
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   margin-bottom: 5%;
   margin-top: 5%;
+}
+
+#memberlist .place_info{
+  font-size: 12px;
+}
+
+#memberlist tr td .date{
+  width: 50px;
 }
 
 .bigo{

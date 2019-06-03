@@ -103,12 +103,20 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
   <script src="//cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script><!--위지윅에디터 -->
   <link rel="stylesheet" type="text/css" href="../css/admin_club_create.css">
   <script type="text/javascript" src="../js/admin_agit_create.js"></script>
+  <link rel="stylesheet" href="../../css/modal_alert.css">
+  <script type="text/javascript" src="../../js/modal_alert.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <link href="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.css" rel="stylesheet"/><!--날짜다중선택 -->
   <script src="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.js"></script><!--날짜다중선택 -->
   <title></title>
 </head>
 
 <body>
+  <div id="myModal" class="modal">
+    <div class="modal-content" id="modal-content">
+
+     </div>
+   </div>
   <?php
   include $_SERVER['DOCUMENT_ROOT']."/moim/admin/source/admin.php";
   ?>
@@ -135,7 +143,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
             </tr>
             <tr>
               <td>아지트코드</td>
-              <td colspan="2"><input type="text" name="agit_code" value="<?=$agit_code?>" placeholder="예시:hongdae--seoul"></td>
+              <td colspan="2"><input type="text" name="agit_code" value="<?=$agit_code?>" id="agit_code" placeholder="예시:hongdae--seoul"></td>
             </tr>
             <tr>
               <td id="write_td">아지트주소</td>
@@ -152,10 +160,10 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
                   <img id="img3" >
                   <img id="img4" >
                 </div>
-                <input type="file" name="upfile[]" value="" accept="image/gif,image/jpeg,image/png"  onchange="handleImgFileSelect(event,'img1')">
-                <input type="file" name="upfile[]" value="" accept="image/gif,image/jpeg,image/png"  onchange="handleImgFileSelect(event,'img2')"><br><br>
-                <input type="file" name="upfile[]" value="" accept="image/gif,image/jpeg,image/png"  onchange="handleImgFileSelect(event,'img3')">
-                <input type="file" name="upfile[]" value="" accept="image/gif,image/jpeg,image/png"  onchange="handleImgFileSelect(event,'img4')">
+                <input type="file" name="upfile[]" id="upfile1" value="" accept="image/gif,image/jpeg,image/png"  onchange="handleImgFileSelect(event,'img1')">
+                <input type="file" name="upfile[]" id="upfile2" value="" accept="image/gif,image/jpeg,image/png"  onchange="handleImgFileSelect(event,'img2')"><br><br>
+                <input type="file" name="upfile[]" id="upfile3" value="" accept="image/gif,image/jpeg,image/png"  onchange="handleImgFileSelect(event,'img3')">
+                <input type="file" name="upfile[]" id="upfile4" value="" accept="image/gif,image/jpeg,image/png"  onchange="handleImgFileSelect(event,'img4')">
               </td>
             </tr>
               <td colspan="3">아지트소개</td>
@@ -173,7 +181,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == "update"){
             <tr>
               <td colspan="3" style="text-align:right">
                 <input type="button" name="" value="list" onclick="location.href='./admin_agit_list.php'" >
-                <input type="submit" name="" value="submit">
+                <input type="button" id="agit_submit" value="submit">
               </td>
             </tr>
           </table>

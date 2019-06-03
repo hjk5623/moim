@@ -77,8 +77,8 @@ $cart_id=$row['cart_id'];
      <meta charset="utf-8">
      <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
      <link rel="stylesheet" href="../css/club.css">
-     <link rel="stylesheet" href="../../css/message_modal.css">
      <link rel="stylesheet" href="../css/club_view.css">
+     <link rel="stylesheet" href="../../css/message_modal.css">
      <link rel="stylesheet" href="../../css/modal_alert.css">
      <script type="text/javascript" src="../../js/modal_alert.js"></script>
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -123,21 +123,21 @@ $cart_id=$row['cart_id'];
      </style>
    </head>
    <body>
-     <form class="" action="../../message/source/msg_query.php?mode=send" method="post">
+     <form name="msg_form" action="../../message/source/msg_query.php?mode=send" method="post">
        <div class="modal_message">
          <div class="content_modal">
            <h1>Send Message</h1>
            <!-- <input type="text" name="" value="" placeholder="관리자"><br> -->
            <?php
-             if($userid=="admin" || $userid=="notice_id"){
+             if($_SESSION['userid']=="admin" || $_SESSION['userid']=="notice_id"){
                echo "<input type='text' value='$send_id' name='receive_id' readonly>";
              }else{
                 echo "<input type='text' value='admin' name='receive_id' readonly>";
              }
            ?>
-           <textarea name="msg_content" rows="8" cols="40" placeholder="메세지를 적어주세요."></textarea>
+           <textarea name="msg_content" id="msg_content" rows="8" cols="40" placeholder="메세지를 적어주세요."></textarea>
            <!-- <a href="#">SEND</a> -->
-           <button type="submit" name="button">SEND</button>
+           <button type="button" name="button" onclick="send_message()">SEND</button>
          </div>
          <div class="hide fas fa-times" onclick="hide_modal()"></div>
          <div class="fas fa-envelope-open message_form" id="message_form" onclick="message_form()"></div>
@@ -160,7 +160,13 @@ $cart_id=$row['cart_id'];
          <?php
          if ($userid!="") {
            ?>
-           <li><a href="#" onclick="open_modal()">MESSAGE</a></li>
+           <?php
+             if($_SESSION['userid']=="admin"){
+               echo ('<li><a href="#" onclick="message_form();">MESSAGE</a></li>');
+             }else{
+               echo ('<li><a href="#" onclick="open_modal();">MESSAGE</a></li>');
+             }
+            ?>
            <?php
          }
           ?>
@@ -191,12 +197,12 @@ $cart_id=$row['cart_id'];
              <img src="../../admin/data/<?=$club_image_copied?>" width="500px" height="400px">
            </div>
           <div class="club_div">
-             <div class="club_view_price"><b>가격:<?=$club_price?>원</b></div>
-             <div class="club_view_apply"><b>신청인원:<?=$club_apply?>/<?=$club_to?>명</b></div>
-             <div class=""><b>신청기간:<?=$club_start?>~<?=$club_end?></b></div>
-             <div class=""><b>모임날짜:<?=$club_schedule?></b></div>
-             <div class=""><b>장소:<?=$club_rent_info?></b></div>
-             <div class="club_view_intro"><b><?=$club_intro?></b></div>
+            <div class="club_view_apply"><b>신청인원</b> |&nbsp;&nbsp;<?=$club_apply?>/<?=$club_to?>명</div>
+            <div class=""><b>신청기간</b> |&nbsp;&nbsp;<?=$club_start?>~<?=$club_end?></div>
+            <div class=""><b>모임날짜</b> |&nbsp;&nbsp;<?=$club_schedule?></div>
+            <div class=""><b>모임장소</b> |&nbsp;&nbsp;<?=$club_rent_info?></div>
+            <div class="club_view_intro"><b><?=$club_intro?></b></div>
+            <div class="club_view_price"><b><?=number_format($club_price)?>원</b></div>
            </div>
              <input type="hidden" id="userid" value="<?=$userid?>">
              <input type="hidden" id="buy_id" value="<?=$buy_id?>">

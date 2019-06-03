@@ -1,5 +1,5 @@
 .user_apply_div{
-  width: 1300px;
+  width: 1400px;
   margin: 0 auto;
   margin-top: 5%;
 }
@@ -14,6 +14,16 @@
   margin-bottom: 5%;
 }
 
+.table_apply a{
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+
+.table_apply a:hover{
+  color: #d63031;
+}
+
 .table_apply thead tr{
   background-color: #001246;
   color: #ffffff;
@@ -25,7 +35,7 @@
 }
 
 .table_apply thead tr .place, .date{
-  width: 150px;
+  width: 300px;
 }
 
 .table_apply tbody tr{
@@ -34,7 +44,7 @@
 }
 
 .table_apply tbody tr .apply_bt{
-  text-align: center;
+  /* text-align: center; */
 }
 
 .table_apply tbody tr .apply_cancle{
@@ -61,4 +71,9 @@
   text-decoration: none;
   padding: 10px;
   color: black;
+  cursor: pointer;
+}
+
+#page_box b{
+  cursor: pointer;
 }

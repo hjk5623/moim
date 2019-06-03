@@ -43,6 +43,10 @@
   transition: 0.8s;
   position: relative;
   overflow: hidden;
+
+  /* 보미추가 */
+  float: right;
+  margin-left: 10px;
 }
 
 .club_view_btn .buy_btn:hover, .cart_btn:hover{
@@ -75,12 +79,21 @@
 }
 
 .club_div{
-  font-size: 17px;
+  /* font-size: 17px; */
+
+  /* 보미 수정 */
+  font-size: 15px;
+  margin-top: 15px;
+  line-height: 140%;
 }
 
 .club_div .club_view_intro{
-  margin-top: 5%;
-  color:
+  /* margin-top: 5%; */
+  /* color: */
+
+  /* 보미 수정 */
+  margin-top: 7%;
+  font-size: 18px;
 }
 
 .club_view_map{
@@ -138,4 +151,11 @@ width:100%;
 margin:0 auto;
 margin-top:77px;
 background:#eee;
+}
+
+/* 보미 추가 19.06.02.일요일 */
+.club_view_price{
+  font-size: 27px;
+  text-align: right;
+  margin-top: 20px;
 }

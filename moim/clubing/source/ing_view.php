@@ -50,8 +50,22 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
    <title></title>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <link rel="stylesheet" href="../../css/modal_alert.css">
+  <link rel="stylesheet" href="../../css/message_modal.css">
   <script type="text/javascript" src="../../js/modal_alert.js"></script>
-
+  <script type="text/javascript" src="../../js/message.js"></script>
+  <script type="text/javascript">
+  function message_form(){
+   var popupX = (window.screen.width/2)-(600/2);
+   var popupY = (window.screen.height/2)-(600/2);
+   window.open('../../message/source/msg.php','','left='+popupX+',top='+popupY+', width=550, height=600, status=no, scrollbars=no');
+ }
+ window.onclick = function(event) {
+   var modal = document.getElementById('myModal');
+     if (event.target == modal) {
+         modal.style.display = "none";
+     }
+ };
+ </script>
    <script>
      var startHeightMin=788; //트리거 시작 스크롤 위치
      var itemHeight=100; // 아이템별 높이
@@ -107,6 +121,26 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
    </style>
  </head>
  <body>
+   <form name="msg_form" action="../../message/source/msg_query.php?mode=send" method="post">
+     <div class="modal_message">
+       <div class="content_modal">
+         <h1>Send Message</h1>
+         <!-- <input type="text" name="" value="" placeholder="관리자"><br> -->
+         <?php
+           if($_SESSION['userid']=="admin" || $_SESSION['userid']=="notice_id"){
+             echo "<input type='text' value='$send_id' name='receive_id' readonly>";
+           }else{
+              echo "<input type='text' value='admin' name='receive_id' readonly>";
+           }
+         ?>
+         <textarea name="msg_content" id="msg_content" rows="8" cols="40" placeholder="메세지를 적어주세요."></textarea>
+         <!-- <a href="#">SEND</a> -->
+         <button type="button" name="button" onclick="send_message()">SEND</button>
+       </div>
+       <div class="hide fas fa-times" onclick="hide_modal()"></div>
+       <div class="fas fa-envelope-open message_form" id="message_form" onclick="message_form()"></div>
+     </div>
+   </form>
 <div id="myModal" class="modal">
   <div class="modal-content" id="modal-content">
 
@@ -121,7 +155,13 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
      <ul>
        <li><a href="../../club_list/source/list.php">CLUB LIST</a></li>
        <li><a href="../../faq/source/faq_list.php">BOARD</a></li>
-       <li><a href="#" onclick="message_form();">MESSAGE</a></li>
+       <?php
+         if($_SESSION['userid']=="admin"){
+           echo ('<li><a href="#" onclick="message_form();">MESSAGE</a></li>');
+         }else{
+           echo ('<li><a href="#" onclick="open_modal();">MESSAGE</a></li>');
+         }
+        ?>
        <li><a href="../../mypage/source/user_check.php">MY PAGE</a></li>
        <?php
        if(!isset($_SESSION['userid'])){
@@ -146,12 +186,12 @@ $mode= (isset($_GET["mode"])) ? $_GET["mode"] : "";
            <img src="../../admin/data/<?=$club_image_copied?>" width="500px" height="400px">
          </div>
          <div class="club_div">
-            <div class="club_view_price"><b>가격:&nbsp;&nbsp;&nbsp;<?=$club_price?>원</b></div>
-            <div class="club_view_apply"><b>신청인원: <?=$club_apply?>/<?=$club_to?>명</b></div>
-            <div class=""><b>신청기간: <?=$club_start?>~<?=$club_end?></b></div>
-            <div class=""><b>모임날짜: <?=$club_schedule?></b></div>
-            <div class=""><b>장소: <?=$club_rent_info?></b></div>
+            <div class="club_view_apply"><b>신청인원</b> |&nbsp;&nbsp;<?=$club_apply?>/<?=$club_to?>명</div>
+            <div class=""><b>신청기간</b> |&nbsp;&nbsp;<?=$club_start?>~<?=$club_end?></div>
+            <div class=""><b>모임날짜</b> |&nbsp;&nbsp;<?=$club_schedule?></div>
+            <div class=""><b>모임장소</b> |&nbsp;&nbsp;<?=$club_rent_info?></div>
             <div class="club_view_intro"><b><?=$club_intro?></b></div>
+            <div class="club_view_price"><b><?=number_format($club_price)?>원</b></div>
             <?php
             //관리자만 수정/삭제 버튼이 보임
             if(!empty($userid) && $userid==="admin"){ ?>

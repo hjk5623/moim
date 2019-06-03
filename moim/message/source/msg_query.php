@@ -41,7 +41,6 @@ if(isset($_GET["mode"]) && $_GET["mode"]== "delete") {
 
       echo "<script>
               window.close();
-              alert('전송됐습니다.');
               window.history.go(-1);
             </script>";
   }

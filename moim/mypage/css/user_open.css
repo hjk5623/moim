@@ -14,6 +14,16 @@
   margin-bottom: 5%;
 }
 
+.table_open a{
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+
+.table_open a:hover{
+  color: #d63031;
+}
+
 .table_open thead tr{
   background-color: #001246;
   color: #ffffff;
@@ -27,4 +37,15 @@
 .table_open tbody tr{
   height: 50px;
   border-bottom: 2px solid #001246;
+}
+
+#page_box a{
+  text-decoration: none;
+  padding: 10px;
+  color: black;
+  cursor: pointer;
+}
+
+#page_box b{
+  cursor: pointer;
 }

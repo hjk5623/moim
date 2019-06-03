@@ -33,6 +33,8 @@ $row_count= mysqli_num_rows($result);
     <script type="text/javascript" src="./js/slide_menu.js"></script>
     <script type="text/javascript" src="./js/main_menu.js"></script>
     <script type="text/javascript" src="./js/message.js"></script>
+    <link rel="stylesheet" href="./css/modal_alert.css">
+    <script type="text/javascript" src="./js/modal_alert.js"></script>
     <script type="text/javascript">
     function message_form(){
      var popupX = (window.screen.width/2)-(600/2);
@@ -80,7 +82,7 @@ $row_count= mysqli_num_rows($result);
               }
             }
           ?>
-          <form class="" action="./message/source/msg_query.php?mode=send" method="post">
+          <form name="msg_form" action="./message/source/msg_query.php?mode=send" method="post">
             <div class="modal_message">
               <div class="content_modal">
                 <h1>Send Message</h1>
@@ -92,9 +94,9 @@ $row_count= mysqli_num_rows($result);
                      echo "<input type='text' value='admin' name='receive_id' readonly>";
                   }
                 ?>
-                <textarea name="msg_content" rows="8" cols="40" placeholder="메세지를 적어주세요."></textarea>
+                <textarea name="msg_content" id="msg_content" rows="8" cols="40" placeholder="메세지를 적어주세요."></textarea>
                 <!-- <a href="#">SEND</a> -->
-                <button type="submit" name="button">SEND</button>
+                <button type="button" name="button" onclick="send_message()">SEND</button>
               </div>
               <div class="hide fas fa-times" onclick="hide_modal()"></div>
               <div class="fas fa-envelope-open message_form" id="message_form" onclick="message_form()"></div>
@@ -190,6 +192,11 @@ $row_count= mysqli_num_rows($result);
             </p>
           </div>
         </section>
+        <div id="myModal_c" class="modal_c">
+          <div class="modal-content_c" id="modal-content_c">
+
+           </div>
+         </div>
         <div id="myModal" class="modal">
           <div class="modal-content" id="modal-content">
 

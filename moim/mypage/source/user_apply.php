@@ -74,7 +74,6 @@ $number=$total_record- $start_row;
       <td>가격</td>
       <td>모집인원</td>
       <td>신청인원</td>
-      <td class="place">대관장소</td>
       <td class="date">모임일정</td>
       <td>모집마감</td>
       <td>결제일</td>
@@ -111,7 +110,6 @@ $number=$total_record- $start_row;
       <td><?=$club_price?></td>
       <td><?=$club_to?></td>
       <td><?=$club_apply?></td>
-      <td><?=$club_rent_info?></td>
       <td><?=$club_schedule?></td>
       <td><?=$club_end?></td>
       <td><?=$buy_process_date?></td>

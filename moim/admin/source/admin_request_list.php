@@ -59,7 +59,7 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
        .always(function() {
          console.log("complete");
        });
-     
+
    }
  </script>
 </head>
@@ -84,7 +84,7 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
            <td>모집시작</td>
            <td>모집마감</td>
            <td>마감인원</td>
-           <td>모임일정</td>
+           <td class="date">모임일정</td>
            <td>가격</td>
            <td>장소</td>
            <td>비고</td>
@@ -119,7 +119,7 @@ include $_SERVER['DOCUMENT_ROOT']."./moim/lib/db_connector.php";
           <td><?=$user_to?></td>
           <td><?=$user_schedule?></td>
           <td><?=$user_price?></td>
-          <td><?=$user_rent_info?></td>
+          <td class="place_info"><?=$user_rent_info?></td>
           <td id="etc">
             <a href="./admin_request_view.php?user_num=<?=$user_num?>&page=<?=$page?>"><button type="button" name="button" id="view">내용</button></a>
             <!--1. 등록 버튼은 submit으로 하고 등록화면에서 받아서 값 셋팅-->
