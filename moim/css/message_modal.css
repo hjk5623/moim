@@ -6,6 +6,7 @@ padding: 0;
 }
 
 .modal_message{
+  z-index: 9999;
   width: 500px;
   height: 400px;
   overflow: hidden;
@@ -16,7 +17,6 @@ padding: 0;
   transition: 1s;
   border-radius: 4px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  z-index: 9999;
 }
 
 .modal_message .content_modal{
@@ -50,7 +50,7 @@ padding: 0;
   color: black;
 }
 
-.content_modal button[type="button"]{
+.content_modal button[type="submit"]{
   width: 100%;
   display: block;
   background: #e74c3c;

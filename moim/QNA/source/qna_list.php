@@ -314,9 +314,7 @@ if(!isset($_SESSION['userid'])){  //로그인페이지로 보내기
            $(".modal-content2").append("</div>");
 
            $("#table1 tr").css("height","60px");
-           $("#table1 tr td").css("border-bottom","1px solid black");
            $(".notice_td").css("width","100px");
-           $("#notice_div .button-8, .button-7").css("margin-bottom","3%");
 
            $(".answer").hide();
            $(".answer1").hide();
@@ -436,9 +434,7 @@ if(!isset($_SESSION['userid'])){  //로그인페이지로 보내기
          $(".modal-content2").append("</div>");
 
          $("#table1 tr").css("height","60px");
-         $("#table1 tr td").css("border-bottom","1px solid black");
          $(".notice_td").css("width","100px");
-         $("#notice_div .button-8, .button-7").css("margin-bottom","3%");
 
          $(".answer").hide();
          $(".answer1").hide();
@@ -557,9 +553,7 @@ if(!isset($_SESSION['userid'])){  //로그인페이지로 보내기
          $(".modal-content2").append("</div>");
 
          $("#table1 tr").css("height","60px");
-         $("#table1 tr td").css("border-bottom","1px solid black");
          $(".notice_td").css("width","100px");
-         $("#notice_div .button-8, .button-7").css("margin-bottom","3%");
 
          $(".answer").hide();
          $(".answer1").hide();

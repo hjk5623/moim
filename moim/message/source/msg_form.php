@@ -18,13 +18,12 @@ if(isset($_GET["send_id"])){
     <div class="form_div">
      <form action="./msg_query.php?mode=send" method="Post">
        <div class="form_send_div">
-
          <div>
            <?php
          if($_SESSION['userid']=="admin" || $_SESSION['userid']=="notice_id"){
-           echo "<input type='hidden' name='receive_id' value='".$send_id."'>".$send_id."님 에게";
+           echo $send_id."님 에게";
          }else{
-            echo "<input type='hidden' name='receive_id' value='".$send_id."'>".$send_id."님 에게";
+            echo $send_id."님 에게";
          }
           ?>
          </div>

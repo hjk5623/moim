@@ -66,9 +66,9 @@ var agit_name = "";
         }
       }
 
-      $("#modal-content_c").html("<h2 align='center'>"+agit_name+"</h2>");
-      $("#modal-content_c").append("<span class='back'>뒤로가기</span><span class='close'>닫기</span>");
-      $("#modal-content_c").append("<div class='container_cal'>");
+      $("#modal-content").html("<h2 align='center'>"+agit_name+"</h2>");
+      $("#modal-content").append("<span class='back'>뒤로가기</span><span class='close'>닫기</span>");
+      $("#modal-content").append("<div class='container_cal'>");
       $(".container_cal").append("<table id='table1' class='table table-bordered table-responsive'>");
       $("#table1").append("<tr class='table_top'>");
       $(".table_top").append("<td class='span_td'><span onclick='calendar_ajax("+preyear+","+month+")'>PRE YEAR</span></td>");
@@ -100,7 +100,7 @@ var agit_name = "";
           $("#table1").append("</tr>");
           $(".tr"+i).css("height","130px");
         }
-        $("#modal-content_c").append("</table>");
+        $("#modal-content").append("</table>");
 
       for(i=0;i<value_num.length;i++){
         choice_date = value_num[i].split("-");
@@ -141,7 +141,7 @@ var agit_name = "";
   }
 
   $(document).on("click",".close",function() {
-    var modal = document.getElementById('myModal_c');
+    var modal = document.getElementById('myModal');
     modal.style.display = "none";
   });
 
@@ -150,47 +150,47 @@ var agit_name = "";
     var thisyear =setDate_thisyear.getFullYear();
     var thismonth = setDate_thisyear.getMonth()+1;
 
-    $("#modal-content_c").html("<span class='close'>&times;</span>");
-    $("#modal-content_c").append("<div class='button-8' id='button-1' onclick='calendar_ajax("+thisyear+","+thismonth+", \"홍대아지트\")'>");
+    $("#modal-content").html("<span class='close'>&times;</span>");
+    $("#modal-content").append("<div class='button-8' id='button-1' onclick='calendar_ajax("+thisyear+","+thismonth+", \"홍대아지트\")'>");
     $("#button-1").append("<div class='eff-8'></div>");
     $("#button-1").append("<a href='#'><span>홍대아지트</span></a>");
-    $("#modal-content_c").append("</div>");
-    $("#modal-content_c").append("<div class='button-8' id='button-2' onclick='calendar_ajax("+thisyear+","+thismonth+", \"역삼아지트\")'>");
+    $("#modal-content").append("</div>");
+    $("#modal-content").append("<div class='button-8' id='button-2' onclick='calendar_ajax("+thisyear+","+thismonth+", \"역삼아지트\")'>");
     $("#button-2").append("<div class='eff-8'></div>");
     $("#button-2").append("<a href='#'><span>역삼아지트</span></a>");
-    $("#modal-content_c").append("</div>");
-    $("#modal-content_c").append("<div class='button-8' id='button-3' onclick='calendar_ajax("+thisyear+","+thismonth+", \"여의도아지트\")'>");
+    $("#modal-content").append("</div>");
+    $("#modal-content").append("<div class='button-8' id='button-3' onclick='calendar_ajax("+thisyear+","+thismonth+", \"여의도아지트\")'>");
     $("#button-3").append("<div class='eff-8'></div>");
     $("#button-3").append("<a href='#'><span>여의도아지트</span></a>");
-    $("#modal-content_c").append("</div>");
-    $("#modal-content_c").append("<div class='button-8' id='button-4' onclick='calendar_ajax("+thisyear+","+thismonth+", \"을지로아지트\")'>");
+    $("#modal-content").append("</div>");
+    $("#modal-content").append("<div class='button-8' id='button-4' onclick='calendar_ajax("+thisyear+","+thismonth+", \"을지로아지트\")'>");
     $("#button-4").append("<div class='eff-8'></div>");
     $("#button-4").append("<a href='#'><span>을지로아지트</span></a>");
-    $("#modal-content_c").append("</div>");
+    $("#modal-content").append("</div>");
   });
 
     function calendar_choice(){
       setDate_thisyear =  new Date();
       var thisyear =setDate_thisyear.getFullYear();
       var thismonth = setDate_thisyear.getMonth()+1;
-      var modal = document.getElementById('myModal_c');
-      $("#modal-content_c").html("<span class='close'>&times;</span>");
-      $("#modal-content_c").append("<div class='button-8' id='button-1' onclick='calendar_ajax("+thisyear+","+thismonth+", \"홍대아지트\")'>");
+      var modal = document.getElementById('myModal');
+      $("#modal-content").html("<span class='close'>&times;</span>");
+      $("#modal-content").append("<div class='button-8' id='button-1' onclick='calendar_ajax("+thisyear+","+thismonth+", \"홍대아지트\")'>");
       $("#button-1").append("<div class='eff-8'></div>");
       $("#button-1").append("<a href='#'><span>홍대아지트</span></a>");
-      $("#modal-content_c").append("</div>");
-      $("#modal-content_c").append("<div class='button-8' id='button-2' onclick='calendar_ajax("+thisyear+","+thismonth+", \"역삼아지트\")'>");
+      $("#modal-content").append("</div>");
+      $("#modal-content").append("<div class='button-8' id='button-2' onclick='calendar_ajax("+thisyear+","+thismonth+", \"역삼아지트\")'>");
       $("#button-2").append("<div class='eff-8'></div>");
       $("#button-2").append("<a href='#'><span>역삼아지트</span></a>");
-      $("#modal-content_c").append("</div>");
-      $("#modal-content_c").append("<div class='button-8' id='button-3' onclick='calendar_ajax("+thisyear+","+thismonth+", \"여의도아지트\")'>");
+      $("#modal-content").append("</div>");
+      $("#modal-content").append("<div class='button-8' id='button-3' onclick='calendar_ajax("+thisyear+","+thismonth+", \"여의도아지트\")'>");
       $("#button-3").append("<div class='eff-8'></div>");
       $("#button-3").append("<a href='#'><span>여의도아지트</span></a>");
-      $("#modal-content_c").append("</div>");
-      $("#modal-content_c").append("<div class='button-8' id='button-4' onclick='calendar_ajax("+thisyear+","+thismonth+", \"을지로아지트\")'>");
+      $("#modal-content").append("</div>");
+      $("#modal-content").append("<div class='button-8' id='button-4' onclick='calendar_ajax("+thisyear+","+thismonth+", \"을지로아지트\")'>");
       $("#button-4").append("<div class='eff-8'></div>");
       $("#button-4").append("<a href='#'><span>을지로아지트</span></a>");
-      $("#modal-content_c").append("</div>");
+      $("#modal-content").append("</div>");
 
       modal.style.display="block";
     }

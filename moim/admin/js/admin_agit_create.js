@@ -63,37 +63,3 @@ function write_agit(){
 var agit_name = $("#agit_name").val();
 $("#address2").val(agit_name);
 }
-
-$(document).ready(function() {
-  $("#agit_submit").click(function(event) {
-
-    if($("#agit_name").val()==""){
-      modal_alert("알림","아지트명을 입력하세요.");
-      return;
-    }
-
-    if($("#agit_code").val()==""){
-      modal_alert("알림","아지트코드를 입력하세요.");
-      return;
-    }
-
-    if($("#address1").val()=="" || $("#address2").val()==""){
-      modal_alert("알림","주소를 입력하세요.");
-      return;
-    }
-
-    if($("#upfile1").val()=="" || $("#upfile2").val()=="" || $("#upfile3").val()=="" || $("#upfile4").val()==""){
-      modal_alert("알림","이미지파일은 모두 선택하셔야 합니다.");
-      return;
-    }
-
-    text = $.trim(CKEDITOR.instances.content.getData().replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, ""));
-    text = text.replace(/&nbsp;/gi,"");
-    if(text == ""){
-      modal_alert("알림","아지트소개를 입력하세요");
-      return;
-    }
-
-    document.tx_editor_form.submit();
-  });
-});

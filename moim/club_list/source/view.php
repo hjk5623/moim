@@ -77,8 +77,8 @@ $cart_id=$row['cart_id'];
      <meta charset="utf-8">
      <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
      <link rel="stylesheet" href="../css/club.css">
-     <link rel="stylesheet" href="../css/club_view.css">
      <link rel="stylesheet" href="../../css/message_modal.css">
+     <link rel="stylesheet" href="../css/club_view.css">
      <link rel="stylesheet" href="../../css/modal_alert.css">
      <script type="text/javascript" src="../../js/modal_alert.js"></script>
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -123,21 +123,21 @@ $cart_id=$row['cart_id'];
      </style>
    </head>
    <body>
-     <form name="msg_form" action="../../message/source/msg_query.php?mode=send" method="post">
+     <form class="" action="../../message/source/msg_query.php?mode=send" method="post">
        <div class="modal_message">
          <div class="content_modal">
            <h1>Send Message</h1>
            <!-- <input type="text" name="" value="" placeholder="관리자"><br> -->
            <?php
-             if($_SESSION['userid']=="admin" || $_SESSION['userid']=="notice_id"){
+             if($userid=="admin" || $userid=="notice_id"){
                echo "<input type='text' value='$send_id' name='receive_id' readonly>";
              }else{
                 echo "<input type='text' value='admin' name='receive_id' readonly>";
              }
            ?>
-           <textarea name="msg_content" id="msg_content" rows="8" cols="40" placeholder="메세지를 적어주세요."></textarea>
+           <textarea name="msg_content" rows="8" cols="40" placeholder="메세지를 적어주세요."></textarea>
            <!-- <a href="#">SEND</a> -->
-           <button type="button" name="button" onclick="send_message()">SEND</button>
+           <button type="submit" name="button">SEND</button>
          </div>
          <div class="hide fas fa-times" onclick="hide_modal()"></div>
          <div class="fas fa-envelope-open message_form" id="message_form" onclick="message_form()"></div>
@@ -160,13 +160,7 @@ $cart_id=$row['cart_id'];
          <?php
          if ($userid!="") {
            ?>
-           <?php
-             if($_SESSION['userid']=="admin"){
-               echo ('<li><a href="#" onclick="message_form();">MESSAGE</a></li>');
-             }else{
-               echo ('<li><a href="#" onclick="open_modal();">MESSAGE</a></li>');
-             }
-            ?>
+           <li><a href="#" onclick="open_modal()">MESSAGE</a></li>
            <?php
          }
           ?>

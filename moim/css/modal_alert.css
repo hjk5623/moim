@@ -62,17 +62,7 @@ width: 500px; /* Could be more or less, depending on screen size */
 height: auto;
 border-radius: 10px;
 }
-
-.modal-content i{
+i{
   color: rgb(29, 39, 54);
   font-size: 150px;
-}
-h3 {
-    display: block;
-    font-size: 1.17em;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
 }
